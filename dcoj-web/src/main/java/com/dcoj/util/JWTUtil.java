@@ -1,0 +1,73 @@
+package com.dcoj.util;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.dcoj.security.SessionHelper;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+
+public class JWTUtil {
+
+    // 过期时间
+    private static final long EXPIRE = 7*24*60*60*1000;
+
+    public static boolean decode(String token, String secret) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            JWTVerifier verifier = JWT.require(algorithm).build();
+            DecodedJWT decodedJWT = verifier.verify(token);
+            String uid = decodedJWT.getClaim("uid").asString();
+            int role = decodedJWT.getClaim("role").asInt();
+            Set<String> permission = new HashSet<>(decodedJWT.getClaim("permission").asList(String.class));
+            // 使用SessionHelper类将当前解析的用户信息保存到线程
+            SessionHelper.init(token, uid, role, permission);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // 发放签证
+    public static String sign(String uid, int role, Set<String> permission, String secret) {
+        try {
+            Date date = new Date(System.currentTimeMillis()+EXPIRE);
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            return JWT.create()
+                    .withClaim("uid", uid)
+                    .withClaim("role", role)
+                    .withArrayClaim("permission", permission.toArray(new String[1]))
+                    .withExpiresAt(date)
+                    .sign(algorithm);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String getUid(String token) {
+        try {
+            // 对token进行解码
+            DecodedJWT decodedJWT = JWT.decode(token);
+            return decodedJWT.getClaim("uid").asString();
+        } catch (JWTDecodeException e) {
+            return null;
+        }
+    }
+
+    /*public static void main(String[] args) {
+        Set<String> per = new HashSet<>();
+        per.add("teacher");
+        per.add("student");
+        String token = sign(1, 1, per, "123");
+        System.out.println(token);
+        System.out.println(decode(token, "123"));
+        UserSession session = SessionHelper.get();
+        System.out.println(session.getUid()+";"+session.getRole()+";"+session.getPermission());
+    }*/
+}
