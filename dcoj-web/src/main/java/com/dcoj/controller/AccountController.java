@@ -3,6 +3,8 @@ package com.dcoj.controller;
 import com.dcoj.controller.format.index.IndexRegisterFormat;
 import com.dcoj.entity.ResponseEntity;
 import com.dcoj.service.UserService;
+import com.dcoj.util.Md5HashUtil;
+import com.dcoj.util.RandomValidateCodeUtil;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -10,6 +12,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Smith
@@ -22,12 +26,51 @@ public class AccountController {
     @Autowired
     private UserService userService;
 
+    //此map用来模拟缓存
+    private static Map<String, Object> map = new HashMap<>();
+
     @PostMapping(value = "/register")
-    public ResponseEntity register(@RequestBody @Valid IndexRegisterFormat format) {
-        // 注册用户
-        userService.register(format.getEmail(),format.getNickname(),format.getPassword());
-        return new ResponseEntity("注册成功");
+    public ResponseEntity register(@RequestBody @Valid IndexRegisterFormat format,String email, String verifyCode, ResponseEntity responseEntity) {
+        String token = (String) responseEntity.getData();
+        if (map.get("verifyCode").equals(verifyCode) && map.get("email").equals(email) && map.get("token").equals(token)) {
+            // 注册用户
+            userService.register(format.getEmail(),format.getNickname(),format.getPassword());
+            return new ResponseEntity("注册成功");
+        }
+        else
+            return new ResponseEntity("注册失败");
     }
+
+    /**
+     * 注册用户时，邮箱账号的验证
+     * @param email
+     * @return
+     */
+    @PostMapping("/register/verifyMail")
+    @ResponseBody
+    public ResponseEntity verifyMail(@RequestParam String email) {
+        String verifyCode = RandomValidateCodeUtil.getRandomString();
+        //token password由验证码和当前时间戳组成
+        String token = Md5HashUtil.generate(verifyCode + System.currentTimeMillis());
+        //模拟缓存，缓存验证码和token
+        map.put("email", email);
+        map.put("verifyCode", verifyCode);
+        map.put("token", token);
+        ResponseEntity responseEntity = new ResponseEntity();
+        responseEntity.setData(token);
+//注释的部分为发送邮件部分
+//        try {
+//            MailUtil.send_mail(email, "本次注册验证码如下："+verifyCode);
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//        }
+
+        return responseEntity;
+    }
+
+
+
+
 
 /*    @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid IndexLoginFormat format) {
