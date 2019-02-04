@@ -2,6 +2,7 @@ package com.dcoj.controller;
 
 import com.dcoj.controller.format.index.IndexRegisterFormat;
 import com.dcoj.entity.ResponseEntity;
+import com.dcoj.service.MailService;
 import com.dcoj.service.UserService;
 import com.dcoj.util.Md5HashUtil;
 import com.dcoj.util.RandomValidateCodeUtil;
@@ -26,6 +27,9 @@ public class AccountController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private MailService mailService;
+
     //此map用来模拟缓存
     private static Map<String, Object> map = new HashMap<>();
 
@@ -42,11 +46,11 @@ public class AccountController {
     }
 
     /**
-     * 注册用户时，邮箱账号的验证
+     * 注册用户时 && 忘记密码时 的邮箱账号的验证
      * @param email
      * @return
      */
-    @PostMapping("/register/verifyMail")
+    @PostMapping({"/regist/verifyMail","/account/verifyMail"})
     @ResponseBody
     public ResponseEntity verifyMail(@RequestParam String email) {
         String verifyCode = RandomValidateCodeUtil.getRandomString();
@@ -58,13 +62,7 @@ public class AccountController {
         map.put("token", token);
         ResponseEntity responseEntity = new ResponseEntity();
         responseEntity.setData(token);
-//注释的部分为发送邮件部分
-//        try {
-//            MailUtil.send_mail(email, "本次注册验证码如下："+verifyCode);
-//        } catch (MessagingException e) {
-//            e.printStackTrace();
-//        }
-
+        mailService.sendMail(email,"【DCOJ】邮箱验证",verifyCode);
         return responseEntity;
     }
 

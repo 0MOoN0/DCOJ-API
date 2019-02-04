@@ -1,5 +1,6 @@
 import com.dcoj.Application;
 import com.dcoj.entity.UserEntity;
+import com.dcoj.service.MailService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,4 +32,13 @@ public class ApplicationTest {
         userEntities.get(0).setPassword("123");
         mongoTemplate.save(userEntities.get(0));
     }
+
+    @Autowired
+    MailService mailService;
+
+    @Test
+    public void testValue(){
+        mailService.sendMail("549654065@qq.com","你好","HelloWorld");
+    }
+
 }
