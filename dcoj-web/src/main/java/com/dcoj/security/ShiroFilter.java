@@ -1,6 +1,10 @@
 package com.dcoj.security;
 
+import com.dcoj.cache.GlobalCacheManager;
+import com.dcoj.entity.PermissionEntity;
+import com.dcoj.util.JWTUtil;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
+import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -11,6 +15,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author Smith
@@ -36,18 +42,64 @@ public class ShiroFilter extends BasicHttpAuthenticationFilter {
         return true;
     }
 
+    /**
+     * 判断是否允许访问资源，如果访问被拒绝会进一步交给onAccessDenied
+     * @param request   incoming ServletRequest
+     * @param response  outgoing ServletResponse
+     * @param mappedValue   绑定路径参数
+     * @return     true：权限匹配，允许访问;  false：权限不匹配，拒绝访问
+     */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        //如果是登陆操作，执行登陆
+        HttpServletRequest req = WebUtils.toHttp(request);
+        // 判断是否允许访问资源
         if (isLoginAttempt(request, response)) {
             try {
+                //如果是登陆操作，执行登陆
                 executeLogin(request, response);
+                //通过token获取uid
+                String authorization = req.getHeader("Authorization");
+                String uid = JWTUtil.getUid(authorization);
+                //查询权限是否匹配，匹配时要求请求方式和请求路径匹配,权限根据传入token的uid匹配
+                Set<PermissionEntity> permissionId = GlobalCacheManager.getPermissionCache().get(uid);
+                return Optional.ofNullable(permissionId).map(permissionEntities ->
+                        permissionEntities.parallelStream().anyMatch(permissionEntity ->
+                                permissionEntity.getURI().equals(req.getRequestURI().toLowerCase())&&permissionEntity.getMethod().equals(req.getMethod())
+                        )
+                        // 如果Optional中没有值，返回false，这种情况在GUEST的权限为空的时候存在
+                ).orElse(false);
             } catch (Exception e) {
+                //登陆出错将重定向到401
                 sendRedirect(request, response);
             }
+        }else{
+            //访客登陆,获取身份为GUEST的权限
+            Set<PermissionEntity> permissions = GlobalCacheManager.getPermissionCache().get("GUEST");
+            //查看权限集合中是否与当前访问匹配，匹配时要求请求方式和请求路径匹配
+            return Optional.ofNullable(permissions).map(permissionEntities ->
+                permissionEntities.parallelStream().anyMatch(n->
+                        n.getURI().equals(req.getRequestURI().toLowerCase())&&
+                                n.getMethod().equals(req.getMethod())
+                )
+                    //如果Optional中没有值，返回false，这种情况在GUEST的权限为空的时候存在
+            ).orElse(false);
         }
-        // 放行所有请求
-        return true;
+        //默认拦截所有请求
+        return false;
+    }
+
+    /**
+     * Processes unauthenticated requests. It handles the two-stage request/challenge authentication protocol.
+     * 处理被拒绝的访问，将所有被拒绝的访问重定向到401，不再进行下一步处理
+     *
+     * @param request  incoming ServletRequest
+     * @param response outgoing ServletResponse
+     * @return true if the request should be processed; false if the request should not continue to be processed
+     */
+    @Override
+    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+        sendChallenge(request, response);
+        return false;
     }
 
     /**
@@ -72,6 +124,9 @@ public class ShiroFilter extends BasicHttpAuthenticationFilter {
             httpServletResponse.setStatus(HttpStatus.OK.value());
             return false;
         }
+        // 此处交由默认的perHandle方法处理，此方法会判断isAccessAllowed()和onPreHandle()
+        //isAccessAllowed：表示是否允许访问；mappedValue 就是[urls]配置中拦截器参数部分，如果允许访问返回 true，否则 false
+        //onAccessDenied：表示当访问拒绝时是否已经处理了；如果返回 true 表示需要继续处理；如果返回 false 表示该拦截器实例已经处理了，将直接返回即可。
         return super.preHandle(request, response);
     }
 
@@ -88,4 +143,6 @@ public class ShiroFilter extends BasicHttpAuthenticationFilter {
             LOGGER.error(e.getMessage());
         }
     }
+
+
 }

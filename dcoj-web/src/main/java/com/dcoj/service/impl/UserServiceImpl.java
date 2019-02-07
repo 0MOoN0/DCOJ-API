@@ -2,6 +2,8 @@ package com.dcoj.service.impl;
 
 import com.dcoj.entity.UserEntity;
 import com.dcoj.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,6 +11,10 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
     @Override
     public void register(String email, String nickname, String password) {
 
@@ -26,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity getUserByUid(String uid) {
-        return null;
+        return mongoTemplate.findById(uid,UserEntity.class);
     }
 
     @Override

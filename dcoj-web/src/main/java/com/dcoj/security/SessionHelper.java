@@ -1,5 +1,7 @@
 package com.dcoj.security;
 
+import com.dcoj.entity.PermissionEntity;
+
 import java.util.Set;
 
 /**
@@ -12,12 +14,12 @@ public class SessionHelper {
         return threadLocal.get();
     }
 
-    public static void init(String token, String uid, int role, Set<String> permission) {
+    public static void init(String token, String uid, Set<String> roleId, Set<PermissionEntity> permissionId) {
         UserSession session = new UserSession();
         session.setToken(token);
         session.setUid(uid);
-        session.setRole(role);
-        session.setPermission(permission);
+        session.setRoleId(roleId);
+        session.setPermissionId(permissionId);
         threadLocal.set(session);
     }
 }

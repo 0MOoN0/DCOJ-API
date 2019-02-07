@@ -1,5 +1,7 @@
 package com.dcoj.security;
 
+import com.dcoj.entity.PermissionEntity;
+
 import java.util.Set;
 
 /**
@@ -11,32 +13,32 @@ public class UserSession {
 
     private String uid;
 
-    private int role;
+    private Set<String> roleId;
 
-    private Set<String> permission;
+    private Set<PermissionEntity> permissionId;
 
     public String getUid() {
         return uid;
     }
 
-        public void setUid(String uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
-    public int getRole() {
-        return role;
+    public Set<String> getRoleId() {
+        return roleId;
     }
 
-    public void setRole(int role) {
-        this.role = role;
+    public void setRoleId(Set<String> roleId) {
+        this.roleId = roleId;
     }
 
-    public Set<String> getPermission() {
-        return permission;
+    public Set<PermissionEntity> getPermissionId() {
+        return permissionId;
     }
 
-    public void setPermission(Set<String> permission) {
-        this.permission = permission;
+    public void setPermissionId(Set<PermissionEntity> permissionId) {
+        this.permissionId = permissionId;
     }
 
     public String getToken() {
