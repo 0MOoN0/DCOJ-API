@@ -46,8 +46,8 @@ public class AccountController {
             Optional.ofNullable(cache.get(emailToken)).map(strValue->{
                 // 根据token获取验证码和发送时间
                 String[] result = strValue.split(":");
-                // 校验验证码和时间
-                if(result[0].equals(format.getVerifyCode()) && System.currentTimeMillis()-Long.valueOf(result[1])>300000){
+                // 校验验证码、时间在5分钟内
+                if(result[0].equals(format.getVerifyCode()) && System.currentTimeMillis()-Long.valueOf(result[1])<300000){
                     userService.register(format.getEmail(),format.getNickname(),format.getPassword());
                     // 注册完成后删除对应token验证码
                     cache.remove(emailToken);
