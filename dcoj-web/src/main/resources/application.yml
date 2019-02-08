@@ -2,3 +2,12 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost/test_user
+  mail:
+    host: smtp.163.com
+    username: gpnu_dcoj@163.com
+    password: dcoj123
+    default-encoding: utf-8
+
+mail:
+  fromMail:
+     addr: gpnu_dcoj@163.com

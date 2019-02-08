@@ -2,6 +2,7 @@ import com.dcoj.Application;
 import com.dcoj.entity.PermissionEntity;
 import com.dcoj.entity.RoleEntity;
 import com.dcoj.entity.UserEntity;
+import com.dcoj.service.MailService;
 import org.bson.types.ObjectId;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -110,15 +111,19 @@ public class ApplicationTest {
     }
 
     @Test
-    public void roleTest(){
-
+    public void testUpdate(){
+        Query query = new Query();
+        List<UserEntity> userEntities = mongoTemplate.find(query, UserEntity.class);
+        userEntities.get(0).setPassword("123");
+        mongoTemplate.save(userEntities.get(0));
     }
 
+    @Autowired
+    MailService mailService;
+
     @Test
-    public void PermissionTest(){
-        PermissionEntity id = mongoTemplate.findOne(new Query(Criteria.where("_id").is("1")), PermissionEntity.class);
-//        PermissionEntity byId = mongoTemplate.findById(new ObjectId("5c5981d4b890b90f6cfe84aa"), PermissionEntity.class);
-        System.out.println(id);
+    public void testValue(){
+        mailService.sendMail("549654065@qq.com","你好","HelloWorld");
     }
 
 }

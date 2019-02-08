@@ -8,12 +8,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
- * @author Smith
+ * @author Leon
  **/
 public class IndexRegisterFormat {
 
     @Email
     @NotNull
+    // TODO:临时邮箱认证
     private String email;
 
     @NotBlank
@@ -24,6 +25,32 @@ public class IndexRegisterFormat {
     @NotBlank
     @NotNull
     private String password;
+
+    @NotBlank
+    @NotNull
+    @Length(max = 13)
+    private String studentId;
+
+    @NotNull
+    @NotBlank
+    @Length(max = 6)
+    private String verifyCode;
+
+    public String getVerifyCode() {
+        return verifyCode;
+    }
+
+    public void setVerifyCode(String verifyCode) {
+        this.verifyCode = verifyCode;
+    }
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
 
     public String getEmail() {
         return email;

@@ -16,6 +16,9 @@ public class ResponseEntity {
     @JSONField(ordinal = 2)
     private Object data;
 
+    public ResponseEntity() {
+    }
+
     public ResponseEntity(Object data) {
         this(200, "success", data);
     }
