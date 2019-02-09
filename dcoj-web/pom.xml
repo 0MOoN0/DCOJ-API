@@ -27,6 +27,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <!--Ehcache缓存支持-->
+        <dependency>
+            <groupId>org.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>3.5.0</version>
+        </dependency>
         <!--用于MD5加密-->
         <dependency>
             <groupId>org.apache.directory.studio</groupId>

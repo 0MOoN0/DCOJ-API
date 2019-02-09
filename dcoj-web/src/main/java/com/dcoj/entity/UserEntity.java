@@ -1,9 +1,13 @@
 package com.dcoj.entity;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.annotation.JSONField;
 import org.springframework.data.annotation.Id;
 
+import java.util.Set;
+
+/**
+ * @author Leon
+ */
 public class UserEntity {
     @Id
     private String uid;
@@ -24,9 +28,8 @@ public class UserEntity {
 
     private String password;
 
-    private Integer role;
+    private Set<String> roles;
 
-    private JSONArray permission;
 
     @JSONField(name = "submit_times")
     private Integer submitTimes;
@@ -94,21 +97,14 @@ public class UserEntity {
         this.password = password;
     }
 
-    public Integer getRole() {
-        return role;
+    public Set<String> getRoles() {
+        return roles;
     }
 
-    public void setRole(Integer role) {
-        this.role = role;
+    public void setRoles(Set<String> roles) {
+        this.roles = roles;
     }
 
-    public JSONArray getPermission() {
-        return permission;
-    }
-
-    public void setPermission(JSONArray permission) {
-        this.permission = permission;
-    }
 
     public Integer getSubmitTimes() {
         return submitTimes;

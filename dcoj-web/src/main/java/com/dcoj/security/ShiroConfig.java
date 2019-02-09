@@ -1,5 +1,6 @@
 package com.dcoj.security;
 
+import org.apache.shiro.authz.ModularRealmAuthorizer;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.DependsOn;
 
 import javax.servlet.Filter;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -25,6 +27,8 @@ public class ShiroConfig {
     public DefaultWebSecurityManager getManager(Realm realm) {
         DefaultWebSecurityManager  manager = new DefaultWebSecurityManager();
         manager.setRealm(realm);
+
+//        manager.setAuthorizer(new ModularRealmAuthorizer());
 
         // 关闭Shiro自带Session
         DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
@@ -48,12 +52,12 @@ public class ShiroConfig {
         factoryBean.setSecurityManager(securityManager);
         // 访问未经授权的URL则跳到401页面
         factoryBean.setUnauthorizedUrl("/401");
-
+//        factoryBean.setLoginUrl("/login");
         // 自定义URL规则，所有的请求都通过自定义Filter，访问401和404不通过自定义Filter
-        Map<String, String> filterRuleMap = new HashMap<>();
-        filterRuleMap.put("/**", "jwt");
+        Map<String, String> filterRuleMap = new LinkedHashMap<>();
         filterRuleMap.put("/401", "anon");
         filterRuleMap.put("/404", "anon");
+        filterRuleMap.put("/**", "jwt");
         factoryBean.setFilterChainDefinitionMap(filterRuleMap);
         return factoryBean;
     }

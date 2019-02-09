@@ -1,6 +1,8 @@
 package com.dcoj.security;
 
 
+import com.dcoj.cache.GlobalCacheManager;
+import com.dcoj.entity.UserEntity;
 import com.dcoj.service.UserService;
 import com.dcoj.util.JWTUtil;
 import org.apache.shiro.authc.AuthenticationException;
@@ -11,6 +13,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.ehcache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
@@ -29,8 +32,8 @@ public class Realm extends AuthorizingRealm {   //继承的此Realm自带缓存�
     }
 
     /**
-     * 权限验证
-     * @param principals
+     * 权限验证时调用，返回权限等信息
+     * @param principals    Login Token
      * @return
      */
     @Override
@@ -40,12 +43,11 @@ public class Realm extends AuthorizingRealm {   //继承的此Realm自带缓存�
         if (session==null) {
             return null;
         }
-
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        info.addRole(String.valueOf(session.getRole()));
-        info.addStringPermissions(session.getPermission());
         return info;
     }
+
+
 
     /**
      * 登陆验证
@@ -56,26 +58,23 @@ public class Realm extends AuthorizingRealm {   //继承的此Realm自带缓存�
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException {
         String token = (String) auth.getCredentials();
-/*      此部分使用缓存操作
-        Cache<String, String> authCache = CacheController.getAuthCache();
+        Cache<String, String> authCache = GlobalCacheManager.getAuthCache();
         // 缓存操作，将用户信息保存到缓存
         if (! authCache.containsKey(token)) {
             // get user info from database
-            int uid = JWTUtil.getUid(token);
+            String uid = JWTUtil.getUid(token);
             UserEntity userEntity = userService.getUserByUid(uid);
             authCache.put(token, String.valueOf(userEntity.getPassword()));
         }
         // secret 是用户的密码
-        String secret = authCache.get(token);*/
-
-        // 通过token获取用户的uid
-        String uid = JWTUtil.getUid(token);
-        //从数据库中获取用户密码
-        String secret = String.valueOf(userService.getUserByUid(uid).getPassword());
+        String secret = authCache.get(token);
         if (!JWTUtil.decode(token, secret)) {
             throw new AuthenticationException("Token invalid");
         }
 
         return new SimpleAuthenticationInfo(token, token, "jwt_realm");
     }
+
+
+
 }
