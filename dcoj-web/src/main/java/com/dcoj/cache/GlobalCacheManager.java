@@ -31,7 +31,7 @@ public class GlobalCacheManager {
     private static Cache<String, Set> permissionCache;
 
     /**
-     * 格式:["emailToken":"verify:sendTime",...]
+     * 格式:["emailToken":"verify:email:sendTime",...]
      */
     private static Cache<String,String> emailVerifyCache;
 
@@ -82,13 +82,13 @@ public class GlobalCacheManager {
 
     /**
      * 根据条件获取邮箱验证缓存
-     * @param flag  Boolean：验证邮箱缓存是否存在的条件;
+     * @param creatable  Boolean：验证邮箱缓存是否存在的条件;
      *              true：当邮箱缓存不存在时创建并返回一个邮箱认证
      *              false：不进行邮箱缓存存在检查，直接返回邮箱缓存引用
      * @return      邮箱认证缓存
      */
-    public static Cache<String,String> getEmailVerifyCache(boolean flag){
-        if(flag){
+    public static Cache<String,String> getEmailVerifyCache(boolean creatable){
+        if(creatable){
             return Optional.ofNullable(emailVerifyCache).orElseGet(()->{
                 emailVerifyCache = CacheManagerBuilder.newCacheManagerBuilder().build(true)
                         .createCache("emailVerifyCache",

@@ -24,7 +24,7 @@ public class JWTUtil {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             JWTVerifier verifier = JWT.require(algorithm).build();
             DecodedJWT decodedJWT = verifier.verify(token);
-            String uid = decodedJWT.getClaim("uid").asString();
+//            String uid = decodedJWT.getClaim("uid").asString();
 //            Set<String> role = new HashSet<>(decodedJWT.getClaim("role").asList(String.class));
 //            Set<PermissionEntity> permission = new HashSet<>(decodedJWT.getClaim("permission").asList(PermissionEntity.class));
 //            // 使用SessionHelper类将当前解析的用户信息保存到线程

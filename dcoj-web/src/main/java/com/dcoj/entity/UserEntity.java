@@ -12,13 +12,8 @@ public class UserEntity {
     @Id
     private String uid;
 
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
+    @JSONField(name = "student_id")
+    private String studentId;
 
     private String email;
 
@@ -29,7 +24,6 @@ public class UserEntity {
     private String password;
 
     private Set<String> roles;
-
 
     @JSONField(name = "submit_times")
     private Integer submitTimes;
@@ -60,10 +54,27 @@ public class UserEntity {
     private String motto;
 
     @JSONField(name = "register_time")
+    // system currentTimeMillis
     private Long registerTime;
 
+    //0:unverified; 1:verified
     private Integer verified;
 
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     public String getEmail() {
         return email;
