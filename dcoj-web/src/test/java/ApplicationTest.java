@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.management.relation.Role;
@@ -111,11 +112,12 @@ public class ApplicationTest {
     }
 
     @Test
-    public void testUpdate(){
-        Query query = new Query();
-        List<UserEntity> userEntities = mongoTemplate.find(query, UserEntity.class);
-        userEntities.get(0).setPassword("123");
-        mongoTemplate.save(userEntities.get(0));
+    public void testMongo(){
+        Update update = new Update();
+        update.set("password","4");
+        UserEntity id = mongoTemplate.findAndModify(new Query(Criteria.where("_id").is("3")), update, UserEntity.class);
+        System.out.println(id);
+
     }
 
     @Autowired
