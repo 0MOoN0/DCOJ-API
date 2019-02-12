@@ -3,6 +3,7 @@ package com.dcoj.entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Set;
 
@@ -14,8 +15,10 @@ public class RoleEntity {
 
     @Id
     private String roleId;
+    @Field("role_name")
     private String roleName;
-    private Set<String> permissionId;
+    @Field("permission_ids")
+    private Set<String> permissionIds;
 
     public String getRoleId() {
         return roleId;
@@ -33,11 +36,11 @@ public class RoleEntity {
         this.roleName = roleName;
     }
 
-    public Set<String> getPermissionId() {
-        return permissionId;
+    public Set<String> getPermissionIds() {
+        return permissionIds;
     }
 
-    public void setPermissionId(Set<String> permissionId) {
-        this.permissionId = permissionId;
+    public void setPermissionIds(Set<String> permissionIds) {
+        this.permissionIds = permissionIds;
     }
 }

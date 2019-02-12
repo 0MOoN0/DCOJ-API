@@ -2,6 +2,7 @@ package com.dcoj.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Set;
 
@@ -13,6 +14,7 @@ public class UserEntity {
     private String uid;
 
     @JSONField(name = "student_id")
+    @Field("student_id")
     private String studentId;
 
     private String email;
@@ -26,27 +28,35 @@ public class UserEntity {
     private Set<String> roles;
 
     @JSONField(name = "submit_times")
+    @Field("submit_time")
     private Integer submitTimes;
 
     @JSONField(name = "contest_times")
+    @Field("contest_times")
     private Integer contestTimes;
 
     @JSONField(name = "ac_times")
+    @Field("ac_times")
     private Integer ACTimes;
 
     @JSONField(name = "wa_times")
+    @Field("wa_times")
     private Integer WATimes;
 
     @JSONField(name = "rte_times")
+    @Field("rte_times")
     private Integer RTETimes;
 
     @JSONField(name = "tle_times")
+    @Field("tle_times")
     private Integer TLETimes;
 
     @JSONField(name = "ce_times")
+    @Field("ce_times")
     private Integer CETimes;
 
     @JSONField(name = "finished_problems")
+    @Field("finished_problems")
     private Integer finishedProblems;
 
     private Integer gender;

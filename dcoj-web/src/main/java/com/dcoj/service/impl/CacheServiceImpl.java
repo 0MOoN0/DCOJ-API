@@ -47,7 +47,7 @@ public class CacheServiceImpl implements CacheService {
                                     permissionCache.put(user.getUid(),
                                             roleIds.parallelStream().map(roleId -> {
                                                         RoleEntity roleEntity = mongoTemplate.findOne(new Query(Criteria.where("_id").is(roleId)), RoleEntity.class);
-                                                        return Optional.ofNullable(roleEntity.getPermissionId())
+                                                        return Optional.ofNullable(roleEntity.getPermissionIds())
                                                                 .map(permissionIds -> permissionIds.parallelStream().map(
                                                                         permissionId -> mongoTemplate.findOne(new Query(Criteria.where("_id").is(permissionId)), PermissionEntity.class))
                                                                                 .collect(Collectors.toSet())
@@ -79,7 +79,7 @@ public class CacheServiceImpl implements CacheService {
                 permissionCache.put(user.getUid(),
                         roleIds.parallelStream().map(roleId ->
                                         Optional.ofNullable(mongoTemplate.findOne(new Query(Criteria.where("_id").is(roleId)), RoleEntity.class)
-                                                .getPermissionId())
+                                                .getPermissionIds())
                                                 .map(permissionIds -> permissionIds
                                                                 .parallelStream()
                                                                 .map(permissionId ->
