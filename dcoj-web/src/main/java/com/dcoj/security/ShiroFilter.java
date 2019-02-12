@@ -1,10 +1,6 @@
 package com.dcoj.security;
 
-import com.dcoj.cache.GlobalCacheManager;
-import com.dcoj.entity.PermissionEntity;
-import com.dcoj.util.JWTUtil;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
-import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,11 +11,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
-import java.util.Set;
 
 /**
- * @author Smith
+ * @author Leon
  **/
 public class ShiroFilter extends BasicHttpAuthenticationFilter {
 
@@ -51,7 +45,7 @@ public class ShiroFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        HttpServletRequest req = WebUtils.toHttp(request);
+/*        HttpServletRequest req = WebUtils.toHttp(request);
         // 判断是否允许访问资源
         if (isLoginAttempt(request, response)) {
             try {
@@ -83,9 +77,9 @@ public class ShiroFilter extends BasicHttpAuthenticationFilter {
                 )
                     //如果Optional中没有值，返回false，这种情况在GUEST的权限为空的时候存在
             ).orElse(false);
-        }
+        }*/
         //默认拦截所有请求
-        return false;
+        return true;
     }
 
     /**

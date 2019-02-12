@@ -107,7 +107,7 @@ public class AccountController {
     public ResponseEntity forgetPasswordCode(@RequestBody @Valid IndexRegisterCodeFormat format){
 
         boolean isExist = userService.checkUserByEmail(format.getEmail());
-        if(!isExist){
+        if(isExist){
             String verifyCode = RandomValidateCodeUtil.getRandomString();
             //token password由验证码和当前时间戳组成
             String token = Md5HashUtil.generate(verifyCode + System.currentTimeMillis());
@@ -129,7 +129,7 @@ public class AccountController {
     @PostMapping("/register_post")
     public ResponseEntity registerCode(@RequestBody @Valid IndexRegisterCodeFormat format){
         boolean isExist = userService.checkUserByEmail(format.getEmail());
-        if(isExist){
+        if(!isExist){
             String verifyCode = RandomValidateCodeUtil.getRandomString();
             //token password由验证码和当前时间戳组成
             String token = Md5HashUtil.generate(verifyCode + System.currentTimeMillis());

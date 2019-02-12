@@ -20,8 +20,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = Application.class)
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(classes = Application.class)
 public class ApplicationTest {
 
     @Autowired
@@ -66,7 +66,7 @@ public class ApplicationTest {
         role1Permission.add("1");
         role1Permission.add("2");
         role1Permission.add("3");
-        roleEntity1.setPermissionId(role1Permission);
+        roleEntity1.setPermissionIds(role1Permission);
         RoleEntity roleEntity2 = new RoleEntity();
         roleEntity2.setRoleId("2");
         Set<String> role2Permission = new HashSet<>();
@@ -75,7 +75,7 @@ public class ApplicationTest {
         role2Permission.add("3");
         role2Permission.add("4");
         role2Permission.add("5");
-        roleEntity2.setPermissionId(role2Permission);
+        roleEntity2.setPermissionIds(role2Permission);
         RoleEntity roleEntity3 = new RoleEntity();
         roleEntity3.setRoleId("3");
         mongoTemplate.save(roleEntity1);
@@ -104,7 +104,7 @@ public class ApplicationTest {
         guest.setUid("GUEST");
         guest.setRoles(new HashSet<>(Arrays.asList("4")));
         RoleEntity guestRole = new RoleEntity();
-        guestRole.setPermissionId(new HashSet<>(Arrays.asList("1")));
+        guestRole.setPermissionIds(new HashSet<>(Arrays.asList("1")));
         guestRole.setRoleId("4");
         mongoTemplate.save(guestRole);
         mongoTemplate.save(guest);
