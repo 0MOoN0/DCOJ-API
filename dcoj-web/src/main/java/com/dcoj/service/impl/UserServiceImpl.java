@@ -6,8 +6,6 @@ import com.dcoj.controller.format.index.IndexLoginFormat;
 import com.dcoj.entity.RoleEntity;
 import com.dcoj.entity.UserEntity;
 import com.dcoj.service.UserService;
-import com.dcoj.util.MailUtil;
-import com.dcoj.util.WebUtil;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.ehcache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,6 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.swing.text.html.Option;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;

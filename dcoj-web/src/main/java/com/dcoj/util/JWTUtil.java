@@ -1,17 +1,12 @@
 package com.dcoj.util;
 
-import com.alibaba.fastjson.JSONArray;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.dcoj.entity.PermissionEntity;
-import com.dcoj.security.SessionHelper;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 
 public class JWTUtil {
