@@ -16,10 +16,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -47,7 +44,11 @@ public class UserServiceImpl implements UserService {
         newUserEntity.setEmail(email);
         newUserEntity.setNickname(nickname);
         newUserEntity.setPassword(new Md5Hash(password).toString());
-        newUserEntity.setRoles(new HashSet<String>(Arrays.asList(mongoTemplate.findOne(new Query(Criteria.where("roleName").is("STUDENT")),RoleEntity.class).getRoleId())));
+        // 设施初始化权限
+        String roleId = mongoTemplate.findOne(new Query(Criteria.where("roleName").is("STUDENT")), RoleEntity.class).getRoleId();
+        Set<String> roles = new HashSet<>();
+        roles.add(roleId);
+        newUserEntity.setRoles(roles);
         newUserEntity.setRegisterTime(System.currentTimeMillis());
         newUserEntity.setVerified(1);
         try{
@@ -55,7 +56,6 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e){
             throw new WebErrorException("用户注册失败");
         }
-
     }
 
     @Override
