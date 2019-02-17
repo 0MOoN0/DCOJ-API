@@ -1,7 +1,7 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost/test_user
+      uri: mongodb://localhost/dcoj_api
   mail:
     host: smtp.163.com
     username: gpnu_dcoj@163.com
