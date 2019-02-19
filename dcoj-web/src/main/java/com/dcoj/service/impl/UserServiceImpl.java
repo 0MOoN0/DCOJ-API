@@ -7,6 +7,7 @@ import com.dcoj.entity.RoleEntity;
 import com.dcoj.entity.UserEntity;
 import com.dcoj.service.UserService;
 import org.apache.shiro.crypto.hash.Md5Hash;
+import org.bson.types.ObjectId;
 import org.ehcache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -18,6 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
+/**
+ * 用户服务实现类
+ * @author Leon
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -66,16 +71,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity login(IndexLoginFormat format) {
         UserEntity userEntity = null;
-        if(format.getEmail()!=null && !format.getEmail().trim().equals("")){
+        if(Optional.ofNullable(format.getEmail()).isPresent() && !format.getEmail().trim().equals("")){
             userEntity = mongoTemplate.findOne(new Query(Criteria.where("email").is(format.getEmail()).
                             andOperator(Criteria.where("password").is(format.getPassword()))),
                     UserEntity.class);
-        }else if(format.getStudentId()!=null && !format.getStudentId().trim().equals("")){
+        }else if(Optional.ofNullable(format.getStudentId()).isPresent() && !format.getStudentId().trim().equals("")){
             userEntity = mongoTemplate.findOne(new Query(Criteria.where("sutdentId").is(format.getStudentId()).
                     andOperator(Criteria.where("password").is(format.getStudentId()))),
                     UserEntity.class);
         }
-        if (userEntity == null){
+        if (!Optional.ofNullable(userEntity).isPresent()){
             throw new WebErrorException("用户名或密码错误");
         }
         return userEntity;
@@ -83,7 +88,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity getUserByUid(String uid) {
-        return mongoTemplate.findById(uid, UserEntity.class);
+        return mongoTemplate.findById(new ObjectId(uid), UserEntity.class);
     }
 
     @Override
