@@ -3,11 +3,14 @@ spring:
     mongodb:
       uri: mongodb://localhost/dcoj_api
   mail:
-    host: smtp.163.com
-    username: gpnu_dcoj@163.com
-    password: dcoj123
+    host: smtp.zoho.com
+    username: dcoj@email.ylpriv.com
+    password: Aa@13524
     default-encoding: utf-8
-
+    port: 587
+    protocol: smtp
+    properties:
+      "mail.smtp.starttls.enable": "true"
 mail:
   fromMail:
-     addr: gpnu_dcoj@163.com
+     addr: dcoj@email.ylpriv.com
