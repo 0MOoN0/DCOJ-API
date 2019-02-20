@@ -7,6 +7,7 @@ import com.dcoj.entity.RoleEntity;
 import com.dcoj.entity.UserEntity;
 import com.dcoj.service.UserService;
 import org.apache.shiro.crypto.hash.Md5Hash;
+import org.bson.types.ObjectId;
 import org.ehcache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -16,11 +17,12 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
+/**
+ * 用户服务实现类
+ * @author Leon
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -47,7 +49,11 @@ public class UserServiceImpl implements UserService {
         newUserEntity.setEmail(email);
         newUserEntity.setNickname(nickname);
         newUserEntity.setPassword(new Md5Hash(password).toString());
-        newUserEntity.setRoles(new HashSet<String>(Arrays.asList(mongoTemplate.findOne(new Query(Criteria.where("roleName").is("STUDENT")),RoleEntity.class).getRoleId())));
+        // 设施初始化权限
+        String roleId = mongoTemplate.findOne(new Query(Criteria.where("roleName").is("STUDENT")), RoleEntity.class).getRoleId();
+        Set<String> roles = new HashSet<>();
+        roles.add(roleId);
+        newUserEntity.setRoles(roles);
         newUserEntity.setRegisterTime(System.currentTimeMillis());
         newUserEntity.setVerified(1);
         try{
@@ -55,7 +61,6 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e){
             throw new WebErrorException("用户注册失败");
         }
-
     }
 
     @Override
@@ -66,16 +71,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity login(IndexLoginFormat format) {
         UserEntity userEntity = null;
-        if(format.getEmail()!=null && !format.getEmail().trim().equals("")){
+        if(Optional.ofNullable(format.getEmail()).isPresent() && !format.getEmail().trim().equals("")){
             userEntity = mongoTemplate.findOne(new Query(Criteria.where("email").is(format.getEmail()).
                             andOperator(Criteria.where("password").is(format.getPassword()))),
                     UserEntity.class);
-        }else if(format.getStudentId()!=null && !format.getStudentId().trim().equals("")){
+        }else if(Optional.ofNullable(format.getStudentId()).isPresent() && !format.getStudentId().trim().equals("")){
             userEntity = mongoTemplate.findOne(new Query(Criteria.where("sutdentId").is(format.getStudentId()).
                     andOperator(Criteria.where("password").is(format.getStudentId()))),
                     UserEntity.class);
         }
-        if (userEntity == null){
+        if (!Optional.ofNullable(userEntity).isPresent()){
             throw new WebErrorException("用户名或密码错误");
         }
         return userEntity;
@@ -83,7 +88,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity getUserByUid(String uid) {
-        return mongoTemplate.findById(uid, UserEntity.class);
+        return mongoTemplate.findById(new ObjectId(uid), UserEntity.class);
     }
 
     @Override
