@@ -28,7 +28,7 @@ public interface TagService {
      * 通过标签的 tagName 删除标签
      * @param tagName
      */
-    void deleteTag(String tagName);
+    void removeTag(String tagName);
 
     /**
      * 查询所有标签
