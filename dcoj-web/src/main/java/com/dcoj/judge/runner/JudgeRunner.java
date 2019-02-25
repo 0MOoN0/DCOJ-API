@@ -30,7 +30,7 @@ public class JudgeRunner {
     // 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。
     private final ExecutorService THREAD_POOL = Executors.newFixedThreadPool(MAX_THREADS);
 
-    private final Cache<String, JudgeResult> submissionCache = CacheController.getSubmissionCache();
+//    private final Cache<String, JudgeResult> submissionCache = CacheController.getSubmissionCache();
 
     private JudgeService judgeService;
 
@@ -51,7 +51,7 @@ public class JudgeRunner {
                     THREAD_POOL.execute(new Runner(judgeTask));
                 } catch (Exception e) {
                     // 如果抛出异常则将缓存中的判卷状态标为异常
-                    submissionCache.get(judgeTask.getId()).setStatus(JudgeStatus.Error);
+//                    submissionCache.get(judgeTask.getId()).setStatus(JudgeStatus.Error);
                     LOGGER.error(e.getMessage());
                 }
             }

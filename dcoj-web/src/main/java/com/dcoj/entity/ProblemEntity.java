@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class ProblemEntity {
     //题目id
     @Id
-    private String pid;
+    private String objectId;
     //题目类型 0-选择题 1-填空题 2-判断题 3-编程题
     @Field("type")
     private Integer type;
@@ -25,8 +25,8 @@ public class ProblemEntity {
     private JSONObject description;
     //题目编号
     @Indexed
-    @Field("number")
-    private Integer number;
+    @Field("p_id")
+    private Long pid;
     //题目难度（简单0 中等1 困难2）
     @Field("diff")
     private Integer difficult;
