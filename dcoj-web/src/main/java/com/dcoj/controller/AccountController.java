@@ -103,7 +103,7 @@ public class AccountController {
      * @param format    发送验证码前的校验，内容为邮箱
      * @return
      */
-    @PostMapping("/forget_passowrd_code")
+    @PostMapping("/forget_password_code")
     public ResponseEntity forgetPasswordCode(@RequestBody @Valid IndexRegisterCodeFormat format){
 
         boolean isExist = userService.checkUserByEmail(format.getEmail());
@@ -126,7 +126,7 @@ public class AccountController {
      * @param format    发送验证码前的校验，内容为邮箱
      * @return
      */
-    @PostMapping("/register_post")
+    @PostMapping("/register_code")
     public ResponseEntity registerCode(@RequestBody @Valid IndexRegisterCodeFormat format){
         boolean isExist = userService.checkUserByEmail(format.getEmail());
         if(!isExist){
