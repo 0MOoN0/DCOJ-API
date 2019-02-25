@@ -1,12 +1,11 @@
 package com.dcoj.service;
 
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.dcoj.entity.ProgrammingEntity;
 
 /**
+ * 编程类题目业务层
  * @author WANGQING
- * @description 编程类题目业务层
  */
 public interface ProgrammingService {
     /**
@@ -19,7 +18,7 @@ public interface ProgrammingService {
      * 删除一道编程题目
      * @param pid
      */
-    void deleteProgramming(int pid);
+    void removeProgramming(int pid);
 
     /**
      * 更新一道编程题目信息

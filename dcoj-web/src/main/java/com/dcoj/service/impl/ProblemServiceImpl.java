@@ -32,7 +32,7 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
-    public void deleteProblem(int objectId) {
+    public void removeProblem(int objectId) {
         Update update = new Update();
         update.set("is_deleted", true);
         Query query = new Query();

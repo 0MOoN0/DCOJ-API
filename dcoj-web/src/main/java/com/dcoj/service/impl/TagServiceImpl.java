@@ -45,7 +45,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public void deleteTag(String tagName) {
+    public void removeTag(String tagName) {
         Update update = new Update();
         update.set("is_deleted", true);
         Query query = new Query();
