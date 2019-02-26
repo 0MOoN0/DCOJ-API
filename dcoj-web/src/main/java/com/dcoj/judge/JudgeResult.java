@@ -2,7 +2,6 @@ package com.dcoj.judge;
 
 
 import com.dcoj.judge.task.JudgeTask;
-import com.eagleoj.judge.entity.ResponseEntity;
 
 /**
  * @author Smith
