@@ -61,7 +61,7 @@ public class GlobalCacheManager {
                         )
                 );
 
-        // 邮箱认证缓存，6分钟之内如果没有访问，则缓存超时
+        // 邮箱认证缓存，5分钟之内如果没有访问，则缓存超时
         emailVerifyCache = cacheManager
                 .createCache("emailVerifyCache",
                         CacheConfigurationBuilder.newCacheConfigurationBuilder(
@@ -89,36 +89,12 @@ public class GlobalCacheManager {
         return permissionCache;
     }
 
-    /**
-     * 获取邮箱验证缓存
-     * @return
-     */
     public static Cache<String,String> getEmailVerifyCache(){
         return emailVerifyCache;
     }
 
-    /**
-     * 根据条件获取邮箱验证缓存
-     * @param creatable  Boolean：验证邮箱缓存是否存在的条件;
-     *              true：当邮箱缓存不存在时创建并返回一个邮箱认证
-     *              false：不进行邮箱缓存存在检查，直接返回邮箱缓存引用
-     * @return      邮箱认证缓存
-     */
-    public static Cache<String,String> getEmailVerifyCache(boolean creatable){
-        if(creatable){
-            return Optional.ofNullable(emailVerifyCache).orElseGet(()->{
-                emailVerifyCache = CacheManagerBuilder.newCacheManagerBuilder().build(true)
-                        .createCache("emailVerifyCache",
-                                CacheConfigurationBuilder.newCacheConfigurationBuilder(
-                                        String.class,
-                                        String.class,
-                                        ResourcePoolsBuilder.newResourcePoolsBuilder().heap(2,MemoryUnit.MB)
-                                ).withExpiry(ExpiryPolicyBuilder.timeToIdleExpiration(Duration.of(5,ChronoUnit.MINUTES)))
-                        );
-                return emailVerifyCache;
-            });
-        }else{
-            return getEmailVerifyCache();
-        }
+    public static Cache<String,JudgeResult> getSubmissionCache() {
+        return submissionCache;
     }
+
 }

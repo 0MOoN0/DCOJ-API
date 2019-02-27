@@ -1,10 +1,14 @@
 package com.dcoj.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 /**
- * @author Smith
+ * 测试用例类
+ * @author Leon
  **/
+@Document(collection = "test_case")
 public class TestCaseEntity {
 
     private Integer tid;
@@ -18,6 +22,7 @@ public class TestCaseEntity {
     private Integer strength;
 
     @JSONField(name = "create_time")
+    @Field("create_time")
     private Long createTime;
 
 

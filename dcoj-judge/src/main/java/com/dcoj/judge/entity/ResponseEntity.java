@@ -11,11 +11,10 @@ import java.util.List;
  **/
 public class ResponseEntity {
 
-    public ResponseEntity(double time, int memory, ResultEnum result, String filePath, List<TestCaseResponseEntity> testCases) {
+    public ResponseEntity(double time, int memory, ResultEnum result,  List<TestCaseResponseEntity> testCases) {
         this.time = time;
         this.memory = memory;
         this.result = result;
-        this.filePath = filePath;
         this.testCases = testCases;
     }
 
@@ -31,21 +30,9 @@ public class ResponseEntity {
     // 判卷整体结果
     private ResultEnum result;
 
-    // 判卷文件路径(绝对路径，内容是判卷文件在系统存放路径，此路径包含：判卷源码，编译后文件，输入、输出等)
-    @JSONField(name = "file_path")
-    private String filePath;
-
     // 每一个测试用例的结果
     @JSONField(name = "test_cases")
     private List<TestCaseResponseEntity> testCases;
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
 
     public double getTime() {
         return time;

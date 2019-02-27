@@ -79,4 +79,164 @@ public class ProblemEntity {
     //编译错误次数
     @Field("ce_times")
     private Integer CETimes;
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public JSONObject getDescription() {
+        return description;
+    }
+
+    public void setDescription(JSONObject description) {
+        this.description = description;
+    }
+
+    public Long getPid() {
+        return pid;
+    }
+
+    public void setPid(Long pid) {
+        this.pid = pid;
+    }
+
+    public Integer getDifficult() {
+        return difficult;
+    }
+
+    public void setDifficult(Integer difficult) {
+        this.difficult = difficult;
+    }
+
+    public Integer getSubmitTimes() {
+        return submitTimes;
+    }
+
+    public void setSubmitTimes(Integer submitTimes) {
+        this.submitTimes = submitTimes;
+    }
+
+    public Integer getACTimes() {
+        return ACTimes;
+    }
+
+    public void setACTimes(Integer ACTimes) {
+        this.ACTimes = ACTimes;
+    }
+
+    public Long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public JSONObject getInputFormat() {
+        return inputFormat;
+    }
+
+    public void setInputFormat(JSONObject inputFormat) {
+        this.inputFormat = inputFormat;
+    }
+
+    public JSONObject getOutputFormat() {
+        return outputFormat;
+    }
+
+    public void setOutputFormat(JSONObject outputFormat) {
+        this.outputFormat = outputFormat;
+    }
+
+    public JSONArray getSamples() {
+        return samples;
+    }
+
+    public void setSamples(JSONArray samples) {
+        this.samples = samples;
+    }
+
+    public Integer getRunTime() {
+        return runTime;
+    }
+
+    public void setRunTime(Integer runTime) {
+        this.runTime = runTime;
+    }
+
+    public Integer getMemory() {
+        return memory;
+    }
+
+    public void setMemory(Integer memory) {
+        this.memory = memory;
+    }
+
+    public Integer getWATimes() {
+        return WATimes;
+    }
+
+    public void setWATimes(Integer WATimes) {
+        this.WATimes = WATimes;
+    }
+
+    public Integer getRTETimes() {
+        return RTETimes;
+    }
+
+    public void setRTETimes(Integer RTETimes) {
+        this.RTETimes = RTETimes;
+    }
+
+    public Integer getTLETimes() {
+        return TLETimes;
+    }
+
+    public void setTLETimes(Integer TLETimes) {
+        this.TLETimes = TLETimes;
+    }
+
+    public Integer getCETimes() {
+        return CETimes;
+    }
+
+    public void setCETimes(Integer CETimes) {
+        this.CETimes = CETimes;
+    }
 }

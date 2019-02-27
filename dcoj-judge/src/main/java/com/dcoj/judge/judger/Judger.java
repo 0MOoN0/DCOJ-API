@@ -47,6 +47,6 @@ public class Judger extends AbstractJudger {
             TestCaseResponseEntity responseEntity = new TestCaseResponseEntity(ResultEnum.SE, ResultEnum.SE.getName(), 0d, 0d);
             testCases.add(responseEntity);
         }
-        return new ResponseEntity(0, 0, ResultEnum.SE, "", testCases);
+        return new ResponseEntity(0, 0, ResultEnum.SE, testCases);
     }
 }

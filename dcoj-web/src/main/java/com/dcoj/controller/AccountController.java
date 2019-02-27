@@ -112,9 +112,9 @@ public class AccountController {
             //token password由验证码和当前时间戳组成
             String token = Md5HashUtil.generate(verifyCode + System.currentTimeMillis());
             //获取缓存并将token和发送时间存入缓存
-            Cache<String, String> emailVerifyCache = GlobalCacheManager.getEmailVerifyCache(true);
-            emailVerifyCache.put(token,token+":"+format.getEmail()+":"+System.currentTimeMillis());
+            Cache<String, String> emailVerifyCache = GlobalCacheManager.getEmailVerifyCache();
             mailService.sendMail(format.getEmail(),"【DCOJ】邮箱验证",verifyCode);
+            emailVerifyCache.put(token,token+":"+format.getEmail()+":"+System.currentTimeMillis());
             return new ResponseEntity("邮件发送成功",token);
         }else{
             throw new WebErrorException("邮件发送失败");
@@ -134,9 +134,9 @@ public class AccountController {
             //token password由验证码和当前时间戳组成
             String token = Md5HashUtil.generate(verifyCode + System.currentTimeMillis());
             //获取缓存并将token和发送时间存入缓存
-            Cache<String, String> emailVerifyCache = GlobalCacheManager.getEmailVerifyCache(true);
-            emailVerifyCache.put(token,token+":"+format.getEmail()+":"+System.currentTimeMillis());
+            Cache<String, String> emailVerifyCache = GlobalCacheManager.getEmailVerifyCache();
             mailService.sendMail(format.getEmail(),"【DCOJ】邮箱验证",verifyCode);
+            emailVerifyCache.put(token,token+":"+format.getEmail()+":"+System.currentTimeMillis());
             return new ResponseEntity("邮件发送成功",token);
         }else{
             throw new WebErrorException("邮件发送失败");
