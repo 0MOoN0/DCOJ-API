@@ -1,7 +1,7 @@
 package com.dcoj.judge;
 
 /**
- * @author Smith
+ * @author Leon
  **/
 public enum ResultEnum {
     AC("Accepted"), WA("Wrong Answer"), RTE("Runtime Error"),

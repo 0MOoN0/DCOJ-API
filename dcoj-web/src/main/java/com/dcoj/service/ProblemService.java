@@ -28,6 +28,7 @@ public interface ProblemService {
      */
     void removeProblem(int objectId);
 
+
     /**
      * 更新一道题目信息
      * @param pid
@@ -63,4 +64,5 @@ public interface ProblemService {
      * @return
      */
     int save(JSONArray tags,ProblemEntity problemEntity);
+
 }

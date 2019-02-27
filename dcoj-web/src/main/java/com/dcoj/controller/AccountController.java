@@ -103,7 +103,7 @@ public class AccountController {
      * @param format    发送验证码前的校验，内容为邮箱
      * @return
      */
-    @PostMapping("/forget_passowrd_code")
+    @PostMapping("/forget_password_code")
     public ResponseEntity forgetPasswordCode(@RequestBody @Valid IndexRegisterCodeFormat format){
 
         boolean isExist = userService.checkUserByEmail(format.getEmail());
@@ -112,9 +112,9 @@ public class AccountController {
             //token password由验证码和当前时间戳组成
             String token = Md5HashUtil.generate(verifyCode + System.currentTimeMillis());
             //获取缓存并将token和发送时间存入缓存
-            Cache<String, String> emailVerifyCache = GlobalCacheManager.getEmailVerifyCache(true);
-            emailVerifyCache.put(token,token+":"+format.getEmail()+":"+System.currentTimeMillis());
+            Cache<String, String> emailVerifyCache = GlobalCacheManager.getEmailVerifyCache();
             mailService.sendMail(format.getEmail(),"【DCOJ】邮箱验证",verifyCode);
+            emailVerifyCache.put(token,token+":"+format.getEmail()+":"+System.currentTimeMillis());
             return new ResponseEntity("邮件发送成功",token);
         }else{
             throw new WebErrorException("邮件发送失败");
@@ -126,7 +126,7 @@ public class AccountController {
      * @param format    发送验证码前的校验，内容为邮箱
      * @return
      */
-    @PostMapping("/register_post")
+    @PostMapping("/register_code")
     public ResponseEntity registerCode(@RequestBody @Valid IndexRegisterCodeFormat format){
         boolean isExist = userService.checkUserByEmail(format.getEmail());
         if(!isExist){
@@ -134,9 +134,9 @@ public class AccountController {
             //token password由验证码和当前时间戳组成
             String token = Md5HashUtil.generate(verifyCode + System.currentTimeMillis());
             //获取缓存并将token和发送时间存入缓存
-            Cache<String, String> emailVerifyCache = GlobalCacheManager.getEmailVerifyCache(true);
-            emailVerifyCache.put(token,token+":"+format.getEmail()+":"+System.currentTimeMillis());
+            Cache<String, String> emailVerifyCache = GlobalCacheManager.getEmailVerifyCache();
             mailService.sendMail(format.getEmail(),"【DCOJ】邮箱验证",verifyCode);
+            emailVerifyCache.put(token,token+":"+format.getEmail()+":"+System.currentTimeMillis());
             return new ResponseEntity("邮件发送成功",token);
         }else{
             throw new WebErrorException("邮件发送失败");
