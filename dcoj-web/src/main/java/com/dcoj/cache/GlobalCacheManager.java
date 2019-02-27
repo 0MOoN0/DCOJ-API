@@ -60,7 +60,6 @@ public class GlobalCacheManager {
                                 ResourcePoolsBuilder.newResourcePoolsBuilder().heap(10,MemoryUnit.MB)
                         )
                 );
-
         // 邮箱认证缓存，5分钟之内如果没有访问，则缓存超时
         emailVerifyCache = cacheManager
                 .createCache("emailVerifyCache",
