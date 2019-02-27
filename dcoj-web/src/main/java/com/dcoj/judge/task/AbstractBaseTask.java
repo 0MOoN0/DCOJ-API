@@ -1,6 +1,9 @@
 package com.dcoj.judge.task;
 
+import com.dcoj.entity.TestCaseEntity;
 import com.dcoj.judge.LanguageEnum;
+
+import java.util.List;
 
 /**
  * @author Smith

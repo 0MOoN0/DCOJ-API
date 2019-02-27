@@ -1,7 +1,7 @@
 package com.dcoj.judge.task;
 
+import com.dcoj.entity.TestCaseEntity;
 import com.dcoj.judge.LanguageEnum;
-import com.eagleoj.web.entity.TestCaseEntity;
 
 import java.util.List;
 

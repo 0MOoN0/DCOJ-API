@@ -45,6 +45,7 @@ public class GlobalCacheManager {
     private static Cache<String,Long> problemIdGenerateCache;
 
 
+
     static {
         CacheManager cacheManager = CacheManagerBuilder.newCacheManagerBuilder().build(true);
         authCache = cacheManager

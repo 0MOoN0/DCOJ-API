@@ -25,7 +25,7 @@ public class ENVApplicationRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("==========应用启动成功，正在加载缓存==========");
-        cacheService.reloadCache("permissionCache");
+//        cacheService.reloadCache("permissionCache");
         System.out.println("=================缓存加载成功=================");
     }
 }

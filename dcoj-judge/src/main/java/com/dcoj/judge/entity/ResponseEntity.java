@@ -6,7 +6,7 @@ import com.dcoj.judge.ResultEnum;
 import java.util.List;
 
 /**
- * 请求响应Entity
+ * 请求响应Entity，用于封装判卷结果
  * @author Leon
  **/
 public class ResponseEntity {

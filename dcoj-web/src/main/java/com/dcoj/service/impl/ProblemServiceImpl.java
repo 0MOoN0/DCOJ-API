@@ -9,12 +9,14 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * @author WANGQING
  */
+@Service
 public class ProblemServiceImpl implements ProblemService {
 
     @Autowired

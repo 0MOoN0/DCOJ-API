@@ -1,6 +1,7 @@
 package com.dcoj.judge;
 
 
+import com.dcoj.judge.entity.ResponseEntity;
 import com.dcoj.judge.task.JudgeTask;
 
 /**
