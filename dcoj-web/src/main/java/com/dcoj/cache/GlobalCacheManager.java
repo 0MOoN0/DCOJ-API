@@ -40,9 +40,9 @@ public class GlobalCacheManager {
     private static Cache<String, JudgeResult> submissionCache;
 
     /**
-     * [{"number":idGenerate}]
+     * [{"XXXIdGenerate":number}]
      */
-    private static Cache<String,Long> problemIdGenerateCache;
+    private static Cache<String,Long> idGenerateCache;
 
 
 
@@ -82,7 +82,7 @@ public class GlobalCacheManager {
                                 .withSizeOfMaxObjectGraph(5000)
                                 .build());
 
-        problemIdGenerateCache = cacheManager
+        idGenerateCache = cacheManager
                 .createCache("problemIdGenerateCache",
                         CacheConfigurationBuilder.newCacheConfigurationBuilder(
                                 String.class,
@@ -109,7 +109,7 @@ public class GlobalCacheManager {
         return submissionCache;
     }
 
-    public static Cache<String, Long> getProblemIdGenerateCache() {
-        return problemIdGenerateCache;
+    public static Cache<String, Long> getIdGenerateCache() {
+        return idGenerateCache;
     }
 }
