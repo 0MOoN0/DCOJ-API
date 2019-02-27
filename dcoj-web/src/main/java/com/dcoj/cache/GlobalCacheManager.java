@@ -35,6 +35,11 @@ public class GlobalCacheManager {
      */
     private static Cache<String,String> emailVerifyCache;
 
+    /**
+     * [{"number":idGenerate}]
+     */
+    private static Cache<String,Long> problemIdGenerateCache;
+
     static {
         CacheManager cacheManager = CacheManagerBuilder.newCacheManagerBuilder().build(true);
         authCache = cacheManager
@@ -60,6 +65,15 @@ public class GlobalCacheManager {
                                 String.class,
                                 ResourcePoolsBuilder.newResourcePoolsBuilder().heap(2,MemoryUnit.MB)
                         ).withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.of(5,ChronoUnit.MINUTES)))
+                );
+
+        problemIdGenerateCache = cacheManager
+                .createCache("problemIdGenerateCache",
+                        CacheConfigurationBuilder.newCacheConfigurationBuilder(
+                                String.class,
+                                Long.class,
+                                ResourcePoolsBuilder.newResourcePoolsBuilder().heap(2,MemoryUnit.MB)
+                        )
                 );
 
     }
@@ -103,5 +117,9 @@ public class GlobalCacheManager {
         }else{
             return getEmailVerifyCache();
         }
+    }
+
+    public static Cache<String, Long> getProblemIdGenerateCache() {
+        return problemIdGenerateCache;
     }
 }
