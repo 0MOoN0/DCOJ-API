@@ -14,19 +14,20 @@ public interface ProblemService {
      * 统计题目数量
      * @return
      */
-    int countProblems();
+    long countProblems();
 
     /**
      * 根据题目类型统计题目数量
      * @return
      */
-    int countProblems(int type);
+    long countProblems(int type);
 
     /**
      * 删除一道题目
-     * @param pid
+     * @param objectId
      */
-    void deleteProblem(int pid);
+    void removeProblem(int objectId);
+
 
     /**
      * 更新一道题目信息
@@ -51,10 +52,10 @@ public interface ProblemService {
 
     /**
      * 通过编号查询题目
-     * @param number
+     * @param pid
      * @return
      */
-    ProblemEntity getByNum(int number);
+    ProblemEntity getById(int pid);
 
     /**
      * 添加一道题目
@@ -62,5 +63,6 @@ public interface ProblemService {
      * @param problemEntity
      * @return
      */
-    int save(JSONArray tags, ProblemEntity problemEntity);
+    int save(JSONArray tags,ProblemEntity problemEntity);
+
 }

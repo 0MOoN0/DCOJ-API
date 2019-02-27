@@ -5,6 +5,7 @@ import com.dcoj.judge.ResultEnum;
 
 /**
  * 用户与题目的评判状态实体类
+ * @author WANGQING
  */
 public class ProgrammingUserEntity {
     //编程题目id

@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 
 /**
  * 编程类题目实体类
+ * @author WANGQING
  */
 public class ProgrammingEntity {
     //题目id

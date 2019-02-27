@@ -1,5 +1,6 @@
 package com.dcoj.cache;
 
+
 import com.dcoj.judge.JudgeResult;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
@@ -8,16 +9,10 @@ import org.ehcache.config.builders.CacheManagerBuilder;
 import org.ehcache.config.builders.ExpiryPolicyBuilder;
 import org.ehcache.config.builders.ResourcePoolsBuilder;
 import org.ehcache.config.units.MemoryUnit;
-import org.ehcache.expiry.Expirations;
-import org.ehcache.expiry.ExpiryPolicy;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
-import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Leon
@@ -44,6 +39,12 @@ public class GlobalCacheManager {
      */
     private static Cache<String, JudgeResult> submissionCache;
 
+    /**
+     * [{"number":idGenerate}]
+     */
+    private static Cache<String,Long> problemIdGenerateCache;
+
+
     static {
         CacheManager cacheManager = CacheManagerBuilder.newCacheManagerBuilder().build(true);
         authCache = cacheManager
@@ -69,6 +70,7 @@ public class GlobalCacheManager {
                                 ResourcePoolsBuilder.newResourcePoolsBuilder().heap(2,MemoryUnit.MB)
                         ).withExpiry(ExpiryPolicyBuilder.timeToIdleExpiration(Duration.of(5,ChronoUnit.MINUTES)))
                 );
+
         submissionCache = cacheManager
                 .createCache("submissionCache",
                         CacheConfigurationBuilder.newCacheConfigurationBuilder(
@@ -78,6 +80,16 @@ public class GlobalCacheManager {
                                 .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.of(1,ChronoUnit.HOURS)))
                                 .withSizeOfMaxObjectGraph(5000)
                                 .build());
+
+        problemIdGenerateCache = cacheManager
+                .createCache("problemIdGenerateCache",
+                        CacheConfigurationBuilder.newCacheConfigurationBuilder(
+                                String.class,
+                                Long.class,
+                                ResourcePoolsBuilder.newResourcePoolsBuilder().heap(2,MemoryUnit.MB)
+                        )
+                );
+
     }
 
     public static Cache<String, String> getAuthCache() {
@@ -96,4 +108,7 @@ public class GlobalCacheManager {
         return submissionCache;
     }
 
+    public static Cache<String, Long> getProblemIdGenerateCache() {
+        return problemIdGenerateCache;
+    }
 }
