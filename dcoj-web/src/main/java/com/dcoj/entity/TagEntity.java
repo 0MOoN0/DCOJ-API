@@ -5,29 +5,43 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 /**
+ * 标签实体类
  * @author WANGQING
- * @description 标签实体类
  */
 @Document(collection = "tag")
 public class TagEntity {
 
-    //标签id
     @Id
-    private String tid;
+    private String objectId;
+
+    //标签id
+    @Field("t_id")
+    private Long tid;
 
     //标签名
     @Field("tag_name")
     private String tagName;
 
+    @Field("used_times")
+    private Integer usedTimes;
+
     //标签是否删除
-    @Field("isDeleted")
+    @Field("is_deleted")
     private Boolean isDeleted;
 
-    public String getTid() {
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
+
+    public Long getTid() {
         return tid;
     }
 
-    public void setTid(String tid) {
+    public void setTid(Long tid) {
         this.tid = tid;
     }
 
@@ -39,6 +53,14 @@ public class TagEntity {
         this.tagName = tagName;
     }
 
+    public Integer getUsedTimes() {
+        return usedTimes;
+    }
+
+    public void setUsedTimes(Integer usedTimes) {
+        this.usedTimes = usedTimes;
+    }
+
     public Boolean getDeleted() {
         return isDeleted;
     }
@@ -47,12 +69,4 @@ public class TagEntity {
         isDeleted = deleted;
     }
 
-    @Override
-    public String toString() {
-        return "TagEntity{" +
-                "tid='" + tid + '\'' +
-                ", tagName='" + tagName + '\'' +
-                ", isDeleted=" + isDeleted +
-                '}';
-    }
 }
