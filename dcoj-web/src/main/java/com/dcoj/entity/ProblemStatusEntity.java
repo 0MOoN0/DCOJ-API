@@ -4,6 +4,7 @@ import java.util.Date;
 
 /**
  * 题库状态实体类
+ * @author WANGQING
  */
 public class ProblemStatusEntity {
     //状态id

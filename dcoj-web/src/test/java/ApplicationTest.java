@@ -3,25 +3,24 @@ import com.dcoj.entity.PermissionEntity;
 import com.dcoj.entity.RoleEntity;
 import com.dcoj.entity.UserEntity;
 import com.dcoj.service.MailService;
-import org.bson.types.ObjectId;
+import org.bson.Document;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.management.relation.Role;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(classes = Application.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = Application.class)
 public class ApplicationTest {
 
     @Autowired
@@ -111,13 +110,19 @@ public class ApplicationTest {
 
     }
 
+    /**
+     * 测试MongoTemplate
+     * @author Leon
+     */
     @Test
     public void testMongo(){
-        Update update = new Update();
-        update.set("password","4");
-        UserEntity id = mongoTemplate.findAndModify(new Query(Criteria.where("_id").is("3")), update, UserEntity.class);
-        System.out.println(id);
-
+        Document document = new Document();
+        document.put("_id","2");
+        Document document1 = new Document();
+        document1.put("password",true);
+        BasicQuery basicQuery = new BasicQuery(document, document1);
+        UserEntity one = mongoTemplate.findOne(basicQuery, UserEntity.class);
+        System.out.println(one);
     }
 
     @Autowired

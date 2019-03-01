@@ -2,9 +2,7 @@ package com.dcoj.service.impl;
 
 import com.dcoj.controller.exception.WebErrorException;
 import com.dcoj.entity.TagEntity;
-import com.dcoj.entity.UserEntity;
 import com.dcoj.service.TagService;
-import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -26,7 +24,8 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public void save(String name) {
-        if (mongoTemplate.exists(new Query(Criteria.where("tag_name").is(name).andOperator(Criteria.where("isDeleted").is(false))), TagEntity.class)) {
+        if (mongoTemplate.exists(new Query(Criteria.where("tag_name").is(name).
+                andOperator(Criteria.where("is_deleted").is(false))), TagEntity.class)) {
             throw new WebErrorException("标签已经存在");
         }
         TagEntity tagEntity = new TagEntity();
@@ -41,16 +40,14 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public TagEntity getByName(String tagName) {
-        if (!mongoTemplate.exists(new Query(Criteria.where("tag_name").is(tagName).andOperator(Criteria.where("isDeleted").is(false))), TagEntity.class)) {
-            throw new WebErrorException("标签不存在");
-        }
-        return mongoTemplate.findOne(new Query(Criteria.where("tag_name").is(tagName)), TagEntity.class);
+        return mongoTemplate.findOne(new Query(Criteria.where("tag_name").is(tagName).
+                andOperator(Criteria.where("is_deleted").is(false))), TagEntity.class);
     }
 
     @Override
-    public void deleteTag(String tagName) {
+    public void removeTag(String tagName) {
         Update update = new Update();
-        update.set("isDeleted", true);
+        update.set("is_deleted", true);
         Query query = new Query();
         query.addCriteria(Criteria.where("tag_name").is(tagName));
         try {
@@ -62,7 +59,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public List<TagEntity> listAll() {
-        return mongoTemplate.find(new Query(Criteria.where("isDeleted").is(false)),TagEntity.class);
+        return mongoTemplate.find(new Query(Criteria.where("is_deleted").is(false)),TagEntity.class);
     }
 
     @Override
@@ -78,6 +75,6 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public long countTags() {
-        return mongoTemplate.count(new Query(Criteria.where("isDeleted").is(false)), TagEntity.class);
+        return mongoTemplate.count(new Query(Criteria.where("is_deleted").is(false)), TagEntity.class);
     }
 }

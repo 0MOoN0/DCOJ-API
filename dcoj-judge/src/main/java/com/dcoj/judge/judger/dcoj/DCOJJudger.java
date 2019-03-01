@@ -84,7 +84,7 @@ public class DCOJJudger implements JudgerApi {
         }
 
         ResponseEntity responseEntity = new ResponseEntity(obj.getDouble("time"), obj.getInteger("memory"),
-                result, obj.getString("file_path"), testCaseList);
+                result, testCaseList);
         return responseEntity;
     }
 

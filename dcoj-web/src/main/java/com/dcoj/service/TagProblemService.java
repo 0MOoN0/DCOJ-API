@@ -11,7 +11,7 @@ import java.util.List;
 public interface TagProblemService {
     void saveProblemTag(int tid, int pid);
 
-    void deleteProblemTags(int pid);
+    void removeProblemTags(int pid);
 
     int countTagProblems(int tid);
 

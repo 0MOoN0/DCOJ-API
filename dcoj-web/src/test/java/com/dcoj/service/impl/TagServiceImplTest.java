@@ -41,8 +41,8 @@ public class TagServiceImplTest {
     }
 
     @Test
-    public void deleteTag() {
-        tagService.deleteTag("标签1");
+    public void removeTag() {
+        tagService.removeTag("标签1");
     }
 
     @Test
