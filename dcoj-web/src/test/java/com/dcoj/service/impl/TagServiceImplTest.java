@@ -10,7 +10,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
 
 /**
  * @author WANGQING
@@ -57,6 +56,11 @@ public class TagServiceImplTest {
     public void updateTagName() {
         tagService.updateTagName("标签2","修改后的标签2");
         //tagService.updateTagName("标签1","修改后的标签1");
+    }
+
+    @Test
+    public void updateTagUsedTimes() {
+        tagService.updateTagUsedTimes("标签2");
     }
 
     @Test

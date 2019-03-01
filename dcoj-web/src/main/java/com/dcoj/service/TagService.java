@@ -25,6 +25,13 @@ public interface TagService {
     TagEntity getByName(String tagName);
 
     /**
+     * 通过标签id得到标签实体类对象
+     * @param tid
+     * @return
+     */
+    TagEntity getById(long tid);
+
+    /**
      * 通过标签的 tagName 删除标签
      * @param tagName
      */
@@ -43,6 +50,13 @@ public interface TagService {
      * @return
      */
     void updateTagName(String oldName,String newName);
+
+    /**
+     * 更新标签使用次数+1
+     * @param tid
+     */
+    void updateTagUsedTimes(long tid);
+
 
     /**
      * 统计标签的总个数

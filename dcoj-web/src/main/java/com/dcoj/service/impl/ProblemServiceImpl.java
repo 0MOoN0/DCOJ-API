@@ -4,17 +4,20 @@ import com.alibaba.fastjson.JSONArray;
 import com.dcoj.controller.exception.WebErrorException;
 import com.dcoj.entity.ProblemEntity;
 import com.dcoj.service.ProblemService;
+import com.dcoj.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author WANGQING
  */
+//TODO:未测试
 public class ProblemServiceImpl implements ProblemService {
 
     @Autowired
@@ -66,8 +69,23 @@ public class ProblemServiceImpl implements ProblemService {
                 andOperator(Criteria.where("is_deleted").is(false))), ProblemEntity.class);
     }
 
+
+    @Autowired
+    private TagService tagService;
+
     @Override
     public int save(JSONArray tags, ProblemEntity problemEntity) {
+        List<Long> tagList = new ArrayList<>(tags.size());
+        for(int i=0; i<tags.size(); i++) {
+            long tid = tags.getLong(i);
+            tagService.updateTagUsedTimes(tid);
+            tagList.add(tid);
+        }
+        if (tagList.size() == 0) {
+            throw new WebErrorException("标签非法");
+        }
+
+
         return 0;
     }
 }
