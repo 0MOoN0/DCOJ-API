@@ -1,7 +1,7 @@
 package com.dcoj.judge;
 
+import com.dcoj.cache.GlobalCacheManager;
 import com.dcoj.judge.task.JudgeTask;
-import com.eagleoj.web.cache.CacheController;
 import org.ehcache.Cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,7 @@ public class JudgeQueue {
     private PriorityBlockingQueue<JudgeTask> queue;
 
     JudgeQueue() {
-        submissionCache = CacheController.getSubmissionCache();
+        submissionCache = GlobalCacheManager.getSubmissionCache();
         // 创建具有比较器的优先队列
         queue = new PriorityBlockingQueue<>(10, ((o1, o2) -> -(o1.getPriority() - o2.getPriority())));
     }

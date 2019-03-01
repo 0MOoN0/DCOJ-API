@@ -19,13 +19,13 @@ public class IdGenerateCacheServiceImpl implements IdGenerateCacheService {
     @Override
     public void initIdGenerateCache() {
         Long count = mongoTemplate.count(new Query(), ProblemEntity.class);
-        Cache<String,Long> problemIdGenerateCache = GlobalCacheManager.getProblemIdGenerateCache();
+        Cache<String,Long> problemIdGenerateCache = GlobalCacheManager.getIdGenerateCache();
         problemIdGenerateCache.put("pidGenerate",count);
     }
 
     @Override
     public void updateIdGenerateCache() {
-        Cache<String,Long> problemIdGenerateCache = GlobalCacheManager.getProblemIdGenerateCache();
+        Cache<String,Long> problemIdGenerateCache = GlobalCacheManager.getIdGenerateCache();
         problemIdGenerateCache.put("pidGenerate",problemIdGenerateCache.get("problemIdGenerateCache")+1);
     }
 }

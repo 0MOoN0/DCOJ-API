@@ -5,7 +5,7 @@ import com.dcoj.judge.entity.ResponseEntity;
 import com.dcoj.judge.task.JudgeTask;
 
 /**
- * @author Smith
+ * @author Leon
  **/
 public class JudgeResult {
     private String id;

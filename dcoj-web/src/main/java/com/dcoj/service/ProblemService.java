@@ -2,12 +2,14 @@ package com.dcoj.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.dcoj.entity.ProblemEntity;
+import com.dcoj.judge.ResultEnum;
 
 import java.util.List;
 
 /**
  * 题目业务层
  * @author WANGQING
+ * @author Leon
  */
 public interface ProblemService {
     /**
@@ -64,5 +66,12 @@ public interface ProblemService {
      * @return
      */
     int save(JSONArray tags,ProblemEntity problemEntity);
+
+    /**
+     * 根据判卷状态更新Problem
+     * @param pid           题目业务id
+     * @param result        判卷结果
+     */
+    void updateProblemTimes(int pid, ResultEnum result);
 
 }

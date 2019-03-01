@@ -24,7 +24,7 @@ public class ProblemEntity {
     @Field("des")
     private JSONObject description;
     //题目编号
-    @Indexed
+    @Indexed(unique = true)
     @Field("p_id")
     private Long pid;
     //题目难度（简单0 中等1 困难2）

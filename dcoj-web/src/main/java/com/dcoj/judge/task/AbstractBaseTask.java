@@ -6,7 +6,7 @@ import com.dcoj.judge.LanguageEnum;
 import java.util.List;
 
 /**
- * @author Smith
+ * @author Leon
  **/
 public abstract class AbstractBaseTask implements JudgeTask {
 
