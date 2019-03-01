@@ -45,6 +45,7 @@ public class GlobalCacheManager {
     private static Cache<String,Long> idGenerateCache;
 
 
+
     static {
         CacheManager cacheManager = CacheManagerBuilder.newCacheManagerBuilder().build(true);
         authCache = cacheManager
@@ -61,7 +62,6 @@ public class GlobalCacheManager {
                                 ResourcePoolsBuilder.newResourcePoolsBuilder().heap(10,MemoryUnit.MB)
                         )
                 );
-
         // 邮箱认证缓存，5分钟之内如果没有访问，则缓存超时
         emailVerifyCache = cacheManager
                 .createCache("emailVerifyCache",
@@ -83,7 +83,7 @@ public class GlobalCacheManager {
                                 .build());
 
         idGenerateCache = cacheManager
-                .createCache("problemIdGenerateCache",
+                .createCache("idGenerateCache",
                         CacheConfigurationBuilder.newCacheConfigurationBuilder(
                                 String.class,
                                 Long.class,

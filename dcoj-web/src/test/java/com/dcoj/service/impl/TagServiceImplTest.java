@@ -24,9 +24,12 @@ public class TagServiceImplTest {
 
     @Test
     public void save() {
-        tagService.save("标签1");
-        tagService.save("标签2");
-        tagService.save("标签3");
+//        tagService.save("标签1");
+////        tagService.save("标签2");
+////        tagService.save("标签3");
+        tagService.save("标签4");
+        tagService.save("标签5");
+        tagService.save("标签6");
     }
 
     @Test
@@ -38,6 +41,15 @@ public class TagServiceImplTest {
         System.out.println(tagEntity2);
         System.out.println(tagEntity3);
     }
+
+    @Test
+    public void getById(){
+        TagEntity tagEntity1 = tagService.getById(1);
+        TagEntity tagEntity2 = tagService.getById(2);
+        System.out.println(tagEntity1);
+        System.out.println(tagEntity2);
+    }
+
 
     @Test
     public void removeTag() {
@@ -60,7 +72,8 @@ public class TagServiceImplTest {
 
     @Test
     public void updateTagUsedTimes() {
-        tagService.updateTagUsedTimes("标签2");
+        tagService.updateTagUsedTimes(1);
+        tagService.updateTagUsedTimes(2);
     }
 
     @Test

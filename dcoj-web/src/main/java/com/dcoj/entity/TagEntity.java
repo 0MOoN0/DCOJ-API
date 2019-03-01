@@ -69,4 +69,14 @@ public class TagEntity {
         isDeleted = deleted;
     }
 
+    @Override
+    public String toString() {
+        return "TagEntity{" +
+                "objectId='" + objectId + '\'' +
+                ", tid=" + tid +
+                ", tagName='" + tagName + '\'' +
+                ", usedTimes=" + usedTimes +
+                ", isDeleted=" + isDeleted +
+                '}';
+    }
 }

@@ -3,7 +3,7 @@ package com.dcoj.entity;
 import com.alibaba.fastjson.annotation.JSONField;
 
 /**
- * 通用响应类型
+ * 通用响应类型，用于后端与前端数据交互
  * @author Leon
  **/
 public class ResponseEntity {
