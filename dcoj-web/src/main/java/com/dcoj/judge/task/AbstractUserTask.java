@@ -1,16 +1,19 @@
 package com.dcoj.judge.task;
 
 /**
- * @author Smith
+ * 抽象用户Task
+ * @author Leon
  **/
 public class AbstractUserTask extends AbstractBaseTask {
-    private int owner;
 
-    public int getOwner() {
+    // Task的拥有者
+    private String owner;
+
+    public String getOwner() {
         return owner;
     }
 
-    public void setOwner(int owner) {
+    public void setOwner(String owner) {
         this.owner = owner;
     }
 }

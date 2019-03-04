@@ -1,12 +1,16 @@
 package com.dcoj.judge.runner;
 
+import com.dcoj.cache.GlobalCacheManager;
 import com.dcoj.entity.TestCaseEntity;
 import com.dcoj.judge.*;
+import com.dcoj.judge.entity.RequestEntity;
 import com.dcoj.judge.entity.ResponseEntity;
 import com.dcoj.judge.entity.TestCaseRequestEntity;
 import com.dcoj.judge.judger.Judger;
+import com.dcoj.judge.judger.dcoj.DCOJJudger;
 import com.dcoj.judge.task.JudgeTask;
 import com.dcoj.judge.task.ProblemJudgeTask;
+import com.dcoj.service.JudgeService;
 import org.ehcache.Cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +34,7 @@ public class JudgeRunner {
     // 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。
     private final ExecutorService THREAD_POOL = Executors.newFixedThreadPool(MAX_THREADS);
 
-//    private final Cache<String, JudgeResult> submissionCache = CacheController.getSubmissionCache();
+    private final Cache<String, JudgeResult> submissionCache = GlobalCacheManager.getSubmissionCache();
 
     private JudgeService judgeService;
 
@@ -94,7 +98,7 @@ public class JudgeRunner {
                 return;
             }
             // 使用判卷实现进行判卷
-            Judger judger = new Judger(judgerUrl, requestEntity, new Eagle());
+            Judger judger = new Judger(judgerUrl, requestEntity, new DCOJJudger());
             // 判卷
             ResponseEntity responseEntity = judger.judge();
             // 处理SE结果

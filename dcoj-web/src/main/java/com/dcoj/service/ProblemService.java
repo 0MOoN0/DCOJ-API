@@ -2,12 +2,14 @@ package com.dcoj.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.dcoj.entity.ProblemEntity;
+import com.dcoj.judge.ResultEnum;
 
 import java.util.List;
 
 /**
  * 题目业务层
  * @author WANGQING
+ * @author Leon
  */
 public interface ProblemService {
     /**
@@ -24,18 +26,17 @@ public interface ProblemService {
 
     /**
      * 删除一道题目
-     * @param objectId
+     * @param pid
      */
-    void removeProblem(int objectId);
+    void removeProblem(long pid);
 
 
     /**
      * 更新一道题目信息
-     * @param pid
      * @param tags
      * @param problemEntity
      */
-    void updateProblem(int pid, JSONArray tags, ProblemEntity problemEntity);
+    void updateProblem(JSONArray tags, ProblemEntity problemEntity);
 
     /**
      * 查询所有题目
@@ -55,7 +56,7 @@ public interface ProblemService {
      * @param pid
      * @return
      */
-    ProblemEntity getById(int pid);
+    ProblemEntity getById(long pid);
 
     /**
      * 添加一道题目
@@ -63,6 +64,13 @@ public interface ProblemService {
      * @param problemEntity
      * @return
      */
-    int save(JSONArray tags,ProblemEntity problemEntity);
+    void save(JSONArray tags,ProblemEntity problemEntity);
+
+    /**
+     * 根据判卷状态更新Problem
+     * @param pid           题目业务id
+     * @param result        判卷结果
+     */
+    void updateProblemTimes(int pid, ResultEnum result);
 
 }

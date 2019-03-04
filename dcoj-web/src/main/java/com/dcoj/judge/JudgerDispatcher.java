@@ -1,11 +1,9 @@
 package com.dcoj.judge;
 
-import com.eagleoj.web.entity.JudgerEntity;
-import com.eagleoj.web.service.JudgerService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -14,7 +12,13 @@ import java.util.Random;
 @Service
 public class JudgerDispatcher {
 
-    @Autowired
+    // 获取判卷URL
+    public String getJudgerUrl() {
+        return "192.168.123.193:5050/judge";
+    }
+
+
+/*    @Autowired
     private JudgerService judgerService;
 
     private List<JudgerEntity> judgerList;
@@ -48,5 +52,5 @@ public class JudgerDispatcher {
     // 根据判卷机实体类生成URL
     private String generateUrl(JudgerEntity entity) {
         return "http://"+entity.getUrl()+":"+entity.getPort();
-    }
+    }*/
 }

@@ -4,7 +4,7 @@ package com.dcoj.judge.task;
 import com.dcoj.entity.ProblemEntity;
 
 /**
- * @author Smith
+ * @author Leon
  **/
 public class ProblemJudgeTask extends AbstractUserTask {
 

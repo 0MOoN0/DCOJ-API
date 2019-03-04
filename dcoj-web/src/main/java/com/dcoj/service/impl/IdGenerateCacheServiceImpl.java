@@ -8,10 +8,12 @@ import org.ehcache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Service;
 
 /**
  * @author WANGQING
  */
+@Service
 public class IdGenerateCacheServiceImpl implements IdGenerateCacheService {
 
     @Autowired

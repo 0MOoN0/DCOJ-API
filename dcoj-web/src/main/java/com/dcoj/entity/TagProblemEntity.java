@@ -24,7 +24,7 @@ public class TagProblemEntity {
 
     //标签是否删除
     @Field("is_deleted")
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     public List<Long> getTids() {
         return tids;

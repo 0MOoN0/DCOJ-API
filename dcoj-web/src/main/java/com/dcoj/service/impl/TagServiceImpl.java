@@ -3,7 +3,9 @@ package com.dcoj.service.impl;
 import com.dcoj.cache.GlobalCacheManager;
 import com.dcoj.controller.exception.WebErrorException;
 import com.dcoj.entity.TagEntity;
+import com.dcoj.service.TagProblemService;
 import com.dcoj.service.TagService;
+import com.dcoj.util.WebUtil;
 import org.ehcache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -12,6 +14,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -21,7 +24,7 @@ import java.util.List;
 @Service
 public class TagServiceImpl implements TagService {
 
-    @Autowired
+    @Resource
     private MongoTemplate mongoTemplate;
 
     @Override
@@ -70,6 +73,19 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    public void removeTagById(long tid) {
+        Update update = new Update();
+        update.set("is_deleted", true);
+        Query query = new Query();
+        query.addCriteria(Criteria.where("t_id").is(tid));
+        try {
+            mongoTemplate.findAndModify(query, update, TagEntity.class);
+        }catch (Exception e){
+            throw new WebErrorException("删除标签失败");
+        }
+    }
+
+    @Override
     public List<TagEntity> listAll() {
         return mongoTemplate.find(new Query(Criteria.where("is_deleted").is(false)),TagEntity.class);
     }
@@ -77,6 +93,7 @@ public class TagServiceImpl implements TagService {
     @Override
     public void updateTagName(String oldName, String newName) {
         TagEntity tagEntity = getByName(oldName);
+        WebUtil.assertNotNull(tagEntity,"标签不存在，无法更新");
         tagEntity.setTagName(newName);
         try {
             mongoTemplate.save(tagEntity);
@@ -86,10 +103,18 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public void updateTagUsedTimes(long tid) {
+    public void updateTagUsedTimes(long tid, boolean flag) {
         TagEntity tagEntity = getById(tid);
-        tagEntity.setUsedTimes(tagEntity.getUsedTimes()+1);
+        WebUtil.assertNotNull(tagEntity,"标签不存在，无法更新");
         try {
+            if (!flag && tagEntity.getUsedTimes() > 0){
+                tagEntity.setUsedTimes(tagEntity.getUsedTimes()-1);
+            }
+            else if (flag){
+                tagEntity.setUsedTimes(tagEntity.getUsedTimes()+1);
+            }else {
+                throw new RuntimeException();
+            }
             mongoTemplate.save(tagEntity);
         } catch (Exception e) {
             throw new WebErrorException("更新标签次数失败");

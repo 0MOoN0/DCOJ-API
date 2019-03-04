@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.Date;
+
 /**
  * 题目实体类
  * @author WANGQING
@@ -36,12 +38,18 @@ public class ProblemEntity {
     //通过次数
     @Field("ac_times")
     private Integer ACTimes;
+    //WA错误次数
+    @Field("wa_times")
+    private Integer WATimes;
+    //题目最后更新时间
+    @Field("update_time")
+    private Date updateTime;
     //题目创建时间
     @Field("create_time")
-    private Long createTime;
+    private Date createTime;
     //是否删除题目（题目是否存在）
     @Field("is_deleted")
-    private Boolean isDeleted;
+    private Boolean isDeleted=false;
 
     //题目答案
     @Field("answer")
@@ -67,9 +75,6 @@ public class ProblemEntity {
     //运行内存（用于判断是否超内存）
     @Field("memory")
     private Integer memory;
-    //WA错误次数
-    @Field("wa_times")
-    private Integer WATimes;
     //运行时错误次数
     @Field("rte_times")
     private Integer RTETimes;
@@ -136,11 +141,27 @@ public class ProblemEntity {
         this.ACTimes = ACTimes;
     }
 
-    public Long getCreateTime() {
+    public Integer getWATimes() {
+        return WATimes;
+    }
+
+    public void setWATimes(Integer WATimes) {
+        this.WATimes = WATimes;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Long createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
@@ -208,14 +229,6 @@ public class ProblemEntity {
         this.memory = memory;
     }
 
-    public Integer getWATimes() {
-        return WATimes;
-    }
-
-    public void setWATimes(Integer WATimes) {
-        this.WATimes = WATimes;
-    }
-
     public Integer getRTETimes() {
         return RTETimes;
     }
@@ -238,5 +251,32 @@ public class ProblemEntity {
 
     public void setCETimes(Integer CETimes) {
         this.CETimes = CETimes;
+    }
+
+    @Override
+    public String toString() {
+        return "ProblemEntity{" +
+                "objectId='" + objectId + '\'' +
+                ", type=" + type +
+                ", description=" + description +
+                ", pid=" + pid +
+                ", difficult=" + difficult +
+                ", submitTimes=" + submitTimes +
+                ", ACTimes=" + ACTimes +
+                ", WATimes=" + WATimes +
+                ", updateTime=" + updateTime +
+                ", createTime=" + createTime +
+                ", isDeleted=" + isDeleted +
+                ", answer='" + answer + '\'' +
+                ", title='" + title + '\'' +
+                ", inputFormat=" + inputFormat +
+                ", outputFormat=" + outputFormat +
+                ", samples=" + samples +
+                ", runTime=" + runTime +
+                ", memory=" + memory +
+                ", RTETimes=" + RTETimes +
+                ", TLETimes=" + TLETimes +
+                ", CETimes=" + CETimes +
+                '}';
     }
 }

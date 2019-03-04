@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -22,14 +23,25 @@ public class TagServiceImplTest {
     @Autowired
     private TagService tagService;
 
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
     @Test
     public void save() {
 //        tagService.save("标签1");
 ////        tagService.save("标签2");
 ////        tagService.save("标签3");
-        tagService.save("标签4");
-        tagService.save("标签5");
-        tagService.save("标签6");
+//        tagService.save("标签4");
+//        tagService.save("标签5");
+//        tagService.save("标签6");
+
+        TagEntity tagEntity = new TagEntity();
+        tagEntity.setObjectId("5c79205ccd64aa1b8816504e");
+        tagEntity.setTagName("标签1");
+        tagEntity.setTid(1L);
+        tagEntity.setUsedTimes(0);
+        tagEntity.setDeleted(false);
+        mongoTemplate.save(tagEntity);
     }
 
     @Test
@@ -72,8 +84,12 @@ public class TagServiceImplTest {
 
     @Test
     public void updateTagUsedTimes() {
-        tagService.updateTagUsedTimes(1);
-        tagService.updateTagUsedTimes(2);
+        tagService.updateTagUsedTimes(1,true);
+        tagService.updateTagUsedTimes(2,true);
+        tagService.updateTagUsedTimes(2,true);
+
+
+
     }
 
     @Test

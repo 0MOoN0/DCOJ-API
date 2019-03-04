@@ -5,8 +5,8 @@ import com.dcoj.entity.TagEntity;
 import java.util.List;
 
 /**
+ * 题目标签业务层
  * @author WANGQING
- * @description 题目标签业务层
  */
 public interface TagService {
 
@@ -38,6 +38,12 @@ public interface TagService {
     void removeTag(String tagName);
 
     /**
+     * 通过标签的 tid 删除标签
+     * @param tid
+     */
+    void removeTagById(long tid);
+
+    /**
      * 查询所有标签
      * @return
      */
@@ -51,11 +57,14 @@ public interface TagService {
      */
     void updateTagName(String oldName,String newName);
 
+
     /**
-     * 更新标签使用次数+1
+     * 若flag为true，则更新标签使用次数+1
+     * 若flag为false，则更新标签使用次数-1
      * @param tid
+     * @param flag
      */
-    void updateTagUsedTimes(long tid);
+    void updateTagUsedTimes(long tid, boolean flag);
 
 
     /**

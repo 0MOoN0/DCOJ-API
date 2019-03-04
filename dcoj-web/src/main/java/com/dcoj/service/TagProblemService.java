@@ -8,7 +8,6 @@ import java.util.List;
  *
  * @author WANGQING
  */
-//TODO:未测试
 public interface TagProblemService {
     /**
      * 为某道题添加一个或者多个标签
@@ -30,7 +29,7 @@ public interface TagProblemService {
      * @param pid
      * @return
      */
-    List<TagProblemEntity> getProblemTags(long pid);
+    List<Long> getProblemTags(long pid);
 
     /**
      * 通过pid 获取 TagProblemEntity对象
@@ -38,4 +37,10 @@ public interface TagProblemService {
      * @return
      */
     TagProblemEntity getByPid(long pid);
+
+    /**
+     * 通过pid 删除
+     * @param pid TagProblemEntity对象
+     */
+    void removeProblemTag(long pid);
 }
