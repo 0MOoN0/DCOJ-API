@@ -73,4 +73,11 @@ public interface ProblemService {
      */
     void updateProblemTimes(int pid, ResultEnum result);
 
+    /**
+     * 根据判卷状态更新Problem
+     * @param pid           题目业务id
+     * @param result        判卷结果
+     */
+    void updateProblemTimes(int pid, ResultEnum result);
+
 }

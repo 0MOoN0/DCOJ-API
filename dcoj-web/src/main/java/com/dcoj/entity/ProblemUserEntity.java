@@ -3,7 +3,7 @@ package com.dcoj.entity;
 import com.dcoj.judge.ResultEnum;
 
 /**
- * 用户与题目（除了编程题）的评判状态实体类
+ * 用户与编程题目的评判状态实体类
  */
 public class ProblemUserEntity {
     //题目id
