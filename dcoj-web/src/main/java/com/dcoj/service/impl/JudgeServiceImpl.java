@@ -40,10 +40,10 @@ public class JudgeServiceImpl implements JudgeService {
         String owner = task.getOwner();
         ResultEnum result = response.getResult();
         // 保存提交
-/*  TODO      saveSubmission(task.getSourceCode(), task.getLang(), response.getTime(), response.getMemory(),
+/*  TODO(Leon)  saveSubmission(task.getSourceCode(), task.getLang(), response.getTime(), response.getMemory(),
                 result, owner, task.getPid(), 0, 0);*/
         // 更新用户日志
-//  TODO      updateUserLog(owner, result);
+//  TODO(Leon)  updateUserLog(owner, result);
 
         // 当前判卷用户是否已经AC过
         boolean isAC = false;
