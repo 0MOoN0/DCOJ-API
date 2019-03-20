@@ -26,10 +26,10 @@ public class ProblemEntity {
     @Field("des")
     private JSONObject description;
     //题目编号
-    @Indexed(unique = true)
+    @Indexed
     @Field("p_id")
     private Long pid;
-    //题目难度（简单0 中等1 困难2）
+    //题目难度（简单we0 中等1 困难2）
     @Field("diff")
     private Integer difficult;
     //提交次数

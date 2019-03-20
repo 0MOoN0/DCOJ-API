@@ -1,10 +1,7 @@
 package com.dcoj.judge;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Random;
 
 /**
  * @author Smith
@@ -14,7 +11,7 @@ public class JudgerDispatcher {
 
     // 获取判卷URL
     public String getJudgerUrl() {
-        return "192.168.123.193:5050/judge";
+        return "http://192.168.199.138:5000";
     }
 
 

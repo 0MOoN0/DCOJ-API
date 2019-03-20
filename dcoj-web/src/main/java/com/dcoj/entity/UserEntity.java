@@ -9,7 +9,8 @@ import java.util.Set;
 /**
  * @author Leon
  */
-public class UserEntity {
+
+ public class UserEntity {
     @Id
     private String uid;
 
