@@ -19,7 +19,6 @@ import java.util.List;
 
 /**
  * @author WANGQING
- * @description
  */
 @Service
 public class TagServiceImpl implements TagService {
@@ -35,10 +34,10 @@ public class TagServiceImpl implements TagService {
         }
         Cache<String,Long> idGenerateCache = GlobalCacheManager.getIdGenerateCache();
         TagEntity tagEntity = new TagEntity();
-        tagEntity.setTid(idGenerateCache.get("tidGenerate")+1);
+        //tagEntity.setTid(idGenerateCache.get("tidGenerate")+1);
         tagEntity.setTagName(name);
         tagEntity.setUsedTimes(0);
-        tagEntity.setDeleted(false);
+        //tagEntity.setDeleted(false);
         try {
             mongoTemplate.save(tagEntity);
             idGenerateCache.put("tidGenerate",idGenerateCache.get("tidGenerate")+1);
@@ -102,23 +101,29 @@ public class TagServiceImpl implements TagService {
         }
     }
 
+//    @Override
+//    public void updateTagUsedTimes(long tid, boolean flag) {
+//        TagEntity tagEntity = getById(tid);
+//        WebUtil.assertNotNull(tagEntity,"标签不存在，无法更新");
+//        try {
+//            if (!flag && tagEntity.getUsedTimes() > 0){
+//                tagEntity.setUsedTimes(tagEntity.getUsedTimes()-1);
+//            }
+//            else if (flag){
+//                tagEntity.setUsedTimes(tagEntity.getUsedTimes()+1);
+//            }else {
+//                throw new RuntimeException();
+//            }
+//            mongoTemplate.save(tagEntity);
+//        } catch (Exception e) {
+//            throw new WebErrorException("更新标签次数失败");
+//        }
+//    }
+
+
     @Override
-    public void updateTagUsedTimes(long tid, boolean flag) {
-        TagEntity tagEntity = getById(tid);
-        WebUtil.assertNotNull(tagEntity,"标签不存在，无法更新");
-        try {
-            if (!flag && tagEntity.getUsedTimes() > 0){
-                tagEntity.setUsedTimes(tagEntity.getUsedTimes()-1);
-            }
-            else if (flag){
-                tagEntity.setUsedTimes(tagEntity.getUsedTimes()+1);
-            }else {
-                throw new RuntimeException();
-            }
-            mongoTemplate.save(tagEntity);
-        } catch (Exception e) {
-            throw new WebErrorException("更新标签次数失败");
-        }
+    public void updateTagUsedTimes(int tid, boolean flag) {
+
     }
 
     @Override

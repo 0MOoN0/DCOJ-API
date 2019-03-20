@@ -1,52 +1,27 @@
 package com.dcoj.entity;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import lombok.Data;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
+ * 题目标签关联实体类
+ *
  * @author WANGQING
  */
-@Document(collection = "tag_problem")
+@Data
 public class TagProblemEntity {
-
-    @Id
-    private String objectId;
-
-    //标签id
-    @Field("t_ids")
-    private List<Long> tids;
-    //题目id
-    @Field("p_id")
-    private Long pid;
-
-    //标签是否删除
-    @Field("is_deleted")
-    private Boolean isDeleted = false;
-
-    public List<Long> getTids() {
-        return tids;
-    }
-
-    public void setTids(List<Long> tids) {
-        this.tids = tids;
-    }
-
-    public Long getPid() {
-        return pid;
-    }
-
-    public void setPid(Long pid) {
-        this.pid = pid;
-    }
-
-    public Boolean getDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
+    /** 表id */
+    private Integer id;
+    /** 标签id */
+    private Integer tid;
+    /** 题目id */
+    private Integer pid;
+     /** 标签是否删除 */
+    private Integer deleted;
+    /** 记录创建时间 */
+    private Timestamp createTime;
+    /** 记录最后修改时间 */
+    private Timestamp modifiedTime;
 }

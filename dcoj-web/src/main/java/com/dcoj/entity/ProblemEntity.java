@@ -3,280 +3,65 @@ package com.dcoj.entity;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import lombok.Data;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * 题目实体类
+ *
  * @author WANGQING
  */
-@Document(collection = "problem")
+@Data
 public class ProblemEntity {
-    //题目id
-    @Id
-    private String objectId;
-    //题目类型 0-选择题 1-填空题 2-判断题 3-编程题
-    @Field("type")
+    //==============================题目共有的字段===============================
+    /** 题目id */
+    private Integer pid;
+    /** 题目类型 0-选择题 1-填空题 2-判断题 3-编程题 */
     private Integer type;
-    //题目描述
-    @Field("des")
+    /** 题目描述 */
     private JSONObject description;
-    //题目编号
-    @Indexed(unique = true)
-    @Field("p_id")
-    private Long pid;
-    //题目难度（简单0 中等1 困难2）
-    @Field("diff")
+    /** 题目难度（简单0 中等1 困难2） */
     private Integer difficult;
-    //提交次数
-    @Field("sub_times")
+    /** 提交次数 */
     private Integer submitTimes;
-    //通过次数
-    @Field("ac_times")
+    /** 通过次数 */
     private Integer ACTimes;
-    //WA错误次数
-    @Field("wa_times")
+    /** WA错误次数 */
     private Integer WATimes;
-    //题目最后更新时间
-    @Field("update_time")
-    private Date updateTime;
-    //题目创建时间
-    @Field("create_time")
-    private Date createTime;
-    //是否删除题目（题目是否存在）
-    @Field("is_deleted")
-    private Boolean isDeleted=false;
+    /** 题目最后更新时间 */
+    private Timestamp modifiedTime;
+    /** 题目创建时间 */
+    private Timestamp createTime;
+    /** 是否删除题目（题目是否存在） */
+    private Integer deleted;
 
-    //题目答案
-    @Field("answer")
+    //==============================选择题-填空题-判断题的专属字段=================
+    /** 题目答案 */
     private String answer;
 
-    //题目标题
-    @Field("title")
+    //==============================编程题的专属字段==============================
+    /** 题目标题 */
     private String title;
-    //提交语言
+    /** 提交语言 */
 //    private JSONArray lang;
-    //输入规范
-    @Field("input_format")
+    /** 输入规范 */
     private JSONObject inputFormat;
-    //输出规范
-    @Field("output_format")
+    /** 输出规范 */
     private JSONObject outputFormat;
-    //样例
-    @Field("samples")
+    /** 样例 */
     private JSONArray samples;
-    //运行时间（用于判断是否超时）
-    @Field("run_time")
+    /** 运行时间（用于判断是否超时） */
     private Integer runTime;
-    //运行内存（用于判断是否超内存）
-    @Field("memory")
+    /** 运行内存（用于判断是否超内存） */
     private Integer memory;
-    //运行时错误次数
-    @Field("rte_times")
+    /** 题目提交次数 */
+    private Integer usedTimes;
+    /** 运行时错误次数 */
     private Integer RTETimes;
-    //超出时间限制错误次数
-    @Field("tle_times")
+    /** 超出时间限制错误次数 */
     private Integer TLETimes;
-    //编译错误次数
-    @Field("ce_times")
+    /** 编译错误次数 */
     private Integer CETimes;
 
-    public String getObjectId() {
-        return objectId;
-    }
-
-    public void setObjectId(String objectId) {
-        this.objectId = objectId;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public JSONObject getDescription() {
-        return description;
-    }
-
-    public void setDescription(JSONObject description) {
-        this.description = description;
-    }
-
-    public Long getPid() {
-        return pid;
-    }
-
-    public void setPid(Long pid) {
-        this.pid = pid;
-    }
-
-    public Integer getDifficult() {
-        return difficult;
-    }
-
-    public void setDifficult(Integer difficult) {
-        this.difficult = difficult;
-    }
-
-    public Integer getSubmitTimes() {
-        return submitTimes;
-    }
-
-    public void setSubmitTimes(Integer submitTimes) {
-        this.submitTimes = submitTimes;
-    }
-
-    public Integer getACTimes() {
-        return ACTimes;
-    }
-
-    public void setACTimes(Integer ACTimes) {
-        this.ACTimes = ACTimes;
-    }
-
-    public Integer getWATimes() {
-        return WATimes;
-    }
-
-    public void setWATimes(Integer WATimes) {
-        this.WATimes = WATimes;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Boolean getDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public JSONObject getInputFormat() {
-        return inputFormat;
-    }
-
-    public void setInputFormat(JSONObject inputFormat) {
-        this.inputFormat = inputFormat;
-    }
-
-    public JSONObject getOutputFormat() {
-        return outputFormat;
-    }
-
-    public void setOutputFormat(JSONObject outputFormat) {
-        this.outputFormat = outputFormat;
-    }
-
-    public JSONArray getSamples() {
-        return samples;
-    }
-
-    public void setSamples(JSONArray samples) {
-        this.samples = samples;
-    }
-
-    public Integer getRunTime() {
-        return runTime;
-    }
-
-    public void setRunTime(Integer runTime) {
-        this.runTime = runTime;
-    }
-
-    public Integer getMemory() {
-        return memory;
-    }
-
-    public void setMemory(Integer memory) {
-        this.memory = memory;
-    }
-
-    public Integer getRTETimes() {
-        return RTETimes;
-    }
-
-    public void setRTETimes(Integer RTETimes) {
-        this.RTETimes = RTETimes;
-    }
-
-    public Integer getTLETimes() {
-        return TLETimes;
-    }
-
-    public void setTLETimes(Integer TLETimes) {
-        this.TLETimes = TLETimes;
-    }
-
-    public Integer getCETimes() {
-        return CETimes;
-    }
-
-    public void setCETimes(Integer CETimes) {
-        this.CETimes = CETimes;
-    }
-
-    @Override
-    public String toString() {
-        return "ProblemEntity{" +
-                "objectId='" + objectId + '\'' +
-                ", type=" + type +
-                ", description=" + description +
-                ", pid=" + pid +
-                ", difficult=" + difficult +
-                ", submitTimes=" + submitTimes +
-                ", ACTimes=" + ACTimes +
-                ", WATimes=" + WATimes +
-                ", updateTime=" + updateTime +
-                ", createTime=" + createTime +
-                ", isDeleted=" + isDeleted +
-                ", answer='" + answer + '\'' +
-                ", title='" + title + '\'' +
-                ", inputFormat=" + inputFormat +
-                ", outputFormat=" + outputFormat +
-                ", samples=" + samples +
-                ", runTime=" + runTime +
-                ", memory=" + memory +
-                ", RTETimes=" + RTETimes +
-                ", TLETimes=" + TLETimes +
-                ", CETimes=" + CETimes +
-                '}';
-    }
 }

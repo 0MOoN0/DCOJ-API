@@ -89,18 +89,18 @@ public class ProblemServiceImpl implements ProblemService {
         List<Long> oldTagList = tagProblemService.getProblemTags(pid);
         //更新原本未修改题目的标签使用次数
         for (long tid:oldTagList) {
-            tagService.updateTagUsedTimes(tid,false);
+            //tagService.updateTagUsedTimes(tid,false);
         }
         //更新修改后的题目标签使用次数
         for(int i=0; i<tags.size(); i++) {
             long tid = tags.getLong(i);
-            tagService.updateTagUsedTimes(tid,true);
+            //tagService.updateTagUsedTimes(tid,true);
             newTagList.add(tid);
         }
         if (newTagList.size() == 0) {
             throw new WebErrorException("标签非法");
         }
-        problemEntity.setUpdateTime(new Date());
+       // problemEntity.setUpdateTime(new Date());
         try {
             mongoTemplate.save(problemEntity);
             tagProblemService.saveProblemTag(problemEntity.getPid(),newTagList);
@@ -115,16 +115,16 @@ public class ProblemServiceImpl implements ProblemService {
         List<Long> tagList = new ArrayList<>(tags.size());
         for(int i=0; i<tags.size(); i++) {
             long tid = tags.getLong(i);
-            tagService.updateTagUsedTimes(tid,true);
+          //  tagService.updateTagUsedTimes(tid,true);
             tagList.add(tid);
         }
         if (tagList.size() == 0) {
             throw new WebErrorException("标签非法");
         }
         Cache<String,Long> idGenerateCache = GlobalCacheManager.getIdGenerateCache();
-        problemEntity.setPid(idGenerateCache.get("pidGenerate")+1);
-        problemEntity.setUpdateTime(new Date());
-        problemEntity.setCreateTime(new Date());
+  //      problemEntity.setPid(idGenerateCache.get("pidGenerate")+1);
+ //       problemEntity.setUpdateTime(new Date());
+//        problemEntity.setCreateTime(new Date());
         problemEntity.setACTimes(0);
         problemEntity.setWATimes(0);
         if (problemEntity.getType() == 3){

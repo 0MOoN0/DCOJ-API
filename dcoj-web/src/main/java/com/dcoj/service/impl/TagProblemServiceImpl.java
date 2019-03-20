@@ -34,7 +34,7 @@ public class TagProblemServiceImpl implements TagProblemService {
         if (mongoTemplate.exists(new Query(Criteria.where("p_id").is(pid).
                 andOperator(Criteria.where("is_deleted").is(false))), TagProblemEntity.class)) {
             tagProblemEntity = getByPid(pid);
-            tagProblemEntity.setTids(tids);
+           // tagProblemEntity.setTids(tids);
             try {
                 mongoTemplate.save(tagProblemEntity);
             } catch (Exception e) {
@@ -43,8 +43,8 @@ public class TagProblemServiceImpl implements TagProblemService {
             return;
         }
         tagProblemEntity = new TagProblemEntity();
-        tagProblemEntity.setPid(pid);
-        tagProblemEntity.setTids(tids);
+        //tagProblemEntity.setPid(pid);
+        //tagProblemEntity.setTids(tids);
         try {
             mongoTemplate.save(tagProblemEntity);
         } catch (Exception e) {
@@ -56,7 +56,8 @@ public class TagProblemServiceImpl implements TagProblemService {
     public long countTagProblems(long pid) {
         TagProblemEntity tagProblemEntity = mongoTemplate.findOne(new Query(Criteria.where("p_id").is(pid).
                 andOperator(Criteria.where("is_deleted").is(false))), TagProblemEntity.class);
-        return tagProblemEntity.getTids().size();
+//        return tagProblemEntity.getTids().size();
+        return 0;
     }
 
     @Override
@@ -64,7 +65,8 @@ public class TagProblemServiceImpl implements TagProblemService {
         TagProblemEntity tagProblemEntity =  mongoTemplate.findOne(new Query(Criteria.where("p_id").is(pid).
                 andOperator(Criteria.where("is_deleted").is(false))), TagProblemEntity.class);
         WebUtil.assertNotNull(tagProblemEntity,"题目不存在，无法获取该题目标签");
-        return tagProblemEntity.getTids();
+        //return tagProblemEntity.getTids();
+        return null;
     }
 
     @Override
@@ -86,7 +88,7 @@ public class TagProblemServiceImpl implements TagProblemService {
         List<Long> list = getProblemTags(pid);
         System.out.println("Hello");
         for (int i = 0; i < list.size(); i++) {
-            tagService.updateTagUsedTimes(list.get(i),false);
+           // tagService.updateTagUsedTimes(list.get(i),false);
         }
         try {
             mongoTemplate.findAndModify(query, update, TagProblemEntity.class);
