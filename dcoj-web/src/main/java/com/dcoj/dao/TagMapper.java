@@ -16,6 +16,7 @@ public interface TagMapper {
          * 新增标签
          *
          * @param tagName
+         * @return 返回值为1时，保存成功，为0则保存失败
          */
         int save(String tagName);
 
@@ -23,7 +24,7 @@ public interface TagMapper {
          * 通过标签名得到标签实体类对象
          *
          * @param tagName
-         * @return 返回值为1时，保存成功，为0则保存失败
+         * @return
          */
         TagEntity getByName(String tagName);
 

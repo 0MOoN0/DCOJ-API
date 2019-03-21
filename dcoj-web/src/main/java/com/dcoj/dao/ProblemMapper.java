@@ -9,7 +9,6 @@ import java.util.List;
  *
  * @author WANGQING
  */
-//TODO: remove的时候修改时间
 public interface ProblemMapper {
 
     /**
@@ -29,7 +28,7 @@ public interface ProblemMapper {
     /**
      * 删除一道题目
      *
-     * @param pid
+     * @param pid 返回值为1时，删除成功，为0则删除失败
      */
     int removeByPid(int pid);
 
@@ -37,7 +36,7 @@ public interface ProblemMapper {
     /**
      * 更新一道题目信息
      *
-     * @param problemEntity
+     * @param problemEntity 返回值为1时更新成功，否则失败
      */
     int updateProblem(ProblemEntity problemEntity);
 
@@ -68,7 +67,7 @@ public interface ProblemMapper {
      * 添加一道题目
      *
      * @param problemEntity
-     * @return
+     * @return 返回值为1时，保存成功，为0则保存失败
      */
     int save(ProblemEntity problemEntity);
 

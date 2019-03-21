@@ -49,7 +49,7 @@ public interface TagProblemMapper {
      * 通过 pid 删除TagProblemEntity对象
      *
      * @param pid
-     * @return 返回值不为0时，删除成功
+     * @return 返回值为1时，删除成功，为0则删除失败
      */
     int removeProblemAllTags(int pid);
 
@@ -58,7 +58,7 @@ public interface TagProblemMapper {
      *
      * @param pid
      * @param tid
-     * @return 返回值为1时，删除成功，否则失败
+     * @return 返回值为1时，删除成功，为0则删除失败
      */
     int removeProblemTag(@Param("pid") int pid, @Param("tid") int tid);
 
