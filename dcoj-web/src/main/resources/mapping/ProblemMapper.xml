@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dcoj.dao.ProblemMapper">
+
+    <sql id="Base_Column_List">
+        pid,`type`,description,difficult,submit_times
+        ,ac_times,wa_times,gmt_create,gmt_modified,
+        is_deleted,answer,title,input_format,output_format,
+        samples,run_time,`memory`,used_times,rte_times,tle_times,
+        ce_times
+    </sql>
+
+    <resultMap id="problemResultMap" type="ProblemEntity">
+        <id column="pid" property="pid"/>
+        <result column="type" property="type"/>
+        <result column="description" property="description"/>
+        <result column="difficult" property="difficult"/>
+        <result column="submit_times" property="submitTimes"/>
+        <result column="ac_times" property="ACTimes"/>
+        <result column="wa_times" property="WATimes"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="createTime" javaType="java.sql.Timestamp"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="modifiedTime" javaType="java.sql.Timestamp"/>
+        <result column="is_deleted" property="deleted"/>
+
+        <result column="answer" property="answer"/>
+
+        <result column="title" property="title"/>
+        <!--<result column="lang" property="lang"/>-->
+        <result column="input_format" property="inputFormat"/>
+        <result column="output_format" property="outputFormat"/>
+        <result column="samples" property="samples"/>
+        <result column="run_time" property="runTime"/>
+        <result column="memory" property="memory"/>
+        <result column="used_times" property="usedTimes"/>
+        <result column="rte_times" property="RTETimes"/>
+        <result column="tle_times" property="TLETimes"/>
+        <result column="ce_times" property="CETimes"/>
+    </resultMap>
+
+    <select id="countProblems" resultType="Integer">
+        select count(*)
+        from problem
+        where is_deleted = 0
+    </select>
+
+    <select id="countProblemsByType" resultType="Integer">
+        select count(*)
+        from problem
+        where is_deleted = 0
+          and `type` = #{type}
+    </select>
+
+    <update id="removeByPid">
+        update problem
+        <set>
+            is_deleted = 1
+        </set>
+        where pid = #{pid} and is_deleted = 0
+    </update>
+
+    <update id="updateProblem">
+        update problem
+        <set>
+            <if test="type != null">`type` = #{type},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="difficult != null">difficult = #{difficult},</if>
+            <if test="submitTimes != null">submit_times = #{submitTimes},</if>
+            <if test="ACTimes != null">ac_times = #{ACTimes},</if>
+            <if test="WATimes != null">wa_times = #{WATimes},</if>
+
+            <if test="answer != null">answer = #{answer},</if>
+
+            <if test="title != null">title = #{title},</if>
+            <if test="inputFormat != null">input_format = #{inputFormat},</if>
+            <if test="outputFormat != null">output_format = #{outputFormat},</if>
+            <if test="samples != null">samples = #{samples},</if>
+            <if test="runTime != null">run_time = #{runTime},</if>
+            <if test="memory != null">`memory` = #{memory},</if>
+            <if test="RTETimes != null">rte_times = #{RTETimes},</if>
+            <if test="TLETimes != null">tle_times = #{TLETimes},</if>
+            <if test="CETimes != null">ce_times = #{CETimes},</if>
+        </set>
+        where pid = #{pid} and is_deleted = 0
+    </update>
+
+    <select id="listAll" resultMap="problemResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from problem where is_deleted = 0
+    </select>
+
+    <select id="listByType" resultMap="problemResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from problem where is_deleted = 0 and `type` = #{type}
+    </select>
+
+    <select id="getById" resultMap="problemResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from problem where is_deleted = 0 and pid = #{pid}
+    </select>
+
+
+    <insert id="save" parameterType="ProblemEntity" useGeneratedKeys="true" keyProperty="pid">
+        insert into problem
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null">
+                type,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="difficult != null">
+                difficult,
+            </if>
+            <if test="answer != null">
+                answer,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="inputFormat != null">
+                input_format,
+            </if>
+            <if test="outputFormat != null">
+                output_format,
+            </if>
+            <if test="samples != null">
+                samples,
+            </if>
+            <if test="memory != null">
+                `memory`,
+            </if>
+            <if test="runTime != null">
+                run_time,
+            </if>
+            gmt_create,
+            gmt_modified
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="type != null">
+            #{type},
+        </if>
+        <if test="description != null">
+            #{description},
+        </if>
+        <if test="difficult != null">
+            #{difficult},
+        </if>
+        <if test="answer != null">
+            #{answer},
+        </if>
+        <if test="title != null">
+            #{title},
+        </if>
+        <if test="inputFormat != null">
+            #{inputFormat},
+        </if>
+        <if test="outputFormat != null">
+            #{outputFormat},
+        </if>
+        <if test="samples != null">
+            #{samples},
+        </if>
+        <if test="memory != null">
+            #{memory},
+        </if>
+        <if test="runTime != null">
+            #{runTime},
+        </if>
+          DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'),
+          DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s')
+        </trim>
+    </insert>
+
+</mapper>
+

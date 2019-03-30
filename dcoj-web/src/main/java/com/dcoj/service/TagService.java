@@ -64,7 +64,7 @@ public interface TagService {
      * @param tid
      * @param flag
      */
-    void updateTagUsedTimes(long tid, boolean flag);
+    void updateTagUsedTimes(int tid, boolean flag);
 
 
     /**

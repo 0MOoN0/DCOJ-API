@@ -1,7 +1,15 @@
 spring:
+  datasource:
+    # 数据库访问配置, 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/dcoj?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true
+    username: root
+    password: 123456
   data:
     mongodb:
       uri: mongodb://localhost/dcoj_api
+
   mail:
     host: smtp.zoho.com
     username: dcoj@email.ylpriv.com
@@ -14,3 +22,14 @@ spring:
 mail:
   fromMail:
      addr: dcoj@email.ylpriv.com
+
+mybatis:
+  mapperLocations: classpath:mapping/*.xml
+  typeAliasesPackage: com.dcoj.entity
+  type-handlers-package: com.dcoj.handler
+
+
+mapper:
+  mappers: com.dcoj.dao
+  not-empty: false
+  identity: MYSQL

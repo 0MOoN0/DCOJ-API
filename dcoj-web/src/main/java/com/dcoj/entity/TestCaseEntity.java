@@ -22,7 +22,6 @@ public class TestCaseEntity {
     private Integer strength;
 
     @JSONField(name = "create_time")
-    @Field("create_time")
     private Long createTime;
 
 

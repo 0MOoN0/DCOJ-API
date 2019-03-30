@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dcoj.dao.TagProblemMapper">
+
+    <sql id="Base_Column_List">
+        id,pid,tid,deleted
+    </sql>
+
+    <resultMap id="tagProblemResultMap" type="TagProblemEntity">
+        <id column="id" property="id"/>
+        <result column="pid" property="pid"/>
+        <result column="tid" property="tid"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="createTime" javaType="java.sql.Timestamp"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="modifiedTime" javaType="java.sql.Timestamp"/>
+        <result column="is_deleted" property="deleted"/>
+    </resultMap>
+
+    <insert id="save" >
+        insert into tag_problem (pid,tid,gmt_create,gmt_modified) values (#{pid}, #{tid},DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'),DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'))
+    </insert>
+
+    <select id="countTagsByPid"  resultType="Integer">
+        select count(*) from tag_problem where is_deleted = 0 and pid = #{pid}
+    </select>
+
+    <select id="getTagsByPid" resultType="Integer">
+        select
+        tid
+        from tag_problem where is_deleted = 0 and pid = #{pid}
+    </select>
+
+    <select id="getByPid" resultMap="tagProblemResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tag_problem where is_deleted = 0 and pid = #{pid}
+    </select>
+
+    <update id="removeProblemAllTags">
+        update tag_problem
+        <set>
+            is_deleted = 1
+        </set>
+        where pid = #{pid} and is_deleted = 0
+    </update>
+
+    <update id="removeProblemTag">
+        update tag_problem
+        <set>
+            is_deleted = 1
+        </set>
+        where pid = #{pid} and tid = #{tid} and is_deleted = 0
+    </update>
+
+</mapper>
+
