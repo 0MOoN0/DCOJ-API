@@ -1,99 +1,107 @@
 package com.dcoj.service.impl;
 
-import com.dcoj.controller.exception.WebErrorException;
-import com.dcoj.entity.TagEntity;
+import com.dcoj.dao.TagProblemMapper;
 import com.dcoj.entity.TagProblemEntity;
 import com.dcoj.service.TagProblemService;
 import com.dcoj.service.TagService;
 import com.dcoj.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
+ * 题目标签关联业务层
+ *
  * @author WANGQING
  */
 @Service
 public class TagProblemServiceImpl implements TagProblemService {
 
-    @Resource
-    private MongoTemplate mongoTemplate;
+    @Autowired
+    private TagProblemMapper tagProblemMapper;
 
-    @Override
-    public void saveProblemTag(long pid, List<Long> tids) {
-
-        TagProblemEntity tagProblemEntity = null;
-        //判断是否题目id已经存在于数据库
-        //如果是，则更新信息，否则添加到数据库中
-        if (mongoTemplate.exists(new Query(Criteria.where("p_id").is(pid).
-                andOperator(Criteria.where("is_deleted").is(false))), TagProblemEntity.class)) {
-            tagProblemEntity = getByPid(pid);
-           // tagProblemEntity.setTids(tids);
-            try {
-                mongoTemplate.save(tagProblemEntity);
-            } catch (Exception e) {
-                throw new WebErrorException("修改题目标签失败");
-            }
-            return;
-        }
-        tagProblemEntity = new TagProblemEntity();
-        //tagProblemEntity.setPid(pid);
-        //tagProblemEntity.setTids(tids);
-        try {
-            mongoTemplate.save(tagProblemEntity);
-        } catch (Exception e) {
-            throw new WebErrorException("修改题目标签失败");
-        }
-    }
-
-    @Override
-    public long countTagProblems(long pid) {
-        TagProblemEntity tagProblemEntity = mongoTemplate.findOne(new Query(Criteria.where("p_id").is(pid).
-                andOperator(Criteria.where("is_deleted").is(false))), TagProblemEntity.class);
-//        return tagProblemEntity.getTids().size();
-        return 0;
-    }
-
-    @Override
-    public List<Long> getProblemTags(long pid) {
-        TagProblemEntity tagProblemEntity =  mongoTemplate.findOne(new Query(Criteria.where("p_id").is(pid).
-                andOperator(Criteria.where("is_deleted").is(false))), TagProblemEntity.class);
-        WebUtil.assertNotNull(tagProblemEntity,"题目不存在，无法获取该题目标签");
-        //return tagProblemEntity.getTids();
-        return null;
-    }
-
-    @Override
-    public TagProblemEntity getByPid(long pid) {
-        return mongoTemplate.findOne(new Query(Criteria.where("p_id").is(pid).
-                andOperator(Criteria.where("is_deleted").is(false))), TagProblemEntity.class);
-    }
-
-    @Resource
+    @Autowired
     private TagService tagService;
 
+    /**
+     * 为某道题添加一个或者多个标签
+     *
+     * @param pid 题目id
+     * @param tid 标签id
+     */
     @Override
-    //TODO:事务处理
-    public void removeProblemTag(long pid) {
-        Update update = new Update();
-        update.set("is_deleted", true);
-        Query query = new Query();
-        query.addCriteria(Criteria.where("p_id").is(pid));
-        List<Long> list = getProblemTags(pid);
-        System.out.println("Hello");
-        for (int i = 0; i < list.size(); i++) {
-           // tagService.updateTagUsedTimes(list.get(i),false);
+    @Transactional(rollbackFor = Exception.class)
+    public void save(int pid, int tid) {
+        boolean flag = tagProblemMapper.save(pid, tid) == 1;
+        WebUtil.assertIsSuccess(flag, "题目标签添加失败");
+        tagService.updateTagUsedTimes(tid, true);
+    }
+
+    /**
+     * 统计某道题标签的个数
+     *
+     * @param pid 题目id
+     * @return 返回该题目的标签个数
+     */
+    @Override
+    public int countTagsByPid(int pid) {
+        return tagProblemMapper.countTagsByPid(pid);
+    }
+
+    /**
+     * 得到某道题的所有标签
+     *
+     * @param pid 题目id
+     * @return 包含所有标签id的List集合
+     */
+    @Override
+    public List<Integer> getTagsByPid(int pid) {
+        return tagProblemMapper.getTagsByPid(pid);
+    }
+
+    /**
+     * 通过pid 获取 TagProblemEntity对象
+     *
+     * @param pid 题目id
+     * @return 返回 TagProblemEntity 实体类对象
+     */
+    @Override
+    public TagProblemEntity getByPid(int pid) {
+        TagProblemEntity tagProblemEntity = tagProblemMapper.getByPid(pid);
+        WebUtil.assertNotNull(tagProblemEntity, "不存在此题目标签");
+        return tagProblemEntity;
+    }
+
+    /**
+     * 通过 pid 删除TagProblemEntity对象
+     *
+     * @param pid 题目id
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void removeProblemAllTags(int pid) {
+        List<Integer> tagList = tagProblemMapper.getTagsByPid(pid);
+        for (int tid : tagList) {
+            tagService.updateTagUsedTimes(tid, false);
         }
-        try {
-            mongoTemplate.findAndModify(query, update, TagProblemEntity.class);
-        }catch (Exception e){
-            throw new WebErrorException("删除题目和标签关联失败");
-        }
+        // tagProblemMapper.removeProblemAllTags(pid)返回值不为0时，删除成功，为0则删除失败
+        boolean flag = tagProblemMapper.removeProblemAllTags(pid) != 0;
+        WebUtil.assertIsSuccess(flag, "删除该题目的所有标签失败");
+    }
+
+    /**
+     * 通过 pid 和 tid 删除一条记录
+     *
+     * @param pid 题目id
+     * @param tid 标签id
+     */
+    @Override
+    @Transactional(rollbackFor=Exception.class)
+    public void removeProblemTag(int pid, int tid) {
+        boolean flag = tagProblemMapper.removeProblemTag(pid, tid) == 1;
+        WebUtil.assertIsSuccess(flag, "删除该题目的一个标签失败");
+        tagService.updateTagUsedTimes(tid, false);
     }
 }

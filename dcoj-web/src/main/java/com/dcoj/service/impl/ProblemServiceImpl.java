@@ -1,27 +1,18 @@
 package com.dcoj.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
-import com.dcoj.cache.GlobalCacheManager;
-import com.dcoj.controller.exception.WebErrorException;
+import com.dcoj.dao.ProblemMapper;
 import com.dcoj.entity.ProblemEntity;
 import com.dcoj.judge.ResultEnum;
 import com.dcoj.service.ProblemService;
 import com.dcoj.service.TagProblemService;
-import com.dcoj.service.TagService;
 import com.dcoj.util.WebUtil;
-import org.ehcache.Cache;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author WANGQING
@@ -29,151 +20,173 @@ import java.util.Optional;
 @Service
 public class ProblemServiceImpl implements ProblemService {
 
-    @Resource
-    private MongoTemplate mongoTemplate;
+    @Autowired
+    private ProblemMapper problemMapper;
 
-    @Resource
+    @Autowired
     private TagProblemService tagProblemService;
 
-    @Resource
-    private TagService tagService;
-
+    /**
+     * 统计题目数量
+     *
+     * @return 返回题目总数量
+     */
     @Override
-    public long countProblems() {
-        return mongoTemplate.count(new Query(Criteria.where("is_deleted").is(false)), ProblemEntity.class);
-    }
-
-    @Override
-    public long countProblems(int type) {
-        return mongoTemplate.count(new Query(Criteria.where("is_deleted").is(false).
-                andOperator(Criteria.where("type").is(type))), ProblemEntity.class);
-    }
-
-    @Override
-    //TODO：事务
-    public void removeProblem(long pid) {
-        Update update = new Update();
-        update.set("is_deleted", true);
-        Query query = new Query();
-        query.addCriteria(Criteria.where("p_id").is(pid));
-        tagProblemService.removeProblemTag(pid);
-        try {
-            mongoTemplate.findAndModify(query, update, ProblemEntity.class);
-        }catch (Exception e){
-            throw new WebErrorException("删除题目失败");
-        }
-    }
-
-    @Override
-    public List<ProblemEntity> listByType(int type) {
-        return mongoTemplate.find(new Query(Criteria.where("is_deleted").is(false).
-                andOperator(Criteria.where("type").is(type))),ProblemEntity.class);
-    }
-
-    @Override
-    public ProblemEntity getById(long pid) {
-        return mongoTemplate.findOne(new Query(Criteria.where("p_id").is(pid).
-                andOperator(Criteria.where("is_deleted").is(false))), ProblemEntity.class);
-    }
-
-    @Override
-    public List<ProblemEntity> listAll() {
-        return mongoTemplate.find(new Query(Criteria.where("is_deleted").is(false)),ProblemEntity.class);
-    }
-
-    @Override
-    //TODO:事务操作
-    public void updateProblem(JSONArray tags, ProblemEntity problemEntity) {
-        List<Long> newTagList = new ArrayList<>(tags.size());
-        long pid = problemEntity.getPid();
-        List<Long> oldTagList = tagProblemService.getProblemTags(pid);
-        //更新原本未修改题目的标签使用次数
-        for (long tid:oldTagList) {
-            //tagService.updateTagUsedTimes(tid,false);
-        }
-        //更新修改后的题目标签使用次数
-        for(int i=0; i<tags.size(); i++) {
-            long tid = tags.getLong(i);
-            //tagService.updateTagUsedTimes(tid,true);
-            newTagList.add(tid);
-        }
-        if (newTagList.size() == 0) {
-            throw new WebErrorException("标签非法");
-        }
-       // problemEntity.setUpdateTime(new Date());
-        try {
-            mongoTemplate.save(problemEntity);
-            tagProblemService.saveProblemTag(problemEntity.getPid(),newTagList);
-        }catch (Exception e){
-            throw new WebErrorException("更新题目失败");
-        }
-    }
-
-    @Override
-    //TODO:事务操作
-    public void save(JSONArray tags, ProblemEntity problemEntity) {
-        List<Long> tagList = new ArrayList<>(tags.size());
-        for(int i=0; i<tags.size(); i++) {
-            long tid = tags.getLong(i);
-          //  tagService.updateTagUsedTimes(tid,true);
-            tagList.add(tid);
-        }
-        if (tagList.size() == 0) {
-            throw new WebErrorException("标签非法");
-        }
-        Cache<String,Long> idGenerateCache = GlobalCacheManager.getIdGenerateCache();
-  //      problemEntity.setPid(idGenerateCache.get("pidGenerate")+1);
- //       problemEntity.setUpdateTime(new Date());
-//        problemEntity.setCreateTime(new Date());
-        problemEntity.setACTimes(0);
-        problemEntity.setWATimes(0);
-        if (problemEntity.getType() == 3){
-            problemEntity.setCETimes(0);
-            problemEntity.setRTETimes(0);
-            problemEntity.setTLETimes(0);
-        }
-        try {
-            mongoTemplate.save(problemEntity);
-            tagProblemService.saveProblemTag(problemEntity.getPid(),tagList);
-            idGenerateCache.put("pidGenerate",idGenerateCache.get("pidGenerate")+1);
-        }catch (Exception e){
-            throw new WebErrorException("保存题目失败");
-        }
+    public int countProblems() {
+        return problemMapper.countProblems();
     }
 
     /**
+     * 根据题目类型统计题目数量
+     *
+     * @param type 所选类型
+     * @return 根据题目类型返回该类型的题目数量
+     */
+    @Override
+    public int countProblemsByType(int type) {
+        return problemMapper.countProblemsByType(type);
+    }
+
+    /**
+     * 删除一道题目
+     *
+     * @param pid 题目id
+     */
+    @Override
+    //TODO : 03.28 WANGQING 题目删除必须和submissions等其他表关联，部分功能未完善，已写的功能已测试
+    public void removeByPid(int pid) {
+//        // 检查题目是否有提交记录
+//        int submissions = submissionService.countProblemSubmissions(pid);
+//        if (submissions > 0) {
+//            throw new WebErrorException("该题目已有人提交，无法删除");
+//        }
+//
+//        // 检查题目是否有被比赛使用
+//        int contestUsed = contestProblemService.countContestProblems(pid);
+//        if (contestUsed > 0) {
+//            throw new WebErrorException("该题目已被比赛调用，无法删除");
+//        }
+//
+        // 删除该题目的所有标签
+       tagProblemService.removeProblemAllTags(pid);
+//        // 删除problem-moderator
+//        if (problemModeratorService.countProblemModerators(pid) > 0) {
+//            problemModeratorService.deleteModerators(pid);
+//        }
+//        // 删除problem-testCases
+//        if (testCasesService.countProblemTestCases(pid) > 0) {
+//            testCasesService.deleteProblemTestCases(pid);
+//        }
+        // 删除problem
+        boolean flag = problemMapper.removeByPid(pid) == 1;
+        WebUtil.assertIsSuccess(flag, "删除题目失败");
+    }
+
+    /**
+     * 更新一道题目信息
+     *
+     * @param pid           要修改的题目id
+     * @param newTags       更新后题目的标签
+     * @param problemEntity 题目实体类对象
+     */
+    @Override
+    //TODO:03.30 WANGQING 该方法能实现功能，但是方法不是很好，期待写出更好的方法优化
+    @Transactional(rollbackFor = Exception.class)
+    public void updateProblem(int pid, JSONArray newTags, ProblemEntity problemEntity) {
+        WebUtil.assertNotNull(newTags, "标签集合为空，无法更新");
+        // 存放新修改的标签id集合
+        List<Integer> finalTags = new ArrayList<>(newTags.size());
+        //将JSONArray里的元素取出并存到List<Integer>
+        for (int i = 0; i < newTags.size(); i++) {
+            // 从JSONArray取出tid
+            int tid = newTags.getInteger(i);
+            finalTags.add(tid);
+        }
+        //判断新修改的标签id集合是否为空
+        WebUtil.assertIsSuccess(finalTags.size() != 0, "非法标签");
+        // 删除题目原本的所有旧标签
+        tagProblemService.removeProblemAllTags(pid);
+        // 添加pid和tag之间的关联
+        for (Integer tid : finalTags) {
+            tagProblemService.save(pid, tid);
+        }
+        problemEntity.setPid(pid);
+        boolean flag = problemMapper.updateProblem(problemEntity) == 1;
+        WebUtil.assertIsSuccess(flag, "题目更新失败");
+    }
+
+    /**
+     * 查询所有题目
+     *
+     * @return 包含所有题目的List集合
+     */
+    @Override
+    public List<ProblemEntity> listAll() {
+        return problemMapper.listAll();
+    }
+
+    /**
+     * 根据题目类型查询题目
+     *
+     * @param type 所选题目类型
+     * @return 包含该类型所有题目的List集合
+     */
+    @Override
+    public List<ProblemEntity> listByType(int type) {
+        return problemMapper.listByType(type);
+    }
+
+    /**
+     * 通过编号查询题目
+     *
+     * @param pid 题目id
+     * @return 题目实体类对象
+     */
+    @Override
+    public ProblemEntity getById(int pid) {
+        ProblemEntity problemEntity = problemMapper.getById(pid);
+        WebUtil.assertNotNull(problemEntity, "不存在此题目");
+        return problemEntity;
+    }
+
+    /**
+     * 添加一道题目
+     *
+     * @param tags          题目标签
+     * @param problemEntity 题目实体类对象
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void save(JSONArray tags, ProblemEntity problemEntity) {
+        // 保存tag标签并且添加tag标签使用次数
+        List<Integer> tagList = new ArrayList<>(tags.size());
+        for (int i = 0; i < tags.size(); i++) {
+            int tid = tags.getInteger(i);
+            tagList.add(tid);
+        }
+        // 判断新修改的标签id集合是否为空
+        WebUtil.assertIsSuccess(tagList.size() != 0, "标签非法");
+
+        boolean flag = problemMapper.save(problemEntity) == 1;
+        WebUtil.assertIsSuccess(flag, "题目添加失败");
+        int pid = problemEntity.getPid();
+
+        // 添加pid和tag之间的关联
+        for (Integer tid : tagList) {
+            tagProblemService.save(pid, tid);
+        }
+    }
+
+    //TODO：03.30 WANGQING 跟判卷有关系的方法，未写
+
+    /**
      * 根据判卷状态更新Problem
+     *
      * @param pid    题目业务id
      * @param result 判卷结果
      */
     @Override
     public void updateProblemTimes(int pid, ResultEnum result) {
-        ProblemEntity problemEntity = mongoTemplate.findOne(new Query(Criteria.where("pid").is(pid)), ProblemEntity.class);
-        WebUtil.assertNotNull(problemEntity,"题目不存在，无法更新");
-        Optional.ofNullable(problemEntity.getSubmitTimes()).ifPresent(subTimes->problemEntity.setSubmitTimes(subTimes+1));
-        switch (result) {
-            case AC:
-                Optional.ofNullable(problemEntity.getACTimes()).ifPresent(acTimes->problemEntity.setACTimes(acTimes+1));
-//                problemEntity.setACTimes(1);
-                break;
-            case TLE:
-                Optional.ofNullable(problemEntity.getTLETimes()).ifPresent(TLETimes->problemEntity.setTLETimes(TLETimes+1));
-//                problemEntity.setTLETimes(1);
-                break;
-            case RTE:
-                Optional.ofNullable(problemEntity.getRTETimes()).ifPresent(RTETimes->problemEntity.setRTETimes(RTETimes+1));
-//                problemEntity.setRTETimes(1);
-                break;
-            case WA:
-                Optional.ofNullable(problemEntity.getWATimes()).ifPresent(WATimes->problemEntity.setWATimes(WATimes+1));
-//                problemEntity.setWATimes(1);
-                break;
-            case CE:
-                Optional.ofNullable(problemEntity.getCETimes()).ifPresent(CETimes->problemEntity.setCETimes(CETimes+1));
-//                problemEntity.setCETimes(1);
-                break;
-        }
-        //保存题目
-        mongoTemplate.save(problemEntity);
+
     }
 }

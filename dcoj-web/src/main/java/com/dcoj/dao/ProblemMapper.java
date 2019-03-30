@@ -14,14 +14,14 @@ public interface ProblemMapper {
     /**
      * 统计题目数量
      *
-     * @return
+     * @return 返回题目总数量
      */
     int countProblems();
 
     /**
      * 根据题目类型统计题目数量
      *
-     * @return
+     * @return 根据题目类型返回该类型的题目数量
      */
     int countProblemsByType(int type);
 
@@ -43,36 +43,37 @@ public interface ProblemMapper {
     /**
      * 查询所有题目
      *
-     * @return
+     * @return 包含所有题目的List集合
      */
     List<ProblemEntity> listAll();
 
     /**
      * 根据题目类型查询题目
      *
-     * @param type
-     * @return
+     * @param type 所选题目类型
+     * @return 包含该类型所有题目的List集合
      */
     List<ProblemEntity> listByType(int type);
 
     /**
      * 通过编号查询题目
      *
-     * @param pid
-     * @return
+     * @param pid 题目id
+     * @return 题目实体类对象
      */
     ProblemEntity getById(int pid);
 
     /**
      * 添加一道题目
      *
-     * @param problemEntity
+     * @param problemEntity 题目实体类对象
      * @return 返回值为1时，保存成功，为0则保存失败
      */
     int save(ProblemEntity problemEntity);
 
     /**
      * 根据判卷状态更新Problem
+     *
      * @param pid           题目业务id
      * @param result        判卷结果
      */

@@ -8,66 +8,76 @@ import java.util.List;
 
 /**
  * 题目业务层
+ *
  * @author WANGQING
  * @author Leon
  */
 public interface ProblemService {
+
     /**
      * 统计题目数量
-     * @return
+     *
+     * @return 返回题目总数量
      */
-    long countProblems();
+    int countProblems();
 
     /**
      * 根据题目类型统计题目数量
-     * @return
+     *
+     * @param type 所选类型
+     * @return 根据题目类型返回该类型的题目数量
      */
-    long countProblems(int type);
+    int countProblemsByType(int type);
 
     /**
      * 删除一道题目
-     * @param pid
+     *
+     * @param pid 题目id
      */
-    void removeProblem(long pid);
-
+    void removeByPid(int pid);
 
     /**
      * 更新一道题目信息
-     * @param tags
-     * @param problemEntity
+     *
+     * @param pid 要修改的题目id
+     * @param newTags 更新后题目的标签
+     * @param problemEntity 题目实体类对象
      */
-    void updateProblem(JSONArray tags, ProblemEntity problemEntity);
+    void updateProblem(int pid, JSONArray newTags, ProblemEntity problemEntity);
 
     /**
      * 查询所有题目
-     * @return
+     *
+     * @return 包含所有题目的List集合
      */
     List<ProblemEntity> listAll();
 
     /**
      * 根据题目类型查询题目
-     * @param type
-     * @return
+     *
+     * @param type 所选题目类型
+     * @return 包含该类型所有题目的List集合
      */
     List<ProblemEntity> listByType(int type);
 
     /**
      * 通过编号查询题目
-     * @param pid
-     * @return
+     * @param pid 题目id
+     * @return  题目实体类对象
      */
-    ProblemEntity getById(long pid);
+    ProblemEntity getById(int pid);
 
     /**
      * 添加一道题目
-     * @param tags
-     * @param problemEntity
-     * @return
+     *
+     * @param tags 题目标签
+     * @param problemEntity 题目实体类对象
      */
     void save(JSONArray tags,ProblemEntity problemEntity);
 
     /**
      * 根据判卷状态更新Problem
+     *
      * @param pid           题目业务id
      * @param result        判卷结果
      */

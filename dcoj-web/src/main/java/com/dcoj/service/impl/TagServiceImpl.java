@@ -1,133 +1,147 @@
 package com.dcoj.service.impl;
 
-import com.dcoj.cache.GlobalCacheManager;
 import com.dcoj.controller.exception.WebErrorException;
+import com.dcoj.dao.TagMapper;
 import com.dcoj.entity.TagEntity;
 import com.dcoj.service.TagProblemService;
 import com.dcoj.service.TagService;
 import com.dcoj.util.WebUtil;
-import org.ehcache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
+ * 标签业务层实现
+ *
  * @author WANGQING
  */
 @Service
 public class TagServiceImpl implements TagService {
 
-    @Resource
-    private MongoTemplate mongoTemplate;
+    @Autowired
+    private TagMapper tagMapper;
 
+    @Autowired
+    private TagProblemService tagProblemService;
+
+    /**
+     * 新增标签
+     *
+     * @param tagName 标签名
+     * @return 返回标签的tid
+     */
     @Override
-    public void save(String name) {
-        if (mongoTemplate.exists(new Query(Criteria.where("tag_name").is(name).
-                andOperator(Criteria.where("is_deleted").is(false))), TagEntity.class)) {
-            throw new WebErrorException("标签已经存在");
-        }
-        Cache<String,Long> idGenerateCache = GlobalCacheManager.getIdGenerateCache();
-        TagEntity tagEntity = new TagEntity();
-        //tagEntity.setTid(idGenerateCache.get("tidGenerate")+1);
-        tagEntity.setTagName(name);
-        tagEntity.setUsedTimes(0);
-        //tagEntity.setDeleted(false);
-        try {
-            mongoTemplate.save(tagEntity);
-            idGenerateCache.put("tidGenerate",idGenerateCache.get("tidGenerate")+1);
-        } catch (Exception e) {
-            throw new WebErrorException("新增标签失败");
-        }
+    public int save(String tagName) {
+        TagEntity tagEntity = getByName(tagName);
+        WebUtil.assertNull(tagEntity, "已经存在此标签");
+        boolean flag = tagMapper.save(tagName) == 1;
+        WebUtil.assertIsSuccess(flag, "保存标签失败");
+        return getByName(tagName).getTid();
     }
 
+    /**
+     * 通过标签名得到标签实体类对象
+     *
+     * @param tagName 标签名
+     * @return  标签实体类对象
+     */
     @Override
     public TagEntity getByName(String tagName) {
-        return mongoTemplate.findOne(new Query(Criteria.where("tag_name").is(tagName).
-                andOperator(Criteria.where("is_deleted").is(false))), TagEntity.class);
+        TagEntity tagEntity = tagMapper.getByName(tagName);
+        WebUtil.assertNotNull(tagEntity, "不存在此标签");
+        return tagEntity;
     }
 
+    /**
+     * 通过标签id得到标签实体类对象
+     *
+     * @param tid 标签id
+     * @return 标签实体类
+     */
     @Override
-    public TagEntity getById(long tid) {
-        return mongoTemplate.findOne(new Query(Criteria.where("t_id").is(tid).
-                andOperator(Criteria.where("is_deleted").is(false))), TagEntity.class);
+    public TagEntity getById(int tid) {
+        TagEntity tagEntity = tagMapper.getById(tid);
+        WebUtil.assertNotNull(tagEntity, "不存在此标签");
+        return tagEntity;
     }
-
+    /**
+     * 通过标签的 tagName 删除标签
+     *
+     * @param tagName 标签名
+     */
     @Override
-    public void removeTag(String tagName) {
-        Update update = new Update();
-        update.set("is_deleted", true);
-        Query query = new Query();
-        query.addCriteria(Criteria.where("tag_name").is(tagName));
-        try {
-            mongoTemplate.findAndModify(query, update, TagEntity.class);
-        }catch (Exception e){
-            throw new WebErrorException("删除标签失败");
-        }
+    @Transactional(rollbackFor = Exception.class)
+    public void removeByTagName(String tagName) {
+        TagEntity tagEntity = tagMapper.getByName(tagName);
+        WebUtil.assertNotNull(tagEntity, "该标签不存在，无法删除");
+        int usedTimes = tagEntity.getUsedTimes();
+        WebUtil.assertIsSuccess(usedTimes == 0,"此标签已经被使用，无法删除");
+        boolean flag = tagMapper.removeByTagName(tagName) == 1;
+        WebUtil.assertIsSuccess(flag, "删除标签失败");
     }
 
+    /**
+     * 通过标签的id 删除标签
+     *
+     * @param tid 标签的id
+     */
     @Override
-    public void removeTagById(long tid) {
-        Update update = new Update();
-        update.set("is_deleted", true);
-        Query query = new Query();
-        query.addCriteria(Criteria.where("t_id").is(tid));
-        try {
-            mongoTemplate.findAndModify(query, update, TagEntity.class);
-        }catch (Exception e){
-            throw new WebErrorException("删除标签失败");
-        }
+    public void removeById(int tid) {
+        TagEntity tagEntity = tagMapper.getById(tid);
+        WebUtil.assertNotNull(tagEntity, "该标签不存在，无法删除");
+        int usedTimes = tagMapper.getById(tid).getUsedTimes();
+        WebUtil.assertIsSuccess(usedTimes == 0,"此标签已经被使用，无法删除");
+        boolean flag = tagMapper.removeById(tid) == 1;
+        WebUtil.assertIsSuccess(flag, "删除标签失败");
     }
 
+    /**
+     * 查询所有标签
+     *
+     * @return 包含所有标签的List集合
+     */
     @Override
     public List<TagEntity> listAll() {
-        return mongoTemplate.find(new Query(Criteria.where("is_deleted").is(false)),TagEntity.class);
+        return tagMapper.listAll();
     }
 
+    /**
+     * 更新标签名
+     *
+     * @param tagEntity 标签实体类
+     */
     @Override
-    public void updateTagName(String oldName, String newName) {
-        TagEntity tagEntity = getByName(oldName);
-        WebUtil.assertNotNull(tagEntity,"标签不存在，无法更新");
-        tagEntity.setTagName(newName);
-        try {
-            mongoTemplate.save(tagEntity);
-        } catch (Exception e) {
-            throw new WebErrorException("修改标签名失败");
-        }
+    public void updateByTid(TagEntity tagEntity) {
+        TagEntity newTagEntity = getByName(tagEntity.getTagName());
+        WebUtil.assertNull(newTagEntity, "已经存在此标签");
+        boolean flag = tagMapper.updateByTid(tagEntity) == 1;
+        WebUtil.assertIsSuccess(flag, "更新标签名称失败");
     }
 
-//    @Override
-//    public void updateTagUsedTimes(long tid, boolean flag) {
-//        TagEntity tagEntity = getById(tid);
-//        WebUtil.assertNotNull(tagEntity,"标签不存在，无法更新");
-//        try {
-//            if (!flag && tagEntity.getUsedTimes() > 0){
-//                tagEntity.setUsedTimes(tagEntity.getUsedTimes()-1);
-//            }
-//            else if (flag){
-//                tagEntity.setUsedTimes(tagEntity.getUsedTimes()+1);
-//            }else {
-//                throw new RuntimeException();
-//            }
-//            mongoTemplate.save(tagEntity);
-//        } catch (Exception e) {
-//            throw new WebErrorException("更新标签次数失败");
-//        }
-//    }
-
-
+    /**
+     * 更新标签使用次数
+     *
+     * @param tid 标签的id
+     * @param flag 若flag为true，则更新标签使用次数+1，若flag为false，则更新标签使用次数-1
+     */
     @Override
     public void updateTagUsedTimes(int tid, boolean flag) {
-
+        TagEntity tagEntity = tagMapper.getById(tid);
+        WebUtil.assertNotNull(tagEntity, "该标签不存在，无法进行修改标签使用次数");
+        //judge 为 true 则修改成功，为 false 则修改失败
+        boolean judge = tagMapper.updateTagUsedTimes(tid, flag) == 1;
+        WebUtil.assertIsSuccess(judge, "修改标签使用次数失败");
     }
 
+    /**
+     * 统计标签的总个数
+     *
+     * @return 标签总个数
+     */
     @Override
-    public long countTags() {
-        return mongoTemplate.count(new Query(Criteria.where("is_deleted").is(false)), TagEntity.class);
+    public int countTags() {
+        return tagMapper.countTags();
     }
 }
