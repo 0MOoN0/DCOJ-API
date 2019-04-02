@@ -42,6 +42,7 @@ public class ProblemMapperTest {
         System.out.println(problemMapper.removeByPid(2));
         System.out.println(problemMapper.removeByPid(3));
         System.out.println(problemMapper.removeByPid(4));
+
     }
 
     @Test

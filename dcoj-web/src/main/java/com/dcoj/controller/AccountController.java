@@ -100,9 +100,11 @@ public class AccountController {
 
     /**
      * 忘记密码时获取验证码
+     * @SuppressWarnings("all")     //重复代码警告
      * @param format    发送验证码前的校验，内容为邮箱
      * @return
      */
+    @SuppressWarnings("all")
     @PostMapping("/forget_password_code")
     public ResponseEntity forgetPasswordCode(@RequestBody @Valid IndexRegisterCodeFormat format){
 
@@ -123,9 +125,11 @@ public class AccountController {
 
     /**
      * 发送注册验证码
+     * @SuppressWarnings("all")     //重复代码警告
      * @param format    发送验证码前的校验，内容为邮箱
      * @return
      */
+    @SuppressWarnings("all")
     @PostMapping("/register_code")
     public ResponseEntity registerCode(@RequestBody @Valid IndexRegisterCodeFormat format){
         boolean isExist = userService.checkUserByEmail(format.getEmail());

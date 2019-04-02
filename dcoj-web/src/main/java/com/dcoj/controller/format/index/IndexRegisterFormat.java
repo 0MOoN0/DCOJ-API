@@ -14,7 +14,7 @@ public class IndexRegisterFormat {
 
     @Email
     @NotNull
-    // TODO:临时邮箱认证
+    // TODO:2019.03.26 Leon 临时邮箱认证
     private String email;
 
     @NotBlank

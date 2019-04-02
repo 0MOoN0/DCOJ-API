@@ -1,8 +1,4 @@
-spring:
-  profiles:
-    active: leon
 
----
 spring:
   datasource:
     # 数据库访问配置, 使用druid数据源
@@ -10,7 +6,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/dcoj?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true
     username: root
-    password: 123456
+    password: root
   data:
     mongodb:
       uri: mongodb://localhost/dcoj_api
