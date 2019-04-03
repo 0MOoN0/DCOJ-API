@@ -1,17 +1,16 @@
 package com.dcoj.service.impl;
 
+import com.dcoj.dao.ProblemUserMapper;
 import com.dcoj.entity.ProblemUserEntity;
+import com.dcoj.entity.ProblemUserEntityExample;
 import com.dcoj.judge.ResultEnum;
 import com.dcoj.service.ProblemUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * ProblemUserService实现
@@ -21,7 +20,7 @@ import java.util.Map;
 public class ProblemUserServiceImpl implements ProblemUserService {
 
     @Autowired
-    private MongoTemplate mongoTemplate;
+    private ProblemUserMapper problemUserMapper;
 
     /**
      * 根据题目id、用户id、做题结果保存
@@ -31,12 +30,12 @@ public class ProblemUserServiceImpl implements ProblemUserService {
      * @param status 做题状态
      */
     @Override
-    public void save(int pid, String uid, ResultEnum status) {
+    public void save(int pid, int uid, ResultEnum status) {
         ProblemUserEntity problemUserEntity = new ProblemUserEntity();
         problemUserEntity.setUid(uid);
         problemUserEntity.setStatus(status);
         problemUserEntity.setPid(pid);
-        mongoTemplate.save(problemUserEntity);
+        problemUserMapper.insert(problemUserEntity);
     }
 
     /**
@@ -47,10 +46,14 @@ public class ProblemUserServiceImpl implements ProblemUserService {
      * @return ProblemUser
      */
     @Override
-    public ProblemUserEntity get(int pid, String uid) {
-        ProblemUserEntity entity = mongoTemplate.findOne(new Query(Criteria.where("pid").is(pid))
-                .addCriteria(Criteria.where("uid").is(uid)), ProblemUserEntity.class);
-        return entity;
+    public ProblemUserEntity get(int pid, int uid) {
+        ProblemUserEntityExample example = new ProblemUserEntityExample();
+        example.createCriteria().andPidEqualTo(pid).andUidEqualTo(uid);
+        List<ProblemUserEntity> problemUserEntities = problemUserMapper.selectByExample(example);
+        if(Optional.ofNullable(problemUserEntities).isPresent()){
+            return problemUserEntities.get(0);
+        }
+        return null;
     }
 
     /**
@@ -60,8 +63,9 @@ public class ProblemUserServiceImpl implements ProblemUserService {
      * @return ProblemUser集合
      */
     @Override
-    public List<Map<String, Object>> listUserProblemHistory(String uid) {
-        return null;
+    public List<Map<String, Object>> listUserProblemHistory(int uid) {
+        List<Map<String, Object>> maps = problemUserMapper.listUserProblemsByUid(uid);
+        return maps;
     }
 
     /**
@@ -72,10 +76,13 @@ public class ProblemUserServiceImpl implements ProblemUserService {
      * @param result
      */
     @Override
-    public void updateByPidUid(int pid, String uid, ResultEnum result) {
-        Query query = new Query(Criteria.where("pid").is(pid).and("uid").is(uid));
-        Update update = new Update();
-        update.set("result",result);
-        mongoTemplate.findAndModify(query,update,ProblemUserEntity.class);
+    public void updateByPidUid(int pid, int uid, ResultEnum result) {
+        ProblemUserEntity problemUserEntity = new ProblemUserEntity();
+        problemUserEntity.setUid(uid);
+        problemUserEntity.setPid(pid);
+        problemUserEntity.setStatus(result);
+        ProblemUserEntityExample example = new ProblemUserEntityExample();
+        example.createCriteria().andUidEqualTo(uid).andPidEqualTo(pid);
+        problemUserMapper.updateByExample(problemUserEntity,example);
     }
 }

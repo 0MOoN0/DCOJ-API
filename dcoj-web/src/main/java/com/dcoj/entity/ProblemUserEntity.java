@@ -3,20 +3,24 @@ package com.dcoj.entity;
 import com.dcoj.judge.ResultEnum;
 import lombok.Data;
 
+import java.sql.Timestamp;
+
 /**
  * 用户与编程题目的评判状态实体类
  *
- *  @author WANGQING
+ * @author WANGQING
+ * @author Leon
  */
 @Data
 public class ProblemUserEntity {
     /** 题目id */
     private Integer pid;
     /** 用户id */
-    private String uid;
-    /**  本次提交的答案 */
-    private String answer;
+    private Integer uid;
     /** 题目状态 */
-    ResultEnum status;
-
+    private ResultEnum status;
+    /** 创建时间 自动生成*/
+    private Timestamp gmtCreate;
+    /** 修改时间 自动生成*/
+    private Timestamp gmtModify;
 }

@@ -19,7 +19,7 @@ public interface ProblemUserService {
      * @param uid       用户id
      * @param status    做题状态
      */
-    void save(int pid, String uid, ResultEnum status);
+    void save(int pid, int uid, ResultEnum status);
 
     /**
      * 根据用户id和题目业务id获取ProblemUser
@@ -27,14 +27,14 @@ public interface ProblemUserService {
      * @param uid       用户id
      * @return          ProblemUser
      */
-    ProblemUserEntity get(int pid, String uid);
+    ProblemUserEntity get(int pid, int uid);
 
     /**
      * 根据用户id获取ProblemUser
      * @param uid       用户id
      * @return          ProblemUser集合
      */
-    List<Map<String, Object>> listUserProblemHistory(String uid);
+    List<Map<String, Object>> listUserProblemHistory(int uid);
 
     /**
      * 根据用户id、题目id、做题结果更新ProblemUser
@@ -42,5 +42,5 @@ public interface ProblemUserService {
      * @param uid
      * @param result
      */
-    void updateByPidUid(int pid, String uid, ResultEnum result);
+    void updateByPidUid(int pid, int uid, ResultEnum result);
 }

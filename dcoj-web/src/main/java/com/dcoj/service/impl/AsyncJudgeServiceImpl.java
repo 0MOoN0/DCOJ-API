@@ -48,7 +48,7 @@ public class AsyncJudgeServiceImpl implements AsyncJudgeService {
 
     @Override
     public String addProblemJudge(String sourceCode, LanguageEnum lang,
-                                  String owner, int pid) {
+                                  int owner, int pid) {
         ProblemEntity problemEntity = problemService.getById(pid);
         // 判断是否支持此语言
 //        containLang(lang, problemEntity);

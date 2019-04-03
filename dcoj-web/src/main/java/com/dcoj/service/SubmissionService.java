@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Submission服务类
+ * Submission服务接口
  * @author Leon
  **/
 public interface SubmissionService {
@@ -19,11 +19,11 @@ public interface SubmissionService {
      * @param pid 题目ID
      * @param sourceCode 提交的源码
      * @param lang 提交使用的语言
-     * @param time 此次判卷使用的平均时间
+     * @param usingTime 此次判卷使用的平均时间
      * @param memory 此次判卷使用的平均内存
      * @param status 判卷结果
      */
-    void save(int uid, int pid, int sourceCode, LanguageEnum lang, double time, int memory,
+    void save(int uid, int pid, int sourceCode, LanguageEnum lang, double usingTime, int memory,
               ResultEnum status);
 
     /**
@@ -33,5 +33,6 @@ public interface SubmissionService {
      */
     int countProblemSubmissions(int pid);
 
+    // TODO: 20190402 Leon 未定
     List<Map<String, Object>> listProblemSubmissions(Integer pid, Integer cid);
 }

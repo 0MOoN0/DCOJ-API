@@ -75,14 +75,14 @@ public class GlobalExceptionController {
     public ResponseEntity handleBindErrorException(HttpServletRequest request, Throwable ex) {
         LOGGER.info(ex.getMessage());
         return new ResponseEntity(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), null);
-    }
+    }*/
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity globalException(HttpServletRequest request, Throwable ex) {
-        LOGGER.error(ex.getMessage(), ex);
+//        LOGGER.error(ex.getMessage(), ex);
         return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage(), null);
-    }*/
+    }
 
     /*private HttpStatus getStatus(HttpServletRequest request) {
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");

@@ -24,7 +24,6 @@ import java.util.List;
 @SpringBootTest
 public class SubmissionMapperTest {
 
-    @SuppressWarnings("all")
     @Autowired
     SubmissionMapper submissionMapper;
 
