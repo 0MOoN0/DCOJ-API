@@ -3,6 +3,7 @@ package com.dcoj.service.impl;
 import com.dcoj.cache.GlobalCacheManager;
 import com.dcoj.entity.ProblemUserEntity;
 import com.dcoj.judge.JudgeResult;
+import com.dcoj.judge.LanguageEnum;
 import com.dcoj.judge.ResultEnum;
 import com.dcoj.judge.entity.ResponseEntity;
 import com.dcoj.judge.task.ProblemJudgeTask;
@@ -10,8 +11,10 @@ import com.dcoj.service.JudgeService;
 import com.dcoj.service.ProblemService;
 import com.dcoj.service.ProblemUserService;
 import com.dcoj.util.WebUtil;
+import com.sun.xml.internal.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -35,13 +38,14 @@ public class JudgeServiceImpl implements JudgeService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void saveProblemCode(ProblemJudgeTask task, ResponseEntity response) {
         int pid = task.getPid();
-        String owner = task.getOwner();
+        int owner = task.getOwner();
         ResultEnum result = response.getResult();
         // 保存提交
-/*  TODO      saveSubmission(task.getSourceCode(), task.getLang(), response.getTime(), response.getMemory(),
-                result, owner, task.getPid(), 0, 0);*/
+        saveSubmission(task.getSourceCode(), task.getLang(), response.getTime(), response.getMemory(),
+                result, owner, task.getPid());
         // 更新用户日志
 //  TODO      updateUserLog(owner, result);
 
@@ -67,4 +71,10 @@ public class JudgeServiceImpl implements JudgeService {
             problemService.updateProblemTimes(pid, result);
         }
     }
+
+    public void saveSubmission(String sourceCode, LanguageEnum lang, double time, int memory, ResultEnum result,
+                               int owner, int pid){
+
+    }
+
 }

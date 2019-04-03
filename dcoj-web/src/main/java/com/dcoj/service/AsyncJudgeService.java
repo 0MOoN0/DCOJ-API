@@ -24,5 +24,5 @@ public interface AsyncJudgeService {
      * @return                  task的id
      */
     String addProblemJudge(String sourceCode, LanguageEnum lang,
-                           String owner, int pid);
+                           int owner, int pid);
 }
