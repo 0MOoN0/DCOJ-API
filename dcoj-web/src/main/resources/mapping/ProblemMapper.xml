@@ -177,6 +177,9 @@
           DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s')
         </trim>
     </insert>
-
+    <select id="listProblemTagsByPid" resultType="HashMap">
+        SELECT tag_problem.tid, tag_problem.pid,tag.tag_name, tag.used_times
+        FROM tag_problem LEFT JOIN tag ON tag_problem.tid = tag.tid WHERE tag_problem.pid = #{pid} and tag_problem.is_deleted = 0;
+    </select>
 </mapper>
 

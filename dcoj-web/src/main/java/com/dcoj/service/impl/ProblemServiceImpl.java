@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author WANGQING
@@ -188,5 +189,16 @@ public class ProblemServiceImpl implements ProblemService {
     @Override
     public void updateProblemTimes(int pid, ResultEnum result) {
 
+    }
+
+    /**
+     * 通过 pid 查询该题所有tag
+     *
+     * @param pid 题目id
+     * @return 结果
+     */
+    @Override
+    public List<Map<String, Object>> listProblemTagsByPid(int pid) {
+        return problemMapper.listProblemTagsByPid(pid);
     }
 }

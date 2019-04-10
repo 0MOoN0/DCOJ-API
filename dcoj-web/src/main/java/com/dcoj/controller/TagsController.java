@@ -24,8 +24,9 @@ public class TagsController {
 
     @ApiOperation("显示所有标签")
     @GetMapping
-    public ResponseEntity listTags() {
+    public ResponseEntity listAll() {
         return new ResponseEntity(tagService.listAll());
     }
+
 
 }

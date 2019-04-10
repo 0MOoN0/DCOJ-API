@@ -3,6 +3,7 @@ package com.dcoj.dao;
 import com.dcoj.entity.ProblemEntity;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 题目管理持久层
@@ -80,5 +81,12 @@ public interface ProblemMapper {
     //TODO: 2019.03.18 WANGQING 未在mapper.xml里写此方法
     //void updateProblemTimes(int pid, ResultEnum result);
 
+    /**
+     * 通过 pid 查询该题所有tag
+     *
+     * @param pid 题目id
+     * @return 结果
+     */
+    List<Map<String, Object>> listProblemTagsByPid(int pid);
 
 }

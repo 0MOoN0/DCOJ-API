@@ -5,6 +5,7 @@ import com.dcoj.entity.ProblemEntity;
 import com.dcoj.judge.ResultEnum;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 题目业务层
@@ -82,5 +83,13 @@ public interface ProblemService {
      * @param result        判卷结果
      */
     void updateProblemTimes(int pid, ResultEnum result);
+
+    /**
+     * 通过 pid 查询该题所有tag
+     *
+     * @param pid 题目id
+     * @return 结果
+     */
+    List<Map<String, Object>> listProblemTagsByPid(int pid);
 
 }

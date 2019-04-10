@@ -8,8 +8,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -138,6 +140,13 @@ public class ProblemMapperTest {
         problemMapper.save(problemEntity1);
         problemMapper.save(problemEntity2);
         problemMapper.save(problemEntity3);
+    }
 
+    @Test
+    public void listProblemTagsByPid(){
+        List<Map<String, Object>> list =  problemMapper.listProblemTagsByPid(1);
+        for (Map<String,Object>  map:list){
+            map.forEach((k,v)-> System.out.println("k:"+k+" v:"+v));
+        }
     }
 }

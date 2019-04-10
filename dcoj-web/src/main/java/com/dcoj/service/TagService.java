@@ -63,7 +63,6 @@ public interface TagService {
      */
     void updateByTid(TagEntity tagEntity);
 
-
     /**
      * 更新标签使用次数
      *
@@ -71,7 +70,6 @@ public interface TagService {
      * @param flag 若flag为true，则更新标签使用次数+1，若flag为false，则更新标签使用次数-1
      */
     void updateTagUsedTimes(int tid, boolean flag);
-
 
     /**
      * 统计标签的总个数
