@@ -25,7 +25,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public void addPermission(PermissionEntity permissionEntity) {
         mongoTemplate.save(permissionEntity);
-        //TODO : REFRESH CACHE
+        //TODO:2019.04.03 Leon REFRESH CACHE
     }
 
     @Override

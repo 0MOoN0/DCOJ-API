@@ -1,6 +1,7 @@
 package com.dcoj.cache;
 
 
+import com.dcoj.DefaultConfig;
 import com.dcoj.judge.JudgeResult;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
@@ -69,7 +70,7 @@ public class GlobalCacheManager {
                                 String.class,
                                 String.class,
                                 ResourcePoolsBuilder.newResourcePoolsBuilder().heap(2,MemoryUnit.MB)
-                        ).withExpiry(ExpiryPolicyBuilder.timeToIdleExpiration(Duration.of(5,ChronoUnit.MINUTES)))
+                        ).withExpiry(ExpiryPolicyBuilder.timeToIdleExpiration(Duration.of(DefaultConfig.CAPTCHA_EXPIRED_TIME,ChronoUnit.MINUTES)))
                 );
 
         submissionCache = cacheManager

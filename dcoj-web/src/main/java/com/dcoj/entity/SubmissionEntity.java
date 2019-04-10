@@ -46,4 +46,7 @@ public class SubmissionEntity {
 
     /** 用户提交的源码 */
     private Integer sourceCode;
+
+    /** 试卷ID */
+    private Integer eid;
 }

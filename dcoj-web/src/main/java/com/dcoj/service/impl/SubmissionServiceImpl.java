@@ -65,7 +65,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     @Override
-    public List<Map<String, Object>> listProblemSubmissions(Integer pid, Integer cid) {
+    public List<Map<String, Object>> listProblemSubmissions(Integer pid, Integer eid) {
         return null;
     }
 }

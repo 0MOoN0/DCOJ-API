@@ -82,8 +82,8 @@ public class SubmissionMapperTest {
         criteria.andSubIdEqualTo(3);
 
         submissionMapper.deleteByExample(example);
-
     }
+
 
 
 }

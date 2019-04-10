@@ -55,7 +55,7 @@ public class JudgeRunner {
                     THREAD_POOL.execute(new Runner(judgeTask));
                 } catch (Exception e) {
                     // 如果抛出异常则将缓存中的判卷状态标为异常
-//                    submissionCache.get(judgeTask.getId()).setStatus(JudgeStatus.Error);
+                    submissionCache.get(judgeTask.getId()).setStatus(JudgeStatus.Error);
                     LOGGER.error(e.getMessage());
                 }
             }

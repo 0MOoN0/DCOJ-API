@@ -1,20 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dcoj.dao.ProblemUserMapper">
-  <resultMap id="BaseResultMap" type="com.dcoj.entity.ProblemUserEntity">
+<mapper namespace="com.dcoj.dao.TestCaseMapper">
+  <resultMap id="BaseResultMap" type="com.dcoj.entity.TestCaseEntity">
+    <id column="tc_id" jdbcType="INTEGER" property="tcId" />
     <result column="pid" jdbcType="INTEGER" property="pid" />
-    <result column="uid" jdbcType="INTEGER" property="uid" />
-    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="stdin" jdbcType="VARCHAR" property="stdin" />
+    <result column="stdout" jdbcType="VARCHAR" property="stdout" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
   </resultMap>
 
-  <!--自定义SQL: Begin-->
-  <select id="listUserProblemsByUid" resultType="HashMap">
-        SELECT problem_user.*, problem.title FROM problem_user LEFT JOIN problem ON problem_user.pid=problem.pid
-        WHERE problem_user.uid = #{uid}
-    </select>
-  <!--自定义SQL: End-->
+  <!--自定义SQL:Begin-->
+  <!--根据Example查询一条数据-->
+  <select id="selectOneByExample" parameterType="com.dcoj.entity.TestCaseEntityExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from test_case
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    LIMIT 1;
+  </select>
+  <!--自定义SQL:End-->
+
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -74,15 +88,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    pid, uid, status, gmt_create, gmt_modify
+    tc_id, pid, stdin, stdout, gmt_create, gmt_modify
   </sql>
-  <select id="selectByExample" parameterType="com.dcoj.entity.ProblemUserEntityExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.dcoj.entity.TestCaseEntityExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from problem_user
+    from test_case
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -90,60 +104,79 @@
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByExample" parameterType="com.dcoj.entity.ProblemUserEntityExample">
-    delete from problem_user
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from test_case
+    where tc_id = #{tcId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from test_case
+    where tc_id = #{tcId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dcoj.entity.TestCaseEntityExample">
+    delete from test_case
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.dcoj.entity.ProblemUserEntity">
-    insert into problem_user (pid, uid, status
-      )
-    values (#{pid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{status,jdbcType=CHAR}
-      )
+  <insert id="insert" parameterType="com.dcoj.entity.TestCaseEntity">
+    insert into test_case (tc_id, pid, stdin, 
+      stdout)
+    values (#{tcId,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{stdin,jdbcType=VARCHAR}, 
+      #{stdout,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.dcoj.entity.ProblemUserEntity">
-    insert into problem_user
+  <insert id="insertSelective" parameterType="com.dcoj.entity.TestCaseEntity">
+    insert into test_case
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tcId != null">
+        tc_id,
+      </if>
       <if test="pid != null">
         pid,
       </if>
-      <if test="uid != null">
-        uid,
+      <if test="stdin != null">
+        stdin,
       </if>
-      <if test="status != null">
-        status,
+      <if test="stdout != null">
+        stdout,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tcId != null">
+        #{tcId,jdbcType=INTEGER},
+      </if>
       <if test="pid != null">
         #{pid,jdbcType=INTEGER},
       </if>
-      <if test="uid != null">
-        #{uid,jdbcType=INTEGER},
+      <if test="stdin != null">
+        #{stdin,jdbcType=VARCHAR},
       </if>
-      <if test="status != null">
-        #{status,jdbcType=CHAR},
+      <if test="stdout != null">
+        #{stdout,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.dcoj.entity.ProblemUserEntityExample" resultType="java.lang.Long">
-    select count(*) from problem_user
+  <select id="countByExample" parameterType="com.dcoj.entity.TestCaseEntityExample" resultType="java.lang.Long">
+    select count(*) from test_case
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update problem_user
+    update test_case
     <set>
+      <if test="record.tcId != null">
+        tc_id = #{record.tcId,jdbcType=INTEGER},
+      </if>
       <if test="record.pid != null">
         pid = #{record.pid,jdbcType=INTEGER},
       </if>
-      <if test="record.uid != null">
-        uid = #{record.uid,jdbcType=INTEGER},
+      <if test="record.stdin != null">
+        stdin = #{record.stdin,jdbcType=VARCHAR},
       </if>
-      <if test="record.status != null">
-        status = #{record.status,jdbcType=CHAR},
+      <if test="record.stdout != null">
+        stdout = #{record.stdout,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -151,12 +184,35 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update problem_user
-    set pid = #{record.pid,jdbcType=INTEGER},
-      uid = #{record.uid,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=CHAR}
+    update test_case
+    set tc_id = #{record.tcId,jdbcType=INTEGER},
+      pid = #{record.pid,jdbcType=INTEGER},
+      stdin = #{record.stdin,jdbcType=VARCHAR},
+      stdout = #{record.stdout,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dcoj.entity.TestCaseEntity">
+    update test_case
+    <set>
+      <if test="pid != null">
+        pid = #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="stdin != null">
+        stdin = #{stdin,jdbcType=VARCHAR},
+      </if>
+      <if test="stdout != null">
+        stdout = #{stdout,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where tc_id = #{tcId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dcoj.entity.TestCaseEntity">
+    update test_case
+    set pid = #{pid,jdbcType=INTEGER},
+      stdin = #{stdin,jdbcType=VARCHAR},
+      stdout = #{stdout,jdbcType=VARCHAR}
+    where tc_id = #{tcId,jdbcType=INTEGER}
   </update>
 </mapper>

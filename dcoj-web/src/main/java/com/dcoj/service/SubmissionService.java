@@ -34,5 +34,10 @@ public interface SubmissionService {
     int countProblemSubmissions(int pid);
 
     // TODO: 20190402 Leon 未定
-    List<Map<String, Object>> listProblemSubmissions(Integer pid, Integer cid);
+    List<Map<String, Object>> listProblemSubmissions(Integer pid, Integer eid);
+
+
+
+
+
 }

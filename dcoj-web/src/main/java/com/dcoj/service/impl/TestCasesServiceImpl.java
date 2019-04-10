@@ -1,11 +1,10 @@
 package com.dcoj.service.impl;
 
+import com.dcoj.dao.TestCaseMapper;
 import com.dcoj.entity.TestCaseEntity;
+import com.dcoj.entity.TestCaseEntityExample;
 import com.dcoj.service.TestCasesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +17,7 @@ import java.util.List;
 public class TestCasesServiceImpl implements TestCasesService {
 
     @Autowired
-    private MongoTemplate mongoTemplate;
+    private TestCaseMapper testCaseMapper;
 
 
     @Override
@@ -38,7 +37,24 @@ public class TestCasesServiceImpl implements TestCasesService {
      */
     @Override
     public List<TestCaseEntity> listAll(int pid) {
-        return mongoTemplate.find(new Query(Criteria.where("pid").is(pid)),TestCaseEntity.class);
+        TestCaseEntityExample testCaseEntityExample = new TestCaseEntityExample();
+        testCaseEntityExample.createCriteria().andPidEqualTo(pid);
+        List<TestCaseEntity> testCaseEntities = testCaseMapper.selectByExample(testCaseEntityExample);
+        return testCaseEntities;
+    }
+
+    /**
+     * 根据题目ID获取一个测试用例
+     *
+     * @param pid 题目ID
+     * @return 测试用例对象
+     */
+    @Override
+    public TestCaseEntity getOneByPid(int pid) {
+        TestCaseEntityExample testCaseEntityExample = new TestCaseEntityExample();
+        testCaseEntityExample.createCriteria().andPidEqualTo(pid);
+        TestCaseEntity testCaseEntity = testCaseMapper.selectOneByExample(testCaseEntityExample);
+        return testCaseEntity;
     }
 
     @Override

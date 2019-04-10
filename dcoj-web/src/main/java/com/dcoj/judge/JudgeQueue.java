@@ -11,7 +11,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 /**
  * 判卷任务队列类，此类维护了一个无界阻塞优先级队列
- * @author Smith
+ * @author Leon
  **/
 @Component
 public class JudgeQueue {

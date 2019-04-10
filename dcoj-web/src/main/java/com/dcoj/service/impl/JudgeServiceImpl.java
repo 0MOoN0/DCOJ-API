@@ -19,8 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 /**
+ * 判卷相关业务层
  * @author Leon
  */
+
 @Service
 public class JudgeServiceImpl implements JudgeService {
 
@@ -47,7 +49,7 @@ public class JudgeServiceImpl implements JudgeService {
         saveSubmission(task.getSourceCode(), task.getLang(), response.getTime(), response.getMemory(),
                 result, owner, task.getPid());
         // 更新用户日志
-//  TODO      updateUserLog(owner, result);
+//  TODO:20190403 Leon updateUserLog(owner, result);
 
         // 当前判卷用户是否已经AC过
         boolean isAC = false;
@@ -72,6 +74,7 @@ public class JudgeServiceImpl implements JudgeService {
         }
     }
 
+    // TODO 20190410 Leon saveSubmission
     public void saveSubmission(String sourceCode, LanguageEnum lang, double time, int memory, ResultEnum result,
                                int owner, int pid){
 
