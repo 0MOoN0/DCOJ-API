@@ -1,5 +1,5 @@
 # DOCJ
-Drop Code Online Judge，在线学习评测系统  
+Drop Code Online Judge 在线学习评测系统  
 # 使用提供的批处理文件启动应用
 本系统仍在开发中，系统内容迭代速度较快，现提供批处理文件使本系统快速启动，以便测试
 ## 必须的环境
@@ -13,4 +13,6 @@ Maven：
 ## 应用启动
 第一次运行需要对文件进行打包，请使用`mvn_compile_start.bat`批处理文件对应用进行打包的启动  
 其他情况可以直接使用`mvn_start.bat`启动
+# 应用访问
+DCOJ-API是一个RESTFul应用，提供API，使用批处理文件启动应用后，如果要查看API，请访问：http://localhost:8080/swagger-ui.html#/
 
