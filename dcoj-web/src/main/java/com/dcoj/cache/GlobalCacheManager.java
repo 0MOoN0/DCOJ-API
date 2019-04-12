@@ -1,7 +1,7 @@
 package com.dcoj.cache;
 
 
-import com.dcoj.DefaultConfig;
+import com.dcoj.config.DefaultConfig;
 import com.dcoj.judge.JudgeResult;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;

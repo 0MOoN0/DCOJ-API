@@ -1,4 +1,4 @@
-package com.dcoj;
+package com.dcoj.config;
 
 /**
  * @author Leon
