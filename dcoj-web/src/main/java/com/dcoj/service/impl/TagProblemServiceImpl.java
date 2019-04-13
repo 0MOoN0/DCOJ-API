@@ -83,6 +83,7 @@ public class TagProblemServiceImpl implements TagProblemService {
     @Transactional(rollbackFor = Exception.class)
     public void removeProblemAllTags(int pid) {
         List<Integer> tagList = tagProblemMapper.getTagsByPid(pid);
+//        WebUtil.assertIsSuccess(tagList.size()!=0,"该题目无标签，删除失败");
         for (int tid : tagList) {
             tagService.updateTagUsedTimes(tid, false);
         }

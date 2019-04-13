@@ -67,10 +67,7 @@ public class TagMapperTest {
 
     @Test
     public void updateByTid() {
-        TagEntity tagEntity = new TagEntity();
-        tagEntity.setTid(6);
-        tagEntity.setTagName("修改后的标签");
-        System.out.println(tagMapper.updateByTid(tagEntity));
+        System.out.println(tagMapper.updateByTid(6,"修改后的标签"));
     }
 
     @Test

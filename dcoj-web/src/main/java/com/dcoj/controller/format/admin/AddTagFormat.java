@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class AddTagFormat {
 
+    /** 标签名 */
     @NotBlank
     @Length(max = 20)
     @NotNull

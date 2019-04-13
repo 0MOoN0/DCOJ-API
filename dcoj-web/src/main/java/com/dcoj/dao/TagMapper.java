@@ -62,10 +62,11 @@ public interface TagMapper {
         /**
          * 更新标签名
          *
-         * @param tagEntity 标签实体类对象
+         * @param tid 标签id
+         * @param newName 修改后的标签名
          * @return 返回值为1时，修改成功，为0则修改失败
          */
-        int updateByTid(TagEntity tagEntity);
+        int updateByTid(@Param("tid") int tid,@Param("newName") String newName);
 
         /**
          * 更新标签使用次数

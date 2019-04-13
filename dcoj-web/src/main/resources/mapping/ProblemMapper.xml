@@ -70,9 +70,7 @@
             <if test="submitTimes != null">submit_times = #{submitTimes},</if>
             <if test="ACTimes != null">ac_times = #{ACTimes},</if>
             <if test="WATimes != null">wa_times = #{WATimes},</if>
-
             <if test="answer != null">answer = #{answer},</if>
-
             <if test="title != null">title = #{title},</if>
             <if test="inputFormat != null">input_format = #{inputFormat},</if>
             <if test="outputFormat != null">output_format = #{outputFormat},</if>

@@ -45,6 +45,7 @@ public class TagController {
     @PutMapping("/{tid}")
     public ResponseEntity updateTag(@PathVariable int tid,
                                     @RequestBody @Valid AddTagFormat format) {
+        tagService.updateByTid(tid, format.getName());
         return new ResponseEntity("标签更新成功");
     }
 

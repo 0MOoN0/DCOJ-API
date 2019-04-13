@@ -50,7 +50,7 @@ public class TagServiceImpl implements TagService {
     @Override
     public TagEntity getByName(String tagName) {
         TagEntity tagEntity = tagMapper.getByName(tagName);
-        WebUtil.assertNotNull(tagEntity, "不存在此标签");
+//        WebUtil.assertNotNull(tagEntity, "不存在此标签");
         return tagEntity;
     }
 
@@ -110,13 +110,14 @@ public class TagServiceImpl implements TagService {
     /**
      * 更新标签名
      *
-     * @param tagEntity 标签实体类
+     * @param tid     标签id
+     * @param newName 修改后的标签名
      */
     @Override
-    public void updateByTid(TagEntity tagEntity) {
-        TagEntity newTagEntity = getByName(tagEntity.getTagName());
+    public void updateByTid(int tid, String newName) {
+        TagEntity newTagEntity = getByName(newName);
         WebUtil.assertNull(newTagEntity, "已经存在此标签");
-        boolean flag = tagMapper.updateByTid(tagEntity) == 1;
+        boolean flag = tagMapper.updateByTid(tid,newName) == 1;
         WebUtil.assertIsSuccess(flag, "更新标签名称失败");
     }
 

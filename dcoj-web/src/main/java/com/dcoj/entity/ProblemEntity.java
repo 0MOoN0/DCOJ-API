@@ -21,7 +21,7 @@ public class ProblemEntity {
     private Integer type;
     /** 题目描述 */
     private JSONObject description;
-    /** 题目难度（简单0 中等1 困难2） */
+    /** 题目难度（简单0 一般1 中等2 困难3） */
     private Integer difficult;
     /** 提交次数 */
     private Integer submitTimes;

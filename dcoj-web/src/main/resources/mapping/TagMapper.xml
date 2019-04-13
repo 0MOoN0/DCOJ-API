@@ -60,7 +60,7 @@
     <update id="updateByTid">
         update tag
         <set>
-            <if test="tagName != null">tag_name = #{tagName}</if>
+            <if test="newName != null">tag_name = #{newName}</if>
         </set>
         where tid = #{tid} and is_deleted = 0
     </update>

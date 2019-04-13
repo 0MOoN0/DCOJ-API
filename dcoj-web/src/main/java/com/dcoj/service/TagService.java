@@ -59,9 +59,10 @@ public interface TagService {
     /**
      * 更新标签名
      *
-     * @param tagEntity 标签实体类
+     * @param tid 标签id
+     * @param newName 修改后的标签名
      */
-    void updateByTid(TagEntity tagEntity);
+    void updateByTid(int tid,String newName);
 
     /**
      * 更新标签使用次数

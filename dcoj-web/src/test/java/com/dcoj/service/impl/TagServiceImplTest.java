@@ -55,10 +55,7 @@ public class TagServiceImplTest {
 
     @Test
     public void updateByTid() {
-        TagEntity tagEntity = new TagEntity();
-        tagEntity.setTagName("标签88");
-        tagEntity.setTid(10);
-        tagService.updateByTid(tagEntity);
+        tagService.updateByTid(10,"标签88");
     }
 
     @Test

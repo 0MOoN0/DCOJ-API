@@ -10,6 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
 /**
@@ -88,14 +91,26 @@ public class ProblemServiceImplTest {
         problemEntity3.setMemory(1);
         JSONArray tags = new JSONArray();
         tags.add(1);
-        tags.add(3);
-        tags.add(6);
-        tags.add(7);
-        tags.add(8);
-        problemService.save(tags, problemEntity3);
+        tags.add(2);
+        System.out.println(problemService.save(tags, problemEntity3));
     }
 
     @Test
-    public void updateProblemTimes() {
+    public void listProblemTagsByPid() {
+        List<Map<String,Object>> list = problemService.listProblemTagsByPid(13);
+        for (Map<String,Object>  map:list){
+            map.forEach((k,v)-> System.out.println("k:"+k+" v:"+v));
+        }
+    }
+
+    @Test
+    public void testJSONArray(){
+        JSONArray ja = new JSONArray();
+        ja.add(1);
+        ja.add("B");
+        ja.add(3);
+        System.out.println(ja.toString());
+        System.out.println("++++++++++++++++++++++++++++++++");
+        System.out.println(ja.toJSONString());
     }
 }

@@ -73,8 +73,9 @@ public interface ProblemService {
      *
      * @param tags 题目标签
      * @param problemEntity 题目实体类对象
+     * @return 题目id
      */
-    void save(JSONArray tags,ProblemEntity problemEntity);
+    int save(JSONArray tags,ProblemEntity problemEntity);
 
     /**
      * 根据判卷状态更新Problem

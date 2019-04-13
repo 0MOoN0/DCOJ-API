@@ -56,6 +56,7 @@ public class ProblemServiceImpl implements ProblemService {
     @Override
     //TODO : 03.28 WANGQING 题目删除必须和submissions等其他表关联，部分功能未完善，已写的功能已测试
     public void removeByPid(int pid) {
+        WebUtil.assertNotNull(problemMapper.getById(pid),"题目不存在，删除失败");
 //        // 检查题目是否有提交记录
 //        int submissions = submissionService.countProblemSubmissions(pid);
 //        if (submissions > 0) {
@@ -68,6 +69,8 @@ public class ProblemServiceImpl implements ProblemService {
 //            throw new WebErrorException("该题目已被比赛调用，无法删除");
 //        }
 //
+        List<Integer> tagList = tagProblemService.getTagsByPid(pid);
+        WebUtil.assertIsSuccess(tagList.size()!=0,"该题目无标签，删除失败");
         // 删除该题目的所有标签
        tagProblemService.removeProblemAllTags(pid);
 //        // 删除problem-moderator
@@ -94,6 +97,7 @@ public class ProblemServiceImpl implements ProblemService {
     //TODO:03.30 WANGQING 该方法能实现功能，但是方法不是很好，期待写出更好的方法优化
     @Transactional(rollbackFor = Exception.class)
     public void updateProblem(int pid, JSONArray newTags, ProblemEntity problemEntity) {
+        WebUtil.assertNotNull(problemMapper.getById(pid),"该题目不存在，无法更新");
         WebUtil.assertNotNull(newTags, "标签集合为空，无法更新");
         // 存放新修改的标签id集合
         List<Integer> finalTags = new ArrayList<>(newTags.size());
@@ -153,12 +157,13 @@ public class ProblemServiceImpl implements ProblemService {
     /**
      * 添加一道题目
      *
-     * @param tags          题目标签
+     * @param tags 题目标签
      * @param problemEntity 题目实体类对象
+     * @return 题目id
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void save(JSONArray tags, ProblemEntity problemEntity) {
+    public int save(JSONArray tags, ProblemEntity problemEntity) {
         // 保存tag标签并且添加tag标签使用次数
         List<Integer> tagList = new ArrayList<>(tags.size());
         for (int i = 0; i < tags.size(); i++) {
@@ -176,6 +181,7 @@ public class ProblemServiceImpl implements ProblemService {
         for (Integer tid : tagList) {
             tagProblemService.save(pid, tid);
         }
+        return pid;
     }
 
     //TODO：03.30 WANGQING 跟判卷有关系的方法，未写
@@ -199,6 +205,7 @@ public class ProblemServiceImpl implements ProblemService {
      */
     @Override
     public List<Map<String, Object>> listProblemTagsByPid(int pid) {
+        WebUtil.assertNotNull(problemMapper.getById(pid),"该题目不存在");
         return problemMapper.listProblemTagsByPid(pid);
     }
 }
