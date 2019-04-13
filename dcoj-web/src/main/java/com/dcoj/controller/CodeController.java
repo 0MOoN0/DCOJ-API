@@ -1,7 +1,7 @@
 package com.dcoj.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.dcoj.DefaultConfig;
+import com.dcoj.config.DefaultConfig;
 import com.dcoj.controller.exception.WebErrorException;
 import com.dcoj.controller.format.index.PreviewSubmitFormat;
 import com.dcoj.entity.ResponseEntity;

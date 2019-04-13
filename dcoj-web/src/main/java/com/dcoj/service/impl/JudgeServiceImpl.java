@@ -11,7 +11,6 @@ import com.dcoj.service.JudgeService;
 import com.dcoj.service.ProblemService;
 import com.dcoj.service.ProblemUserService;
 import com.dcoj.util.WebUtil;
-import com.sun.xml.internal.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
