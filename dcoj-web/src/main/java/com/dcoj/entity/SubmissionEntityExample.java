@@ -847,6 +847,126 @@ public class SubmissionEntityExample {
             addCriterion("eid not between", value1, value2, "eid");
             return (Criteria) this;
         }
+
+        public Criteria andGidIsNull() {
+            addCriterion("gid is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidIsNotNull() {
+            addCriterion("gid is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidEqualTo(Integer value) {
+            addCriterion("gid =", value, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidNotEqualTo(Integer value) {
+            addCriterion("gid <>", value, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidGreaterThan(Integer value) {
+            addCriterion("gid >", value, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidGreaterThanOrEqualTo(Integer value) {
+            addCriterion("gid >=", value, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidLessThan(Integer value) {
+            addCriterion("gid <", value, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidLessThanOrEqualTo(Integer value) {
+            addCriterion("gid <=", value, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidIn(List<Integer> values) {
+            addCriterion("gid in", values, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidNotIn(List<Integer> values) {
+            addCriterion("gid not in", values, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidBetween(Integer value1, Integer value2) {
+            addCriterion("gid between", value1, value2, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidNotBetween(Integer value1, Integer value2) {
+            addCriterion("gid not between", value1, value2, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryableTimeIsNull() {
+            addCriterion("queryable_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryableTimeIsNotNull() {
+            addCriterion("queryable_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryableTimeEqualTo(Timestamp value) {
+            addCriterion("queryable_time =", value, "queryableTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryableTimeNotEqualTo(Timestamp value) {
+            addCriterion("queryable_time <>", value, "queryableTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryableTimeGreaterThan(Timestamp value) {
+            addCriterion("queryable_time >", value, "queryableTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryableTimeGreaterThanOrEqualTo(Timestamp value) {
+            addCriterion("queryable_time >=", value, "queryableTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryableTimeLessThan(Timestamp value) {
+            addCriterion("queryable_time <", value, "queryableTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryableTimeLessThanOrEqualTo(Timestamp value) {
+            addCriterion("queryable_time <=", value, "queryableTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryableTimeIn(List<Timestamp> values) {
+            addCriterion("queryable_time in", values, "queryableTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryableTimeNotIn(List<Timestamp> values) {
+            addCriterion("queryable_time not in", values, "queryableTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryableTimeBetween(Timestamp value1, Timestamp value2) {
+            addCriterion("queryable_time between", value1, value2, "queryableTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andQueryableTimeNotBetween(Timestamp value1, Timestamp value2) {
+            addCriterion("queryable_time not between", value1, value2, "queryableTime");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

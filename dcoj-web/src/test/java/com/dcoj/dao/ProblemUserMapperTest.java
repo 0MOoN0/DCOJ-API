@@ -57,4 +57,12 @@ public class ProblemUserMapperTest {
         example.createCriteria().andPidEqualTo(1).andUidEqualTo(1);
         problemUserMapper.deleteByExample(example);
     }
+
+    @Test
+    public void testCountByExample(){
+        ProblemUserEntityExample problemUserEntityExample = new ProblemUserEntityExample();
+        problemUserEntityExample.createCriteria().andUidEqualTo(1).andPidEqualTo(3);
+        long countByExample = problemUserMapper.countByExample(problemUserEntityExample);
+        System.out.println(countByExample);
+    }
 }

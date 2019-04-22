@@ -45,13 +45,13 @@ public class JWTUtil {
         }
     }
 
-    public static String getUid(String token) {
+    public static int getUid(String token) {
         try {
             // 对token进行解码
             DecodedJWT decodedJWT = JWT.decode(token);
-            return decodedJWT.getClaim("uid").asString();
+            return decodedJWT.getClaim("uid").asInt();
         } catch (JWTDecodeException e) {
-            return null;
+            return 0;
         }
     }
 

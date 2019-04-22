@@ -14,11 +14,36 @@
     <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
     <result column="lang" jdbcType="CHAR" property="lang" />
     <result column="eid" jdbcType="INTEGER" property="eid" />
+    <result column="gid" jdbcType="INTEGER" property="gid" />
+    <result column="queryable_time" jdbcType="TIMESTAMP" property="queryableTime" />
   </resultMap>
 
-  <!--自定义SQL:Begin-->
+  <!--自定义SQL Begin:-->
+  <select id="listProblemLeaderboard"  parameterType="com.dcoj.entity.SubmissionEntityExample" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from (
+      select
+      <if test="distinct">
+        distinct
+      </if>
+      <include refid="Base_Column_List" />
+      from submission
+      <if test="_parameter != null">
+        <include refid="Example_Where_Clause" />
+      </if>
+      <if test="orderByClause != null">
+        order by ${orderByClause}
+      </if>
+    ) as sb
+    group by uid
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
 
-  <!--自定义SQL:End-->
+  <!--自定义SQL End-->
+
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -79,7 +104,7 @@
   </sql>
   <sql id="Base_Column_List">
     sub_id, uid, pid, source_code, using_time, memory, status, submit_time, gmt_create, 
-    gmt_modify, lang, eid
+    gmt_modify, lang, eid, gid, queryable_time
   </sql>
   <select id="selectByExample" parameterType="com.dcoj.entity.SubmissionEntityExample" resultMap="BaseResultMap">
     select
@@ -115,11 +140,13 @@
     insert into submission (sub_id, uid, pid, 
       source_code, using_time, memory, 
       status, submit_time, lang, 
-      eid)
+      eid, gid, queryable_time
+      )
     values (#{subId,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, 
       #{sourceCode,jdbcType=INTEGER}, #{usingTime,jdbcType=DECIMAL}, #{memory,jdbcType=INTEGER}, 
       #{status,jdbcType=CHAR}, #{submitTime,jdbcType=TIMESTAMP}, #{lang,jdbcType=CHAR}, 
-      #{eid,jdbcType=INTEGER})
+      #{eid,jdbcType=INTEGER}, #{gid,jdbcType=INTEGER}, #{queryableTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.dcoj.entity.SubmissionEntity">
     insert into submission
@@ -154,6 +181,12 @@
       <if test="eid != null">
         eid,
       </if>
+      <if test="gid != null">
+        gid,
+      </if>
+      <if test="queryableTime != null">
+        queryable_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="subId != null">
@@ -185,6 +218,12 @@
       </if>
       <if test="eid != null">
         #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="gid != null">
+        #{gid,jdbcType=INTEGER},
+      </if>
+      <if test="queryableTime != null">
+        #{queryableTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -227,6 +266,12 @@
       <if test="record.eid != null">
         eid = #{record.eid,jdbcType=INTEGER},
       </if>
+      <if test="record.gid != null">
+        gid = #{record.gid,jdbcType=INTEGER},
+      </if>
+      <if test="record.queryableTime != null">
+        queryable_time = #{record.queryableTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -243,7 +288,9 @@
       status = #{record.status,jdbcType=CHAR},
       submit_time = #{record.submitTime,jdbcType=TIMESTAMP},
       lang = #{record.lang,jdbcType=CHAR},
-      eid = #{record.eid,jdbcType=INTEGER}
+      eid = #{record.eid,jdbcType=INTEGER},
+      gid = #{record.gid,jdbcType=INTEGER},
+      queryable_time = #{record.queryableTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -278,6 +325,12 @@
       <if test="eid != null">
         eid = #{eid,jdbcType=INTEGER},
       </if>
+      <if test="gid != null">
+        gid = #{gid,jdbcType=INTEGER},
+      </if>
+      <if test="queryableTime != null">
+        queryable_time = #{queryableTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where sub_id = #{subId,jdbcType=INTEGER}
   </update>
@@ -291,7 +344,9 @@
       status = #{status,jdbcType=CHAR},
       submit_time = #{submitTime,jdbcType=TIMESTAMP},
       lang = #{lang,jdbcType=CHAR},
-      eid = #{eid,jdbcType=INTEGER}
+      eid = #{eid,jdbcType=INTEGER},
+      gid = #{gid,jdbcType=INTEGER},
+      queryable_time = #{queryableTime,jdbcType=TIMESTAMP}
     where sub_id = #{subId,jdbcType=INTEGER}
   </update>
 </mapper>

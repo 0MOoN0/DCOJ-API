@@ -28,6 +28,9 @@ mybatis:
   mapperLocations: classpath:mapping/*.xml
   typeAliasesPackage: com.dcoj.entity
   type-handlers-package: com.dcoj.handler
+  # 打印Mybatis日志
+  configuration:
+      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 
 mapper:

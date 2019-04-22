@@ -10,6 +10,7 @@ import com.dcoj.judge.task.ProblemJudgeTask;
 import com.dcoj.service.JudgeService;
 import com.dcoj.service.ProblemService;
 import com.dcoj.service.ProblemUserService;
+import com.dcoj.service.SubmissionService;
 import com.dcoj.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,9 @@ public class JudgeServiceImpl implements JudgeService {
     @Autowired
     private ProblemService problemService;
 
+    @Autowired
+    private SubmissionService submissionService;
+
     @Override
     public JudgeResult getJudgeResult(String id) {
         JudgeResult result = GlobalCacheManager.getSubmissionCache().get(id);
@@ -46,7 +50,7 @@ public class JudgeServiceImpl implements JudgeService {
         ResultEnum result = response.getResult();
         // 保存提交
         saveSubmission(task.getSourceCode(), task.getLang(), response.getTime(), response.getMemory(),
-                result, owner, task.getPid());
+                result, owner, task.getPid(), 0, 0);
         // 更新用户日志
 //  TODO:20190403 Leon updateUserLog(owner, result);
 
@@ -73,10 +77,11 @@ public class JudgeServiceImpl implements JudgeService {
         }
     }
 
-    // TODO 20190410 Leon saveSubmission
-    public void saveSubmission(String sourceCode, LanguageEnum lang, double time, int memory, ResultEnum result,
-                               int owner, int pid){
 
+    public void saveSubmission(String sourceCode, LanguageEnum lang, double usingTime, int memory, ResultEnum result,
+                               int owner, int pid, int eid, int gid){
+        // TODO 20190410 Leon Upload sourceCode
+        submissionService.save(owner, pid, eid, gid, 0, lang, usingTime, memory, result);
     }
 
 }

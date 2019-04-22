@@ -25,4 +25,9 @@ public interface AsyncJudgeService {
      */
     String addProblemJudge(String sourceCode, LanguageEnum lang,
                            int owner, int pid);
+
+    // TODO 2019.04.15 Leon 试卷判卷
+/*    String addContestJudge(String sourceCode, LanguageEnum lang,
+                           int owner, int pid,
+                           int cid);*/
 }

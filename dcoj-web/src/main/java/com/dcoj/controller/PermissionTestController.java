@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 动态权限控制测试器
  */
-@RestController
-@RequestMapping("/permissiontest")
 public class PermissionTestController {
 
     @Autowired
