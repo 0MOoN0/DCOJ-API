@@ -49,4 +49,10 @@ public class SubmissionEntity {
 
     /** 试卷ID */
     private Integer eid;
+
+    /** 用户组ID */
+    private Integer gid;
+
+    /** 该Submission可以查询的时间 */
+    private Timestamp queryableTime;
 }

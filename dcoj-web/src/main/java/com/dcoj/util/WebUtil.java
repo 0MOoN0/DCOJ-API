@@ -25,8 +25,8 @@ public class WebUtil {
      * 生成分页数据
      *
      * @param pager 分页对象
-     * @param data 数据
-     * @return 结果存储到一个Map集合里
+     * @param data  数据
+     * @return      结果存储到一个Map集合里
      */
     public static Map<String, Object> generatePageData(Page pager, Object data) {
         Map<String, Object> map = new HashMap<>(4);

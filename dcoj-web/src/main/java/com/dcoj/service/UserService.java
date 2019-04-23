@@ -17,7 +17,7 @@ public interface UserService {
 
     UserEntity login(IndexLoginFormat format);
 
-    UserEntity getUserByUid(String uid);
+    UserEntity getUserByUid(int uid);
 
     UserEntity getUserByEmail(String email);
 

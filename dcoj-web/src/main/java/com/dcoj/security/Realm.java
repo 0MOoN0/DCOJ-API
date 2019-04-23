@@ -62,7 +62,7 @@ public class Realm extends AuthorizingRealm {   //继承的此Realm自带缓存�
         // 缓存操作，将用户信息保存到缓存
         if (! authCache.containsKey(token)) {
             // get user info from database
-            String uid = JWTUtil.getUid(token);
+            int uid = JWTUtil.getUid(token);
             UserEntity userEntity = userService.getUserByUid(uid);
             authCache.put(token, String.valueOf(userEntity.getPassword()));
         }

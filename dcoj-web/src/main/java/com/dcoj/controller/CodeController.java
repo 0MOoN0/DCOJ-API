@@ -4,13 +4,17 @@ import com.alibaba.fastjson.JSONObject;
 import com.dcoj.config.DefaultConfig;
 import com.dcoj.controller.exception.WebErrorException;
 import com.dcoj.controller.format.index.PreviewSubmitFormat;
+import com.dcoj.controller.format.user.UserSubmitCodeFormat;
 import com.dcoj.entity.ResponseEntity;
 import com.dcoj.entity.TestCaseEntity;
 import com.dcoj.judge.JudgeResult;
+import com.dcoj.judge.LanguageEnum;
+import com.dcoj.security.SessionHelper;
 import com.dcoj.service.AsyncJudgeService;
 import com.dcoj.service.JudgeService;
 import com.dcoj.service.TestCasesService;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -62,6 +66,28 @@ public class CodeController {
         //添加判卷任务
         String judgeId = asyncJudgeService.addTestJudge(format.getSourceCode(), format.getLang(), DefaultConfig.PROGRAM_USED_TIME, DefaultConfig.PROGRAM_USED_MEMORY, testCases);
         return new ResponseEntity(null, judgeId);
+    }
+
+
+    @ApiOperation("用户判卷提交")
+    @RequiresAuthentication
+    @PostMapping("/user")
+    public ResponseEntity submitCode(@RequestBody @Valid UserSubmitCodeFormat format) {
+        int pid = format.getProblemId();
+        int examId = format.getExaminationId();
+        int gid = format.getGroupId();
+        String sourceCode = format.getSourceCode();
+        LanguageEnum lang = format.getLang();
+        String id = null;
+        if (gid != 0 && examId != 0) {
+//            id = asyncJudgeService.addGroupJudge(sourceCode, lang, owner, pid, cid, gid);
+        } else if (examId != 0) {
+              //TODO 2019.04.15 Leon 试卷提交
+//            id = asyncJudgeService.addContestJudge(sourceCode, lang, owner, pid, cid);
+        } else {
+            id = asyncJudgeService.addProblemJudge(sourceCode, lang, examId, pid);
+        }
+        return new ResponseEntity(null, id);
     }
 
     @ApiOperation("根据id获取判卷任务状况")

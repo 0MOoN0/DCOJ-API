@@ -87,8 +87,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity getUserByUid(String uid) {
-        return mongoTemplate.findById(new ObjectId(uid), UserEntity.class);
+    public UserEntity getUserByUid(int uid) {
+        return null;
     }
 
     @Override
