@@ -2,7 +2,7 @@ package com.dcoj.service.impl;
 
 import com.dcoj.dao.TestCaseMapper;
 import com.dcoj.entity.TestCaseEntity;
-import com.dcoj.entity.TestCaseEntityExample;
+import com.dcoj.entity.example.TestCaseEntityExample;
 import com.dcoj.service.TestCasesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

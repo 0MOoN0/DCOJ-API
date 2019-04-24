@@ -1,7 +1,6 @@
 package com.dcoj.service.impl;
 
 import com.dcoj.entity.SubmissionEntity;
-import com.dcoj.entity.SubmissionEntityExample;
 import com.dcoj.judge.LanguageEnum;
 import com.dcoj.judge.ResultEnum;
 import com.dcoj.service.SubmissionService;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -27,10 +25,13 @@ public class SubmissionServiceImplTest {
 
     @Test
     public void testSave() throws InterruptedException {
-        for(int i=0;i<5;i++){
+/*        for(int i=0;i<5;i++){
             submissionService.save(5, 1, 11,0,0, LanguageEnum.JAVA8, i, i, ResultEnum.AC);
             Thread.sleep(1000);
-        }
+        }*/
+        int key = submissionService.save(6, 1, 11, 0, 0, LanguageEnum.CPP, 1, 1, ResultEnum.AC);
+        System.out.println(key);
+
     }
 
     @Test

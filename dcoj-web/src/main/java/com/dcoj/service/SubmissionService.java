@@ -26,8 +26,9 @@ public interface SubmissionService {
      * @param usingTime          使用的时间
      * @param memory        使用的内存
      * @param status        判卷结果
+     * @return 新增数据的主键
      */
-    void save(int uid, int pid, int eid, int gid, int sourceCode, LanguageEnum lang, double usingTime, int memory,
+    int save(int uid, int pid, int eid, int gid, int sourceCode, LanguageEnum lang, double usingTime, int memory,
               ResultEnum status);
 
     /**

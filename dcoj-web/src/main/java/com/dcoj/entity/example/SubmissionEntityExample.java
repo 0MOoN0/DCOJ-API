@@ -1,4 +1,4 @@
-package com.dcoj.entity;
+package com.dcoj.entity.example;
 
 import com.dcoj.judge.LanguageEnum;
 import com.dcoj.judge.ResultEnum;

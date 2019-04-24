@@ -2,22 +2,18 @@ package com.dcoj.service.impl;
 
 import com.dcoj.dao.ProblemUserMapper;
 import com.dcoj.dao.SubmissionMapper;
-import com.dcoj.entity.ProblemUserEntityExample;
 import com.dcoj.entity.SubmissionEntity;
-import com.dcoj.entity.SubmissionEntityExample;
+import com.dcoj.entity.example.SubmissionEntityExample;
 import com.dcoj.judge.LanguageEnum;
 import com.dcoj.judge.ResultEnum;
-import com.dcoj.service.ProblemUserService;
 import com.dcoj.service.SubmissionService;
 import com.dcoj.util.WebUtil;
-import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Leon
@@ -43,9 +39,10 @@ public class SubmissionServiceImpl implements SubmissionService {
      * @param usingTime       使用的时间
      * @param memory     使用的内存
      * @param status     判卷结果
+     * @return 新增数据的主键
      */
     @Override
-    public void save(int uid, int pid, int eid, int gid, int sourceCode, LanguageEnum lang, double usingTime, int memory, ResultEnum status) {
+    public int save(int uid, int pid, int eid, int gid, int sourceCode, LanguageEnum lang, double usingTime, int memory, ResultEnum status) {
         SubmissionEntity entity = new SubmissionEntity();
         entity.setUid(uid);
         entity.setPid(pid);
@@ -59,6 +56,7 @@ public class SubmissionServiceImpl implements SubmissionService {
         entity.setSubmitTime(new Timestamp(System.currentTimeMillis()));
         boolean flag = submissionMapper.insertSelective(entity)==1;
         WebUtil.assertIsSuccess(flag, "代码提交记录保存失败");
+        return entity.getSubId();
     }
 
     /**

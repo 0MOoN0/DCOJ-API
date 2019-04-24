@@ -7,10 +7,9 @@ import com.dcoj.util.JWTUtil;
 import com.dcoj.util.WebUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * @author Leon
  */
 @RestController
-@RequestMapping("/submissions")
+@RequestMapping(value = "/submissions", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 //TODO 2019.04.10 Leon 完成SubmissionController
 public class SubmissionsController {
 
@@ -30,9 +29,9 @@ public class SubmissionsController {
 
     @ApiOperation("获取用户所有编程题提交(Submission)")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page_num", value = "页数", required = true, paramType = "int" ),
-            @ApiImplicitParam(name = "page_size", value = "页大小", required = true, paramType = "int"),
-            @ApiImplicitParam(name = "authorization", value = "用户token", required = true, paramType = "String")
+            @ApiImplicitParam(name = "page_num", value = "页数", required = true, paramType = "query" ),
+            @ApiImplicitParam(name = "page_size", value = "页大小", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "authorization", value = "用户token", required = true, paramType = "header")
     })
     @GetMapping
     public ResponseEntity listUserSubmissions(
@@ -55,13 +54,13 @@ public class SubmissionsController {
      * @param token     用户登陆token
      * @return
      */
-    @ApiOperation("获取当前题目的相关提交")
+    @ApiOperation("获取当前题目的相关提交，需要传入用户token")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "uid", value = "用户ID", required = true, paramType = "int"),
-            @ApiImplicitParam(name = "pid", value = "题目ID", required = true, paramType = "int"),
-            @ApiImplicitParam(name = "page_num", value = "页数", required = true, paramType = "int" ),
-            @ApiImplicitParam(name = "page_size", value = "页大小", required = true, paramType = "int"),
-            @ApiImplicitParam(name = "authorization", value = "用户token", required = true, paramType = "String")
+            @ApiImplicitParam(name = "uid", value = "用户ID", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "pid", value = "题目ID", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "page_num", value = "页数", required = true, paramType = "query" ),
+            @ApiImplicitParam(name = "page_size", value = "页大小", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "authorization", value = "用户token", required = true, paramType = "header")
     })
     @GetMapping("/problem")
     public ResponseEntity listProblemSubmissions(@RequestParam("uid") int uid,
@@ -89,11 +88,11 @@ public class SubmissionsController {
      */
     @ApiOperation("获取题目排行榜")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pid", value = "题目ID", required = true, paramType = "int"),
-            @ApiImplicitParam(name = "sort_keyword", value = "排序关键字", required = true, paramType = "String"),
-            @ApiImplicitParam(name = "group_by", value = "分组关键字", required = true, paramType = "String" ),
-            @ApiImplicitParam(name = "page_num", value = "页数", required = true, paramType = "int" ),
-            @ApiImplicitParam(name = "page_size", value = "页大小", required = true, paramType = "int")
+            @ApiImplicitParam(name = "pid", value = "题目ID", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "sort_keyword", value = "排序关键字", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "group_by", value = "分组关键字", required = true, paramType = "query" ),
+            @ApiImplicitParam(name = "page_num", value = "页数", required = true, paramType = "query" ),
+            @ApiImplicitParam(name = "page_size", value = "页大小", required = true, paramType = "query")
     })
     @GetMapping("/problem/leaderboard")
     public ResponseEntity listProblemLeaderboard(@RequestParam("pid") int pid,

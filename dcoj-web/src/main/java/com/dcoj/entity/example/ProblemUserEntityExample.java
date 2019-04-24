@@ -1,4 +1,4 @@
-package com.dcoj.entity;
+package com.dcoj.entity.example;
 
 import com.dcoj.judge.ResultEnum;
 import java.sql.Timestamp;

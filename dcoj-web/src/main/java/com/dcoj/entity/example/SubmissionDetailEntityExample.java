@@ -1,17 +1,18 @@
-package com.dcoj.entity;
+package com.dcoj.entity.example;
 
+import com.alibaba.fastjson.JSONObject;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestCaseEntityExample {
+public class SubmissionDetailEntityExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public TestCaseEntityExample() {
+    public SubmissionDetailEntityExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -105,263 +106,183 @@ public class TestCaseEntityExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andTcIdIsNull() {
-            addCriterion("tc_id is null");
+        public Criteria andSdIdIsNull() {
+            addCriterion("sd_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andTcIdIsNotNull() {
-            addCriterion("tc_id is not null");
+        public Criteria andSdIdIsNotNull() {
+            addCriterion("sd_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTcIdEqualTo(Integer value) {
-            addCriterion("tc_id =", value, "tcId");
+        public Criteria andSdIdEqualTo(Integer value) {
+            addCriterion("sd_id =", value, "sdId");
             return (Criteria) this;
         }
 
-        public Criteria andTcIdNotEqualTo(Integer value) {
-            addCriterion("tc_id <>", value, "tcId");
+        public Criteria andSdIdNotEqualTo(Integer value) {
+            addCriterion("sd_id <>", value, "sdId");
             return (Criteria) this;
         }
 
-        public Criteria andTcIdGreaterThan(Integer value) {
-            addCriterion("tc_id >", value, "tcId");
+        public Criteria andSdIdGreaterThan(Integer value) {
+            addCriterion("sd_id >", value, "sdId");
             return (Criteria) this;
         }
 
-        public Criteria andTcIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("tc_id >=", value, "tcId");
+        public Criteria andSdIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sd_id >=", value, "sdId");
             return (Criteria) this;
         }
 
-        public Criteria andTcIdLessThan(Integer value) {
-            addCriterion("tc_id <", value, "tcId");
+        public Criteria andSdIdLessThan(Integer value) {
+            addCriterion("sd_id <", value, "sdId");
             return (Criteria) this;
         }
 
-        public Criteria andTcIdLessThanOrEqualTo(Integer value) {
-            addCriterion("tc_id <=", value, "tcId");
+        public Criteria andSdIdLessThanOrEqualTo(Integer value) {
+            addCriterion("sd_id <=", value, "sdId");
             return (Criteria) this;
         }
 
-        public Criteria andTcIdIn(List<Integer> values) {
-            addCriterion("tc_id in", values, "tcId");
+        public Criteria andSdIdIn(List<Integer> values) {
+            addCriterion("sd_id in", values, "sdId");
             return (Criteria) this;
         }
 
-        public Criteria andTcIdNotIn(List<Integer> values) {
-            addCriterion("tc_id not in", values, "tcId");
+        public Criteria andSdIdNotIn(List<Integer> values) {
+            addCriterion("sd_id not in", values, "sdId");
             return (Criteria) this;
         }
 
-        public Criteria andTcIdBetween(Integer value1, Integer value2) {
-            addCriterion("tc_id between", value1, value2, "tcId");
+        public Criteria andSdIdBetween(Integer value1, Integer value2) {
+            addCriterion("sd_id between", value1, value2, "sdId");
             return (Criteria) this;
         }
 
-        public Criteria andTcIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("tc_id not between", value1, value2, "tcId");
+        public Criteria andSdIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("sd_id not between", value1, value2, "sdId");
             return (Criteria) this;
         }
 
-        public Criteria andPidIsNull() {
-            addCriterion("pid is null");
+        public Criteria andJudgeDetailIsNull() {
+            addCriterion("judge_detail is null");
             return (Criteria) this;
         }
 
-        public Criteria andPidIsNotNull() {
-            addCriterion("pid is not null");
+        public Criteria andJudgeDetailIsNotNull() {
+            addCriterion("judge_detail is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPidEqualTo(Integer value) {
-            addCriterion("pid =", value, "pid");
+        public Criteria andJudgeDetailEqualTo(JSONObject value) {
+            addCriterion("judge_detail =", value, "judgeDetail");
             return (Criteria) this;
         }
 
-        public Criteria andPidNotEqualTo(Integer value) {
-            addCriterion("pid <>", value, "pid");
+        public Criteria andJudgeDetailNotEqualTo(JSONObject value) {
+            addCriterion("judge_detail <>", value, "judgeDetail");
             return (Criteria) this;
         }
 
-        public Criteria andPidGreaterThan(Integer value) {
-            addCriterion("pid >", value, "pid");
+        public Criteria andJudgeDetailGreaterThan(JSONObject value) {
+            addCriterion("judge_detail >", value, "judgeDetail");
             return (Criteria) this;
         }
 
-        public Criteria andPidGreaterThanOrEqualTo(Integer value) {
-            addCriterion("pid >=", value, "pid");
+        public Criteria andJudgeDetailGreaterThanOrEqualTo(JSONObject value) {
+            addCriterion("judge_detail >=", value, "judgeDetail");
             return (Criteria) this;
         }
 
-        public Criteria andPidLessThan(Integer value) {
-            addCriterion("pid <", value, "pid");
+        public Criteria andJudgeDetailLessThan(JSONObject value) {
+            addCriterion("judge_detail <", value, "judgeDetail");
             return (Criteria) this;
         }
 
-        public Criteria andPidLessThanOrEqualTo(Integer value) {
-            addCriterion("pid <=", value, "pid");
+        public Criteria andJudgeDetailLessThanOrEqualTo(JSONObject value) {
+            addCriterion("judge_detail <=", value, "judgeDetail");
             return (Criteria) this;
         }
 
-        public Criteria andPidIn(List<Integer> values) {
-            addCriterion("pid in", values, "pid");
+        public Criteria andJudgeDetailIn(List<JSONObject> values) {
+            addCriterion("judge_detail in", values, "judgeDetail");
             return (Criteria) this;
         }
 
-        public Criteria andPidNotIn(List<Integer> values) {
-            addCriterion("pid not in", values, "pid");
+        public Criteria andJudgeDetailNotIn(List<JSONObject> values) {
+            addCriterion("judge_detail not in", values, "judgeDetail");
             return (Criteria) this;
         }
 
-        public Criteria andPidBetween(Integer value1, Integer value2) {
-            addCriterion("pid between", value1, value2, "pid");
+        public Criteria andJudgeDetailBetween(JSONObject value1, JSONObject value2) {
+            addCriterion("judge_detail between", value1, value2, "judgeDetail");
             return (Criteria) this;
         }
 
-        public Criteria andPidNotBetween(Integer value1, Integer value2) {
-            addCriterion("pid not between", value1, value2, "pid");
+        public Criteria andJudgeDetailNotBetween(JSONObject value1, JSONObject value2) {
+            addCriterion("judge_detail not between", value1, value2, "judgeDetail");
             return (Criteria) this;
         }
 
-        public Criteria andStdinIsNull() {
-            addCriterion("stdin is null");
+        public Criteria andSubIdIsNull() {
+            addCriterion("sub_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andStdinIsNotNull() {
-            addCriterion("stdin is not null");
+        public Criteria andSubIdIsNotNull() {
+            addCriterion("sub_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStdinEqualTo(String value) {
-            addCriterion("stdin =", value, "stdin");
+        public Criteria andSubIdEqualTo(Integer value) {
+            addCriterion("sub_id =", value, "subId");
             return (Criteria) this;
         }
 
-        public Criteria andStdinNotEqualTo(String value) {
-            addCriterion("stdin <>", value, "stdin");
+        public Criteria andSubIdNotEqualTo(Integer value) {
+            addCriterion("sub_id <>", value, "subId");
             return (Criteria) this;
         }
 
-        public Criteria andStdinGreaterThan(String value) {
-            addCriterion("stdin >", value, "stdin");
+        public Criteria andSubIdGreaterThan(Integer value) {
+            addCriterion("sub_id >", value, "subId");
             return (Criteria) this;
         }
 
-        public Criteria andStdinGreaterThanOrEqualTo(String value) {
-            addCriterion("stdin >=", value, "stdin");
+        public Criteria andSubIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sub_id >=", value, "subId");
             return (Criteria) this;
         }
 
-        public Criteria andStdinLessThan(String value) {
-            addCriterion("stdin <", value, "stdin");
+        public Criteria andSubIdLessThan(Integer value) {
+            addCriterion("sub_id <", value, "subId");
             return (Criteria) this;
         }
 
-        public Criteria andStdinLessThanOrEqualTo(String value) {
-            addCriterion("stdin <=", value, "stdin");
+        public Criteria andSubIdLessThanOrEqualTo(Integer value) {
+            addCriterion("sub_id <=", value, "subId");
             return (Criteria) this;
         }
 
-        public Criteria andStdinLike(String value) {
-            addCriterion("stdin like", value, "stdin");
+        public Criteria andSubIdIn(List<Integer> values) {
+            addCriterion("sub_id in", values, "subId");
             return (Criteria) this;
         }
 
-        public Criteria andStdinNotLike(String value) {
-            addCriterion("stdin not like", value, "stdin");
+        public Criteria andSubIdNotIn(List<Integer> values) {
+            addCriterion("sub_id not in", values, "subId");
             return (Criteria) this;
         }
 
-        public Criteria andStdinIn(List<String> values) {
-            addCriterion("stdin in", values, "stdin");
+        public Criteria andSubIdBetween(Integer value1, Integer value2) {
+            addCriterion("sub_id between", value1, value2, "subId");
             return (Criteria) this;
         }
 
-        public Criteria andStdinNotIn(List<String> values) {
-            addCriterion("stdin not in", values, "stdin");
-            return (Criteria) this;
-        }
-
-        public Criteria andStdinBetween(String value1, String value2) {
-            addCriterion("stdin between", value1, value2, "stdin");
-            return (Criteria) this;
-        }
-
-        public Criteria andStdinNotBetween(String value1, String value2) {
-            addCriterion("stdin not between", value1, value2, "stdin");
-            return (Criteria) this;
-        }
-
-        public Criteria andStdoutIsNull() {
-            addCriterion("stdout is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStdoutIsNotNull() {
-            addCriterion("stdout is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStdoutEqualTo(String value) {
-            addCriterion("stdout =", value, "stdout");
-            return (Criteria) this;
-        }
-
-        public Criteria andStdoutNotEqualTo(String value) {
-            addCriterion("stdout <>", value, "stdout");
-            return (Criteria) this;
-        }
-
-        public Criteria andStdoutGreaterThan(String value) {
-            addCriterion("stdout >", value, "stdout");
-            return (Criteria) this;
-        }
-
-        public Criteria andStdoutGreaterThanOrEqualTo(String value) {
-            addCriterion("stdout >=", value, "stdout");
-            return (Criteria) this;
-        }
-
-        public Criteria andStdoutLessThan(String value) {
-            addCriterion("stdout <", value, "stdout");
-            return (Criteria) this;
-        }
-
-        public Criteria andStdoutLessThanOrEqualTo(String value) {
-            addCriterion("stdout <=", value, "stdout");
-            return (Criteria) this;
-        }
-
-        public Criteria andStdoutLike(String value) {
-            addCriterion("stdout like", value, "stdout");
-            return (Criteria) this;
-        }
-
-        public Criteria andStdoutNotLike(String value) {
-            addCriterion("stdout not like", value, "stdout");
-            return (Criteria) this;
-        }
-
-        public Criteria andStdoutIn(List<String> values) {
-            addCriterion("stdout in", values, "stdout");
-            return (Criteria) this;
-        }
-
-        public Criteria andStdoutNotIn(List<String> values) {
-            addCriterion("stdout not in", values, "stdout");
-            return (Criteria) this;
-        }
-
-        public Criteria andStdoutBetween(String value1, String value2) {
-            addCriterion("stdout between", value1, value2, "stdout");
-            return (Criteria) this;
-        }
-
-        public Criteria andStdoutNotBetween(String value1, String value2) {
-            addCriterion("stdout not between", value1, value2, "stdout");
+        public Criteria andSubIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("sub_id not between", value1, value2, "subId");
             return (Criteria) this;
         }
 

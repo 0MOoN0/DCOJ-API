@@ -2,7 +2,7 @@ package com.dcoj.service.impl;
 
 import com.dcoj.dao.ProblemUserMapper;
 import com.dcoj.entity.ProblemUserEntity;
-import com.dcoj.entity.ProblemUserEntityExample;
+import com.dcoj.entity.example.ProblemUserEntityExample;
 import com.dcoj.judge.ResultEnum;
 import com.dcoj.service.ProblemUserService;
 import org.springframework.beans.factory.annotation.Autowired;
