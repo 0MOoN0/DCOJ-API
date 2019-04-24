@@ -1,0 +1,81 @@
+package com.dcoj.controller;
+
+import com.dcoj.controller.format.admin.ObjectProblemFormat;
+import com.dcoj.entity.ObjectProblemEntity;
+import com.dcoj.entity.ResponseEntity;
+import com.dcoj.service.ObjectProblemService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * 对单个ObjectProblem进行操作
+ *
+ * @author WANGQING
+ */
+@RestController
+@Validated
+@Api(tags = "单个客观题管理")
+@RequestMapping(value = "/objectProblem", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+public class ObjectProblemController {
+    @Autowired
+    private ObjectProblemService objectProblemService;
+
+    @ApiOperation("获取该题的所有标签")
+    @ApiImplicitParam(name = "objectProblemId", value = "客观题id", required = true, paramType = "path" )
+    @GetMapping("/tags/{objectProblemId}")
+    public ResponseEntity listProblemTagsByPid(@PathVariable("objectProblemId") Integer objectProblemId) {
+        return new ResponseEntity(objectProblemService.listObjectProblemTagsByPrimaryKey(objectProblemId));
+    }
+
+    @ApiOperation("删除指定题目")
+    @ApiImplicitParam(name = "objectProblemId", value = "客观题id", required = true, paramType = "path" )
+    @DeleteMapping("/{objectProblemId}")
+    public ResponseEntity removeByPid(@PathVariable Integer objectProblemId) {
+        objectProblemService.removeByPrimaryKey(objectProblemId);
+        return new ResponseEntity("题目删除成功");
+    }
+
+    @ApiOperation("获取指定一道题目的信息")
+    @ApiImplicitParam(name = "objectProblemId", value = "客观题id", required = true, paramType = "path" )
+    @GetMapping("/{objectProblemId}")
+    public ResponseEntity getById(@PathVariable Integer objectProblemId) {
+        ObjectProblemEntity objectProblemEntity = objectProblemService.getByPrimaryKey(objectProblemId);
+        Map<String, Object> dataMap = new HashMap<>(2);
+        dataMap.put("objectProblem", objectProblemEntity);
+        return new ResponseEntity(dataMap);
+    }
+
+    @ApiOperation("创建题目")
+    @PostMapping
+    public ResponseEntity save(@RequestBody @Valid ObjectProblemFormat format) {
+        // 将format格式的数据保存到ObjectProblemEntity对象里
+        ObjectProblemEntity objectProblemEntity = new ObjectProblemEntity();
+        objectProblemEntity.setType(format.getType());
+        objectProblemEntity.setDescription(format.getDescription());
+        objectProblemEntity.setAnswer(format.getAnswer());
+        int objectProblemId = objectProblemService.insertSelective(format.getObjectTags(),objectProblemEntity);
+        return new ResponseEntity("题目添加成功", objectProblemId);
+    }
+
+    @ApiOperation("更新题目")
+    @PutMapping("/{objectProblemId}")
+    public ResponseEntity updateObjectiveProblem(@PathVariable("objectProblemId") Integer objectProblemId,
+                                                 @RequestBody @Valid ObjectProblemFormat format) {
+        ObjectProblemEntity objectProblemEntity = new ObjectProblemEntity();
+        objectProblemEntity.setType(format.getType());
+        objectProblemEntity.setDescription(format.getDescription());
+        objectProblemEntity.setAnswer(format.getAnswer());
+        objectProblemService.updateProblemAndTags(objectProblemId, format.getObjectTags(), objectProblemEntity);
+        return new ResponseEntity("题目更新成功");
+    }
+
+}

@@ -5,6 +5,8 @@ import com.dcoj.service.ProblemService;
 import com.dcoj.util.WebUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +27,7 @@ public class ProblemsController {
     @ApiOperation("获取所有题目")
     @GetMapping("/problems")
     public ResponseEntity listAll(@RequestParam(name = "pageNum") int pageNum,
-                                          @RequestParam(name = "page_size") int pageSize) {
+                                  @RequestParam(name = "page_size") int pageSize) {
         // pageNum  页码
         // pageSize 每页显示数量
         Page pager = PageHelper.startPage(pageNum, pageSize);
@@ -35,8 +37,8 @@ public class ProblemsController {
     @ApiOperation("根据类型获取所有题目")
     @GetMapping("/problems/{type}")
     public ResponseEntity listByType(@RequestParam(name = "page") int page,
-                                  @RequestParam(name = "page_size") int pageSize,
-                                  @PathVariable(name = "type") int type) {
+                                     @RequestParam(name = "page_size") int pageSize,
+                                     @PathVariable(name = "type") int type) {
         Page pager = PageHelper.startPage(page, pageSize);
         return new ResponseEntity(WebUtil.generatePageData(pager, problemService.listByType(type)));
     }

@@ -71,6 +71,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     public int countProblemSubmissions(int pid) {
         SubmissionEntityExample example = new SubmissionEntityExample();
         example.createCriteria().andPidEqualTo(pid);
+
         int count = (int) submissionMapper.countByExample(example);
         return count;
     }

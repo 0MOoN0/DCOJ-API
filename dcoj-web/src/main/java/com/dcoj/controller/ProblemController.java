@@ -3,7 +3,7 @@ package com.dcoj.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dcoj.controller.format.admin.AddProblemFormat;
-import com.dcoj.controller.format.admin.UpdateObjectiveProblemFormat;
+import com.dcoj.controller.format.admin.UpdateObjectProblemFormat;
 import com.dcoj.controller.format.admin.UpdatePragramFormat;
 import com.dcoj.entity.ProblemEntity;
 import com.dcoj.entity.ResponseEntity;
@@ -104,19 +104,19 @@ public class ProblemController {
         return new ResponseEntity("题目更新成功");
     }
 
-    @ApiOperation("更新客观题目")
-    @PutMapping("/ObjectiveProblem/{pid}")
-    public ResponseEntity updateObjectiveProblem(@PathVariable("pid") int pid,
-                                        @RequestBody @Valid UpdateObjectiveProblemFormat format) {
-        ProblemEntity newProblemEntity = new ProblemEntity();
-        newProblemEntity.setDescription(format.getDescription());
-        newProblemEntity.setDifficult(format.getDifficult());
-        checkProblemTags(format.getTags());
-        checkObjectiveProblemAnswerFormat(format.getAnswer());
-        newProblemEntity.setAnswer(format.getAnswer());
-        problemService.updateProblem(pid, format.getTags(), newProblemEntity);
-        return new ResponseEntity("题目更新成功");
-    }
+//    @ApiOperation("更新客观题目")
+//    @PutMapping("/ObjectiveProblem/{pid}")
+//    public ResponseEntity updateObjectiveProblem(@PathVariable("pid") int pid,
+//                                        @RequestBody @Valid UpdateObjectProblemFormat format) {
+//        ProblemEntity newProblemEntity = new ProblemEntity();
+//        newProblemEntity.setDescription(format.getDescription());
+//        newProblemEntity.setDifficult(format.getDifficult());
+//        checkProblemTags(format.getTags());
+//        checkObjectiveProblemAnswerFormat(format.getAnswer());
+//        newProblemEntity.setAnswer(format.getAnswer());
+//        problemService.updateProblem(pid, format.getTags(), newProblemEntity);
+//        return new ResponseEntity("题目更新成功");
+//    }
 
     /**
      * 检查编程题目样例

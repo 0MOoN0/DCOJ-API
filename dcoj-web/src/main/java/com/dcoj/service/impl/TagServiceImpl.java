@@ -115,7 +115,7 @@ public class TagServiceImpl implements TagService {
     @Override
     public void updateByTid(int tid, String newName) {
         TagEntity newTagEntity = getByName(newName);
-        WebUtil.assertNull(newTagEntity, "已经存在此标签");
+        WebUtil.assertNull(newTagEntity, "已经存在此标签，修改失败");
         boolean flag = tagMapper.updateByTid(tid,newName) == 1;
         WebUtil.assertIsSuccess(flag, "更新标签名称失败");
     }
