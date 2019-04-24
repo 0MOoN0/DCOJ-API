@@ -5,9 +5,6 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface ObjectProblemTagMapper {
-//    int insert(ObjectProblemTagEntity record);
-//
-//    int insertSelective(ObjectProblemTagEntity record);
 
     /**
      * 为某道题添加一个或者多个标签
@@ -41,14 +38,5 @@ public interface ObjectProblemTagMapper {
      * @return 返回值不为0时，删除成功，为0则删除失败
      */
     int removeProblemAllTags(int objectProblemId);
-
-//    /**
-//     * 通过 objectProblemId 和 objectTagId 删除一条记录
-//     *
-//     * @param objectProblemId 题目id
-//     * @param objectTagId 标签id
-//     * @return 返回值为1时，删除成功，为0则删除失败
-//     */
-//    int removeProblemTag(@Param("objectProblemId") int objectProblemId, @Param("objectTagId") int objectTagId);
 
 }

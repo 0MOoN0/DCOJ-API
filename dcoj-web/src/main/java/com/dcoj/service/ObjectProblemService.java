@@ -2,7 +2,6 @@ package com.dcoj.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.dcoj.entity.ObjectProblemEntity;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,6 @@ public interface ObjectProblemService {
      * 删除一道题目
      *
      * @param objectProblemId 题目id
-     * @return 返回值为1时，删除成功，为0则删除失败
      */
     void removeByPrimaryKey(Integer objectProblemId);
 
@@ -69,13 +67,6 @@ public interface ObjectProblemService {
      */
     List<Map<String, Object>> listObjectProblemTagsByPrimaryKey(Integer objectProblemId);
 
-//    /**
-//     * 查询所有题目
-//     *
-//     * @return 包含所有题目的List集合
-//     */
-//    List<ObjectProblemEntity> listAll();
-
     /**
      * 判断用户提交的答案是否正确
      *
@@ -84,14 +75,6 @@ public interface ObjectProblemService {
      * @return 返回值为1时，答案正确，为0则答案错误
      */
     int judgeObjectProblem(Integer objectProblemId, String userAnswer);
-
-    /**
-     * 根据题目状态查询所有题目
-     *
-     * @param status 题目状态
-     * @return 包含该状态下的所有题目的List集合
-     */
-    List<ObjectProblemEntity> listByStatus(Integer status);
 
     /**
      * 根据题目状态统计题目数量

@@ -11,17 +11,15 @@ import java.util.List;
  * @author WANGQING
  */
 @Data
-public class TagProblemEntity {
-    /** 表id */
-    private Integer id;
+public class ProgramProblemTagEntity {
     /** 标签id */
-    private Integer tid;
+    private Integer programTagId;
     /** 题目id */
-    private Integer pid;
+    private Integer programProblemId;
      /** 标签是否删除 */
     private Integer deleted;
     /** 记录创建时间 */
-    private Timestamp createTime;
+    private Timestamp gmtCreate;
     /** 记录最后修改时间 */
-    private Timestamp modifiedTime;
+    private Timestamp gmtModified;
 }

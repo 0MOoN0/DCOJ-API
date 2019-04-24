@@ -8,7 +8,7 @@ import com.dcoj.judge.ResultEnum;
 import com.dcoj.judge.entity.ResponseEntity;
 import com.dcoj.judge.task.ProblemJudgeTask;
 import com.dcoj.service.JudgeService;
-import com.dcoj.service.ProblemService;
+import com.dcoj.service.ProgramProblemService;
 import com.dcoj.service.ProblemUserService;
 import com.dcoj.service.SubmissionService;
 import com.dcoj.util.WebUtil;
@@ -30,7 +30,7 @@ public class JudgeServiceImpl implements JudgeService {
     private ProblemUserService problemUserService;
 
     @Autowired
-    private ProblemService problemService;
+    private ProgramProblemService programProblemService;
 
     @Autowired
     private SubmissionService submissionService;
@@ -73,7 +73,7 @@ public class JudgeServiceImpl implements JudgeService {
         }
         // 如果判题状态不是AC，则更新Problem
         if (!isAC) {
-            problemService.updateProblemTimes(pid, result);
+            programProblemService.updateProblemTimes(pid, result);
         }
     }
 

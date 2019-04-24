@@ -16,11 +16,11 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 @Setter
-public class AddProblemFormat {
+public class ProgramProblemFormat {
 
     /** 题目类型 0-选择题 1-填空题 2-判断题 3-编程题 */
-    @NotNull
-    private Integer type;
+//    @NotNull
+//    private Integer type;
     /** 题目描述 */
     @NotNull
     private JSONObject description;
@@ -29,11 +29,11 @@ public class AddProblemFormat {
     @Range(min = 0, max = 3)
     private Integer difficult;
     /** 题目标签 */
-    @NotNull
+    //@NotNull
     private JSONArray tags;
 
     /** 题目答案 */
-    private String answer;
+//    private String answer;
 
     /** 题目标题 */
     private String title;

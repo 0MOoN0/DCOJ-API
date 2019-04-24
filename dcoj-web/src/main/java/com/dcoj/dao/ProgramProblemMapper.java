@@ -1,6 +1,6 @@
 package com.dcoj.dao;
 
-import com.dcoj.entity.ProblemEntity;
+import com.dcoj.entity.ProgramProblemEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -10,42 +10,42 @@ import java.util.Map;
  *
  * @author WANGQING
  */
-public interface ProblemMapper {
+public interface ProgramProblemMapper {
 
     /**
      * 统计题目数量
      *
      * @return 返回题目总数量
      */
-    int countProblems();
+    int countProgramProblems();
 
     /**
      * 根据题目类型统计题目数量
      *
      * @return 根据题目类型返回该类型的题目数量
      */
-    int countProblemsByType(int type);
+//    int countProblemsByType(int type);
 
     /**
      * 删除一道题目
      *
-     * @param pid 返回值为1时，删除成功，为0则删除失败
+     * @param programProblemId 返回值为1时，删除成功，为0则删除失败
      */
-    int removeByPid(int pid);
+    int removeByPrimaryKey(int programProblemId);
 
     /**
      * 更新一道题目信息
      *
-     * @param problemEntity 返回值为1时更新成功，否则失败
+     * @param programProblemEntity 返回值为1时更新成功，否则失败
      */
-    int updateProblem(ProblemEntity problemEntity);
+    int updateProgramProblem(ProgramProblemEntity programProblemEntity);
 
     /**
      * 查询所有题目
      *
      * @return 包含所有题目的List集合
      */
-    List<ProblemEntity> listAll();
+    List<ProgramProblemEntity> listAll();
 
     /**
      * 根据题目类型查询题目
@@ -53,23 +53,23 @@ public interface ProblemMapper {
      * @param type 所选题目类型
      * @return 包含该类型所有题目的List集合
      */
-    List<ProblemEntity> listByType(int type);
+//    List<ProgramProblemEntity> listByType(int type);
 
     /**
      * 通过编号查询题目
      *
-     * @param pid 题目id
+     * @param programProblemId 题目id
      * @return 题目实体类对象
      */
-    ProblemEntity getById(int pid);
+    ProgramProblemEntity getByPrimaryKey(int programProblemId);
 
     /**
      * 添加一道题目
      *
-     * @param problemEntity 题目实体类对象
+     * @param programProblemEntity 题目实体类对象
      * @return 返回值为1时，保存成功，为0则保存失败
      */
-    int save(ProblemEntity problemEntity);
+    int save(ProgramProblemEntity programProblemEntity);
 
     /**
      * 根据判卷状态更新Problem
@@ -83,9 +83,9 @@ public interface ProblemMapper {
     /**
      * 通过 pid 查询该题所有tag
      *
-     * @param pid 题目id
+     * @param programProblemId 题目id
      * @return 结果
      */
-    List<Map<String, Object>> listProblemTagsByPid(int pid);
+    List<Map<String, Object>> listProgramProblemTagsByPrimaryKey(int programProblemId);
 
 }

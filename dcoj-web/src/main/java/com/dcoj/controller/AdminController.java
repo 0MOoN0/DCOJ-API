@@ -3,8 +3,8 @@ package com.dcoj.controller;
 import com.dcoj.entity.ResponseEntity;
 import com.dcoj.service.ObjectProblemService;
 import com.dcoj.service.ObjectTagService;
-import com.dcoj.service.ProblemService;
-import com.dcoj.service.TagService;
+import com.dcoj.service.ProgramProblemService;
+import com.dcoj.service.ProgramTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -26,10 +26,10 @@ import java.util.Map;
 public class AdminController {
 
     @Autowired
-    private TagService tagService;
+    private ProgramTagService programTagService;
 
     @Autowired
-    private ProblemService problemService;
+    private ProgramProblemService programProblemService;
 
     @Autowired
     private ObjectProblemService objectProblemService;
@@ -41,8 +41,8 @@ public class AdminController {
     public ResponseEntity getOverview() {
         // HashMap初始化必须指定容器容量，2的n次幂
         Map<String, Integer> data = new HashMap<>();
-        data.put("tags", tagService.countTags());
-        data.put("problems", problemService.countProblems());
+        data.put("tags", programTagService.countTags());
+        data.put("programProblems", programProblemService.countProgramProblems());
         data.put("objectTags", objectTagService.countTags());
         data.put("objectProblems", objectProblemService.countObjectProblems());
 

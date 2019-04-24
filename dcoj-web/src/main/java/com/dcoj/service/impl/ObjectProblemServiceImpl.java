@@ -70,7 +70,7 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
         int objectProblemId = record.getObjectProblemId();
 
         // 判断题目添加的时候是否带有标签
-        if (tags != null && tags.size() != 0 ){
+        if (tags != null && tags.size() != 0 && !tags.getJSONObject(0).isEmpty()){
             // 保存tag标签并且添加tag标签使用次数
             List<Integer> tagList = new ArrayList<>(tags.size());
             for (int i = 0; i < tags.size(); i++) {
@@ -169,16 +169,6 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
         return objectProblemMapper.listObjectProblemTagsByPrimaryKey(objectProblemId);
     }
 
-//    /**
-//     * 查询所有题目
-//     *
-//     * @return 包含所有题目的List集合
-//     */
-//    @Override
-//    public List<ObjectProblemEntity> listAll() {
-//        return objectProblemMapper.listAll();
-//    }
-
     /**
      * 判断用户提交的答案是否正确
      *
@@ -195,17 +185,6 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
             return 1;
         }
         return 0;
-    }
-
-    /**
-     * 根据题目状态查询所有题目
-     *
-     * @param status 题目状态
-     * @return 包含该状态下的所有题目的List集合
-     */
-    @Override
-    public List<ObjectProblemEntity> listByStatus(Integer status) {
-        return objectProblemMapper.listByStatus(status);
     }
 
     /**

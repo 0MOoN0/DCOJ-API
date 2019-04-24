@@ -1,14 +1,14 @@
 package com.dcoj.service.impl;
 
 import com.dcoj.controller.exception.WebErrorException;
-import com.dcoj.entity.ProblemEntity;
+import com.dcoj.entity.ProgramProblemEntity;
 import com.dcoj.entity.TestCaseEntity;
 import com.dcoj.judge.JudgeQueue;
 import com.dcoj.judge.LanguageEnum;
 import com.dcoj.judge.task.ProblemJudgeTask;
 import com.dcoj.judge.task.TestJudgeTask;
 import com.dcoj.service.AsyncJudgeService;
-import com.dcoj.service.ProblemService;
+import com.dcoj.service.ProgramProblemService;
 import com.dcoj.service.TestCasesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class AsyncJudgeServiceImpl implements AsyncJudgeService {
     private JudgeQueue judgerQueue;
 
     @Autowired
-    private ProblemService problemService;
+    private ProgramProblemService programProblemService;
 
     @Autowired
     private TestCasesService testCasesService;
@@ -49,20 +49,20 @@ public class AsyncJudgeServiceImpl implements AsyncJudgeService {
     @Override
     public String addProblemJudge(String sourceCode, LanguageEnum lang,
                                   int owner, int pid) {
-        ProblemEntity problemEntity = problemService.getById(pid);
+        ProgramProblemEntity programProblemEntity = programProblemService.getByPrimaryKey(pid);
         // 判断是否支持此语言
-//        containLang(lang, problemEntity);
+//        containLang(lang, programProblemEntity);
         // 封装单次判卷Entity
         ProblemJudgeTask task = new ProblemJudgeTask();
         task.setId(generateId());
         task.setSourceCode(sourceCode);
         task.setLang(lang);
-        task.setTime(problemEntity.getRunTime());
-        task.setMemory(problemEntity.getMemory());
+        task.setTime(programProblemEntity.getRunTime());
+        task.setMemory(programProblemEntity.getMemory());
         task.setTestCases(getTestCases(pid));
         task.setOwner(owner);
         task.setPid(pid);
-        task.setProblemEntity(problemEntity);
+        task.setProgramProblemEntity(programProblemEntity);
         task.setPriority(1);
         judgerQueue.addTask(task);
         return task.getId();
@@ -87,7 +87,7 @@ public class AsyncJudgeServiceImpl implements AsyncJudgeService {
         return testCases;
     }
 
-/*    private void containLang(LanguageEnum lang, ProblemEntity problemEntity) {
+/*    private void containLang(LanguageEnum lang, ProgramProblemEntity problemEntity) {
         for (Object obj: problemEntity.getLang()) {
             if (lang == LanguageEnum.valueOf(obj.toString())) {
                 return;

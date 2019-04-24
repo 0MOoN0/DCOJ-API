@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ObjectProblemTagMapperTest {
+public class ObjectProblemProgramTagMapperTest {
 
     @Autowired
     private ObjectProblemTagMapper objectProblemTagMapper;

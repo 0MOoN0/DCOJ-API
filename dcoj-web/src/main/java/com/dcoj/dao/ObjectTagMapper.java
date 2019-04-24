@@ -28,8 +28,6 @@ public interface ObjectTagMapper {
      */
     int save(String tagName);
 
-//    int insertSelective(ObjectTagEntity record);
-
     /**
      * 通过标签objectTagId得到标签实体类对象
      *
@@ -45,8 +43,6 @@ public interface ObjectTagMapper {
      * @return 标签实体类对象
      */
     ObjectTagEntity getByTagName(String tagName);
-
-//    int updateByPrimaryKeySelective(ObjectTagEntity record);
 
     /**
      * 查询所有标签

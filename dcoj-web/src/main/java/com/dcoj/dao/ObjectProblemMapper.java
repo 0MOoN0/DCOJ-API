@@ -1,7 +1,6 @@
 package com.dcoj.dao;
 
 import com.dcoj.entity.ObjectProblemEntity;
-import com.dcoj.entity.ProblemEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -67,13 +66,6 @@ public interface ObjectProblemMapper {
      */
     List<Map<String, Object>> listObjectProblemTagsByPrimaryKey(Integer objectProblemId);
 
-//    /**
-//     * 查询所有题目
-//     *
-//     * @return 包含所有题目的List集合
-//     */
-//    List<ObjectProblemEntity> listAll();
-
     /**
      * 获取某道题答案
      *
@@ -81,14 +73,6 @@ public interface ObjectProblemMapper {
      * @return 结果
      */
     String getAnswerByPrimaryKey(Integer objectProblemId);
-
-    /**
-     * 根据题目状态查询所有题目
-     *
-     * @param status 题目状态
-     * @return 包含该状态下的所有题目的List集合
-     */
-    List<ObjectProblemEntity> listByStatus(Integer status);
 
     /**
      * 根据题目状态统计题目数量

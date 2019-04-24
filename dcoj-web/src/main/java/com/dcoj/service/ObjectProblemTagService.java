@@ -39,12 +39,4 @@ public interface ObjectProblemTagService {
      */
     void removeProblemAllTags(int objectProblemId);
 
-//    /**
-//     * 通过 objectProblemId 和 objectTagId 删除一条记录
-//     *
-//     * @param objectProblemId 题目id
-//     * @param objectTagId     标签id
-//     */
-//    void removeProblemTag(int objectProblemId, int objectTagId);
-
 }

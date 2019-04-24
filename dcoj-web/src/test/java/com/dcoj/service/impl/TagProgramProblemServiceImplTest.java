@@ -1,16 +1,11 @@
 package com.dcoj.service.impl;
 
-import com.dcoj.entity.TagProblemEntity;
-import com.dcoj.service.TagProblemService;
+import com.dcoj.service.ProgramProblemTagService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.stream.Collectors;
-
-import static org.junit.Assert.*;
 
 /**
  * 题目标签关联业务层测试类
@@ -19,10 +14,10 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TagProblemServiceImplTest {
+public class TagProgramProblemServiceImplTest {
 
     @Autowired
-    private TagProblemService tagProblemService;
+    private ProgramProblemTagService programProblemTagService;
 
 
     @Test
@@ -44,7 +39,7 @@ public class TagProblemServiceImplTest {
 
     @Test
     public void removeProblemAllTags() {
-        tagProblemService.removeProblemAllTags(1);
+        programProblemTagService.removeProblemAllTags(1);
     }
 
     @Test

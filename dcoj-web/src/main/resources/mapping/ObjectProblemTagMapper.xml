@@ -8,49 +8,6 @@
     <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
     <result column="is_deleted" property="deleted" jdbcType="INTEGER" />
   </resultMap>
-  <!--<insert id="insert" parameterType="com.dcoj.entity.ObjectProblemTagEntity" >-->
-    <!--insert into object_problem_tag (object_problem_id, object_tag_id, gmt_create, -->
-      <!--gmt_modified, is_deleted)-->
-    <!--values (#{objectProblemId,jdbcType=INTEGER}, #{objectTagId,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, -->
-      <!--#{gmtModified,jdbcType=TIMESTAMP}, #{deleted,jdbcType=INTEGER})-->
-  <!--</insert>-->
-  <!--<insert id="insertSelective" parameterType="com.dcoj.entity.ObjectProblemTagEntity" >-->
-    <!--insert into object_problem_tag-->
-    <!--<trim prefix="(" suffix=")" suffixOverrides="," >-->
-      <!--<if test="objectProblemId != null" >-->
-        <!--object_problem_id,-->
-      <!--</if>-->
-      <!--<if test="objectTagId != null" >-->
-        <!--object_tag_id,-->
-      <!--</if>-->
-      <!--<if test="gmtCreate != null" >-->
-        <!--gmt_create,-->
-      <!--</if>-->
-      <!--<if test="gmtModified != null" >-->
-        <!--gmt_modified,-->
-      <!--</if>-->
-      <!--<if test="deleted != null" >-->
-        <!--is_deleted,-->
-      <!--</if>-->
-    <!--</trim>-->
-    <!--<trim prefix="values (" suffix=")" suffixOverrides="," >-->
-      <!--<if test="objectProblemId != null" >-->
-        <!--#{objectProblemId,jdbcType=INTEGER},-->
-      <!--</if>-->
-      <!--<if test="objectTagId != null" >-->
-        <!--#{objectTagId,jdbcType=INTEGER},-->
-      <!--</if>-->
-      <!--<if test="gmtCreate != null" >-->
-        <!--#{gmtCreate,jdbcType=TIMESTAMP},-->
-      <!--</if>-->
-      <!--<if test="gmtModified != null" >-->
-        <!--#{gmtModified,jdbcType=TIMESTAMP},-->
-      <!--</if>-->
-      <!--<if test="deleted != null" >-->
-        <!--#{deleted,jdbcType=INTEGER},-->
-      <!--</if>-->
-    <!--</trim>-->
-  <!--</insert>-->
 
   <insert id="save" >
     insert into object_problem_tag (object_problem_id,object_tag_id,gmt_create,gmt_modified) values (#{objectProblemId}, #{objectTagId},DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'),DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'))
@@ -73,13 +30,5 @@
     </set>
     where object_problem_id = #{objectProblemId} and is_deleted = 0
   </update>
-
-  <!--<update id="removeProblemTag">-->
-    <!--update object_problem_tag-->
-    <!--<set>-->
-      <!--is_deleted = 1-->
-    <!--</set>-->
-    <!--where object_problem_id = #{objectProblemId} and object_tag_id = #{objectTagId} and is_deleted = 0-->
-  <!--</update>-->
 
 </mapper>

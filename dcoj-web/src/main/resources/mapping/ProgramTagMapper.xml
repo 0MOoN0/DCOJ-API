@@ -3,70 +3,70 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.dcoj.dao.TagMapper">
+<mapper namespace="com.dcoj.dao.ProgramTagMapper">
 
     <sql id="Base_Column_List">
-        tid, tag_name, used_times, gmt_create, gmt_modified, is_deleted
+        program_tag_id, tag_name, used_times, gmt_create, gmt_modified, is_deleted
     </sql>
 
-    <resultMap id="tagResultMap" type="TagEntity">
-        <id column="tid" property="tid"/>
+    <resultMap id="tagResultMap" type="ProgramTagEntity">
+        <id column="program_tag_id" property="programTagId"/>
         <result column="tag_name" property="tagName"/>
         <result column="used_times" property="usedTimes"/>
-        <result column="gmt_create" jdbcType="TIMESTAMP" property="createTime" javaType="java.sql.Timestamp"/>
-        <result column="gmt_modified" jdbcType="TIMESTAMP" property="modifiedTime" javaType="java.sql.Timestamp"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" javaType="java.sql.Timestamp"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" javaType="java.sql.Timestamp"/>
         <result column="is_deleted" property="deleted"/>
     </resultMap>
 
     <insert id="save">
-        insert into tag (tag_name, gmt_create, gmt_modified)
+        insert into program_tag (tag_name, gmt_create, gmt_modified)
         values (#{tagName}, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'), DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'))
     </insert>
 
-    <select id="getByName" resultMap="tagResultMap">
+    <select id="getByTagName" resultMap="tagResultMap">
         select
         <include refid="Base_Column_List"/>
-        from tag where is_deleted = 0 and tag_name = #{tagName}
+        from program_tag where is_deleted = 0 and tag_name = #{tagName}
     </select>
 
-    <select id="getById" resultMap="tagResultMap">
+    <select id="getByPrimaryKey" resultMap="tagResultMap">
         select
         <include refid="Base_Column_List"/>
-        from tag where is_deleted = 0 and tid = #{tid}
+        from program_tag where is_deleted = 0 and program_tag_id = #{programTagId}
     </select>
 
     <update id="removeByTagName">
-        update tag
+        update program_tag
         <set>
             is_deleted = 1
         </set>
         where tag_name = #{tagName} and is_deleted = 0
     </update>
 
-    <update id="removeById">
-        update tag
+    <update id="removeByPrimaryKey">
+        update program_tag
         <set>
             is_deleted = 1
         </set>
-        where tid = #{tid} and is_deleted = 0
+        where program_tag_id = #{programTagId} and is_deleted = 0
     </update>
 
     <select id="listAll" resultMap="tagResultMap">
         select
         <include refid="Base_Column_List"/>
-        from tag where is_deleted = 0
+        from program_tag where is_deleted = 0
     </select>
 
-    <update id="updateByTid">
-        update tag
+    <update id="updateByPrimaryKey">
+        update program_tag
         <set>
             <if test="newName != null">tag_name = #{newName}</if>
         </set>
-        where tid = #{tid} and is_deleted = 0
+        where program_tag_id = #{programTagId} and is_deleted = 0
     </update>
 
     <update id="updateTagUsedTimes">
-        update tag
+        update program_tag
         <set>
             <choose>
                 <when test="flag == true">
@@ -77,12 +77,12 @@
                 </otherwise>
             </choose>
         </set>
-        where tid = #{tid} and is_deleted = 0 and used_times >= 0
+        where program_tag_id = #{programTagId} and is_deleted = 0 and used_times >= 0
     </update>
 
     <select id="countTags" resultType="Integer">
         select count(*)
-        from tag
+        from program_tag
         where is_deleted = 0
     </select>
 </mapper>

@@ -77,15 +77,4 @@ public class ObjectProblemTagServiceImpl implements ObjectProblemTagService {
         WebUtil.assertIsSuccess(flag, "删除该题目的所有标签失败");
     }
 
-//    /**
-//     * 通过 objectProblemId 和 objectTagId 删除一条记录
-//     *
-//     * @param objectProblemId 题目id
-//     * @param objectTagId     标签id
-//     */
-//    @Override
-//    @Transactional(rollbackFor = Exception.class)
-//    public void removeProblemTag(int objectProblemId, int objectTagId) {
-//
-//    }
 }

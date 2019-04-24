@@ -1,7 +1,7 @@
 package com.dcoj.judge.task;
 
 
-import com.dcoj.entity.ProblemEntity;
+import com.dcoj.entity.ProgramProblemEntity;
 
 /**
  * @author Leon
@@ -10,14 +10,14 @@ public class ProblemJudgeTask extends AbstractUserTask {
 
     private int pid;
 
-    private ProblemEntity problemEntity;
+    private ProgramProblemEntity programProblemEntity;
 
-    public ProblemEntity getProblemEntity() {
-        return problemEntity;
+    public ProgramProblemEntity getProgramProblemEntity() {
+        return programProblemEntity;
     }
 
-    public void setProblemEntity(ProblemEntity problemEntity) {
-        this.problemEntity = problemEntity;
+    public void setProgramProblemEntity(ProgramProblemEntity programProblemEntity) {
+        this.programProblemEntity = programProblemEntity;
     }
 
     public int getPid() {

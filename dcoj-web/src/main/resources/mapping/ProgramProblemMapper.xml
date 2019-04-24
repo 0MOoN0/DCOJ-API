@@ -3,29 +3,29 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.dcoj.dao.ProblemMapper">
+<mapper namespace="com.dcoj.dao.ProgramProblemMapper">
 
     <sql id="Base_Column_List">
-        pid,`type`,description,difficult,submit_times
+        program_problem_id,description,difficult,submit_times
         ,ac_times,wa_times,gmt_create,gmt_modified,
-        is_deleted,answer,title,input_format,output_format,
+        is_deleted,title,input_format,output_format,
         samples,run_time,`memory`,used_times,rte_times,tle_times,
         ce_times
     </sql>
 
-    <resultMap id="problemResultMap" type="ProblemEntity">
-        <id column="pid" property="pid"/>
-        <result column="type" property="type"/>
+    <resultMap id="problemResultMap" type="ProgramProblemEntity">
+        <id column="program_problem_id" property="programProblemId"/>
+        <!--<result column="type" property="type"/>-->
         <result column="description" property="description"/>
         <result column="difficult" property="difficult"/>
         <result column="submit_times" property="submitTimes"/>
         <result column="ac_times" property="ACTimes"/>
         <result column="wa_times" property="WATimes"/>
-        <result column="gmt_create" jdbcType="TIMESTAMP" property="createTime" javaType="java.sql.Timestamp"/>
-        <result column="gmt_modified" jdbcType="TIMESTAMP" property="modifiedTime" javaType="java.sql.Timestamp"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" javaType="java.sql.Timestamp"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" javaType="java.sql.Timestamp"/>
         <result column="is_deleted" property="deleted"/>
 
-        <result column="answer" property="answer"/>
+        <!--<result column="answer" property="answer"/>-->
 
         <result column="title" property="title"/>
         <!--<result column="lang" property="lang"/>-->
@@ -40,37 +40,37 @@
         <result column="ce_times" property="CETimes"/>
     </resultMap>
 
-    <select id="countProblems" resultType="Integer">
+    <select id="countProgramProblems" resultType="Integer">
         select count(*)
-        from problem
+        from program_problem
         where is_deleted = 0
     </select>
 
-    <select id="countProblemsByType" resultType="Integer">
-        select count(*)
-        from problem
-        where is_deleted = 0
-          and `type` = #{type}
-    </select>
+    <!--<select id="countProblemsByType" resultType="Integer">-->
+        <!--select count(*)-->
+        <!--from program_problem-->
+        <!--where is_deleted = 0-->
+          <!--and `type` = #{type}-->
+    <!--</select>-->
 
-    <update id="removeByPid">
-        update problem
+    <update id="removeByPrimaryKey">
+        update program_problem
         <set>
             is_deleted = 1
         </set>
-        where pid = #{pid} and is_deleted = 0
+        where program_problem_id = #{programProblemId} and is_deleted = 0
     </update>
 
-    <update id="updateProblem">
-        update problem
+    <update id="updateProgramProblem">
+        update program_problem
         <set>
-            <if test="type != null">`type` = #{type},</if>
+            <!--<if test="type != null">`type` = #{type},</if>-->
             <if test="description != null">description = #{description},</if>
             <if test="difficult != null">difficult = #{difficult},</if>
             <if test="submitTimes != null">submit_times = #{submitTimes},</if>
             <if test="ACTimes != null">ac_times = #{ACTimes},</if>
             <if test="WATimes != null">wa_times = #{WATimes},</if>
-            <if test="answer != null">answer = #{answer},</if>
+            <!--<if test="answer != null">answer = #{answer},</if>-->
             <if test="title != null">title = #{title},</if>
             <if test="inputFormat != null">input_format = #{inputFormat},</if>
             <if test="outputFormat != null">output_format = #{outputFormat},</if>
@@ -81,43 +81,43 @@
             <if test="TLETimes != null">tle_times = #{TLETimes},</if>
             <if test="CETimes != null">ce_times = #{CETimes},</if>
         </set>
-        where pid = #{pid} and is_deleted = 0
+        where program_problem_id = #{programProblemId} and is_deleted = 0
     </update>
 
     <select id="listAll" resultMap="problemResultMap">
         select
         <include refid="Base_Column_List"/>
-        from problem where is_deleted = 0
+        from program_problem where is_deleted = 0
     </select>
 
-    <select id="listByType" resultMap="problemResultMap">
+    <!--<select id="listByType" resultMap="problemResultMap">-->
+        <!--select-->
+        <!--<include refid="Base_Column_List"/>-->
+        <!--from program_problem where is_deleted = 0 and `type` = #{type}-->
+    <!--</select>-->
+
+    <select id="getByPrimaryKey" resultMap="problemResultMap">
         select
         <include refid="Base_Column_List"/>
-        from problem where is_deleted = 0 and `type` = #{type}
-    </select>
-
-    <select id="getById" resultMap="problemResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from problem where is_deleted = 0 and pid = #{pid}
+        from program_problem where is_deleted = 0 and program_problem_id = #{programProblemId}
     </select>
 
 
-    <insert id="save" parameterType="ProblemEntity" useGeneratedKeys="true" keyProperty="pid">
-        insert into problem
+    <insert id="save" parameterType="ProgramProblemEntity" useGeneratedKeys="true" keyProperty="programProblemId">
+        insert into program_problem
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="type != null">
-                type,
-            </if>
+            <!--<if test="type != null">-->
+                <!--type,-->
+            <!--</if>-->
             <if test="description != null">
                 description,
             </if>
             <if test="difficult != null">
                 difficult,
             </if>
-            <if test="answer != null">
-                answer,
-            </if>
+            <!--<if test="answer != null">-->
+                <!--answer,-->
+            <!--</if>-->
             <if test="title != null">
                 title,
             </if>
@@ -141,18 +141,18 @@
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
-        <if test="type != null">
-            #{type},
-        </if>
+        <!--<if test="type != null">-->
+            <!--#{type},-->
+        <!--</if>-->
         <if test="description != null">
             #{description},
         </if>
         <if test="difficult != null">
             #{difficult},
         </if>
-        <if test="answer != null">
-            #{answer},
-        </if>
+        <!--<if test="answer != null">-->
+            <!--#{answer},-->
+        <!--</if>-->
         <if test="title != null">
             #{title},
         </if>
@@ -175,9 +175,17 @@
           DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s')
         </trim>
     </insert>
-    <select id="listProblemTagsByPid" resultType="HashMap">
-        SELECT tag_problem.tid, tag_problem.pid,tag.tag_name, tag.used_times
-        FROM tag_problem LEFT JOIN tag ON tag_problem.tid = tag.tid WHERE tag_problem.pid = #{pid} and tag_problem.is_deleted = 0;
+    <select id="listProgramProblemTagsByPrimaryKey" resultType="HashMap">
+        SELECT
+               program_problem_tag.program_tag_id,
+               program_problem_tag.program_problem_id,
+               program_tag.tag_name,
+               program_tag.used_times
+        FROM program_problem_tag
+                 LEFT JOIN program_tag
+                     ON program_problem_tag.program_tag_id = program_tag.program_tag_id
+        WHERE program_problem_tag.program_problem_id = #{programProblemId}
+          and program_problem_tag.is_deleted = 0;
     </select>
 </mapper>
 

@@ -1,8 +1,8 @@
 package com.dcoj.service.impl;
 
 import com.dcoj.cache.GlobalCacheManager;
-import com.dcoj.entity.ProblemEntity;
-import com.dcoj.entity.TagEntity;
+import com.dcoj.entity.ProgramProblemEntity;
+import com.dcoj.entity.ProgramTagEntity;
 import com.dcoj.service.IdGenerateCacheService;
 import org.ehcache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +21,8 @@ public class IdGenerateCacheServiceImpl implements IdGenerateCacheService {
 
     @Override
     public void initIdGenerateCache() {
-        Long problemCount = mongoTemplate.count(new Query(), ProblemEntity.class);
-        Long tagCount = mongoTemplate.count(new Query(), TagEntity.class);
+        Long problemCount = mongoTemplate.count(new Query(), ProgramProblemEntity.class);
+        Long tagCount = mongoTemplate.count(new Query(), ProgramTagEntity.class);
         Cache<String,Long> idGenerateCache = GlobalCacheManager.getIdGenerateCache();
         idGenerateCache.put("pidGenerate",problemCount);
         idGenerateCache.put("tidGenerate",tagCount);

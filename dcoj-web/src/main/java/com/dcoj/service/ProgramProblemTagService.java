@@ -1,6 +1,6 @@
 package com.dcoj.service;
 
-import com.dcoj.entity.TagProblemEntity;
+import com.dcoj.entity.ProgramProblemTagEntity;
 
 import java.util.List;
 
@@ -9,38 +9,38 @@ import java.util.List;
  *
  * @author WANGQING
  */
-public interface TagProblemService {
+public interface ProgramProblemTagService {
     /**
      * 为某道题添加一个或者多个标签
      *
-     * @param pid 题目id
-     * @param tid 标签id
+     * @param programProblemId 题目id
+     * @param programTagId 标签id
      */
-    void save(int pid, int tid);
+    void save(int programProblemId, int programTagId);
 
     /**
      * 统计某道题标签的个数
      *
-     * @param pid 题目id
+     * @param programTagId 题目id
      * @return 返回该题目的标签个数
      */
-    int countTagsByPid(int pid);
+    int countTagsByProgramProblemId(int programTagId);
 
     /**
      * 得到某道题的所有标签
      *
-     * @param pid 题目id
+     * @param programTagId 题目id
      * @return 包含所有标签id的List集合
      */
-    List<Integer> getTagsByPid(int pid);
+    List<Integer> getTagsByProgramProblemId(int programTagId);
 
     /**
      * 通过pid 获取 TagProblemEntity对象
      *
      * @param pid 题目id
-     * @return 返回 TagProblemEntity 实体类对象
+     * @return 返回 ProgramProblemTagEntity 实体类对象
      */
-    TagProblemEntity getByPid(int pid);
+//    ProgramProblemTagEntity getByPid(int pid);
 
     /**
      * 通过 pid 删除TagProblemEntity对象
@@ -55,5 +55,5 @@ public interface TagProblemService {
      * @param pid 题目id
      * @param tid 标签id
      */
-    void removeProblemTag(int pid, int tid);
+//    void removeProblemTag(int pid, int tid);
 }
