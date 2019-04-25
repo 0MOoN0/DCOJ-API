@@ -27,7 +27,7 @@ public interface ProblemUserService {
      * @param uid       用户id
      * @return          ProblemUser
      */
-    ProblemUserEntity get(int pid, int uid);
+    ProblemUserEntity getByPidUid(int pid, int uid);
 
     /**
      * 根据用户id获取ProblemUser
@@ -43,4 +43,6 @@ public interface ProblemUserService {
      * @param result
      */
     void updateByPidUid(int pid, int uid, ResultEnum result);
+
+
 }

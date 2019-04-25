@@ -3,6 +3,7 @@ package com.dcoj.service.impl;
 import com.dcoj.dao.SubmissionDetailMapper;
 import com.dcoj.entity.SubmissionDetailEntity;
 import com.dcoj.entity.example.SubmissionDetailEntityExample;
+import com.dcoj.service.SubmissionDetailService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import java.util.List;
 public class SubmissionDetailServiceImplTest {
 
     @Autowired
-    private SubmissionDetailMapper submissionDetailMapper;
+    private SubmissionDetailService submissionDetailService;
 
     @Test
     public void testHelloWorld(){
@@ -29,11 +30,8 @@ public class SubmissionDetailServiceImplTest {
 
     @Test
     public void testGet(){
-        //根据subId获取submissionDetail
-        SubmissionDetailEntityExample submissionDetailEntityExample = new SubmissionDetailEntityExample();
-        submissionDetailEntityExample.createCriteria()
-                .andSubIdEqualTo(0);
-        List<SubmissionDetailEntity> submissionDetailEntities = submissionDetailMapper.selectByExample(submissionDetailEntityExample);
+        SubmissionDetailEntity submissionDetailBySubId = submissionDetailService.getSubmissionDetailBySubId(0);
+        System.out.println("==============="+submissionDetailBySubId);
     }
 
 }

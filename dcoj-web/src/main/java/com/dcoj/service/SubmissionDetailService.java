@@ -11,7 +11,7 @@ public interface SubmissionDetailService {
 
     /**
      * 根据Submission ID获取提交详情
-     * @param subId
+     * @param subId     Submission ID
      * @return
      */
     SubmissionDetailEntity getSubmissionDetailBySubId(int subId);
