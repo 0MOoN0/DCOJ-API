@@ -44,7 +44,7 @@ public class SubmissionEntity {
     private Timestamp gmtCreate;
 
     /** 修改时间 */
-    private Timestamp gmtModify;
+    private Timestamp gmtModified;
 
     /** 用户提交的源码 */
     private Integer sourceCode;

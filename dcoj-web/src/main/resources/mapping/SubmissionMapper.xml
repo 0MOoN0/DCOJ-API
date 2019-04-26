@@ -11,14 +11,14 @@
     <result column="status" jdbcType="CHAR" property="status" />
     <result column="submit_time" jdbcType="TIMESTAMP" property="submitTime" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="lang" jdbcType="CHAR" property="lang" />
     <result column="eid" jdbcType="INTEGER" property="eid" />
     <result column="gid" jdbcType="INTEGER" property="gid" />
     <result column="queryable_time" jdbcType="TIMESTAMP" property="queryableTime" />
   </resultMap>
-
-  <!--自定义SQL Begin:-->
+  
+    <!--自定义SQL Begin:-->
   <select id="listProblemLeaderboard" parameterType="com.dcoj.entity.example.SubmissionEntityExample" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -41,104 +41,7 @@
       order by ${orderByClause}
     </if>
   </select>
-
-  <!--修改两个insert SQL，使它们在新增数据时可以获取到主键的值-->
-
-  <insert id="insert" parameterType="com.dcoj.entity.SubmissionEntity"  useGeneratedKeys="true" keyProperty="subId">
-    insert into submission (sub_id, uid, pid,
-      source_code, using_time, memory,
-      status, submit_time, lang,
-      eid, gid, queryable_time
-      )
-    values (#{subId,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER},
-      #{sourceCode,jdbcType=INTEGER}, #{usingTime,jdbcType=DECIMAL}, #{memory,jdbcType=INTEGER},
-      #{status,jdbcType=CHAR}, #{submitTime,jdbcType=TIMESTAMP}, #{lang,jdbcType=CHAR},
-      #{eid,jdbcType=INTEGER}, #{gid,jdbcType=INTEGER}, #{queryableTime,jdbcType=TIMESTAMP}
-      )
-  </insert>
-
-  <insert id="insertSelective" parameterType="com.dcoj.entity.SubmissionEntity"  useGeneratedKeys="true" keyProperty="subId">
-    insert into submission
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="subId != null">
-        sub_id,
-      </if>
-      <if test="uid != null">
-        uid,
-      </if>
-      <if test="pid != null">
-        pid,
-      </if>
-      <if test="sourceCode != null">
-        source_code,
-      </if>
-      <if test="usingTime != null">
-        using_time,
-      </if>
-      <if test="memory != null">
-        memory,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="submitTime != null">
-        submit_time,
-      </if>
-      <if test="lang != null">
-        lang,
-      </if>
-      <if test="eid != null">
-        eid,
-      </if>
-      <if test="gid != null">
-        gid,
-      </if>
-      <if test="queryableTime != null">
-        queryable_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="subId != null">
-        #{subId,jdbcType=INTEGER},
-      </if>
-      <if test="uid != null">
-        #{uid,jdbcType=INTEGER},
-      </if>
-      <if test="pid != null">
-        #{pid,jdbcType=INTEGER},
-      </if>
-      <if test="sourceCode != null">
-        #{sourceCode,jdbcType=INTEGER},
-      </if>
-      <if test="usingTime != null">
-        #{usingTime,jdbcType=DECIMAL},
-      </if>
-      <if test="memory != null">
-        #{memory,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=CHAR},
-      </if>
-      <if test="submitTime != null">
-        #{submitTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lang != null">
-        #{lang,jdbcType=CHAR},
-      </if>
-      <if test="eid != null">
-        #{eid,jdbcType=INTEGER},
-      </if>
-      <if test="gid != null">
-        #{gid,jdbcType=INTEGER},
-      </if>
-      <if test="queryableTime != null">
-        #{queryableTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-
-  <!--自定义SQL End-->
-
+  <!--自定义SQL End:-->
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -199,7 +102,7 @@
   </sql>
   <sql id="Base_Column_List">
     sub_id, uid, pid, source_code, using_time, memory, status, submit_time, gmt_create, 
-    gmt_modify, lang, eid, gid, queryable_time
+    gmt_modified, lang, eid, gid, queryable_time
   </sql>
   <select id="selectByExample" parameterType="com.dcoj.entity.example.SubmissionEntityExample" resultMap="BaseResultMap">
     select
@@ -231,22 +134,19 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-<!-- 此SQL已被重写
-  <insert id="insert" parameterType="com.dcoj.entity.SubmissionEntity">
-    insert into submission (sub_id, uid, pid,
-      source_code, using_time, memory,
-      status, submit_time, lang,
+  <insert id="insert" parameterType="com.dcoj.entity.SubmissionEntity"   useGeneratedKeys="true" keyProperty="subId">
+    insert into submission (sub_id, uid, pid, 
+      source_code, using_time, memory, 
+      status, submit_time, lang, 
       eid, gid, queryable_time
       )
-    values (#{subId,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER},
-      #{sourceCode,jdbcType=INTEGER}, #{usingTime,jdbcType=DECIMAL}, #{memory,jdbcType=INTEGER},
-      #{status,jdbcType=CHAR}, #{submitTime,jdbcType=TIMESTAMP}, #{lang,jdbcType=CHAR},
+    values (#{subId,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, 
+      #{sourceCode,jdbcType=INTEGER}, #{usingTime,jdbcType=DECIMAL}, #{memory,jdbcType=INTEGER}, 
+      #{status,jdbcType=CHAR}, #{submitTime,jdbcType=TIMESTAMP}, #{lang,jdbcType=CHAR}, 
       #{eid,jdbcType=INTEGER}, #{gid,jdbcType=INTEGER}, #{queryableTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  -->
-  <!--此SQL已被重写
-  <insert id="insertSelective" parameterType="com.dcoj.entity.SubmissionEntity">
+  <insert id="insertSelective" parameterType="com.dcoj.entity.SubmissionEntity"   useGeneratedKeys="true" keyProperty="subId">
     insert into submission
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="subId != null">
@@ -324,7 +224,7 @@
         #{queryableTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
-  </insert>-->
+  </insert>
   <select id="countByExample" parameterType="com.dcoj.entity.example.SubmissionEntityExample" resultType="java.lang.Long">
     select count(*) from submission
     <if test="_parameter != null">
