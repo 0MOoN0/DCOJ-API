@@ -1,6 +1,7 @@
 package com.dcoj.dao;
 
 import com.dcoj.entity.AttachmentEntity;
+import com.dcoj.entity.example.AttachmentEntityExample;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class AttachmentMapperTest {
     private AttachmentMapper attachmentMapper;
 
 
+    /**
+     * 测试增加
+     */
     @Test
     public void testInsert(){
         AttachmentEntity attachmentEntity = new AttachmentEntity();
@@ -31,9 +35,37 @@ public class AttachmentMapperTest {
         System.out.println("EntityID =============== "+attachmentEntity.getAid());
     }
 
+    /**
+     * 测试更新
+     */
     @Test
     public void testUpdateByExample(){
+        AttachmentEntity attachmentEntity = new AttachmentEntity();
+        attachmentEntity.setAid(1);
+        attachmentEntity.setStatus((byte) 1);
+        attachmentMapper.updateByPrimaryKeySelective(attachmentEntity);
+        AttachmentEntityExample attachmentEntityExample = new AttachmentEntityExample();
+        attachmentEntity.setAid(null);
+        attachmentEntity.setStatus((byte) 0);
+        attachmentEntityExample.createCriteria()
+                .andAidEqualTo(1);
+        attachmentMapper.updateByExampleSelective(attachmentEntity, attachmentEntityExample);
+    }
 
+    @Test
+    public void testSelect(){
+        AttachmentEntityExample attachmentEntityExample = new AttachmentEntityExample();
+        attachmentEntityExample.createCriteria()
+                .andAidEqualTo(1);
+        attachmentMapper.selectByExample(attachmentEntityExample);
+    }
+
+    @Test
+    public void testDelete(){
+        AttachmentEntityExample attachmentEntityExample = new AttachmentEntityExample();
+        attachmentEntityExample.createCriteria()
+                .andAidEqualTo(1);
+        attachmentMapper.deleteByExample(attachmentEntityExample);
     }
 
 }

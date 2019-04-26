@@ -70,19 +70,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity login(IndexLoginFormat format) {
-        UserEntity userEntity = null;
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUid(1);
+        userEntity.setPassword(format.getPassword());
+/*      TODO 20190426 Leon完成Login方法
         if(Optional.ofNullable(format.getEmail()).isPresent() && !format.getEmail().trim().equals("")){
             userEntity = mongoTemplate.findOne(new Query(Criteria.where("email").is(format.getEmail()).
                             andOperator(Criteria.where("password").is(format.getPassword()))),
                     UserEntity.class);
-        }else if(Optional.ofNullable(format.getStudentId()).isPresent() && !format.getStudentId().trim().equals("")){
+        }else
+        if(Optional.ofNullable(format.getStudentId()).isPresent() && !format.getStudentId().trim().equals("")){
             userEntity = mongoTemplate.findOne(new Query(Criteria.where("sutdentId").is(format.getStudentId()).
                     andOperator(Criteria.where("password").is(format.getStudentId()))),
                     UserEntity.class);
         }
         if (!Optional.ofNullable(userEntity).isPresent()){
             throw new WebErrorException("用户名或密码错误");
-        }
+        }*/
         return userEntity;
     }
 

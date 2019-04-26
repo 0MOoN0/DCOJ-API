@@ -34,7 +34,7 @@ public class CacheServiceImpl implements CacheService {
      */
     @Override
     public void reloadCache(String cacheName) {
-        List<UserEntity> userEntities;
+       /* List<UserEntity> userEntities;
         switch (cacheName) {
             case "permissionCache":
                 userEntities = mongoTemplate.findAll(UserEntity.class);
@@ -67,12 +67,12 @@ public class CacheServiceImpl implements CacheService {
                         }
                 );
                 break;
-        }
+        }*/
     }
 
     @Override
     public void reloadPermissionCacheByUid(String uid) {
-        UserEntity user = mongoTemplate.findOne(new Query(Criteria.where("_id").is(uid)), UserEntity.class);
+       /* UserEntity user = mongoTemplate.findOne(new Query(Criteria.where("_id").is(uid)), UserEntity.class);
         Cache<String, Set> permissionCache = GlobalCacheManager.getPermissionCache();
         Optional.ofNullable(user.getRoles()).ifPresent(roleIds ->
                 //为每个用户根据角色设置集合，如果角色不存在或没有权限，则权限集合为空(非null)
@@ -99,7 +99,7 @@ public class CacheServiceImpl implements CacheService {
                                 //如果所有的Role为空或者所有的Permission为空，则返回一个空的HashSet
                         ).orElse(new HashSet<>())
                 )
-        );
+        );*/
     }
 
 

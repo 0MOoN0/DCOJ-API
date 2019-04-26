@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(value = "/submissions", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//TODO 2019.04.10 Leon 完成SubmissionController
 public class SubmissionsController {
 
     @Autowired

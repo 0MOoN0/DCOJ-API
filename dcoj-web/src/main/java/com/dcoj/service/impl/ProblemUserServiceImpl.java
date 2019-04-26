@@ -50,7 +50,7 @@ public class ProblemUserServiceImpl implements ProblemUserService {
         ProblemUserEntityExample example = new ProblemUserEntityExample();
         example.createCriteria().andPidEqualTo(pid).andUidEqualTo(uid);
         List<ProblemUserEntity> problemUserEntities = problemUserMapper.selectByExample(example);
-        if(Optional.ofNullable(problemUserEntities).isPresent()){
+        if(problemUserEntities.size()>0){
             return problemUserEntities.get(0);
         }
         return null;
