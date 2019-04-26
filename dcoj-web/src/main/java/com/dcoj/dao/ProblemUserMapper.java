@@ -1,7 +1,7 @@
 package com.dcoj.dao;
 
 import com.dcoj.entity.ProblemUserEntity;
-import com.dcoj.entity.ProblemUserEntityExample;
+import com.dcoj.entity.example.ProblemUserEntityExample;
 import java.util.List;
 import java.util.Map;
 

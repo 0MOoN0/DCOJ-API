@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dcoj.dao.ProblemUserMapper">
-  <resultMap id="BaseResultMap" type="com.dcoj.entity.ProblemUserEntity">
-    <result column="pid" jdbcType="INTEGER" property="pid" />
+<mapper namespace="com.dcoj.dao.AttachmentMapper">
+  <resultMap id="BaseResultMap" type="com.dcoj.entity.AttachmentEntity">
+    <id column="aid" jdbcType="INTEGER" property="aid" />
     <result column="uid" jdbcType="INTEGER" property="uid" />
-    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="upload_time" jdbcType="TIMESTAMP" property="uploadTime" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
   </resultMap>
-  
-    <!--自定义SQL: Begin-->
-  <select id="listUserProblemsByUid" resultType="HashMap">
-        SELECT problem_user.*, problem.title FROM problem_user LEFT JOIN problem ON problem_user.pid=problem.pid
-        WHERE problem_user.uid = #{uid}
-    </select>
-  <!--自定义SQL: End-->
-  
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -75,15 +69,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    pid, uid, status, gmt_create, gmt_modified
+    aid, uid, url, status, upload_time, gmt_create, gmt_modified
   </sql>
-  <select id="selectByExample" parameterType="com.dcoj.entity.example.ProblemUserEntityExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.dcoj.entity.example.AttachmentEntityExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from problem_user
+    from attachment
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -91,60 +85,88 @@
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByExample" parameterType="com.dcoj.entity.example.ProblemUserEntityExample">
-    delete from problem_user
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from attachment
+    where aid = #{aid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from attachment
+    where aid = #{aid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dcoj.entity.example.AttachmentEntityExample">
+    delete from attachment
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.dcoj.entity.ProblemUserEntity">
-    insert into problem_user (pid, uid, status
-      )
-    values (#{pid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{status,jdbcType=CHAR}
-      )
+  <insert id="insert" parameterType="com.dcoj.entity.AttachmentEntity"   useGeneratedKeys="true" keyProperty="aid">
+    insert into attachment (aid, uid, url, 
+      status, upload_time)
+    values (#{aid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{uploadTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.dcoj.entity.ProblemUserEntity">
-    insert into problem_user
+  <insert id="insertSelective" parameterType="com.dcoj.entity.AttachmentEntity"   useGeneratedKeys="true" keyProperty="aid">
+    insert into attachment
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="pid != null">
-        pid,
+      <if test="aid != null">
+        aid,
       </if>
       <if test="uid != null">
         uid,
       </if>
+      <if test="url != null">
+        url,
+      </if>
       <if test="status != null">
         status,
       </if>
+      <if test="uploadTime != null">
+        upload_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="pid != null">
-        #{pid,jdbcType=INTEGER},
+      <if test="aid != null">
+        #{aid,jdbcType=INTEGER},
       </if>
       <if test="uid != null">
         #{uid,jdbcType=INTEGER},
       </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
       <if test="status != null">
-        #{status,jdbcType=CHAR},
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="uploadTime != null">
+        #{uploadTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.dcoj.entity.example.ProblemUserEntityExample" resultType="java.lang.Long">
-    select count(*) from problem_user
+  <select id="countByExample" parameterType="com.dcoj.entity.example.AttachmentEntityExample" resultType="java.lang.Long">
+    select count(*) from attachment
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update problem_user
+    update attachment
     <set>
-      <if test="record.pid != null">
-        pid = #{record.pid,jdbcType=INTEGER},
+      <if test="record.aid != null">
+        aid = #{record.aid,jdbcType=INTEGER},
       </if>
       <if test="record.uid != null">
         uid = #{record.uid,jdbcType=INTEGER},
       </if>
+      <if test="record.url != null">
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
       <if test="record.status != null">
-        status = #{record.status,jdbcType=CHAR},
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.uploadTime != null">
+        upload_time = #{record.uploadTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -152,12 +174,40 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update problem_user
-    set pid = #{record.pid,jdbcType=INTEGER},
+    update attachment
+    set aid = #{record.aid,jdbcType=INTEGER},
       uid = #{record.uid,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=CHAR}
+      url = #{record.url,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      upload_time = #{record.uploadTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dcoj.entity.AttachmentEntity">
+    update attachment
+    <set>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="uploadTime != null">
+        upload_time = #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where aid = #{aid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dcoj.entity.AttachmentEntity">
+    update attachment
+    set uid = #{uid,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      upload_time = #{uploadTime,jdbcType=TIMESTAMP}
+    where aid = #{aid,jdbcType=INTEGER}
   </update>
 </mapper>

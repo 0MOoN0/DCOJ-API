@@ -57,7 +57,7 @@ public class JudgeServiceImpl implements JudgeService {
         // 当前判卷用户是否已经AC过
         boolean isAC = false;
         // 此处更新problemUser或创建并保存problemUser
-        ProblemUserEntity problemUserEntity = problemUserService.get(pid, owner);
+        ProblemUserEntity problemUserEntity = problemUserService.getByPidUid(pid, owner);
         // 如果ProblemUser存在
         if (Optional.ofNullable(problemUserEntity).isPresent()) {
             if (problemUserEntity.getStatus() == ResultEnum.AC) {

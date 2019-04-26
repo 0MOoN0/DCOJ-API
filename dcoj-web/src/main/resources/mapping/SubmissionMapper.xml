@@ -11,15 +11,15 @@
     <result column="status" jdbcType="CHAR" property="status" />
     <result column="submit_time" jdbcType="TIMESTAMP" property="submitTime" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="lang" jdbcType="CHAR" property="lang" />
     <result column="eid" jdbcType="INTEGER" property="eid" />
     <result column="gid" jdbcType="INTEGER" property="gid" />
     <result column="queryable_time" jdbcType="TIMESTAMP" property="queryableTime" />
   </resultMap>
-
-  <!--自定义SQL Begin:-->
-  <select id="listProblemLeaderboard"  parameterType="com.dcoj.entity.SubmissionEntityExample" resultMap="BaseResultMap">
+  
+    <!--自定义SQL Begin:-->
+  <select id="listProblemLeaderboard" parameterType="com.dcoj.entity.example.SubmissionEntityExample" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from (
@@ -41,9 +41,7 @@
       order by ${orderByClause}
     </if>
   </select>
-
-  <!--自定义SQL End-->
-
+  <!--自定义SQL End:-->
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -104,9 +102,9 @@
   </sql>
   <sql id="Base_Column_List">
     sub_id, uid, pid, source_code, using_time, memory, status, submit_time, gmt_create, 
-    gmt_modify, lang, eid, gid, queryable_time
+    gmt_modified, lang, eid, gid, queryable_time
   </sql>
-  <select id="selectByExample" parameterType="com.dcoj.entity.SubmissionEntityExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.dcoj.entity.example.SubmissionEntityExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -130,13 +128,13 @@
     delete from submission
     where sub_id = #{subId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.dcoj.entity.SubmissionEntityExample">
+  <delete id="deleteByExample" parameterType="com.dcoj.entity.example.SubmissionEntityExample">
     delete from submission
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.dcoj.entity.SubmissionEntity">
+  <insert id="insert" parameterType="com.dcoj.entity.SubmissionEntity"   useGeneratedKeys="true" keyProperty="subId">
     insert into submission (sub_id, uid, pid, 
       source_code, using_time, memory, 
       status, submit_time, lang, 
@@ -148,7 +146,7 @@
       #{eid,jdbcType=INTEGER}, #{gid,jdbcType=INTEGER}, #{queryableTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.dcoj.entity.SubmissionEntity">
+  <insert id="insertSelective" parameterType="com.dcoj.entity.SubmissionEntity"   useGeneratedKeys="true" keyProperty="subId">
     insert into submission
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="subId != null">
@@ -227,7 +225,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.dcoj.entity.SubmissionEntityExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.dcoj.entity.example.SubmissionEntityExample" resultType="java.lang.Long">
     select count(*) from submission
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />

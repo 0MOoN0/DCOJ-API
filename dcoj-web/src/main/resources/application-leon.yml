@@ -37,3 +37,4 @@ mapper:
   mappers: com.dcoj.dao
   not-empty: false
   identity: MYSQL
+

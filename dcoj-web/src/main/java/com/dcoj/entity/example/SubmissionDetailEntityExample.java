@@ -1,18 +1,21 @@
-package com.dcoj.entity;
+package com.dcoj.entity.example;
 
-import com.dcoj.judge.ResultEnum;
+import com.alibaba.fastjson.JSONObject;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProblemUserEntityExample {
+/**
+ * @author Leon
+ */
+public class SubmissionDetailEntityExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public ProblemUserEntityExample() {
+    public SubmissionDetailEntityExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -106,193 +109,183 @@ public class ProblemUserEntityExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andPidIsNull() {
-            addCriterion("pid is null");
+        public Criteria andSdIdIsNull() {
+            addCriterion("sd_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andPidIsNotNull() {
-            addCriterion("pid is not null");
+        public Criteria andSdIdIsNotNull() {
+            addCriterion("sd_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPidEqualTo(Integer value) {
-            addCriterion("pid =", value, "pid");
+        public Criteria andSdIdEqualTo(Integer value) {
+            addCriterion("sd_id =", value, "sdId");
             return (Criteria) this;
         }
 
-        public Criteria andPidNotEqualTo(Integer value) {
-            addCriterion("pid <>", value, "pid");
+        public Criteria andSdIdNotEqualTo(Integer value) {
+            addCriterion("sd_id <>", value, "sdId");
             return (Criteria) this;
         }
 
-        public Criteria andPidGreaterThan(Integer value) {
-            addCriterion("pid >", value, "pid");
+        public Criteria andSdIdGreaterThan(Integer value) {
+            addCriterion("sd_id >", value, "sdId");
             return (Criteria) this;
         }
 
-        public Criteria andPidGreaterThanOrEqualTo(Integer value) {
-            addCriterion("pid >=", value, "pid");
+        public Criteria andSdIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sd_id >=", value, "sdId");
             return (Criteria) this;
         }
 
-        public Criteria andPidLessThan(Integer value) {
-            addCriterion("pid <", value, "pid");
+        public Criteria andSdIdLessThan(Integer value) {
+            addCriterion("sd_id <", value, "sdId");
             return (Criteria) this;
         }
 
-        public Criteria andPidLessThanOrEqualTo(Integer value) {
-            addCriterion("pid <=", value, "pid");
+        public Criteria andSdIdLessThanOrEqualTo(Integer value) {
+            addCriterion("sd_id <=", value, "sdId");
             return (Criteria) this;
         }
 
-        public Criteria andPidIn(List<Integer> values) {
-            addCriterion("pid in", values, "pid");
+        public Criteria andSdIdIn(List<Integer> values) {
+            addCriterion("sd_id in", values, "sdId");
             return (Criteria) this;
         }
 
-        public Criteria andPidNotIn(List<Integer> values) {
-            addCriterion("pid not in", values, "pid");
+        public Criteria andSdIdNotIn(List<Integer> values) {
+            addCriterion("sd_id not in", values, "sdId");
             return (Criteria) this;
         }
 
-        public Criteria andPidBetween(Integer value1, Integer value2) {
-            addCriterion("pid between", value1, value2, "pid");
+        public Criteria andSdIdBetween(Integer value1, Integer value2) {
+            addCriterion("sd_id between", value1, value2, "sdId");
             return (Criteria) this;
         }
 
-        public Criteria andPidNotBetween(Integer value1, Integer value2) {
-            addCriterion("pid not between", value1, value2, "pid");
+        public Criteria andSdIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("sd_id not between", value1, value2, "sdId");
             return (Criteria) this;
         }
 
-        public Criteria andUidIsNull() {
-            addCriterion("uid is null");
+        public Criteria andJudgeDetailIsNull() {
+            addCriterion("judge_detail is null");
             return (Criteria) this;
         }
 
-        public Criteria andUidIsNotNull() {
-            addCriterion("uid is not null");
+        public Criteria andJudgeDetailIsNotNull() {
+            addCriterion("judge_detail is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUidEqualTo(Integer value) {
-            addCriterion("uid =", value, "uid");
+        public Criteria andJudgeDetailEqualTo(JSONObject value) {
+            addCriterion("judge_detail =", value, "judgeDetail");
             return (Criteria) this;
         }
 
-        public Criteria andUidNotEqualTo(Integer value) {
-            addCriterion("uid <>", value, "uid");
+        public Criteria andJudgeDetailNotEqualTo(JSONObject value) {
+            addCriterion("judge_detail <>", value, "judgeDetail");
             return (Criteria) this;
         }
 
-        public Criteria andUidGreaterThan(Integer value) {
-            addCriterion("uid >", value, "uid");
+        public Criteria andJudgeDetailGreaterThan(JSONObject value) {
+            addCriterion("judge_detail >", value, "judgeDetail");
             return (Criteria) this;
         }
 
-        public Criteria andUidGreaterThanOrEqualTo(Integer value) {
-            addCriterion("uid >=", value, "uid");
+        public Criteria andJudgeDetailGreaterThanOrEqualTo(JSONObject value) {
+            addCriterion("judge_detail >=", value, "judgeDetail");
             return (Criteria) this;
         }
 
-        public Criteria andUidLessThan(Integer value) {
-            addCriterion("uid <", value, "uid");
+        public Criteria andJudgeDetailLessThan(JSONObject value) {
+            addCriterion("judge_detail <", value, "judgeDetail");
             return (Criteria) this;
         }
 
-        public Criteria andUidLessThanOrEqualTo(Integer value) {
-            addCriterion("uid <=", value, "uid");
+        public Criteria andJudgeDetailLessThanOrEqualTo(JSONObject value) {
+            addCriterion("judge_detail <=", value, "judgeDetail");
             return (Criteria) this;
         }
 
-        public Criteria andUidIn(List<Integer> values) {
-            addCriterion("uid in", values, "uid");
+        public Criteria andJudgeDetailIn(List<JSONObject> values) {
+            addCriterion("judge_detail in", values, "judgeDetail");
             return (Criteria) this;
         }
 
-        public Criteria andUidNotIn(List<Integer> values) {
-            addCriterion("uid not in", values, "uid");
+        public Criteria andJudgeDetailNotIn(List<JSONObject> values) {
+            addCriterion("judge_detail not in", values, "judgeDetail");
             return (Criteria) this;
         }
 
-        public Criteria andUidBetween(Integer value1, Integer value2) {
-            addCriterion("uid between", value1, value2, "uid");
+        public Criteria andJudgeDetailBetween(JSONObject value1, JSONObject value2) {
+            addCriterion("judge_detail between", value1, value2, "judgeDetail");
             return (Criteria) this;
         }
 
-        public Criteria andUidNotBetween(Integer value1, Integer value2) {
-            addCriterion("uid not between", value1, value2, "uid");
+        public Criteria andJudgeDetailNotBetween(JSONObject value1, JSONObject value2) {
+            addCriterion("judge_detail not between", value1, value2, "judgeDetail");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNull() {
-            addCriterion("status is null");
+        public Criteria andSubIdIsNull() {
+            addCriterion("sub_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNotNull() {
-            addCriterion("status is not null");
+        public Criteria andSubIdIsNotNull() {
+            addCriterion("sub_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStatusEqualTo(ResultEnum value) {
-            addCriterion("status =", value, "status");
+        public Criteria andSubIdEqualTo(Integer value) {
+            addCriterion("sub_id =", value, "subId");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotEqualTo(ResultEnum value) {
-            addCriterion("status <>", value, "status");
+        public Criteria andSubIdNotEqualTo(Integer value) {
+            addCriterion("sub_id <>", value, "subId");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThan(ResultEnum value) {
-            addCriterion("status >", value, "status");
+        public Criteria andSubIdGreaterThan(Integer value) {
+            addCriterion("sub_id >", value, "subId");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThanOrEqualTo(ResultEnum value) {
-            addCriterion("status >=", value, "status");
+        public Criteria andSubIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sub_id >=", value, "subId");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThan(ResultEnum value) {
-            addCriterion("status <", value, "status");
+        public Criteria andSubIdLessThan(Integer value) {
+            addCriterion("sub_id <", value, "subId");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThanOrEqualTo(ResultEnum value) {
-            addCriterion("status <=", value, "status");
+        public Criteria andSubIdLessThanOrEqualTo(Integer value) {
+            addCriterion("sub_id <=", value, "subId");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLike(ResultEnum value) {
-            addCriterion("status like", value, "status");
+        public Criteria andSubIdIn(List<Integer> values) {
+            addCriterion("sub_id in", values, "subId");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotLike(ResultEnum value) {
-            addCriterion("status not like", value, "status");
+        public Criteria andSubIdNotIn(List<Integer> values) {
+            addCriterion("sub_id not in", values, "subId");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIn(List<ResultEnum> values) {
-            addCriterion("status in", values, "status");
+        public Criteria andSubIdBetween(Integer value1, Integer value2) {
+            addCriterion("sub_id between", value1, value2, "subId");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotIn(List<ResultEnum> values) {
-            addCriterion("status not in", values, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusBetween(ResultEnum value1, ResultEnum value2) {
-            addCriterion("status between", value1, value2, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusNotBetween(ResultEnum value1, ResultEnum value2) {
-            addCriterion("status not between", value1, value2, "status");
+        public Criteria andSubIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("sub_id not between", value1, value2, "subId");
             return (Criteria) this;
         }
 
@@ -356,63 +349,63 @@ public class ProblemUserEntityExample {
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyIsNull() {
-            addCriterion("gmt_modify is null");
+        public Criteria andGmtModifiedIsNull() {
+            addCriterion("gmt_modified is null");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyIsNotNull() {
-            addCriterion("gmt_modify is not null");
+        public Criteria andGmtModifiedIsNotNull() {
+            addCriterion("gmt_modified is not null");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyEqualTo(Timestamp value) {
-            addCriterion("gmt_modify =", value, "gmtModify");
+        public Criteria andGmtModifiedEqualTo(Timestamp value) {
+            addCriterion("gmt_modified =", value, "gmtModified");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyNotEqualTo(Timestamp value) {
-            addCriterion("gmt_modify <>", value, "gmtModify");
+        public Criteria andGmtModifiedNotEqualTo(Timestamp value) {
+            addCriterion("gmt_modified <>", value, "gmtModified");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyGreaterThan(Timestamp value) {
-            addCriterion("gmt_modify >", value, "gmtModify");
+        public Criteria andGmtModifiedGreaterThan(Timestamp value) {
+            addCriterion("gmt_modified >", value, "gmtModified");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyGreaterThanOrEqualTo(Timestamp value) {
-            addCriterion("gmt_modify >=", value, "gmtModify");
+        public Criteria andGmtModifiedGreaterThanOrEqualTo(Timestamp value) {
+            addCriterion("gmt_modified >=", value, "gmtModified");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyLessThan(Timestamp value) {
-            addCriterion("gmt_modify <", value, "gmtModify");
+        public Criteria andGmtModifiedLessThan(Timestamp value) {
+            addCriterion("gmt_modified <", value, "gmtModified");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyLessThanOrEqualTo(Timestamp value) {
-            addCriterion("gmt_modify <=", value, "gmtModify");
+        public Criteria andGmtModifiedLessThanOrEqualTo(Timestamp value) {
+            addCriterion("gmt_modified <=", value, "gmtModified");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyIn(List<Timestamp> values) {
-            addCriterion("gmt_modify in", values, "gmtModify");
+        public Criteria andGmtModifiedIn(List<Timestamp> values) {
+            addCriterion("gmt_modified in", values, "gmtModified");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyNotIn(List<Timestamp> values) {
-            addCriterion("gmt_modify not in", values, "gmtModify");
+        public Criteria andGmtModifiedNotIn(List<Timestamp> values) {
+            addCriterion("gmt_modified not in", values, "gmtModified");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyBetween(Timestamp value1, Timestamp value2) {
-            addCriterion("gmt_modify between", value1, value2, "gmtModify");
+        public Criteria andGmtModifiedBetween(Timestamp value1, Timestamp value2) {
+            addCriterion("gmt_modified between", value1, value2, "gmtModified");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyNotBetween(Timestamp value1, Timestamp value2) {
-            addCriterion("gmt_modify not between", value1, value2, "gmtModify");
+        public Criteria andGmtModifiedNotBetween(Timestamp value1, Timestamp value2) {
+            addCriterion("gmt_modified not between", value1, value2, "gmtModified");
             return (Criteria) this;
         }
     }

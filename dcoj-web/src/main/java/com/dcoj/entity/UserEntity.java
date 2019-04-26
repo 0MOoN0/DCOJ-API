@@ -11,11 +11,9 @@ import java.util.Set;
  */
 
  public class UserEntity {
-    @Id
-    private String uid;
+    private Integer uid;
 
     @JSONField(name = "student_id")
-    @Field("student_id")
     private String studentId;
 
     private String email;
@@ -29,35 +27,27 @@ import java.util.Set;
     private Set<String> roles;
 
     @JSONField(name = "submit_times")
-    @Field("submit_time")
     private Integer submitTimes;
 
     @JSONField(name = "contest_times")
-    @Field("contest_times")
     private Integer contestTimes;
 
     @JSONField(name = "ac_times")
-    @Field("ac_times")
     private Integer ACTimes;
 
     @JSONField(name = "wa_times")
-    @Field("wa_times")
     private Integer WATimes;
 
     @JSONField(name = "rte_times")
-    @Field("rte_times")
     private Integer RTETimes;
 
     @JSONField(name = "tle_times")
-    @Field("tle_times")
     private Integer TLETimes;
 
     @JSONField(name = "ce_times")
-    @Field("ce_times")
     private Integer CETimes;
 
     @JSONField(name = "finished_problems")
-    @Field("finished_problems")
     private Integer finishedProblems;
 
     private Integer gender;
@@ -79,11 +69,11 @@ import java.util.Set;
         this.studentId = studentId;
     }
 
-    public String getUid() {
+    public Integer getUid() {
         return uid;
     }
 
-    public void setUid(String uid) {
+    public void setUid(Integer uid) {
         this.uid = uid;
     }
 

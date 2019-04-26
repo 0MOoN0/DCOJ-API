@@ -1,7 +1,7 @@
 package com.dcoj.dao;
 
 import com.dcoj.entity.TestCaseEntity;
-import com.dcoj.entity.TestCaseEntityExample;
+import com.dcoj.entity.example.TestCaseEntityExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
