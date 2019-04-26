@@ -30,7 +30,7 @@ public class SubmissionDetailServiceImplTest {
 
     @Test
     public void testGet(){
-        SubmissionDetailEntity submissionDetailBySubId = submissionDetailService.getSubmissionDetailBySubId(0);
+        SubmissionDetailEntity submissionDetailBySubId = submissionDetailService.getSubmissionDetailBySubId(14);
         System.out.println("==============="+submissionDetailBySubId);
     }
 

@@ -6,7 +6,7 @@
     <result column="judge_detail" jdbcType="VARCHAR" property="judgeDetail" />
     <result column="sub_id" jdbcType="INTEGER" property="subId" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    sd_id, judge_detail, sub_id, gmt_create, gmt_modify
+    sd_id, judge_detail, sub_id, gmt_create, gmt_modified
   </sql>
   <select id="selectByExample" parameterType="com.dcoj.entity.example.SubmissionDetailEntityExample" resultMap="BaseResultMap">
     select

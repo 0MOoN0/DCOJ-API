@@ -346,63 +346,63 @@ public class SubmissionDetailEntityExample {
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyIsNull() {
-            addCriterion("gmt_modify is null");
+        public Criteria andGmtModifiedIsNull() {
+            addCriterion("gmt_modified is null");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyIsNotNull() {
-            addCriterion("gmt_modify is not null");
+        public Criteria andGmtModifiedIsNotNull() {
+            addCriterion("gmt_modified is not null");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyEqualTo(Timestamp value) {
-            addCriterion("gmt_modify =", value, "gmtModify");
+        public Criteria andGmtModifiedEqualTo(Timestamp value) {
+            addCriterion("gmt_modified =", value, "gmtModified");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyNotEqualTo(Timestamp value) {
-            addCriterion("gmt_modify <>", value, "gmtModify");
+        public Criteria andGmtModifiedNotEqualTo(Timestamp value) {
+            addCriterion("gmt_modified <>", value, "gmtModified");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyGreaterThan(Timestamp value) {
-            addCriterion("gmt_modify >", value, "gmtModify");
+        public Criteria andGmtModifiedGreaterThan(Timestamp value) {
+            addCriterion("gmt_modified >", value, "gmtModified");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyGreaterThanOrEqualTo(Timestamp value) {
-            addCriterion("gmt_modify >=", value, "gmtModify");
+        public Criteria andGmtModifiedGreaterThanOrEqualTo(Timestamp value) {
+            addCriterion("gmt_modified >=", value, "gmtModified");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyLessThan(Timestamp value) {
-            addCriterion("gmt_modify <", value, "gmtModify");
+        public Criteria andGmtModifiedLessThan(Timestamp value) {
+            addCriterion("gmt_modified <", value, "gmtModified");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyLessThanOrEqualTo(Timestamp value) {
-            addCriterion("gmt_modify <=", value, "gmtModify");
+        public Criteria andGmtModifiedLessThanOrEqualTo(Timestamp value) {
+            addCriterion("gmt_modified <=", value, "gmtModified");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyIn(List<Timestamp> values) {
-            addCriterion("gmt_modify in", values, "gmtModify");
+        public Criteria andGmtModifiedIn(List<Timestamp> values) {
+            addCriterion("gmt_modified in", values, "gmtModified");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyNotIn(List<Timestamp> values) {
-            addCriterion("gmt_modify not in", values, "gmtModify");
+        public Criteria andGmtModifiedNotIn(List<Timestamp> values) {
+            addCriterion("gmt_modified not in", values, "gmtModified");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyBetween(Timestamp value1, Timestamp value2) {
-            addCriterion("gmt_modify between", value1, value2, "gmtModify");
+        public Criteria andGmtModifiedBetween(Timestamp value1, Timestamp value2) {
+            addCriterion("gmt_modified between", value1, value2, "gmtModified");
             return (Criteria) this;
         }
 
-        public Criteria andGmtModifyNotBetween(Timestamp value1, Timestamp value2) {
-            addCriterion("gmt_modify not between", value1, value2, "gmtModify");
+        public Criteria andGmtModifiedNotBetween(Timestamp value1, Timestamp value2) {
+            addCriterion("gmt_modified not between", value1, value2, "gmtModified");
             return (Criteria) this;
         }
     }

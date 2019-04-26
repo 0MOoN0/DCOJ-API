@@ -15,6 +15,6 @@ public class SubmissionDetailEntity {
 
     private Timestamp gmtCreate;
 
-    private Timestamp gmtModify;
+    private Timestamp gmtModified;
 
 }
