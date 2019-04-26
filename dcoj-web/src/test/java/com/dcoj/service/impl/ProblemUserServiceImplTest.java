@@ -35,7 +35,7 @@ public class ProblemUserServiceImplTest {
 
     @Test
     public void testSelect() {
-        ProblemUserEntity problemUserEntity = problemUserService.get(0, 0);
+        ProblemUserEntity problemUserEntity = problemUserService.getByPidUid(0, 0);
         System.out.println(problemUserEntity);
     }
 

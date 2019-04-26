@@ -27,7 +27,7 @@ public class TestCaseEntity {
     private Timestamp gmtCreate;
 
     /** 修改时间 */
-    private Timestamp gmtModify;
+    private Timestamp gmtModified;
 
     public TestCaseEntity(Integer tcId, Integer pid, String stdin, String stdout) {
         this.tcId = tcId;

@@ -2,8 +2,7 @@ package com.dcoj.util;
 
 import com.dcoj.dao.SubmissionMapper;
 import com.dcoj.entity.SubmissionEntity;
-import com.dcoj.entity.SubmissionEntityExample;
-import com.dcoj.service.SubmissionService;
+import com.dcoj.entity.example.SubmissionEntityExample;
 import com.github.pagehelper.PageHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Leon

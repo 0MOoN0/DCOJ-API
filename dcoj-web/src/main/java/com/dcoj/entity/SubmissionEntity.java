@@ -2,6 +2,8 @@ package com.dcoj.entity;
 
 import com.dcoj.judge.LanguageEnum;
 import com.dcoj.judge.ResultEnum;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -42,7 +44,7 @@ public class SubmissionEntity {
     private Timestamp gmtCreate;
 
     /** 修改时间 */
-    private Timestamp gmtModify;
+    private Timestamp gmtModified;
 
     /** 用户提交的源码 */
     private Integer sourceCode;

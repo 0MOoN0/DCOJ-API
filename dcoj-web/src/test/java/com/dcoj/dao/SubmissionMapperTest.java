@@ -1,7 +1,7 @@
 package com.dcoj.dao;
 
 import com.dcoj.entity.SubmissionEntity;
-import com.dcoj.entity.SubmissionEntityExample;
+import com.dcoj.entity.example.SubmissionEntityExample;
 import com.dcoj.judge.LanguageEnum;
 import com.dcoj.judge.ResultEnum;
 import org.junit.Test;
@@ -9,18 +9,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalField;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Leon
@@ -47,7 +40,7 @@ public class SubmissionMapperTest {
         submission.setSubmitTime(new Timestamp(System.currentTimeMillis()));
         submission.setUsingTime(new BigDecimal(3));
         submission.setUid(123);
-        submissionMapper.insert(submission);
+        submissionMapper.insertSelective(submission);
     }
 
     /**

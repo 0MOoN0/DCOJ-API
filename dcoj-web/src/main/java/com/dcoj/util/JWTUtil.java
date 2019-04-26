@@ -31,7 +31,7 @@ public class JWTUtil {
     }
 
     // 发放签证
-    public static String sign(String uid, String secret) {
+    public static String sign(int uid, String secret) {
         try {
             Date date = new Date(System.currentTimeMillis()+EXPIRE);
             Algorithm algorithm = Algorithm.HMAC256(secret);

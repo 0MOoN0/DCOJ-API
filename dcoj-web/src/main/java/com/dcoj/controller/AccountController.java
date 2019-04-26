@@ -152,10 +152,10 @@ public class AccountController {
         UserEntity userEntity = userService.login(format);
         String token = JWTUtil.sign(userEntity.getUid(),userEntity.getPassword());
         // 检查用户权限缓存，如果用户权限缓存不存在则刷新
-        Set<String> permissionSet = GlobalCacheManager.getPermissionCache().get(userEntity.getUid());
+/*        Set<String> permissionSet = GlobalCacheManager.getPermissionCache().get(userEntity.getUid());
         if(!Optional.ofNullable(permissionSet).isPresent()){
             cacheService.reloadPermissionCacheByUid(userEntity.getUid());
-        }
+        }*/
         return new ResponseEntity("登入成功", token);
     }
 

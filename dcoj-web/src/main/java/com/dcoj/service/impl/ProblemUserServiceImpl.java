@@ -2,7 +2,7 @@ package com.dcoj.service.impl;
 
 import com.dcoj.dao.ProblemUserMapper;
 import com.dcoj.entity.ProblemUserEntity;
-import com.dcoj.entity.ProblemUserEntityExample;
+import com.dcoj.entity.example.ProblemUserEntityExample;
 import com.dcoj.judge.ResultEnum;
 import com.dcoj.service.ProblemUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,11 +46,11 @@ public class ProblemUserServiceImpl implements ProblemUserService {
      * @return ProblemUser
      */
     @Override
-    public ProblemUserEntity get(int pid, int uid) {
+    public ProblemUserEntity getByPidUid(int pid, int uid) {
         ProblemUserEntityExample example = new ProblemUserEntityExample();
         example.createCriteria().andPidEqualTo(pid).andUidEqualTo(uid);
         List<ProblemUserEntity> problemUserEntities = problemUserMapper.selectByExample(example);
-        if(Optional.ofNullable(problemUserEntities).isPresent()){
+        if(problemUserEntities.size()>0){
             return problemUserEntities.get(0);
         }
         return null;
