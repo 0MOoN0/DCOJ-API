@@ -7,10 +7,10 @@
     <result column="stdin" jdbcType="VARCHAR" property="stdin" />
     <result column="stdout" jdbcType="VARCHAR" property="stdout" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
   </resultMap>
-
-  <!--自定义SQL:Begin-->
+  
+    <!--自定义SQL:Begin-->
   <!--根据Example查询一条数据-->
   <select id="selectOneByExample" parameterType="com.dcoj.entity.example.TestCaseEntityExample" resultMap="BaseResultMap">
     select
@@ -28,7 +28,7 @@
     LIMIT 1;
   </select>
   <!--自定义SQL:End-->
-
+  
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -88,7 +88,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    tc_id, pid, stdin, stdout, gmt_create, gmt_modify
+    tc_id, pid, stdin, stdout, gmt_create, gmt_modified
   </sql>
   <select id="selectByExample" parameterType="com.dcoj.entity.example.TestCaseEntityExample" resultMap="BaseResultMap">
     select
