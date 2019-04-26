@@ -6,15 +6,16 @@
     <result column="uid" jdbcType="INTEGER" property="uid" />
     <result column="status" jdbcType="CHAR" property="status" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
   </resultMap>
-
-  <!--自定义SQL: Begin-->
+  
+    <!--自定义SQL: Begin-->
   <select id="listUserProblemsByUid" resultType="HashMap">
         SELECT problem_user.*, problem.title FROM problem_user LEFT JOIN problem ON problem_user.pid=problem.pid
         WHERE problem_user.uid = #{uid}
     </select>
   <!--自定义SQL: End-->
+  
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -74,7 +75,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    pid, uid, status, gmt_create, gmt_modify
+    pid, uid, status, gmt_create, gmt_modified
   </sql>
   <select id="selectByExample" parameterType="com.dcoj.entity.example.ProblemUserEntityExample" resultMap="BaseResultMap">
     select

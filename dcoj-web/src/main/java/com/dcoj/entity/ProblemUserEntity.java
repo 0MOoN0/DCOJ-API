@@ -22,5 +22,5 @@ public class ProblemUserEntity {
     /** 创建时间 自动生成*/
     private Timestamp gmtCreate;
     /** 修改时间 自动生成*/
-    private Timestamp gmtModify;
+    private Timestamp gmtModified;
 }

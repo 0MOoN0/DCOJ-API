@@ -5,6 +5,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Leon
+ */
 public class SubmissionDetailEntityExample {
     protected String orderByClause;
 
