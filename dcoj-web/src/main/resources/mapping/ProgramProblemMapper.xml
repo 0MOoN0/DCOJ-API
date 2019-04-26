@@ -10,7 +10,7 @@
         ,ac_times,wa_times,gmt_create,gmt_modified,
         is_deleted,title,input_format,output_format,
         samples,run_time,`memory`,used_times,rte_times,tle_times,
-        ce_times
+        ce_times,`status`
     </sql>
 
     <resultMap id="problemResultMap" type="ProgramProblemEntity">
@@ -28,6 +28,7 @@
         <!--<result column="answer" property="answer"/>-->
 
         <result column="title" property="title"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
         <!--<result column="lang" property="lang"/>-->
         <result column="input_format" property="inputFormat"/>
         <result column="output_format" property="outputFormat"/>
@@ -84,10 +85,13 @@
         where program_problem_id = #{programProblemId} and is_deleted = 0
     </update>
 
-    <select id="listAll" resultMap="problemResultMap">
+    <select id="listAll" resultMap="problemResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
         from program_problem where is_deleted = 0
+        <if test="status != null">
+            and `status` = #{status,jdbcType=INTEGER}
+        </if>
     </select>
 
     <!--<select id="listByType" resultMap="problemResultMap">-->

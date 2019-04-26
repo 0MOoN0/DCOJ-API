@@ -51,7 +51,7 @@ public interface ProgramProblemService {
      *
      * @return 包含所有题目的List集合
      */
-    List<ProgramProblemEntity> listAll();
+//    List<ProgramProblemEntity> listAll();
 
     /**
      * 根据题目类型查询题目
@@ -93,4 +93,11 @@ public interface ProgramProblemService {
      */
     List<Map<String, Object>> listProgramProblemTagsByPid(int programProblemId);
 
+    /**
+     * 根据状态查询编程题(不加参数则查询全部)
+     *
+     * @param status 题目状态
+     * @return 根据题目状态返回该类型的题目
+     */
+    List<ProgramProblemEntity> listAll(Integer status);
 }

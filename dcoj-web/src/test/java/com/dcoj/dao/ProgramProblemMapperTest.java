@@ -20,9 +20,9 @@ import java.util.Map;
 @SpringBootTest
 public class ProgramProblemMapperTest {
 
-//    @Autowired
-//    private ProgramProblemMapper programProblemMapper;
-//
+    @Autowired
+    private ProgramProblemMapper programProblemMapper;
+
 //    @Test
 //    public void countProblems() {
 //        System.out.println(programProblemMapper.countProblems());
@@ -74,11 +74,11 @@ public class ProgramProblemMapperTest {
 //        System.out.println(programProblemMapper.updateProblem(programProblemEntity3));
 //    }
 //
-//    @Test
-//    public void listAll() {
-//        List<ProgramProblemEntity> list =  programProblemMapper.listAll();
-//        list.forEach(System.out::println);
-//    }
+    @Test
+    public void listAll() {
+        List<ProgramProblemEntity> list =  programProblemMapper.listAll(0);
+        list.forEach(System.out::println);
+    }
 //
 //    @Test
 //    public void listByType() {

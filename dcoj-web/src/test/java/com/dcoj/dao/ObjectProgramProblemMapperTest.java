@@ -141,7 +141,7 @@ public class ObjectProgramProblemMapperTest {
 
     @Test
     public void listByStatus(){
-        objectProblemMapper.listByStatus(0).forEach(System.out::println);
+        //objectProblemMapper.listByStatus(0).forEach(System.out::println);
     }
 
     @Test

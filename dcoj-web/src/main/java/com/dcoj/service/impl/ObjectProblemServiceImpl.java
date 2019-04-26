@@ -74,7 +74,7 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
             // 保存tag标签并且添加tag标签使用次数
             List<Integer> tagList = new ArrayList<>(tags.size());
             for (int i = 0; i < tags.size(); i++) {
-                int tid = tags.getInteger(i);
+                int tid = tags.getJSONObject(i).getInteger("objectTagId");
                 tagList.add(tid);
             }
             // 判断新修改的标签id集合是否为空
@@ -121,7 +121,7 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
             //将JSONArray里的元素取出并存到List<Integer>
             for (int i = 0; i < newTags.size(); i++) {
                 // 从JSONArray取出tid
-                int tid = newTags.getInteger(i);
+                int tid = newTags.getJSONObject(i).getInteger("objectTagId");
                 finalTags.add(tid);
             }
             //判断新修改的标签id集合是否为空
@@ -199,11 +199,11 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
     }
 
     /**
-     * 根据状态、类型统计客观题数量(不加参数则查询全部)
+     * 根据状态、类型查询客观题(不加参数则查询全部)
      *
      * @param status 题目状态
-     * @param type   题目类型
-     * @return 根据题目状态、题目类型返回该类型的题目数量
+     * @param type 题目类型
+     * @return 根据题目状态、题目类型返回该类型的题目
      */
     @Override
     public List<ObjectProblemEntity> listAll(Integer status, Integer type) {

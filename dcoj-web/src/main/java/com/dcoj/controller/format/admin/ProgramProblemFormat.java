@@ -2,6 +2,7 @@ package com.dcoj.controller.format.admin;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
@@ -10,17 +11,14 @@ import javax.validation.constraints.NotNull;
 
 
 /**
- * 添加题目格式校验
+ * 添加编程题目格式校验
  *
  * @author WANGQING
  */
 @Getter
 @Setter
+@ApiModel(value = "ProgramProblemFormat",description = "添加编程题目格式校验")
 public class ProgramProblemFormat {
-
-    /** 题目类型 0-选择题 1-填空题 2-判断题 3-编程题 */
-//    @NotNull
-//    private Integer type;
     /** 题目描述 */
     @NotNull
     private JSONObject description;
@@ -29,12 +27,7 @@ public class ProgramProblemFormat {
     @Range(min = 0, max = 3)
     private Integer difficult;
     /** 题目标签 */
-    //@NotNull
     private JSONArray tags;
-
-    /** 题目答案 */
-//    private String answer;
-
     /** 题目标题 */
     private String title;
     /** 输入规范 */

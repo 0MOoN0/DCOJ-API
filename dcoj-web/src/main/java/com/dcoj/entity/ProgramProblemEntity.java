@@ -51,6 +51,8 @@ public class ProgramProblemEntity {
     private Timestamp gmtCreate;
     /** 是否删除题目（题目是否存在） */
     private Integer deleted;
+    /** 题目状态 */
+    private Integer status;
 
     //TODO: 04.24 WANGQING 未添加status字段
 }

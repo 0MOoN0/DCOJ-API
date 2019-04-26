@@ -6,6 +6,8 @@ import com.dcoj.util.WebUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -26,13 +28,19 @@ public class ProgramProblemsController {
     private ProgramProblemService programProblemService;
 
     @ApiOperation("获取所有题目")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page_num", value = "页码", required = true, paramType = "query" ),
+            @ApiImplicitParam(name = "page_size", value = "每页显示数量", required = true,  paramType = "query"),
+            @ApiImplicitParam(name = "status", value = "题目状态",  paramType = "query")
+    })
     @GetMapping
-    public ResponseEntity listAll(@RequestParam(name = "pageNum") int pageNum,
-                                  @RequestParam(name = "page_size") int pageSize) {
+    public ResponseEntity listAll(@RequestParam(name = "page_num") int pageNum,
+                                  @RequestParam(name = "page_size") int pageSize,
+                                  @RequestParam(name = "status",required = false) Integer status) {
         // pageNum  页码
         // pageSize 每页显示数量
         Page pager = PageHelper.startPage(pageNum, pageSize);
-        return new ResponseEntity(WebUtil.generatePageData(pager, programProblemService.listAll()));
+        return new ResponseEntity(WebUtil.generatePageData(pager, programProblemService.listAll(status)));
     }
 
 //    @ApiOperation("根据类型获取所有题目")

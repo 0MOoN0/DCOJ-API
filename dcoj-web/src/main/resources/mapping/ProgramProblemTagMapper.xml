@@ -30,7 +30,7 @@
     <select id="getTagsByProgramProblemId" resultType="Integer">
         select
                program_tag_id
-        from tag_problem where is_deleted = 0 and program_problem_id = #{programProblemId}
+        from program_problem_tag where is_deleted = 0 and program_problem_id = #{programProblemId}
     </select>
 
     <!--<select id="getByPid" resultMap="tagProblemResultMap">-->

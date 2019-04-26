@@ -32,14 +32,14 @@ public class ObjectProblemController {
     @ApiOperation("获取该题的所有标签")
     @ApiImplicitParam(name = "objectProblemId", value = "客观题id", required = true, paramType = "path" )
     @GetMapping("/tags/{objectProblemId}")
-    public ResponseEntity listProblemTagsByPid(@PathVariable("objectProblemId") Integer objectProblemId) {
+    public ResponseEntity listObjectProblemTagsByPrimaryKey(@PathVariable("objectProblemId") Integer objectProblemId) {
         return new ResponseEntity(objectProblemService.listObjectProblemTagsByPrimaryKey(objectProblemId));
     }
 
     @ApiOperation("删除指定题目")
     @ApiImplicitParam(name = "objectProblemId", value = "客观题id", required = true, paramType = "path" )
     @DeleteMapping("/{objectProblemId}")
-    public ResponseEntity removeByPid(@PathVariable Integer objectProblemId) {
+    public ResponseEntity removeByPrimaryKey(@PathVariable Integer objectProblemId) {
         objectProblemService.removeByPrimaryKey(objectProblemId);
         return new ResponseEntity("题目删除成功");
     }
@@ -47,7 +47,7 @@ public class ObjectProblemController {
     @ApiOperation("获取指定一道题目的信息")
     @ApiImplicitParam(name = "objectProblemId", value = "客观题id", required = true, paramType = "path" )
     @GetMapping("/{objectProblemId}")
-    public ResponseEntity getById(@PathVariable Integer objectProblemId) {
+    public ResponseEntity getByPrimaryKey(@PathVariable Integer objectProblemId) {
         ObjectProblemEntity objectProblemEntity = objectProblemService.getByPrimaryKey(objectProblemId);
         Map<String, Object> dataMap = new HashMap<>(2);
         dataMap.put("objectProblem", objectProblemEntity);
@@ -68,7 +68,7 @@ public class ObjectProblemController {
 
     @ApiOperation("更新题目")
     @PutMapping("/{objectProblemId}")
-    public ResponseEntity updateObjectiveProblem(@PathVariable("objectProblemId") Integer objectProblemId,
+    public ResponseEntity updateProblemAndTags(@PathVariable("objectProblemId") Integer objectProblemId,
                                                  @RequestBody @Valid ObjectProblemFormat format) {
         ObjectProblemEntity objectProblemEntity = new ObjectProblemEntity();
         objectProblemEntity.setType(format.getType());

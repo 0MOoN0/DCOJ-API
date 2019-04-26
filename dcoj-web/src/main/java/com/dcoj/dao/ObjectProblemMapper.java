@@ -82,11 +82,11 @@ public interface ObjectProblemMapper {
     int countObjectProblemsByStatus(Integer status);
 
     /**
-     * 根据状态、类型统计客观题数量(不加参数则查询全部)
+     * 根据状态、类型查询客观题(不加参数则查询全部)
      *
      * @param status 题目状态
      * @param type 题目类型
-     * @return 根据题目状态、题目类型返回该类型的题目数量
+     * @return 根据题目状态、题目类型返回该类型的题目
      */
     List<ObjectProblemEntity> listAll(@Param("status") Integer status, @Param("type") Integer type);
 }

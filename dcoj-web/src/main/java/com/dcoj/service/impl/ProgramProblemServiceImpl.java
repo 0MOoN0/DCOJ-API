@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+//TODO:04.26 WANGQING 编程题、客观题题目模块全部未加修改status方法
 /**
  * @author WANGQING
  */
@@ -36,17 +36,6 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
     public int countProgramProblems() {
         return programProblemMapper.countProgramProblems();
     }
-
-    /**
-     * 根据题目类型统计题目数量
-     *
-     * @param type 所选类型
-     * @return 根据题目类型返回该类型的题目数量
-     */
-//    @Override
-//    public int countProblemsByType(int type) {
-//        return programProblemMapper.countProblemsByType(type);
-//    }
 
     /**
      * 删除一道题目
@@ -90,7 +79,7 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
             //将JSONArray里的元素取出并存到List<Integer>
             for (int i = 0; i < newTags.size(); i++) {
                 // 从JSONArray取出tid
-                int tid = newTags.getInteger(i);
+                int tid = newTags.getJSONObject(i).getInteger("programTagId");
                 finalTags.add(tid);
             }
             //判断新修改的标签id集合是否为空
@@ -105,26 +94,6 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
         WebUtil.assertIsSuccess(flag, "题目更新失败");
     }
 
-    /**
-     * 查询所有题目
-     *
-     * @return 包含所有题目的List集合
-     */
-    @Override
-    public List<ProgramProblemEntity> listAll() {
-        return programProblemMapper.listAll();
-    }
-
-    /**
-     * 根据题目类型查询题目
-     *
-     * @param type 所选题目类型
-     * @return 包含该类型所有题目的List集合
-     */
-//    @Override
-//    public List<ProgramProblemEntity> listByType(int type) {
-//        return programProblemMapper.listByType(type);
-//    }
 
     /**
      * 通过编号查询题目
@@ -152,12 +121,13 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
         boolean flag = programProblemMapper.save(programProblemEntity) == 1;
         WebUtil.assertIsSuccess(flag, "题目添加失败");
         int programProblemId = programProblemEntity.getProgramProblemId();
+
         // 判断题目添加的时候是否带有标签
         if (tags != null && tags.size() != 0 && !tags.getJSONObject(0).isEmpty()){
             // 保存tag标签并且添加tag标签使用次数
             List<Integer> tagList = new ArrayList<>(tags.size());
             for (int i = 0; i < tags.size(); i++) {
-                int tid = tags.getInteger(i);
+                int tid = tags.getJSONObject(i).getInteger("programTagId");
                 tagList.add(tid);
             }
             // 判断新修改的标签id集合是否为空
@@ -192,5 +162,16 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
     public List<Map<String, Object>> listProgramProblemTagsByPid(int programProblemId) {
         WebUtil.assertNotNull(programProblemMapper.getByPrimaryKey(programProblemId),"该题目不存在");
         return programProblemMapper.listProgramProblemTagsByPrimaryKey(programProblemId);
+    }
+
+    /**
+     * 根据状态查询编程题(不加参数则查询全部)
+     *
+     * @param status 题目状态
+     * @return 根据题目状态返回该类型的题目
+     */
+    @Override
+    public List<ProgramProblemEntity> listAll(Integer status) {
+        return programProblemMapper.listAll(status);
     }
 }

@@ -3,7 +3,6 @@ package com.dcoj.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dcoj.controller.format.admin.ProgramProblemFormat;
-import com.dcoj.controller.format.admin.UpdatePragramFormat;
 import com.dcoj.entity.ProgramProblemEntity;
 import com.dcoj.entity.ResponseEntity;
 import com.dcoj.service.ProgramProblemService;
@@ -54,7 +53,7 @@ public class ProgramProblemController {
     @ApiOperation("获取指定一道题目的信息")
     @ApiImplicitParam(name = "programProblemId", value = "编程题id")
     @GetMapping("/{programProblemId}")
-    public ResponseEntity getById(@PathVariable int programProblemId) {
+    public ResponseEntity getByPrimaryKey(@PathVariable int programProblemId) {
         ProgramProblemEntity programProblemEntity = programProblemService.getByPrimaryKey(programProblemId);
         Map<String, Object> dataMap = new HashMap<>(2);
         dataMap.put("programProblem", programProblemEntity);
@@ -64,13 +63,11 @@ public class ProgramProblemController {
     @ApiOperation("创建题目")
     @PostMapping
     public ResponseEntity save(@RequestBody @Valid ProgramProblemFormat format) {
-        // 检查标签是否为空
-        //checkProblemTags(format.getTags());
         // 将format格式的数据保存到ProblemEntity对象里
         ProgramProblemEntity programProblemEntity = new ProgramProblemEntity();
         programProblemEntity.setDescription(format.getDescription());
         programProblemEntity.setDifficult(format.getDifficult());
-        // 如果是编程题，则执行编程题的校验,否则执行客观题的校验。并保存到ProblemEntity对象里
+        // 检查格式规范
         checkProgramFormat(format);
         checkProgramSamples(format.getSamples());
         programProblemEntity.setTitle(format.getTitle());
@@ -88,13 +85,14 @@ public class ProgramProblemController {
     @ApiImplicitParam(name = "programProblemId", value = "编程题id")
     @PutMapping("/{programProblemId}")
     public ResponseEntity updateProgram(@PathVariable("programProblemId") int programProblemId,
-                                        @RequestBody @Valid UpdatePragramFormat format) {
+                                        @RequestBody @Valid ProgramProblemFormat format) {
         ProgramProblemEntity newProgramProblemEntity = new ProgramProblemEntity();
         newProgramProblemEntity.setTitle(format.getTitle());
         newProgramProblemEntity.setDescription(format.getDescription());
         newProgramProblemEntity.setInputFormat(format.getInputFormat());
         newProgramProblemEntity.setOutputFormat(format.getOutputFormat());
         newProgramProblemEntity.setDifficult(format.getDifficult());
+        // 检查格式规范
         checkProgramSamples(format.getSamples());
         newProgramProblemEntity.setSamples(format.getSamples());
        // checkProblemTags(format.getTags());
@@ -104,20 +102,6 @@ public class ProgramProblemController {
         programProblemService.updateProblemAndTags(programProblemId, format.getTags(), newProgramProblemEntity);
         return new ResponseEntity("题目更新成功");
     }
-
-//    @ApiOperation("更新客观题目")
-//    @PutMapping("/ObjectiveProblem/{pid}")
-//    public ResponseEntity updateObjectiveProblem(@PathVariable("pid") int pid,
-//                                        @RequestBody @Valid UpdateObjectProblemFormat format) {
-//        ProgramProblemEntity newProblemEntity = new ProgramProblemEntity();
-//        newProblemEntity.setDescription(format.getDescription());
-//        newProblemEntity.setDifficult(format.getDifficult());
-//        checkProblemTags(format.getTags());
-//        checkObjectiveProblemAnswerFormat(format.getAnswer());
-//        newProblemEntity.setAnswer(format.getAnswer());
-//        programProblemService.updateProblem(pid, format.getTags(), newProblemEntity);
-//        return new ResponseEntity("题目更新成功");
-//    }
 
     /**
      * 检查编程题目样例
@@ -153,23 +137,4 @@ public class ProgramProblemController {
                  "运行内存不能为0且不能超过256");
     }
 
-//    /**
-//     * 检查客观题答案是否为空
-//     *
-//     * @param answer 客观题题目答案
-//     */
-//    private void checkObjectiveProblemAnswerFormat(String answer){
-//        // 判断客观题答案是否为空
-//        WebUtil.assertIsSuccess((answer != null && answer.trim().length() != 0),
-//                "客观题答案不能为空");
-//    }
-//
-//    /**
-//     * 检查题目标签是否为空
-//     *
-//     * @param tags 标签
-//     */
-//    private void checkProblemTags(JSONArray tags) {
-//            WebUtil.assertIsSuccess(tags.size()!=0,"标签不得为空");
-//    }
 }

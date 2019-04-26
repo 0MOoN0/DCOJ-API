@@ -1,6 +1,8 @@
 package com.dcoj.dao;
 
+import com.dcoj.entity.ObjectProblemEntity;
 import com.dcoj.entity.ProgramProblemEntity;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -45,7 +47,7 @@ public interface ProgramProblemMapper {
      *
      * @return 包含所有题目的List集合
      */
-    List<ProgramProblemEntity> listAll();
+//    List<ProgramProblemEntity> listAll();
 
     /**
      * 根据题目类型查询题目
@@ -87,5 +89,13 @@ public interface ProgramProblemMapper {
      * @return 结果
      */
     List<Map<String, Object>> listProgramProblemTagsByPrimaryKey(int programProblemId);
+
+    /**
+     * 根据状态查询编程题(不加参数则查询全部)
+     *
+     * @param status 题目状态
+     * @return 根据题目状态返回该类型的题目
+     */
+    List<ProgramProblemEntity> listAll(@Param("status") Integer status);
 
 }
