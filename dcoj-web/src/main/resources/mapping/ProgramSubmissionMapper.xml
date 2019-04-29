@@ -28,7 +28,7 @@
         distinct
       </if>
       <include refid="Base_Column_List" />
-      from submission
+      from program_submission
       <if test="_parameter != null">
         <include refid="Example_Where_Clause" />
       </if>
@@ -110,7 +110,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from submission
+    from program_submission
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -121,21 +121,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from submission
+    from program_submission
     where sub_id = #{subId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from submission
+    delete from program_submission
     where sub_id = #{subId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.dcoj.entity.example.ProgramSubmissionEntityExample">
-    delete from submission
+    delete from program_submission
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.dcoj.entity.ProgramSubmissionEntity" useGeneratedKeys="true" keyProperty="subId">
-    insert into submission (sub_id, uid, pid, 
+    insert into program_submission (sub_id, uid, pid, 
       source_code, using_time, memory, 
       status, submit_time, lang, 
       eid, gid, queryable_time
@@ -147,7 +147,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.dcoj.entity.ProgramSubmissionEntity" useGeneratedKeys="true" keyProperty="subId">
-    insert into submission
+    insert into program_submission
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="subId != null">
         sub_id,
@@ -226,13 +226,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.dcoj.entity.example.ProgramSubmissionEntityExample" resultType="java.lang.Long">
-    select count(*) from submission
+    select count(*) from program_submission
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update submission
+    update program_submission
     <set>
       <if test="record.subId != null">
         sub_id = #{record.subId,jdbcType=INTEGER},
@@ -276,7 +276,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update submission
+    update program_submission
     set sub_id = #{record.subId,jdbcType=INTEGER},
       uid = #{record.uid,jdbcType=INTEGER},
       pid = #{record.pid,jdbcType=INTEGER},
@@ -294,7 +294,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.dcoj.entity.ProgramSubmissionEntity">
-    update submission
+    update program_submission
     <set>
       <if test="uid != null">
         uid = #{uid,jdbcType=INTEGER},
@@ -333,7 +333,7 @@
     where sub_id = #{subId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.dcoj.entity.ProgramSubmissionEntity">
-    update submission
+    update program_submission
     set uid = #{uid,jdbcType=INTEGER},
       pid = #{pid,jdbcType=INTEGER},
       source_code = #{sourceCode,jdbcType=INTEGER},
