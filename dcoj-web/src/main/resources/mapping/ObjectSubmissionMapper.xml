@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dcoj.dao.ObjectSubmissionMapper">
+  <resultMap id="BaseResultMap" type="com.dcoj.entity.ObjectSubmissionEntity">
+    <id column="object_submit_id" jdbcType="INTEGER" property="objectSubmitId" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="object_problem_id" jdbcType="INTEGER" property="objectProblemId" />
+    <result column="result_status" jdbcType="TINYINT" property="resultStatus" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="answer" jdbcType="VARCHAR" property="answer" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    object_submit_id, uid, object_problem_id, result_status, gmt_create, gmt_modified, 
+    answer
+  </sql>
+  <select id="selectByExample" parameterType="com.dcoj.entity.example.ObjectSubmissionEntityExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from object_submission
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from object_submission
+    where object_submit_id = #{objectSubmitId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from object_submission
+    where object_submit_id = #{objectSubmitId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dcoj.entity.example.ObjectSubmissionEntityExample">
+    delete from object_submission
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dcoj.entity.ObjectSubmissionEntity">
+    insert into object_submission (object_submit_id, uid, object_problem_id, 
+      result_status, answer)
+    values (#{objectSubmitId,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{objectProblemId,jdbcType=INTEGER}, 
+      #{resultStatus,jdbcType=TINYINT}, #{answer,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dcoj.entity.ObjectSubmissionEntity">
+    insert into object_submission
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="objectSubmitId != null">
+        object_submit_id,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="objectProblemId != null">
+        object_problem_id,
+      </if>
+      <if test="resultStatus != null">
+        result_status,
+      </if>
+      <if test="answer != null">
+        answer,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="objectSubmitId != null">
+        #{objectSubmitId,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="objectProblemId != null">
+        #{objectProblemId,jdbcType=INTEGER},
+      </if>
+      <if test="resultStatus != null">
+        #{resultStatus,jdbcType=TINYINT},
+      </if>
+      <if test="answer != null">
+        #{answer,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dcoj.entity.example.ObjectSubmissionEntityExample" resultType="java.lang.Long">
+    select count(*) from object_submission
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update object_submission
+    <set>
+      <if test="record.objectSubmitId != null">
+        object_submit_id = #{record.objectSubmitId,jdbcType=INTEGER},
+      </if>
+      <if test="record.uid != null">
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.objectProblemId != null">
+        object_problem_id = #{record.objectProblemId,jdbcType=INTEGER},
+      </if>
+      <if test="record.resultStatus != null">
+        result_status = #{record.resultStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.answer != null">
+        answer = #{record.answer,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update object_submission
+    set object_submit_id = #{record.objectSubmitId,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      object_problem_id = #{record.objectProblemId,jdbcType=INTEGER},
+      result_status = #{record.resultStatus,jdbcType=TINYINT},
+      answer = #{record.answer,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dcoj.entity.ObjectSubmissionEntity">
+    update object_submission
+    <set>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="objectProblemId != null">
+        object_problem_id = #{objectProblemId,jdbcType=INTEGER},
+      </if>
+      <if test="resultStatus != null">
+        result_status = #{resultStatus,jdbcType=TINYINT},
+      </if>
+      <if test="answer != null">
+        answer = #{answer,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where object_submit_id = #{objectSubmitId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dcoj.entity.ObjectSubmissionEntity">
+    update object_submission
+    set uid = #{uid,jdbcType=INTEGER},
+      object_problem_id = #{objectProblemId,jdbcType=INTEGER},
+      result_status = #{resultStatus,jdbcType=TINYINT},
+      answer = #{answer,jdbcType=VARCHAR}
+    where object_submit_id = #{objectSubmitId,jdbcType=INTEGER}
+  </update>
+</mapper>
