@@ -102,11 +102,4 @@ public class SubmissionsController {
         Page pager = PageHelper.startPage(pageNum, pageSize);
         return new ResponseEntity(WebUtil.generatePageData(pager, submissionService.listProblemLeaderboard(pid, sortKeyWord, groupBy)));
     }
-
-
-
-
-
-
-
 }

@@ -13,6 +13,8 @@ import com.dcoj.security.SessionHelper;
 import com.dcoj.service.AsyncJudgeService;
 import com.dcoj.service.JudgeService;
 import com.dcoj.service.TestCasesService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -28,9 +30,11 @@ import java.util.Map;
 
 /**
  * 提交代码相关Controller
+ *
  * @author Leon
  */
 @RestController
+@Valid
 @RequestMapping(value = "/code", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class CodeController {
 
@@ -69,12 +73,11 @@ public class CodeController {
         return new ResponseEntity(null, judgeId);
     }
 
-
     @ApiOperation("用户判卷提交")
     @RequiresAuthentication
     @PostMapping("/user")
     public ResponseEntity submitCode(@RequestBody @Valid UserSubmitCodeFormat format) {
-        int pid = format.getProblemId();
+        int pid = format.getPid();
         int examId = format.getExaminationId();
         int gid = format.getGroupId();
         String sourceCode = format.getSourceCode();
