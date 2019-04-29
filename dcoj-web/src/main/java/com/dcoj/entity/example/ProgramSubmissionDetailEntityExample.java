@@ -8,14 +8,14 @@ import java.util.List;
 /**
  * @author Leon
  */
-public class SubmissionDetailEntityExample {
+public class ProgramSubmissionDetailEntityExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public SubmissionDetailEntityExample() {
+    public ProgramSubmissionDetailEntityExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

@@ -14,7 +14,7 @@ import java.sql.Timestamp;
  * @author Leon
  */
 @Data
-public class SubmissionEntity {
+public class ProgramSubmissionEntity {
 
     /** SubmissionID */
     private Integer subId;

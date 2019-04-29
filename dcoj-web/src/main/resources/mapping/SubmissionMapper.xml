@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dcoj.dao.SubmissionMapper">
-  <resultMap id="BaseResultMap" type="com.dcoj.entity.SubmissionEntity">
+<mapper namespace="com.dcoj.dao.ProgramSubmissionMapper">
+  <resultMap id="BaseResultMap" type="com.dcoj.entity.ProgramSubmissionEntity">
     <id column="sub_id" jdbcType="INTEGER" property="subId" />
     <result column="uid" jdbcType="INTEGER" property="uid" />
     <result column="pid" jdbcType="INTEGER" property="pid" />
@@ -19,7 +19,7 @@
   </resultMap>
   
     <!--自定义SQL Begin:-->
-  <select id="listProblemLeaderboard" parameterType="com.dcoj.entity.example.SubmissionEntityExample" resultMap="BaseResultMap">
+  <select id="listProblemLeaderboard" parameterType="com.dcoj.entity.example.ProgramSubmissionEntityExample" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from (
@@ -104,7 +104,7 @@
     sub_id, uid, pid, source_code, using_time, memory, status, submit_time, gmt_create, 
     gmt_modified, lang, eid, gid, queryable_time
   </sql>
-  <select id="selectByExample" parameterType="com.dcoj.entity.example.SubmissionEntityExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.dcoj.entity.example.ProgramSubmissionEntityExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -128,13 +128,13 @@
     delete from submission
     where sub_id = #{subId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.dcoj.entity.example.SubmissionEntityExample">
+  <delete id="deleteByExample" parameterType="com.dcoj.entity.example.ProgramSubmissionEntityExample">
     delete from submission
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.dcoj.entity.SubmissionEntity"   useGeneratedKeys="true" keyProperty="subId">
+  <insert id="insert" parameterType="com.dcoj.entity.ProgramSubmissionEntity" useGeneratedKeys="true" keyProperty="subId">
     insert into submission (sub_id, uid, pid, 
       source_code, using_time, memory, 
       status, submit_time, lang, 
@@ -146,7 +146,7 @@
       #{eid,jdbcType=INTEGER}, #{gid,jdbcType=INTEGER}, #{queryableTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.dcoj.entity.SubmissionEntity"   useGeneratedKeys="true" keyProperty="subId">
+  <insert id="insertSelective" parameterType="com.dcoj.entity.ProgramSubmissionEntity" useGeneratedKeys="true" keyProperty="subId">
     insert into submission
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="subId != null">
@@ -225,7 +225,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.dcoj.entity.example.SubmissionEntityExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.dcoj.entity.example.ProgramSubmissionEntityExample" resultType="java.lang.Long">
     select count(*) from submission
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -293,7 +293,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.dcoj.entity.SubmissionEntity">
+  <update id="updateByPrimaryKeySelective" parameterType="com.dcoj.entity.ProgramSubmissionEntity">
     update submission
     <set>
       <if test="uid != null">
@@ -332,7 +332,7 @@
     </set>
     where sub_id = #{subId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.dcoj.entity.SubmissionEntity">
+  <update id="updateByPrimaryKey" parameterType="com.dcoj.entity.ProgramSubmissionEntity">
     update submission
     set uid = #{uid,jdbcType=INTEGER},
       pid = #{pid,jdbcType=INTEGER},

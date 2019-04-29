@@ -2,7 +2,7 @@ package com.dcoj.controller;
 
 import com.dcoj.entity.ResponseEntity;
 import com.dcoj.service.ProblemUserService;
-import com.dcoj.service.SubmissionService;
+import com.dcoj.service.ProgramSubmissionService;
 import com.dcoj.util.JWTUtil;
 import com.dcoj.util.WebUtil;
 import com.github.pagehelper.Page;
@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(value = "/submissions", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class SubmissionsController {
+public class ProgramSubmissionsController {
 
     @Autowired
-    private SubmissionService submissionService;
+    private ProgramSubmissionService submissionService;
 
     @Autowired
     private ProblemUserService problemUserService;

@@ -1,9 +1,9 @@
 package com.dcoj.service.impl;
 
-import com.dcoj.entity.SubmissionEntity;
+import com.dcoj.entity.ProgramSubmissionEntity;
 import com.dcoj.judge.LanguageEnum;
 import com.dcoj.judge.ResultEnum;
-import com.dcoj.service.SubmissionService;
+import com.dcoj.service.ProgramSubmissionService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +18,10 @@ import java.util.List;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SubmissionServiceImplTest {
+public class ProgramSubmissionServiceImplTest {
 
     @Autowired
-    private SubmissionService submissionService;
+    private ProgramSubmissionService submissionService;
 
     @Test
     public void testSave() throws InterruptedException {
@@ -42,7 +42,7 @@ public class SubmissionServiceImplTest {
 
     @Test
     public void testListUserProblemSubmissions(){
-        List<SubmissionEntity> submissionEntities = submissionService.listUserProblemSubmissions(0, 1);
+        List<ProgramSubmissionEntity> submissionEntities = submissionService.listUserProblemSubmissions(0, 1);
         submissionEntities.parallelStream().forEach(System.out::println);
     }
 
@@ -50,8 +50,8 @@ public class SubmissionServiceImplTest {
     public void testListProblemLeaderboard(){
 //        List<SubmissionEntity> submissionEntities = submissionService.listProblemLeaderboard(1, "submit_time", "PYTHON27");
 //        List<SubmissionEntity> submissionEntities = submissionService.listProblemLeaderboard(1, "using_time", "PYTHON27");
-        List<SubmissionEntity> submissionEntities = submissionService.listProblemLeaderboard(1, "submit_time", "JAVA8");
-        for (SubmissionEntity se: submissionEntities
+        List<ProgramSubmissionEntity> submissionEntities = submissionService.listProblemLeaderboard(1, "submit_time", "JAVA8");
+        for (ProgramSubmissionEntity se: submissionEntities
              ) {
             System.out.println(se);
         }
@@ -59,8 +59,8 @@ public class SubmissionServiceImplTest {
 
     @Test
     public void testListUserSubmission(){
-        List<SubmissionEntity> submissionEntities = submissionService.listUserSubmission(0);
-        for (SubmissionEntity se: submissionEntities
+        List<ProgramSubmissionEntity> submissionEntities = submissionService.listUserSubmission(0);
+        for (ProgramSubmissionEntity se: submissionEntities
              ) {
             System.out.println(se);
         }

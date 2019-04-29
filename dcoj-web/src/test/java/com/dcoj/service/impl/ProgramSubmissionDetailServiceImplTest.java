@@ -1,16 +1,12 @@
 package com.dcoj.service.impl;
 
-import com.dcoj.dao.SubmissionDetailMapper;
-import com.dcoj.entity.SubmissionDetailEntity;
-import com.dcoj.entity.example.SubmissionDetailEntityExample;
-import com.dcoj.service.SubmissionDetailService;
+import com.dcoj.entity.ProgramSubmissionDetailEntity;
+import com.dcoj.service.ProgramSubmissionDetailService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.List;
 
 /**
  * @author Leon
@@ -18,10 +14,10 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SubmissionDetailServiceImplTest {
+public class ProgramSubmissionDetailServiceImplTest {
 
     @Autowired
-    private SubmissionDetailService submissionDetailService;
+    private ProgramSubmissionDetailService submissionDetailService;
 
     @Test
     public void testHelloWorld(){
@@ -30,7 +26,7 @@ public class SubmissionDetailServiceImplTest {
 
     @Test
     public void testGet(){
-        SubmissionDetailEntity submissionDetailBySubId = submissionDetailService.getSubmissionDetailBySubId(14);
+        ProgramSubmissionDetailEntity submissionDetailBySubId = submissionDetailService.getSubmissionDetailBySubId(14);
         System.out.println("==============="+submissionDetailBySubId);
     }
 
