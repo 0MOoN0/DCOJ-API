@@ -6,7 +6,7 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 @Data
-public class SubmissionDetailEntity {
+public class ProgramSubmissionDetailEntity {
     private Integer sdId;
 
     private JSONObject judgeDetail;

@@ -10,7 +10,7 @@ import com.dcoj.judge.task.ProblemJudgeTask;
 import com.dcoj.service.JudgeService;
 import com.dcoj.service.ProgramProblemService;
 import com.dcoj.service.ProblemUserService;
-import com.dcoj.service.SubmissionService;
+import com.dcoj.service.ProgramSubmissionService;
 import com.dcoj.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class JudgeServiceImpl implements JudgeService {
     private ProgramProblemService programProblemService;
 
     @Autowired
-    private SubmissionService submissionService;
+    private ProgramSubmissionService submissionService;
 
     @Override
     public JudgeResult getJudgeResult(String id) {

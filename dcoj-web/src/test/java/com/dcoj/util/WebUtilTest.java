@@ -1,8 +1,8 @@
 package com.dcoj.util;
 
-import com.dcoj.dao.SubmissionMapper;
-import com.dcoj.entity.SubmissionEntity;
-import com.dcoj.entity.example.SubmissionEntityExample;
+import com.dcoj.dao.ProgramSubmissionMapper;
+import com.dcoj.entity.ProgramSubmissionEntity;
+import com.dcoj.entity.example.ProgramSubmissionEntityExample;
 import com.github.pagehelper.PageHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,16 +20,16 @@ import java.util.List;
 public class WebUtilTest {
 
     @Autowired
-    private SubmissionMapper submissionMapper;
+    private ProgramSubmissionMapper submissionMapper;
 
     @Test
     public void pageHeplerTest(){
-        SubmissionEntityExample example = new SubmissionEntityExample();
+        ProgramSubmissionEntityExample example = new ProgramSubmissionEntityExample();
         example.createCriteria().andPidEqualTo(1);
         example.setOrderByClause("'sub_id' DESC");
         for (int i=1; i<=5; i++){
             PageHelper.startPage(i, 2);
-            List<SubmissionEntity> submissionEntities = submissionMapper.selectByExample(example);
+            List<ProgramSubmissionEntity> submissionEntities = submissionMapper.selectByExample(example);
             submissionEntities.parallelStream().forEach(submissionEntity -> System.out.println(submissionEntity));
             System.out.println("================");
         }

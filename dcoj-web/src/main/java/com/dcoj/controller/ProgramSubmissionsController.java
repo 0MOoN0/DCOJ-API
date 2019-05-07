@@ -2,7 +2,7 @@ package com.dcoj.controller;
 
 import com.dcoj.entity.ResponseEntity;
 import com.dcoj.service.ProblemUserService;
-import com.dcoj.service.SubmissionService;
+import com.dcoj.service.ProgramSubmissionService;
 import com.dcoj.util.JWTUtil;
 import com.dcoj.util.WebUtil;
 import com.github.pagehelper.Page;
@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.*;
  * @author Leon
  */
 @RestController
-@RequestMapping(value = "/submissions", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class SubmissionsController {
+@RequestMapping(value = "/program-submissions", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+public class ProgramSubmissionsController {
 
     @Autowired
-    private SubmissionService submissionService;
+    private ProgramSubmissionService submissionService;
 
     @Autowired
     private ProblemUserService problemUserService;
@@ -102,11 +102,4 @@ public class SubmissionsController {
         Page pager = PageHelper.startPage(pageNum, pageSize);
         return new ResponseEntity(WebUtil.generatePageData(pager, submissionService.listProblemLeaderboard(pid, sortKeyWord, groupBy)));
     }
-
-
-
-
-
-
-
 }

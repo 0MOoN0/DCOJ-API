@@ -4,7 +4,7 @@ import com.dcoj.entity.*;
 import com.dcoj.judge.ResultEnum;
 import com.dcoj.service.AttachmentService;
 import com.dcoj.service.ProblemUserService;
-import com.dcoj.service.SubmissionDetailService;
+import com.dcoj.service.ProgramSubmissionDetailService;
 import com.dcoj.service.TestCasesService;
 import com.dcoj.util.JWTUtil;
 import io.swagger.annotations.ApiImplicitParam;
@@ -21,11 +21,11 @@ import java.util.List;
  * @author Leon
  */
 @RestController
-@RequestMapping(value = "/sub-detail", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class SubmissionDetailController {
+@RequestMapping(value = "/program-sub-detail", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+public class ProgramSubmissionDetailController {
 
     @Autowired
-    private SubmissionDetailService submissionDetailService;
+    private ProgramSubmissionDetailService submissionDetailService;
 
     @Autowired
     private TestCasesService testCasesService;
@@ -70,7 +70,7 @@ public class SubmissionDetailController {
                 (problemUserEntity != null&&
                 problemUserEntity.getStatus()==ResultEnum.AC )
                 ){       //不是当前用户提交的，但当前用户AC过此题
-            SubmissionDetailEntity submissionDetailBySubId = submissionDetailService.getSubmissionDetailBySubId(subId);
+            ProgramSubmissionDetailEntity submissionDetailBySubId = submissionDetailService.getSubmissionDetailBySubId(subId);
             resultMap.put("sub_detail", submissionDetailBySubId);
             // 获取当前题目测试用例
             List<TestCaseEntity> testCaseEntities = testCasesService.listAll(pid);

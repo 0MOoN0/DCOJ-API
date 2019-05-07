@@ -1,7 +1,7 @@
 package com.dcoj.dao;
 
-import com.dcoj.entity.SubmissionEntity;
-import com.dcoj.entity.example.SubmissionEntityExample;
+import com.dcoj.entity.ProgramSubmissionEntity;
+import com.dcoj.entity.example.ProgramSubmissionEntityExample;
 import com.dcoj.judge.LanguageEnum;
 import com.dcoj.judge.ResultEnum;
 import org.junit.Test;
@@ -21,17 +21,17 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SubmissionMapperTest {
+public class ProgramSubmitMapperTest {
 
     @Autowired
-    SubmissionMapper submissionMapper;
+    ProgramSubmissionMapper submissionMapper;
 
     /**
      * 测试SubmissionMapper
      */
     @Test
     public void testSave(){
-        SubmissionEntity submission = new SubmissionEntity();
+        ProgramSubmissionEntity submission = new ProgramSubmissionEntity();
         submission.setLang(LanguageEnum.JAVA8);
         submission.setMemory(123);
         submission.setPid(0);
@@ -48,7 +48,7 @@ public class SubmissionMapperTest {
      */
     @Test
     public void testUpdate(){
-        SubmissionEntity submission = new SubmissionEntity();
+        ProgramSubmissionEntity submission = new ProgramSubmissionEntity();
         submission.setSubId(3);
         submission.setLang(LanguageEnum.PYTHON35);
         submission.setMemory(123);
@@ -59,25 +59,25 @@ public class SubmissionMapperTest {
         submission.setUsingTime(new BigDecimal(3));
         submission.setUid(123);
 
-        SubmissionEntityExample example = new SubmissionEntityExample();
-        SubmissionEntityExample.Criteria criteria = example.createCriteria();
+        ProgramSubmissionEntityExample example = new ProgramSubmissionEntityExample();
+        ProgramSubmissionEntityExample.Criteria criteria = example.createCriteria();
         criteria.andSubIdEqualTo(3);
         submissionMapper.updateByExample(submission, example);
     }
 
     @Test
     public void testSelect(){
-        SubmissionEntityExample example = new SubmissionEntityExample();
-        SubmissionEntityExample.Criteria criteria = example.createCriteria();
+        ProgramSubmissionEntityExample example = new ProgramSubmissionEntityExample();
+        ProgramSubmissionEntityExample.Criteria criteria = example.createCriteria();
         criteria.andSubIdEqualTo(3);
-        List<SubmissionEntity> submissionEntities = submissionMapper.selectByExample(example);
+        List<ProgramSubmissionEntity> submissionEntities = submissionMapper.selectByExample(example);
         submissionEntities.parallelStream().forEach((submissionEntity)-> System.out.println(submissionEntity));
     }
 
     @Test
     public void testDelete(){
-        SubmissionEntityExample example = new SubmissionEntityExample();
-        SubmissionEntityExample.Criteria criteria = example.createCriteria();
+        ProgramSubmissionEntityExample example = new ProgramSubmissionEntityExample();
+        ProgramSubmissionEntityExample.Criteria criteria = example.createCriteria();
         criteria.andSubIdEqualTo(3);
 
         submissionMapper.deleteByExample(example);
@@ -85,7 +85,7 @@ public class SubmissionMapperTest {
 
     @Test
     public void tsetCompareWithTimestamp(){
-        SubmissionEntityExample example = new SubmissionEntityExample();
+        ProgramSubmissionEntityExample example = new ProgramSubmissionEntityExample();
 //        example.createCriteria().andGmtCreateLessThan(new Timestamp(System.currentTimeMillis()));
 /*        Calendar begin = Calendar.getInstance();
         begin.set(2019, 4, 16, 19, 33, 0);
@@ -100,13 +100,13 @@ public class SubmissionMapperTest {
 
         example.createCriteria().andSubmitTimeBetween(Timestamp.valueOf(begin),Timestamp.valueOf(end));
 
-        List<SubmissionEntity> submissionEntities = submissionMapper.selectByExample(example);
+        List<ProgramSubmissionEntity> submissionEntities = submissionMapper.selectByExample(example);
         submissionEntities.parallelStream().forEach(submissionEntity -> System.out.println(submissionEntity));
     }
 
     @Test
     public void testSort(){
-        SubmissionEntityExample submissionEntityExample = new SubmissionEntityExample();
+        ProgramSubmissionEntityExample submissionEntityExample = new ProgramSubmissionEntityExample();
         submissionEntityExample.setOrderByClause("time");
         submissionEntityExample.setOrderByClause("memory");
         String orderByClause = submissionEntityExample.getOrderByClause();  // only "memory"

@@ -1,19 +1,17 @@
 package com.dcoj.service;
 
 
-import com.dcoj.entity.SubmissionEntity;
+import com.dcoj.entity.ProgramSubmissionEntity;
 import com.dcoj.judge.LanguageEnum;
 import com.dcoj.judge.ResultEnum;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Submission服务接口
  * @author Leon
  **/
-public interface SubmissionService {
+public interface ProgramSubmissionService {
 
     /**
      * 保存用户提交，包括试卷提交、单题提交
@@ -46,7 +44,7 @@ public interface SubmissionService {
      * @param pid           题目ID
      * @return List<SubmissionEntity>   返回值
      */
-    List<SubmissionEntity> listUserProblemSubmissions(int uid, int pid);
+    List<ProgramSubmissionEntity> listUserProblemSubmissions(int uid, int pid);
 
     /**
      * 查询题目的提交排行，默认根据时间排行
@@ -57,7 +55,7 @@ public interface SubmissionService {
      * @param grouyBy       根据语言分组
      * @return
      */
-    List<SubmissionEntity> listProblemLeaderboard(int pid, String sortKeyWord, String grouyBy);
+    List<ProgramSubmissionEntity> listProblemLeaderboard(int pid, String sortKeyWord, String grouyBy);
 
 
     /**
@@ -66,7 +64,7 @@ public interface SubmissionService {
      * @param uid           用户ID
      * @return
      */
-    List<SubmissionEntity> listUserSubmission(int uid);
+    List<ProgramSubmissionEntity> listUserSubmission(int uid);
 
 
 }

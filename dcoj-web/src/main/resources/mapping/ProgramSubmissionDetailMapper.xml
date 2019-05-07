@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dcoj.dao.SubmissionDetailMapper">
-  <resultMap id="BaseResultMap" type="com.dcoj.entity.SubmissionDetailEntity">
+<mapper namespace="com.dcoj.dao.ProgramSubmissionDetailMapper">
+  <resultMap id="BaseResultMap" type="com.dcoj.entity.ProgramSubmissionDetailEntity">
     <id column="sd_id" jdbcType="INTEGER" property="sdId" />
     <result column="judge_detail" jdbcType="VARCHAR" property="judgeDetail" />
     <result column="sub_id" jdbcType="INTEGER" property="subId" />
@@ -69,13 +69,13 @@
   <sql id="Base_Column_List">
     sd_id, judge_detail, sub_id, gmt_create, gmt_modified
   </sql>
-  <select id="selectByExample" parameterType="com.dcoj.entity.example.SubmissionDetailEntityExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.dcoj.entity.example.ProgramSubmissionDetailEntityExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from submission_detail
+    from program_submission_detail
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -86,27 +86,27 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from submission_detail
+    from program_submission_detail
     where sd_id = #{sdId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from submission_detail
+    delete from program_submission_detail
     where sd_id = #{sdId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.dcoj.entity.example.SubmissionDetailEntityExample">
-    delete from submission_detail
+  <delete id="deleteByExample" parameterType="com.dcoj.entity.example.ProgramSubmissionDetailEntityExample">
+    delete from program_submission_detail
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.dcoj.entity.SubmissionDetailEntity">
-    insert into submission_detail (sd_id, judge_detail, sub_id
+  <insert id="insert" parameterType="com.dcoj.entity.ProgramSubmissionDetailEntity">
+    insert into program_submission_detail (sd_id, judge_detail, sub_id
       )
     values (#{sdId,jdbcType=INTEGER}, #{judgeDetail,jdbcType=VARCHAR}, #{subId,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.dcoj.entity.SubmissionDetailEntity">
-    insert into submission_detail
+  <insert id="insertSelective" parameterType="com.dcoj.entity.ProgramSubmissionDetailEntity">
+    insert into program_submission_detail
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="sdId != null">
         sd_id,
@@ -130,14 +130,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.dcoj.entity.example.SubmissionDetailEntityExample" resultType="java.lang.Long">
-    select count(*) from submission_detail
+  <select id="countByExample" parameterType="com.dcoj.entity.example.ProgramSubmissionDetailEntityExample" resultType="java.lang.Long">
+    select count(*) from program_submission_detail
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update submission_detail
+    update program_submission_detail
     <set>
       <if test="record.sdId != null">
         sd_id = #{record.sdId,jdbcType=INTEGER},
@@ -154,7 +154,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update submission_detail
+    update program_submission_detail
     set sd_id = #{record.sdId,jdbcType=INTEGER},
       judge_detail = #{record.judgeDetail,jdbcType=VARCHAR},
       sub_id = #{record.subId,jdbcType=INTEGER}
@@ -162,8 +162,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.dcoj.entity.SubmissionDetailEntity">
-    update submission_detail
+  <update id="updateByPrimaryKeySelective" parameterType="com.dcoj.entity.ProgramSubmissionDetailEntity">
+    update program_submission_detail
     <set>
       <if test="judgeDetail != null">
         judge_detail = #{judgeDetail,jdbcType=VARCHAR},
@@ -174,8 +174,8 @@
     </set>
     where sd_id = #{sdId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.dcoj.entity.SubmissionDetailEntity">
-    update submission_detail
+  <update id="updateByPrimaryKey" parameterType="com.dcoj.entity.ProgramSubmissionDetailEntity">
+    update program_submission_detail
     set judge_detail = #{judgeDetail,jdbcType=VARCHAR},
       sub_id = #{subId,jdbcType=INTEGER}
     where sd_id = #{sdId,jdbcType=INTEGER}

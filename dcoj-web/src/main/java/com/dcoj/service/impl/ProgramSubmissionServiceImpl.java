@@ -1,12 +1,12 @@
 package com.dcoj.service.impl;
 
 import com.dcoj.dao.ProblemUserMapper;
-import com.dcoj.dao.SubmissionMapper;
-import com.dcoj.entity.SubmissionEntity;
-import com.dcoj.entity.example.SubmissionEntityExample;
+import com.dcoj.dao.ProgramSubmissionMapper;
+import com.dcoj.entity.ProgramSubmissionEntity;
+import com.dcoj.entity.example.ProgramSubmissionEntityExample;
 import com.dcoj.judge.LanguageEnum;
 import com.dcoj.judge.ResultEnum;
-import com.dcoj.service.SubmissionService;
+import com.dcoj.service.ProgramSubmissionService;
 import com.dcoj.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,10 +19,10 @@ import java.util.List;
  * @author Leon
  */
 @Service
-public class SubmissionServiceImpl implements SubmissionService {
+public class ProgramSubmissionServiceImpl implements ProgramSubmissionService {
 
     @Autowired
-    private SubmissionMapper submissionMapper;
+    private ProgramSubmissionMapper submissionMapper;
 
     @Autowired
     private ProblemUserMapper problemUserMapper;
@@ -43,7 +43,7 @@ public class SubmissionServiceImpl implements SubmissionService {
      */
     @Override
     public int save(int uid, int pid, int eid, int gid, int sourceCode, LanguageEnum lang, double usingTime, int memory, ResultEnum status) {
-        SubmissionEntity entity = new SubmissionEntity();
+        ProgramSubmissionEntity entity = new ProgramSubmissionEntity();
         entity.setUid(uid);
         entity.setPid(pid);
         entity.setEid(eid);
@@ -67,7 +67,7 @@ public class SubmissionServiceImpl implements SubmissionService {
      */
     @Override
     public int countProblemSubmissions(int pid) {
-        SubmissionEntityExample example = new SubmissionEntityExample();
+        ProgramSubmissionEntityExample example = new ProgramSubmissionEntityExample();
         example.createCriteria().andPidEqualTo(pid);
 
         int count = (int) submissionMapper.countByExample(example);
@@ -83,8 +83,8 @@ public class SubmissionServiceImpl implements SubmissionService {
      * @return List<SubmissionEntity>   返回值
      */
     @Override
-    public List<SubmissionEntity> listUserProblemSubmissions(int uid, int pid) {
-        SubmissionEntityExample example = new SubmissionEntityExample();
+    public List<ProgramSubmissionEntity> listUserProblemSubmissions(int uid, int pid) {
+        ProgramSubmissionEntityExample example = new ProgramSubmissionEntityExample();
         //如果用户id不为零，表示查询某题某用户对应的提交
         if(uid!=0){
             example.createCriteria()
@@ -111,10 +111,10 @@ public class SubmissionServiceImpl implements SubmissionService {
      * @return
      */
     @Override
-    public List<SubmissionEntity> listProblemLeaderboard(int pid, String sortKeyWord, String grouyBy) {
+    public List<ProgramSubmissionEntity> listProblemLeaderboard(int pid, String sortKeyWord, String grouyBy) {
 
-        SubmissionEntityExample submissionEntityExample = new SubmissionEntityExample();
-        SubmissionEntityExample.Criteria criteria = submissionEntityExample.createCriteria();
+        ProgramSubmissionEntityExample submissionEntityExample = new ProgramSubmissionEntityExample();
+        ProgramSubmissionEntityExample.Criteria criteria = submissionEntityExample.createCriteria();
         submissionEntityExample.setDistinct(true);
         // 默认按照时间排序
         submissionEntityExample.setOrderByClause("using_time ASC");
@@ -138,8 +138,8 @@ public class SubmissionServiceImpl implements SubmissionService {
      * @return
      */
     @Override
-    public List<SubmissionEntity> listUserSubmission(int uid) {
-        SubmissionEntityExample submissionEntityExample = new SubmissionEntityExample();
+    public List<ProgramSubmissionEntity> listUserSubmission(int uid) {
+        ProgramSubmissionEntityExample submissionEntityExample = new ProgramSubmissionEntityExample();
         submissionEntityExample.setOrderByClause("submit_time DESC");
         submissionEntityExample.createCriteria()
                 .andUidEqualTo(uid)

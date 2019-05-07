@@ -10,14 +10,14 @@ import java.util.List;
 /**
  * @author Leon
  */
-public class SubmissionEntityExample {
+public class ProgramSubmissionEntityExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public SubmissionEntityExample() {
+    public ProgramSubmissionEntityExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
