@@ -21,7 +21,7 @@ import java.util.List;
  * @author Leon
  */
 @RestController
-@RequestMapping(value = "/sub-detail", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/program-sub-detail", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ProgramSubmissionDetailController {
 
     @Autowired

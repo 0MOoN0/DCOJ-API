@@ -26,6 +26,7 @@ import java.util.Map;
 @Api(tags = "单个客观题管理")
 @RequestMapping(value = "/objectProblem", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ObjectProblemController {
+
     @Autowired
     private ObjectProblemService objectProblemService;
 
@@ -77,5 +78,5 @@ public class ObjectProblemController {
         objectProblemService.updateProblemAndTags(objectProblemId, format.getObjectTags(), objectProblemEntity);
         return new ResponseEntity("题目更新成功");
     }
-
 }
+

@@ -10,6 +10,53 @@
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="answer" jdbcType="VARCHAR" property="answer" />
   </resultMap>
+
+  <!--自定义SQL:Begin-->
+  <insert id="insert" parameterType="com.dcoj.entity.ObjectSubmissionEntity" useGeneratedKeys="true" keyProperty="objectSubmitId">
+    insert into object_submission (object_submit_id, uid, object_problem_id,
+      result_status, answer)
+    values (#{objectSubmitId,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{objectProblemId,jdbcType=INTEGER},
+      #{resultStatus,jdbcType=TINYINT}, #{answer,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dcoj.entity.ObjectSubmissionEntity" useGeneratedKeys="true" keyProperty="objectSubmitId">
+    insert into object_submission
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="objectSubmitId != null">
+        object_submit_id,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="objectProblemId != null">
+        object_problem_id,
+      </if>
+      <if test="resultStatus != null">
+        result_status,
+      </if>
+      <if test="answer != null">
+        answer,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="objectSubmitId != null">
+        #{objectSubmitId,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="objectProblemId != null">
+        #{objectProblemId,jdbcType=INTEGER},
+      </if>
+      <if test="resultStatus != null">
+        #{resultStatus,jdbcType=TINYINT},
+      </if>
+      <if test="answer != null">
+        #{answer,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <!--自定义SQL:End-->
+
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -102,7 +149,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.dcoj.entity.ObjectSubmissionEntity">
+  <!--<insert id="insert" parameterType="com.dcoj.entity.ObjectSubmissionEntity">
     insert into object_submission (object_submit_id, uid, object_problem_id, 
       result_status, answer)
     values (#{objectSubmitId,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{objectProblemId,jdbcType=INTEGER}, 
@@ -144,7 +191,7 @@
         #{answer,jdbcType=VARCHAR},
       </if>
     </trim>
-  </insert>
+  </insert>-->
   <select id="countByExample" parameterType="com.dcoj.entity.example.ObjectSubmissionEntityExample" resultType="java.lang.Long">
     select count(*) from object_submission
     <if test="_parameter != null">
