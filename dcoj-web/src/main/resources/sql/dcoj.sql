@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost_3306
+ Source Server         : Localhost
  Source Server Type    : MySQL
- Source Server Version : 50723
+ Source Server Version : 50725
  Source Host           : localhost:3306
  Source Schema         : dcoj
 
  Target Server Type    : MySQL
- Target Server Version : 50723
+ Target Server Version : 50725
  File Encoding         : 65001
 
- Date: 26/04/2019 17:36:44
+ Date: 07/05/2019 12:11:09
 */
 
 SET NAMES utf8mb4;
@@ -45,6 +45,7 @@ CREATE TABLE `examination`  (
   `eid` int(11) NOT NULL AUTO_INCREMENT,
   `type` int(11) NULL DEFAULT NULL COMMENT '0练习型 1 考试型',
   `class_id` int(11) NULL DEFAULT NULL,
+  `status` enum('editing','published','unavailable') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '编辑、发布、不可用',
   PRIMARY KEY (`eid`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -99,6 +100,29 @@ INSERT INTO `object_problem_tag` VALUES (6, 1, '2019-04-23 10:04:56', '2019-04-2
 INSERT INTO `object_problem_tag` VALUES (2, 7, '2019-04-23 10:04:14', '2019-04-24 15:54:30', 0);
 
 -- ----------------------------
+-- Table structure for object_submission
+-- ----------------------------
+DROP TABLE IF EXISTS `object_submission`;
+CREATE TABLE `object_submission`  (
+  `object_submit_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '客观题提交ID',
+  `uid` int(11) NOT NULL COMMENT '用户ID',
+  `object_problem_id` int(11) NOT NULL COMMENT '客观题题目ID',
+  `result_status` tinyint(255) NOT NULL COMMENT '提交结果',
+  `gmt_create` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `gmt_modified` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
+  `answer` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户的提交答案',
+  `queryable_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '可查询时间',
+  PRIMARY KEY (`object_submit_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of object_submission
+-- ----------------------------
+INSERT INTO `object_submission` VALUES (2, 2, 1, 1, '2019-04-30 09:34:47', '2019-04-30 09:34:47', 'C', '2019-04-30 10:27:12');
+INSERT INTO `object_submission` VALUES (3, 2, 2, 1, '2019-04-30 09:36:43', '2019-04-30 09:36:43', 'C', '2019-04-30 10:27:12');
+INSERT INTO `object_submission` VALUES (4, 2, 2, 1, '2019-04-30 09:40:43', '2019-04-30 09:40:43', 'C', '2019-04-30 10:27:12');
+
+-- ----------------------------
 -- Table structure for object_tag
 -- ----------------------------
 DROP TABLE IF EXISTS `object_tag`;
@@ -123,6 +147,42 @@ INSERT INTO `object_tag` VALUES (5, '封装', 0, '2019-04-21 22:04:48', '2019-04
 INSERT INTO `object_tag` VALUES (6, '实现', 0, '2019-04-21 22:04:48', '2019-04-21 22:09:22', 0);
 INSERT INTO `object_tag` VALUES (7, '字符串', -1, '2019-04-22 20:45:30', '2019-04-24 15:53:16', 0);
 INSERT INTO `object_tag` VALUES (8, '多态', 0, '2019-04-24 10:04:52', '2019-04-24 10:04:52', 0);
+
+-- ----------------------------
+-- Table structure for problem
+-- ----------------------------
+DROP TABLE IF EXISTS `problem`;
+CREATE TABLE `problem`  (
+  `pid` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `description` json NULL,
+  `difficult` int(255) NULL DEFAULT NULL,
+  `submit_times` int(11) NULL DEFAULT 0,
+  `ac_times` int(11) NULL DEFAULT 0,
+  `wa_times` int(11) NULL DEFAULT 0,
+  `gmt_create` datetime(0) NOT NULL,
+  `gmt_modified` datetime(0) NOT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+  `is_deleted` int(255) NULL DEFAULT 0,
+  `answer` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `input_format` json NULL,
+  `output_format` json NULL,
+  `samples` json NULL,
+  `run_time` int(11) NULL DEFAULT NULL,
+  `memory` int(255) NULL DEFAULT NULL,
+  `used_times` int(11) NULL DEFAULT 0,
+  `rte_times` int(11) NULL DEFAULT 0,
+  `tle_times` int(11) NULL DEFAULT 0,
+  `ce_times` int(11) NULL DEFAULT 0,
+  PRIMARY KEY (`pid`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of problem
+-- ----------------------------
+INSERT INTO `problem` VALUES (3, '0', '{\"des\": \"这是一道选择题\"}', 1, 0, 0, 0, '2019-04-02 08:04:23', '2019-04-02 08:04:23', 0, 'A', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0);
+INSERT INTO `problem` VALUES (4, '0', '{\"des\": \"这是一道选择题2\"}', 2, 0, 0, 0, '2019-04-02 08:04:24', '2019-04-02 08:04:24', 0, 'B', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0);
+INSERT INTO `problem` VALUES (5, '3', NULL, 2, 0, 0, 0, '2019-04-02 08:04:24', '2019-04-02 08:04:24', 0, NULL, '编程题目标题', NULL, NULL, NULL, 1, 1, 0, 0, 0, 0);
 
 -- ----------------------------
 -- Table structure for problem_user
@@ -252,6 +312,102 @@ INSERT INTO `program_problem_tag` VALUES (20, 12, '2019-04-26 17:04:17', '2019-0
 INSERT INTO `program_problem_tag` VALUES (20, 13, '2019-04-26 17:04:17', '2019-04-26 17:04:17', 0);
 
 -- ----------------------------
+-- Table structure for program_submission
+-- ----------------------------
+DROP TABLE IF EXISTS `program_submission`;
+CREATE TABLE `program_submission`  (
+  `sub_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `uid` int(10) UNSIGNED NOT NULL COMMENT '用户ID',
+  `pid` int(10) UNSIGNED NOT NULL COMMENT '题目ID',
+  `source_code` int(10) NOT NULL COMMENT '附件ID',
+  `using_time` decimal(5, 3) NOT NULL COMMENT '判卷所用的平均时间',
+  `memory` int(11) NOT NULL,
+  `status` enum('SE','CE','TLE','RE','WA','AC') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `submit_time` datetime(0) NOT NULL,
+  `gmt_create` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `gmt_modified` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
+  `lang` enum('JAVA8','CPP','C','PYTHON27','PYTHON35') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `eid` int(11) NOT NULL DEFAULT 0 COMMENT '试卷ID',
+  `gid` int(11) NOT NULL DEFAULT 0 COMMENT '用户组ID',
+  `queryable_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '用户可查询此提交的时间',
+  PRIMARY KEY (`sub_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 66 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '\r\n' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of program_submission
+-- ----------------------------
+INSERT INTO `program_submission` VALUES (14, 2, 10, 2, 3.000, 123, 'AC', '2019-04-22 19:47:10', '2019-04-22 19:47:10', '2019-04-26 15:12:34', 'PYTHON27', 11, 0, '2019-04-22 19:47:10');
+INSERT INTO `program_submission` VALUES (15, 2, 1, 0, 3.000, 123, 'AC', '2019-04-22 19:47:12', '2019-04-22 19:47:12', '2019-04-22 19:47:12', 'PYTHON27', 11, 0, '2019-04-22 19:47:12');
+INSERT INTO `program_submission` VALUES (16, 2, 1, 0, 3.000, 123, 'AC', '2019-04-22 19:47:13', '2019-04-22 19:47:13', '2019-04-22 19:47:13', 'PYTHON27', 11, 0, '2019-04-22 19:47:13');
+INSERT INTO `program_submission` VALUES (17, 1, 1, 0, 3.000, 123, 'AC', '2019-04-22 19:48:56', '2019-04-22 19:48:56', '2019-04-22 19:48:56', 'PYTHON27', 11, 0, '2019-04-22 19:48:56');
+INSERT INTO `program_submission` VALUES (18, 1, 1, 0, 3.000, 123, 'AC', '2019-04-22 19:48:57', '2019-04-22 19:48:57', '2019-04-22 19:48:57', 'PYTHON27', 11, 0, '2019-04-22 19:48:57');
+INSERT INTO `program_submission` VALUES (19, 1, 1, 0, 3.000, 123, 'AC', '2019-04-22 19:48:58', '2019-04-22 19:48:58', '2019-04-22 19:48:58', 'PYTHON27', 11, 0, '2019-04-22 19:48:58');
+INSERT INTO `program_submission` VALUES (20, 0, 1, 0, 3.000, 123, 'SE', '2019-04-22 20:49:00', '2019-04-22 20:49:00', '2019-04-22 20:51:10', 'PYTHON27', 11, 0, '2019-04-22 20:49:00');
+INSERT INTO `program_submission` VALUES (21, 0, 1, 0, 3.000, 123, 'AC', '2019-04-22 20:49:02', '2019-04-22 20:49:01', '2019-04-22 20:49:01', 'PYTHON27', 11, 0, '2019-04-22 20:49:01');
+INSERT INTO `program_submission` VALUES (22, 0, 1, 0, 3.000, 123, 'AC', '2019-04-22 20:49:03', '2019-04-22 20:49:02', '2019-04-22 20:49:02', 'PYTHON27', 11, 0, '2019-04-22 20:49:02');
+INSERT INTO `program_submission` VALUES (23, 0, 1, 0, 3.000, 123, 'AC', '2019-04-22 20:49:04', '2019-04-22 20:49:03', '2019-04-22 20:49:03', 'PYTHON27', 11, 0, '2019-04-22 20:49:03');
+INSERT INTO `program_submission` VALUES (24, 0, 1, 0, 3.000, 123, 'AC', '2019-04-22 20:49:05', '2019-04-22 20:49:04', '2019-04-22 20:49:04', 'PYTHON27', 11, 0, '2019-04-22 20:49:04');
+INSERT INTO `program_submission` VALUES (25, 0, 1, 0, 3.000, 123, 'AC', '2019-04-22 20:49:06', '2019-04-22 20:49:05', '2019-04-22 20:49:05', 'PYTHON27', 11, 0, '2019-04-22 20:49:05');
+INSERT INTO `program_submission` VALUES (26, 0, 1, 0, 3.000, 123, 'AC', '2019-04-22 20:49:07', '2019-04-22 20:49:06', '2019-04-22 20:49:06', 'PYTHON27', 11, 0, '2019-04-22 20:49:06');
+INSERT INTO `program_submission` VALUES (27, 0, 1, 0, 3.000, 123, 'AC', '2019-04-22 20:49:08', '2019-04-22 20:49:07', '2019-04-22 20:49:07', 'PYTHON27', 11, 0, '2019-04-22 20:49:07');
+INSERT INTO `program_submission` VALUES (28, 0, 1, 0, 3.000, 123, 'AC', '2019-04-22 20:49:09', '2019-04-22 20:49:08', '2019-04-22 20:49:08', 'PYTHON27', 11, 0, '2019-04-22 20:49:08');
+INSERT INTO `program_submission` VALUES (29, 0, 1, 0, 3.000, 123, 'AC', '2019-04-22 20:49:10', '2019-04-22 20:49:09', '2019-04-22 20:49:09', 'PYTHON27', 11, 0, '2019-04-22 20:49:09');
+INSERT INTO `program_submission` VALUES (30, 4, 1, 0, 3.000, 0, 'AC', '2019-04-22 23:03:58', '2019-04-22 23:03:58', '2019-04-22 23:03:58', 'PYTHON27', 11, 0, '2019-04-22 23:03:58');
+INSERT INTO `program_submission` VALUES (31, 4, 1, 0, 3.000, 1, 'AC', '2019-04-22 23:03:59', '2019-04-22 23:03:59', '2019-04-22 23:03:59', 'PYTHON27', 11, 0, '2019-04-22 23:03:59');
+INSERT INTO `program_submission` VALUES (32, 4, 1, 0, 3.000, 2, 'AC', '2019-04-22 23:04:00', '2019-04-22 23:04:00', '2019-04-22 23:04:00', 'PYTHON27', 11, 0, '2019-04-22 23:04:00');
+INSERT INTO `program_submission` VALUES (33, 4, 1, 0, 3.000, 3, 'AC', '2019-04-22 23:04:01', '2019-04-22 23:04:01', '2019-04-22 23:04:01', 'PYTHON27', 11, 0, '2019-04-22 23:04:01');
+INSERT INTO `program_submission` VALUES (34, 4, 1, 0, 3.000, 4, 'AC', '2019-04-22 23:04:02', '2019-04-22 23:04:02', '2019-04-22 23:04:02', 'PYTHON27', 11, 0, '2019-04-22 23:04:02');
+INSERT INTO `program_submission` VALUES (35, 4, 1, 0, 0.000, 0, 'AC', '2019-04-22 23:12:14', '2019-04-22 23:12:14', '2019-04-22 23:12:14', 'JAVA8', 11, 0, '2019-04-22 23:12:14');
+INSERT INTO `program_submission` VALUES (36, 4, 1, 0, 1.000, 1, 'AC', '2019-04-22 23:12:15', '2019-04-22 23:12:15', '2019-04-22 23:12:15', 'JAVA8', 11, 0, '2019-04-22 23:12:15');
+INSERT INTO `program_submission` VALUES (37, 4, 1, 0, 2.000, 2, 'AC', '2019-04-22 23:12:16', '2019-04-22 23:12:16', '2019-04-22 23:12:16', 'JAVA8', 11, 0, '2019-04-22 23:12:16');
+INSERT INTO `program_submission` VALUES (38, 4, 1, 0, 3.000, 3, 'AC', '2019-04-22 23:12:18', '2019-04-22 23:12:17', '2019-04-22 23:12:17', 'JAVA8', 11, 0, '2019-04-22 23:12:17');
+INSERT INTO `program_submission` VALUES (39, 4, 1, 0, 4.000, 4, 'AC', '2019-04-22 23:12:19', '2019-04-22 23:12:18', '2019-04-22 23:12:18', 'JAVA8', 11, 0, '2019-04-22 23:12:18');
+INSERT INTO `program_submission` VALUES (40, 5, 1, 0, 0.000, 0, 'AC', '2019-04-22 23:12:43', '2019-04-22 23:12:43', '2019-04-22 23:12:43', 'JAVA8', 11, 0, '2019-04-22 23:12:43');
+INSERT INTO `program_submission` VALUES (41, 5, 1, 0, 1.000, 1, 'AC', '2019-04-22 23:12:44', '2019-04-22 23:12:44', '2019-04-22 23:12:44', 'JAVA8', 11, 0, '2019-04-22 23:12:44');
+INSERT INTO `program_submission` VALUES (42, 5, 1, 0, 2.000, 2, 'AC', '2019-04-22 23:12:45', '2019-04-22 23:12:45', '2019-04-22 23:12:45', 'JAVA8', 11, 0, '2019-04-22 23:12:45');
+INSERT INTO `program_submission` VALUES (43, 5, 1, 0, 3.000, 3, 'AC', '2019-04-22 23:12:46', '2019-04-22 23:12:46', '2019-04-22 23:12:46', 'JAVA8', 11, 0, '2019-04-22 23:12:46');
+INSERT INTO `program_submission` VALUES (44, 5, 1, 0, 4.000, 4, 'AC', '2019-04-22 23:12:47', '2019-04-22 23:12:47', '2019-04-22 23:12:47', 'JAVA8', 11, 0, '2019-04-22 23:12:47');
+INSERT INTO `program_submission` VALUES (45, 6, 1, 0, 1.000, 1, 'AC', '2019-04-23 16:20:30', '2019-04-23 16:20:33', '2019-04-23 16:20:33', 'C', 11, 0, '2019-04-23 16:20:33');
+INSERT INTO `program_submission` VALUES (46, 6, 1, 0, 1.000, 1, 'AC', '2019-04-23 16:24:39', '2019-04-23 16:24:41', '2019-04-23 16:24:41', 'C', 11, 0, '2019-04-23 16:24:41');
+INSERT INTO `program_submission` VALUES (47, 6, 1, 0, 1.000, 1, 'AC', '2019-04-23 16:31:36', '2019-04-23 16:31:36', '2019-04-23 16:31:36', 'C', 11, 0, '2019-04-23 16:31:36');
+INSERT INTO `program_submission` VALUES (48, 6, 1, 0, 1.000, 1, 'AC', '2019-04-23 16:34:21', '2019-04-23 16:34:21', '2019-04-23 16:34:21', 'C', 11, 0, NULL);
+INSERT INTO `program_submission` VALUES (49, 6, 1, 0, 1.000, 1, 'AC', '2019-04-23 16:37:41', '2019-04-23 16:37:42', '2019-04-23 16:37:42', 'C', 11, 0, '2019-04-23 16:37:42');
+INSERT INTO `program_submission` VALUES (50, 6, 1, 0, 1.000, 1, 'AC', '2019-04-23 16:40:46', '2019-04-23 16:40:46', '2019-04-23 16:40:46', 'C', 11, 0, '2019-04-23 16:40:46');
+INSERT INTO `program_submission` VALUES (51, 6, 1, 0, 1.000, 1, 'AC', '2019-04-23 16:42:05', '2019-04-23 16:42:06', '2019-04-23 16:42:06', 'C', 11, 0, '2019-04-23 16:42:06');
+INSERT INTO `program_submission` VALUES (52, 6, 1, 0, 1.000, 1, 'AC', '2019-04-23 16:43:00', '2019-04-23 16:43:00', '2019-04-23 16:43:00', 'C', 11, 0, '2019-04-23 16:43:00');
+INSERT INTO `program_submission` VALUES (53, 123, 0, 123, 3.000, 123, 'SE', '2019-04-24 20:44:47', '2019-04-24 20:44:47', '2019-04-24 20:44:47', 'JAVA8', 0, 0, '2019-04-24 20:44:47');
+INSERT INTO `program_submission` VALUES (54, 5, 1, 0, 0.000, 0, 'AC', '2019-04-24 20:46:38', '2019-04-24 20:46:37', '2019-04-24 20:46:37', 'JAVA8', 11, 0, '2019-04-24 20:46:37');
+INSERT INTO `program_submission` VALUES (55, 5, 1, 0, 1.000, 1, 'AC', '2019-04-24 20:46:39', '2019-04-24 20:46:38', '2019-04-24 20:46:38', 'JAVA8', 11, 0, '2019-04-24 20:46:38');
+INSERT INTO `program_submission` VALUES (56, 5, 1, 0, 2.000, 2, 'AC', '2019-04-24 20:46:40', '2019-04-24 20:46:39', '2019-04-24 20:46:39', 'JAVA8', 11, 0, '2019-04-24 20:46:39');
+INSERT INTO `program_submission` VALUES (57, 5, 1, 0, 3.000, 3, 'AC', '2019-04-24 20:46:41', '2019-04-24 20:46:40', '2019-04-24 20:46:40', 'JAVA8', 11, 0, '2019-04-24 20:46:40');
+INSERT INTO `program_submission` VALUES (58, 5, 1, 0, 4.000, 4, 'AC', '2019-04-24 20:46:42', '2019-04-24 20:46:41', '2019-04-24 20:46:41', 'JAVA8', 11, 0, '2019-04-24 20:46:41');
+INSERT INTO `program_submission` VALUES (59, 123, 0, 123, 3.000, 123, 'SE', '2019-04-26 09:48:23', '2019-04-26 09:48:23', '2019-04-26 09:48:23', 'JAVA8', 0, 0, '2019-04-26 09:48:23');
+INSERT INTO `program_submission` VALUES (60, 6, 1, 0, 1.000, 1, 'AC', '2019-04-26 09:49:02', '2019-04-26 09:49:02', '2019-04-26 09:49:02', 'CPP', 11, 0, '2019-04-26 09:49:02');
+INSERT INTO `program_submission` VALUES (61, 123, 0, 123, 3.000, 123, 'SE', '2019-04-29 20:38:41', '2019-04-29 20:38:42', '2019-04-29 20:38:42', 'JAVA8', 0, 0, '2019-04-29 20:38:42');
+INSERT INTO `program_submission` VALUES (62, 123, 0, 123, 3.000, 123, 'SE', '2019-04-29 20:43:14', '2019-04-29 20:43:15', '2019-04-29 20:43:15', 'JAVA8', 0, 0, '2019-04-29 20:43:15');
+INSERT INTO `program_submission` VALUES (63, 123, 0, 123, 3.000, 123, 'SE', '2019-04-29 20:44:27', '2019-04-29 20:44:27', '2019-04-29 20:44:27', 'JAVA8', 0, 0, '2019-04-29 20:44:27');
+INSERT INTO `program_submission` VALUES (64, 6, 1, 0, 1.000, 1, 'AC', '2019-04-29 20:48:19', '2019-04-29 20:48:19', '2019-04-29 20:48:19', 'CPP', 11, 0, '2019-04-29 20:48:19');
+INSERT INTO `program_submission` VALUES (65, 6, 1, 0, 1.000, 1, 'AC', '2019-04-29 22:24:47', '2019-04-29 22:24:46', '2019-04-29 22:24:46', 'CPP', 11, 0, '2019-04-29 22:24:46');
+
+-- ----------------------------
+-- Table structure for program_submission_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `program_submission_detail`;
+CREATE TABLE `program_submission_detail`  (
+  `sd_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '提交详情的ID',
+  `judge_detail` json NOT NULL COMMENT '判卷机返回的提交详情',
+  `sub_id` int(11) NOT NULL COMMENT '提交ID',
+  `gmt_create` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `gmt_modified` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
+  PRIMARY KEY (`sd_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of program_submission_detail
+-- ----------------------------
+INSERT INTO `program_submission_detail` VALUES (1, '{\"time\": 0.12, \"memory\": 9, \"result\": \"WA\", \"test_cases\": [{\"time\": 0.104, \"memory\": 8.552448, \"result\": \"AC\", \"error_message\": null}, {\"time\": 0.109, \"memory\": 8.572928, \"result\": \"WA\", \"error_message\": null}]}', 14, '2019-04-25 20:29:53', '2019-04-25 21:49:44');
+
+-- ----------------------------
 -- Table structure for program_tag
 -- ----------------------------
 DROP TABLE IF EXISTS `program_tag`;
@@ -283,95 +439,32 @@ INSERT INTO `program_tag` VALUES (12, '二叉', 1, '2019-04-26 10:04:28', '2019-
 INSERT INTO `program_tag` VALUES (13, '二叉树', 1, '2019-04-26 16:36:13', '2019-04-26 17:23:17', 0);
 
 -- ----------------------------
--- Table structure for submission
+-- Table structure for tag
 -- ----------------------------
-DROP TABLE IF EXISTS `submission`;
-CREATE TABLE `submission`  (
-  `sub_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `uid` int(10) UNSIGNED NOT NULL COMMENT '用户ID',
-  `pid` int(10) UNSIGNED NOT NULL COMMENT '题目ID',
-  `source_code` int(10) NOT NULL COMMENT '附件ID',
-  `using_time` decimal(5, 3) NOT NULL COMMENT '判卷所用的平均时间',
-  `memory` int(11) NOT NULL,
-  `status` enum('SE','CE','TLE','RE','WA','AC') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `submit_time` datetime(0) NOT NULL,
-  `gmt_create` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
-  `gmt_modified` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
-  `lang` enum('JAVA8','CPP','C','PYTHON27','PYTHON35') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `eid` int(11) NOT NULL DEFAULT 0 COMMENT '试卷ID',
-  `gid` int(11) NOT NULL DEFAULT 0 COMMENT '用户组ID',
-  `queryable_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '用户可查询此提交的时间',
-  PRIMARY KEY (`sub_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '\r\n' ROW_FORMAT = Dynamic;
+DROP TABLE IF EXISTS `tag`;
+CREATE TABLE `tag`  (
+  `tid` int(11) NOT NULL AUTO_INCREMENT,
+  `tag_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `used_times` int(11) NULL DEFAULT 0,
+  `gmt_create` datetime(0) NOT NULL,
+  `gmt_modified` datetime(0) NOT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+  `is_deleted` int(255) NULL DEFAULT 0,
+  PRIMARY KEY (`tid`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of submission
+-- Table structure for tag_problem
 -- ----------------------------
-INSERT INTO `submission` VALUES (14, 2, 10, 2, 3.000, 123, 'AC', '2019-04-22 19:47:10', '2019-04-22 19:47:10', '2019-04-26 15:12:34', 'PYTHON27', 11, 0, '2019-04-22 19:47:10');
-INSERT INTO `submission` VALUES (15, 2, 1, 0, 3.000, 123, 'AC', '2019-04-22 19:47:12', '2019-04-22 19:47:12', '2019-04-22 19:47:12', 'PYTHON27', 11, 0, '2019-04-22 19:47:12');
-INSERT INTO `submission` VALUES (16, 2, 1, 0, 3.000, 123, 'AC', '2019-04-22 19:47:13', '2019-04-22 19:47:13', '2019-04-22 19:47:13', 'PYTHON27', 11, 0, '2019-04-22 19:47:13');
-INSERT INTO `submission` VALUES (17, 1, 1, 0, 3.000, 123, 'AC', '2019-04-22 19:48:56', '2019-04-22 19:48:56', '2019-04-22 19:48:56', 'PYTHON27', 11, 0, '2019-04-22 19:48:56');
-INSERT INTO `submission` VALUES (18, 1, 1, 0, 3.000, 123, 'AC', '2019-04-22 19:48:57', '2019-04-22 19:48:57', '2019-04-22 19:48:57', 'PYTHON27', 11, 0, '2019-04-22 19:48:57');
-INSERT INTO `submission` VALUES (19, 1, 1, 0, 3.000, 123, 'AC', '2019-04-22 19:48:58', '2019-04-22 19:48:58', '2019-04-22 19:48:58', 'PYTHON27', 11, 0, '2019-04-22 19:48:58');
-INSERT INTO `submission` VALUES (20, 0, 1, 0, 3.000, 123, 'SE', '2019-04-22 20:49:00', '2019-04-22 20:49:00', '2019-04-22 20:51:10', 'PYTHON27', 11, 0, '2019-04-22 20:49:00');
-INSERT INTO `submission` VALUES (21, 0, 1, 0, 3.000, 123, 'AC', '2019-04-22 20:49:02', '2019-04-22 20:49:01', '2019-04-22 20:49:01', 'PYTHON27', 11, 0, '2019-04-22 20:49:01');
-INSERT INTO `submission` VALUES (22, 0, 1, 0, 3.000, 123, 'AC', '2019-04-22 20:49:03', '2019-04-22 20:49:02', '2019-04-22 20:49:02', 'PYTHON27', 11, 0, '2019-04-22 20:49:02');
-INSERT INTO `submission` VALUES (23, 0, 1, 0, 3.000, 123, 'AC', '2019-04-22 20:49:04', '2019-04-22 20:49:03', '2019-04-22 20:49:03', 'PYTHON27', 11, 0, '2019-04-22 20:49:03');
-INSERT INTO `submission` VALUES (24, 0, 1, 0, 3.000, 123, 'AC', '2019-04-22 20:49:05', '2019-04-22 20:49:04', '2019-04-22 20:49:04', 'PYTHON27', 11, 0, '2019-04-22 20:49:04');
-INSERT INTO `submission` VALUES (25, 0, 1, 0, 3.000, 123, 'AC', '2019-04-22 20:49:06', '2019-04-22 20:49:05', '2019-04-22 20:49:05', 'PYTHON27', 11, 0, '2019-04-22 20:49:05');
-INSERT INTO `submission` VALUES (26, 0, 1, 0, 3.000, 123, 'AC', '2019-04-22 20:49:07', '2019-04-22 20:49:06', '2019-04-22 20:49:06', 'PYTHON27', 11, 0, '2019-04-22 20:49:06');
-INSERT INTO `submission` VALUES (27, 0, 1, 0, 3.000, 123, 'AC', '2019-04-22 20:49:08', '2019-04-22 20:49:07', '2019-04-22 20:49:07', 'PYTHON27', 11, 0, '2019-04-22 20:49:07');
-INSERT INTO `submission` VALUES (28, 0, 1, 0, 3.000, 123, 'AC', '2019-04-22 20:49:09', '2019-04-22 20:49:08', '2019-04-22 20:49:08', 'PYTHON27', 11, 0, '2019-04-22 20:49:08');
-INSERT INTO `submission` VALUES (29, 0, 1, 0, 3.000, 123, 'AC', '2019-04-22 20:49:10', '2019-04-22 20:49:09', '2019-04-22 20:49:09', 'PYTHON27', 11, 0, '2019-04-22 20:49:09');
-INSERT INTO `submission` VALUES (30, 4, 1, 0, 3.000, 0, 'AC', '2019-04-22 23:03:58', '2019-04-22 23:03:58', '2019-04-22 23:03:58', 'PYTHON27', 11, 0, '2019-04-22 23:03:58');
-INSERT INTO `submission` VALUES (31, 4, 1, 0, 3.000, 1, 'AC', '2019-04-22 23:03:59', '2019-04-22 23:03:59', '2019-04-22 23:03:59', 'PYTHON27', 11, 0, '2019-04-22 23:03:59');
-INSERT INTO `submission` VALUES (32, 4, 1, 0, 3.000, 2, 'AC', '2019-04-22 23:04:00', '2019-04-22 23:04:00', '2019-04-22 23:04:00', 'PYTHON27', 11, 0, '2019-04-22 23:04:00');
-INSERT INTO `submission` VALUES (33, 4, 1, 0, 3.000, 3, 'AC', '2019-04-22 23:04:01', '2019-04-22 23:04:01', '2019-04-22 23:04:01', 'PYTHON27', 11, 0, '2019-04-22 23:04:01');
-INSERT INTO `submission` VALUES (34, 4, 1, 0, 3.000, 4, 'AC', '2019-04-22 23:04:02', '2019-04-22 23:04:02', '2019-04-22 23:04:02', 'PYTHON27', 11, 0, '2019-04-22 23:04:02');
-INSERT INTO `submission` VALUES (35, 4, 1, 0, 0.000, 0, 'AC', '2019-04-22 23:12:14', '2019-04-22 23:12:14', '2019-04-22 23:12:14', 'JAVA8', 11, 0, '2019-04-22 23:12:14');
-INSERT INTO `submission` VALUES (36, 4, 1, 0, 1.000, 1, 'AC', '2019-04-22 23:12:15', '2019-04-22 23:12:15', '2019-04-22 23:12:15', 'JAVA8', 11, 0, '2019-04-22 23:12:15');
-INSERT INTO `submission` VALUES (37, 4, 1, 0, 2.000, 2, 'AC', '2019-04-22 23:12:16', '2019-04-22 23:12:16', '2019-04-22 23:12:16', 'JAVA8', 11, 0, '2019-04-22 23:12:16');
-INSERT INTO `submission` VALUES (38, 4, 1, 0, 3.000, 3, 'AC', '2019-04-22 23:12:18', '2019-04-22 23:12:17', '2019-04-22 23:12:17', 'JAVA8', 11, 0, '2019-04-22 23:12:17');
-INSERT INTO `submission` VALUES (39, 4, 1, 0, 4.000, 4, 'AC', '2019-04-22 23:12:19', '2019-04-22 23:12:18', '2019-04-22 23:12:18', 'JAVA8', 11, 0, '2019-04-22 23:12:18');
-INSERT INTO `submission` VALUES (40, 5, 1, 0, 0.000, 0, 'AC', '2019-04-22 23:12:43', '2019-04-22 23:12:43', '2019-04-22 23:12:43', 'JAVA8', 11, 0, '2019-04-22 23:12:43');
-INSERT INTO `submission` VALUES (41, 5, 1, 0, 1.000, 1, 'AC', '2019-04-22 23:12:44', '2019-04-22 23:12:44', '2019-04-22 23:12:44', 'JAVA8', 11, 0, '2019-04-22 23:12:44');
-INSERT INTO `submission` VALUES (42, 5, 1, 0, 2.000, 2, 'AC', '2019-04-22 23:12:45', '2019-04-22 23:12:45', '2019-04-22 23:12:45', 'JAVA8', 11, 0, '2019-04-22 23:12:45');
-INSERT INTO `submission` VALUES (43, 5, 1, 0, 3.000, 3, 'AC', '2019-04-22 23:12:46', '2019-04-22 23:12:46', '2019-04-22 23:12:46', 'JAVA8', 11, 0, '2019-04-22 23:12:46');
-INSERT INTO `submission` VALUES (44, 5, 1, 0, 4.000, 4, 'AC', '2019-04-22 23:12:47', '2019-04-22 23:12:47', '2019-04-22 23:12:47', 'JAVA8', 11, 0, '2019-04-22 23:12:47');
-INSERT INTO `submission` VALUES (45, 6, 1, 0, 1.000, 1, 'AC', '2019-04-23 16:20:30', '2019-04-23 16:20:33', '2019-04-23 16:20:33', 'C', 11, 0, '2019-04-23 16:20:33');
-INSERT INTO `submission` VALUES (46, 6, 1, 0, 1.000, 1, 'AC', '2019-04-23 16:24:39', '2019-04-23 16:24:41', '2019-04-23 16:24:41', 'C', 11, 0, '2019-04-23 16:24:41');
-INSERT INTO `submission` VALUES (47, 6, 1, 0, 1.000, 1, 'AC', '2019-04-23 16:31:36', '2019-04-23 16:31:36', '2019-04-23 16:31:36', 'C', 11, 0, '2019-04-23 16:31:36');
-INSERT INTO `submission` VALUES (48, 6, 1, 0, 1.000, 1, 'AC', '2019-04-23 16:34:21', '2019-04-23 16:34:21', '2019-04-23 16:34:21', 'C', 11, 0, NULL);
-INSERT INTO `submission` VALUES (49, 6, 1, 0, 1.000, 1, 'AC', '2019-04-23 16:37:41', '2019-04-23 16:37:42', '2019-04-23 16:37:42', 'C', 11, 0, '2019-04-23 16:37:42');
-INSERT INTO `submission` VALUES (50, 6, 1, 0, 1.000, 1, 'AC', '2019-04-23 16:40:46', '2019-04-23 16:40:46', '2019-04-23 16:40:46', 'C', 11, 0, '2019-04-23 16:40:46');
-INSERT INTO `submission` VALUES (51, 6, 1, 0, 1.000, 1, 'AC', '2019-04-23 16:42:05', '2019-04-23 16:42:06', '2019-04-23 16:42:06', 'C', 11, 0, '2019-04-23 16:42:06');
-INSERT INTO `submission` VALUES (52, 6, 1, 0, 1.000, 1, 'AC', '2019-04-23 16:43:00', '2019-04-23 16:43:00', '2019-04-23 16:43:00', 'C', 11, 0, '2019-04-23 16:43:00');
-INSERT INTO `submission` VALUES (53, 123, 0, 123, 3.000, 123, 'SE', '2019-04-24 20:44:47', '2019-04-24 20:44:47', '2019-04-24 20:44:47', 'JAVA8', 0, 0, '2019-04-24 20:44:47');
-INSERT INTO `submission` VALUES (54, 5, 1, 0, 0.000, 0, 'AC', '2019-04-24 20:46:38', '2019-04-24 20:46:37', '2019-04-24 20:46:37', 'JAVA8', 11, 0, '2019-04-24 20:46:37');
-INSERT INTO `submission` VALUES (55, 5, 1, 0, 1.000, 1, 'AC', '2019-04-24 20:46:39', '2019-04-24 20:46:38', '2019-04-24 20:46:38', 'JAVA8', 11, 0, '2019-04-24 20:46:38');
-INSERT INTO `submission` VALUES (56, 5, 1, 0, 2.000, 2, 'AC', '2019-04-24 20:46:40', '2019-04-24 20:46:39', '2019-04-24 20:46:39', 'JAVA8', 11, 0, '2019-04-24 20:46:39');
-INSERT INTO `submission` VALUES (57, 5, 1, 0, 3.000, 3, 'AC', '2019-04-24 20:46:41', '2019-04-24 20:46:40', '2019-04-24 20:46:40', 'JAVA8', 11, 0, '2019-04-24 20:46:40');
-INSERT INTO `submission` VALUES (58, 5, 1, 0, 4.000, 4, 'AC', '2019-04-24 20:46:42', '2019-04-24 20:46:41', '2019-04-24 20:46:41', 'JAVA8', 11, 0, '2019-04-24 20:46:41');
-INSERT INTO `submission` VALUES (59, 123, 0, 123, 3.000, 123, 'SE', '2019-04-26 09:48:23', '2019-04-26 09:48:23', '2019-04-26 09:48:23', 'JAVA8', 0, 0, '2019-04-26 09:48:23');
-INSERT INTO `submission` VALUES (60, 6, 1, 0, 1.000, 1, 'AC', '2019-04-26 09:49:02', '2019-04-26 09:49:02', '2019-04-26 09:49:02', 'CPP', 11, 0, '2019-04-26 09:49:02');
-
--- ----------------------------
--- Table structure for submission_detail
--- ----------------------------
-DROP TABLE IF EXISTS `submission_detail`;
-CREATE TABLE `submission_detail`  (
-  `sd_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '提交详情的ID',
-  `judge_detail` json NOT NULL COMMENT '判卷机返回的提交详情',
-  `sub_id` int(11) NOT NULL COMMENT '提交ID',
-  `gmt_create` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
-  `gmt_modified` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
-  PRIMARY KEY (`sd_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of submission_detail
--- ----------------------------
-INSERT INTO `submission_detail` VALUES (1, '{\"time\": 0.12, \"memory\": 9, \"result\": \"WA\", \"test_cases\": [{\"time\": 0.104, \"memory\": 8.552448, \"result\": \"AC\", \"error_message\": null}, {\"time\": 0.109, \"memory\": 8.572928, \"result\": \"WA\", \"error_message\": null}]}', 14, '2019-04-25 20:29:53', '2019-04-25 21:49:44');
+DROP TABLE IF EXISTS `tag_problem`;
+CREATE TABLE `tag_problem`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pid` int(11) NULL DEFAULT NULL,
+  `tid` int(255) NULL DEFAULT NULL,
+  `gmt_create` datetime(0) NOT NULL,
+  `gmt_modified` datetime(0) NOT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+  `is_deleted` int(255) NULL DEFAULT 0,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for test_case
@@ -399,10 +492,10 @@ INSERT INTO `test_case` VALUES (2, 10, 'null', 'null', '2019-04-25 21:58:00', '2
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
-  `uid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `nick_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `avatar` int(255) NULL DEFAULT NULL,
   `motto` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
@@ -415,10 +508,15 @@ CREATE TABLE `user`  (
   `cet_times` int(11) NULL DEFAULT 0,
   `finished_problems` int(255) NULL DEFAULT 0,
   `verified` int(255) NULL DEFAULT NULL,
-  `gmt_create` datetime(0) NOT NULL,
-  `gmt_modified` datetime(0) NOT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+  `gmt_create` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `gmt_modified` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   `is_deleted` int(255) NULL DEFAULT 0,
   PRIMARY KEY (`uid`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO `user` VALUES (1, 'admin', '21232F297A57A5A743894A0E4A801FC3', NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, NULL, '2019-04-26 13:04:25', '2019-04-26 13:04:25', 0);
 
 SET FOREIGN_KEY_CHECKS = 1;
