@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dcoj.dao.ProblemUserMapper">
-  <resultMap id="BaseResultMap" type="com.dcoj.entity.ProblemUserEntity">
+<mapper namespace="com.dcoj.dao.ProgramProblemUserMapper">
+  <resultMap id="BaseResultMap" type="com.dcoj.entity.ProgramProblemUserEntity">
     <result column="pid" jdbcType="INTEGER" property="pid" />
     <result column="uid" jdbcType="INTEGER" property="uid" />
     <result column="status" jdbcType="CHAR" property="status" />
@@ -9,10 +9,10 @@
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
   </resultMap>
   
-    <!--自定义SQL: Begin-->
+  <!--自定义SQL: Begin-->
   <select id="listUserProblemsByUid" resultType="HashMap">
-        SELECT problem_user.*, problem.title FROM problem_user LEFT JOIN problem ON problem_user.pid=problem.pid
-        WHERE problem_user.uid = #{uid}
+        SELECT program_problem_user.*, problem.title FROM program_problem_user LEFT JOIN problem ON program_problem_user.pid=problem.pid
+        WHERE program_problem_user.uid = #{uid}
     </select>
   <!--自定义SQL: End-->
   
@@ -77,13 +77,13 @@
   <sql id="Base_Column_List">
     pid, uid, status, gmt_create, gmt_modified
   </sql>
-  <select id="selectByExample" parameterType="com.dcoj.entity.example.ProblemUserEntityExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.dcoj.entity.example.ProgramProblemUserEntityExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from problem_user
+    from program_problem_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -91,20 +91,20 @@
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByExample" parameterType="com.dcoj.entity.example.ProblemUserEntityExample">
-    delete from problem_user
+  <delete id="deleteByExample" parameterType="com.dcoj.entity.example.ProgramProblemUserEntityExample">
+    delete from program_problem_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.dcoj.entity.ProblemUserEntity">
-    insert into problem_user (pid, uid, status
+  <insert id="insert" parameterType="com.dcoj.entity.ProgramProblemUserEntity">
+    insert into program_problem_user (pid, uid, status
       )
     values (#{pid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{status,jdbcType=CHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.dcoj.entity.ProblemUserEntity">
-    insert into problem_user
+  <insert id="insertSelective" parameterType="com.dcoj.entity.ProgramProblemUserEntity">
+    insert into program_problem_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="pid != null">
         pid,
@@ -128,14 +128,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.dcoj.entity.example.ProblemUserEntityExample" resultType="java.lang.Long">
-    select count(*) from problem_user
+  <select id="countByExample" parameterType="com.dcoj.entity.example.ProgramProblemUserEntityExample" resultType="java.lang.Long">
+    select count(*) from program_problem_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update problem_user
+    update program_problem_user
     <set>
       <if test="record.pid != null">
         pid = #{record.pid,jdbcType=INTEGER},
@@ -152,7 +152,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update problem_user
+    update program_problem_user
     set pid = #{record.pid,jdbcType=INTEGER},
       uid = #{record.uid,jdbcType=INTEGER},
       status = #{record.status,jdbcType=CHAR}

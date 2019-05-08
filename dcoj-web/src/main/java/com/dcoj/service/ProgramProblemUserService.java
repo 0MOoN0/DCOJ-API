@@ -1,7 +1,7 @@
 package com.dcoj.service;
 
 
-import com.dcoj.entity.ProblemUserEntity;
+import com.dcoj.entity.ProgramProblemUserEntity;
 import com.dcoj.judge.ResultEnum;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Map;
  * ProblemUser 服务类
  * @author Leon
  **/
-public interface ProblemUserService {
+public interface ProgramProblemUserService {
 
     /**
      * 根据题目id、用户id、做题结果保存
@@ -27,7 +27,7 @@ public interface ProblemUserService {
      * @param uid       用户id
      * @return          ProblemUser
      */
-    ProblemUserEntity getByPidUid(int pid, int uid);
+    ProgramProblemUserEntity getByPidUid(int pid, int uid);
 
     /**
      * 根据用户id获取ProblemUser

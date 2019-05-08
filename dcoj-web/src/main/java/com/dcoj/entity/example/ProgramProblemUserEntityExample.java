@@ -8,14 +8,14 @@ import java.util.List;
 /**
  * @author Leon
  */
-public class ProblemUserEntityExample {
+public class ProgramProblemUserEntityExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public ProblemUserEntityExample() {
+    public ProgramProblemUserEntityExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

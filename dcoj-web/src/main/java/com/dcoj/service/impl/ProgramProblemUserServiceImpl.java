@@ -1,26 +1,25 @@
 package com.dcoj.service.impl;
 
-import com.dcoj.dao.ProblemUserMapper;
-import com.dcoj.entity.ProblemUserEntity;
-import com.dcoj.entity.example.ProblemUserEntityExample;
+import com.dcoj.dao.ProgramProblemUserMapper;
+import com.dcoj.entity.ProgramProblemUserEntity;
+import com.dcoj.entity.example.ProgramProblemUserEntityExample;
 import com.dcoj.judge.ResultEnum;
-import com.dcoj.service.ProblemUserService;
+import com.dcoj.service.ProgramProblemUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * ProblemUserService实现
  * @author Leon
  */
 @Service
-public class ProblemUserServiceImpl implements ProblemUserService {
+public class ProgramProblemUserServiceImpl implements ProgramProblemUserService {
 
     @Autowired
-    private ProblemUserMapper problemUserMapper;
+    private ProgramProblemUserMapper problemUserMapper;
 
     /**
      * 根据题目id、用户id、做题结果保存
@@ -31,7 +30,7 @@ public class ProblemUserServiceImpl implements ProblemUserService {
      */
     @Override
     public void save(int pid, int uid, ResultEnum status) {
-        ProblemUserEntity problemUserEntity = new ProblemUserEntity();
+        ProgramProblemUserEntity problemUserEntity = new ProgramProblemUserEntity();
         problemUserEntity.setUid(uid);
         problemUserEntity.setStatus(status);
         problemUserEntity.setPid(pid);
@@ -46,10 +45,10 @@ public class ProblemUserServiceImpl implements ProblemUserService {
      * @return ProblemUser
      */
     @Override
-    public ProblemUserEntity getByPidUid(int pid, int uid) {
-        ProblemUserEntityExample example = new ProblemUserEntityExample();
+    public ProgramProblemUserEntity getByPidUid(int pid, int uid) {
+        ProgramProblemUserEntityExample example = new ProgramProblemUserEntityExample();
         example.createCriteria().andPidEqualTo(pid).andUidEqualTo(uid);
-        List<ProblemUserEntity> problemUserEntities = problemUserMapper.selectByExample(example);
+        List<ProgramProblemUserEntity> problemUserEntities = problemUserMapper.selectByExample(example);
         if(problemUserEntities.size()>0){
             return problemUserEntities.get(0);
         }
@@ -77,11 +76,11 @@ public class ProblemUserServiceImpl implements ProblemUserService {
      */
     @Override
     public void updateByPidUid(int pid, int uid, ResultEnum result) {
-        ProblemUserEntity problemUserEntity = new ProblemUserEntity();
+        ProgramProblemUserEntity problemUserEntity = new ProgramProblemUserEntity();
         problemUserEntity.setUid(uid);
         problemUserEntity.setPid(pid);
         problemUserEntity.setStatus(result);
-        ProblemUserEntityExample example = new ProblemUserEntityExample();
+        ProgramProblemUserEntityExample example = new ProgramProblemUserEntityExample();
         example.createCriteria().andUidEqualTo(uid).andPidEqualTo(pid);
         problemUserMapper.updateByExample(problemUserEntity,example);
     }

@@ -12,7 +12,7 @@ import java.sql.Timestamp;
  * @author Leon
  */
 @Data
-public class ProblemUserEntity {
+public class ProgramProblemUserEntity {
     /** 题目id */
     private Integer pid;
     /** 用户id */

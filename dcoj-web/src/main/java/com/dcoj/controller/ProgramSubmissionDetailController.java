@@ -3,7 +3,7 @@ package com.dcoj.controller;
 import com.dcoj.entity.*;
 import com.dcoj.judge.ResultEnum;
 import com.dcoj.service.AttachmentService;
-import com.dcoj.service.ProblemUserService;
+import com.dcoj.service.ProgramProblemUserService;
 import com.dcoj.service.ProgramSubmissionDetailService;
 import com.dcoj.service.TestCasesService;
 import com.dcoj.util.JWTUtil;
@@ -31,7 +31,7 @@ public class ProgramSubmissionDetailController {
     private TestCasesService testCasesService;
 
     @Autowired
-    private ProblemUserService problemUserService;
+    private ProgramProblemUserService problemUserService;
 
     @Autowired
     private AttachmentService attachmentService;
@@ -64,7 +64,7 @@ public class ProgramSubmissionDetailController {
                                        @RequestHeader("token") String token){
         int uid = JWTUtil.getUid(token);
         HashMap resultMap = new HashMap<>();
-        ProblemUserEntity problemUserEntity = problemUserService.getByPidUid(pid, uid);
+        ProgramProblemUserEntity problemUserEntity = problemUserService.getByPidUid(pid, uid);
         // 判断要查看的提交详情是不是当前用户提交的
         if(subUserId == uid ||  //是当前用户提交的
                 (problemUserEntity != null&&
