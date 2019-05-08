@@ -1,6 +1,6 @@
 package com.dcoj.service.impl;
 
-import com.dcoj.dao.ProblemUserMapper;
+import com.dcoj.dao.ProgramProblemUserMapper;
 import com.dcoj.dao.ProgramSubmissionMapper;
 import com.dcoj.entity.ProgramSubmissionEntity;
 import com.dcoj.entity.example.ProgramSubmissionEntityExample;
@@ -25,7 +25,7 @@ public class ProgramSubmissionServiceImpl implements ProgramSubmissionService {
     private ProgramSubmissionMapper submissionMapper;
 
     @Autowired
-    private ProblemUserMapper problemUserMapper;
+    private ProgramProblemUserMapper problemUserMapper;
 
     /**
      * 保存用户提交，包括试卷提交、单题提交
@@ -126,7 +126,7 @@ public class ProgramSubmissionServiceImpl implements ProgramSubmissionService {
         if((sortKeyWord != null) && sortKeyWord.length()>0 && !sortKeyWord.equals("using_time")){
             submissionEntityExample.setOrderByClause(sortKeyWord+" ASC");
         }
-        System.out.println(submissionEntityExample.getOrderByClause());
+//        System.out.println(submissionEntityExample.getOrderByClause());
         criteria.andStatusEqualTo(ResultEnum.AC);
         return submissionMapper.listProblemLeaderboard(submissionEntityExample);
     }

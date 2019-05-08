@@ -1,8 +1,8 @@
 package com.dcoj.service.impl;
 
-import com.dcoj.entity.ProblemUserEntity;
+import com.dcoj.entity.ProgramProblemUserEntity;
 import com.dcoj.judge.ResultEnum;
-import com.dcoj.service.ProblemUserService;
+import com.dcoj.service.ProgramProblemUserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +18,10 @@ import java.util.Optional;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ProblemUserServiceImplTest {
+public class ProgramProblemUserServiceImplTest {
 
     @Autowired
-    private ProblemUserService problemUserService;
+    private ProgramProblemUserService problemUserService;
 
     @Test
     public void testSave() {
@@ -35,7 +35,7 @@ public class ProblemUserServiceImplTest {
 
     @Test
     public void testSelect() {
-        ProblemUserEntity problemUserEntity = problemUserService.getByPidUid(0, 0);
+        ProgramProblemUserEntity problemUserEntity = problemUserService.getByPidUid(0, 0);
         System.out.println(problemUserEntity);
     }
 

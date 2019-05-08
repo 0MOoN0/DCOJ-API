@@ -1,7 +1,7 @@
 package com.dcoj.service.impl;
 
 import com.dcoj.cache.GlobalCacheManager;
-import com.dcoj.entity.ProblemUserEntity;
+import com.dcoj.entity.ProgramProblemUserEntity;
 import com.dcoj.judge.JudgeResult;
 import com.dcoj.judge.LanguageEnum;
 import com.dcoj.judge.ResultEnum;
@@ -9,7 +9,7 @@ import com.dcoj.judge.entity.ResponseEntity;
 import com.dcoj.judge.task.ProblemJudgeTask;
 import com.dcoj.service.JudgeService;
 import com.dcoj.service.ProgramProblemService;
-import com.dcoj.service.ProblemUserService;
+import com.dcoj.service.ProgramProblemUserService;
 import com.dcoj.service.ProgramSubmissionService;
 import com.dcoj.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ import java.util.Optional;
 public class JudgeServiceImpl implements JudgeService {
 
     @Autowired
-    private ProblemUserService problemUserService;
+    private ProgramProblemUserService problemUserService;
 
     @Autowired
     private ProgramProblemService programProblemService;
@@ -57,7 +57,7 @@ public class JudgeServiceImpl implements JudgeService {
         // 当前判卷用户是否已经AC过
         boolean isAC = false;
         // 此处更新problemUser或创建并保存problemUser
-        ProblemUserEntity problemUserEntity = problemUserService.getByPidUid(pid, owner);
+        ProgramProblemUserEntity problemUserEntity = problemUserService.getByPidUid(pid, owner);
         // 如果ProblemUser存在
         if (Optional.ofNullable(problemUserEntity).isPresent()) {
             if (problemUserEntity.getStatus() == ResultEnum.AC) {

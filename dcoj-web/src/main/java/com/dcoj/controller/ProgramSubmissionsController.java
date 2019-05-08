@@ -1,7 +1,7 @@
 package com.dcoj.controller;
 
 import com.dcoj.entity.ResponseEntity;
-import com.dcoj.service.ProblemUserService;
+import com.dcoj.service.ProgramProblemUserService;
 import com.dcoj.service.ProgramSubmissionService;
 import com.dcoj.util.JWTUtil;
 import com.dcoj.util.WebUtil;
@@ -24,7 +24,7 @@ public class ProgramSubmissionsController {
     private ProgramSubmissionService submissionService;
 
     @Autowired
-    private ProblemUserService problemUserService;
+    private ProgramProblemUserService problemUserService;
 
     @ApiOperation("获取用户所有编程题提交(Submission)")
     @ApiImplicitParams({
@@ -34,7 +34,7 @@ public class ProgramSubmissionsController {
     })
     @GetMapping
     public ResponseEntity listUserSubmissions(
-                                              @RequestParam("page") int page,
+                                              @RequestParam("page_num") int page,
                                               @RequestParam("page_size") int pageSize,
                                               @RequestHeader("authorization") String token){
         int uid = JWTUtil.getUid(token);
@@ -65,8 +65,7 @@ public class ProgramSubmissionsController {
     public ResponseEntity listProblemSubmissions(@RequestParam("uid") int uid,
                                                     @RequestParam("pid") int pid,
                                                      @RequestParam("page_num") int page,
-                                                     @RequestParam("page_size") int pageSize,
-                                                     @RequestHeader("authorization") String token){
+                                                     @RequestParam("page_size") int pageSize){
         // 获取当前问题所有人的提交
         Page pager = PageHelper.startPage(page, pageSize);
         if(uid==0){
