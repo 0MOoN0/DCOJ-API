@@ -185,10 +185,10 @@ INSERT INTO `problem` VALUES (4, '0', '{\"des\": \"这是一道选择题2\"}', 2
 INSERT INTO `problem` VALUES (5, '3', NULL, 2, 0, 0, 0, '2019-04-02 08:04:24', '2019-04-02 08:04:24', 0, NULL, '编程题目标题', NULL, NULL, NULL, 1, 1, 0, 0, 0, 0);
 
 -- ----------------------------
--- Table structure for problem_user
+-- Table structure for program_problem_user
 -- ----------------------------
-DROP TABLE IF EXISTS `problem_user`;
-CREATE TABLE `problem_user`  (
+DROP TABLE IF EXISTS `program_problem_user`;
+CREATE TABLE `program_problem_user`  (
   `pid` int(11) NOT NULL COMMENT '题目ID',
   `uid` int(11) NOT NULL COMMENT '用户ID',
   `status` enum('SE','CE','TLE','RE','WA','AC') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '判卷结果',
@@ -197,10 +197,10 @@ CREATE TABLE `problem_user`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of problem_user
+-- Records of program_problem_user
 -- ----------------------------
-INSERT INTO `problem_user` VALUES (10, 1, 'AC', '2019-04-03 16:07:59', '2019-04-26 15:26:36');
-INSERT INTO `problem_user` VALUES (0, 0, 'AC', '2019-04-26 10:24:57', '2019-04-26 10:24:58');
+INSERT INTO `program_problem_user` VALUES (10, 1, 'AC', '2019-04-03 16:07:59', '2019-04-26 15:26:36');
+INSERT INTO `program_problem_user` VALUES (0, 0, 'AC', '2019-04-26 10:24:57', '2019-04-26 10:24:58');
 
 -- ----------------------------
 -- Table structure for program_problem
