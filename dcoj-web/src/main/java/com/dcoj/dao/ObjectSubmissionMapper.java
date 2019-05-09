@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
- * 客观题提交Mapper
+ * 使用Mybatis-Generator生成
  *
  * @author Leon
  */

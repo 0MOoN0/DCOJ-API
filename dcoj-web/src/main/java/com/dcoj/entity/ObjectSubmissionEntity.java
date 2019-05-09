@@ -30,4 +30,10 @@ public class ObjectSubmissionEntity {
     /** 用户提交的回答 */
     private String answer;
 
+    /** 可查询时间 */
+    private Timestamp queryableTime;
+
+    /** 分数 */
+    private Byte score;
+
 }

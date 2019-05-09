@@ -9,14 +9,17 @@
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="answer" jdbcType="VARCHAR" property="answer" />
+    <result column="queryable_time" jdbcType="TIMESTAMP" property="queryableTime" />
+    <result column="score" jdbcType="TINYINT" property="score" />
   </resultMap>
-
   <!--自定义SQL:Begin-->
   <insert id="insert" parameterType="com.dcoj.entity.ObjectSubmissionEntity" useGeneratedKeys="true" keyProperty="objectSubmitId">
-    insert into object_submission (object_submit_id, uid, object_problem_id,
-      result_status, answer)
-    values (#{objectSubmitId,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{objectProblemId,jdbcType=INTEGER},
-      #{resultStatus,jdbcType=TINYINT}, #{answer,jdbcType=VARCHAR})
+    insert into object_submission (object_submit_id, uid, object_problem_id, 
+      result_status, answer, queryable_time, 
+      score)
+    values (#{objectSubmitId,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{objectProblemId,jdbcType=INTEGER}, 
+      #{resultStatus,jdbcType=TINYINT}, #{answer,jdbcType=VARCHAR}, #{queryableTime,jdbcType=TIMESTAMP}, 
+      #{score,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.dcoj.entity.ObjectSubmissionEntity" useGeneratedKeys="true" keyProperty="objectSubmitId">
     insert into object_submission
@@ -36,6 +39,12 @@
       <if test="answer != null">
         answer,
       </if>
+      <if test="queryableTime != null">
+        queryable_time,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="objectSubmitId != null">
@@ -53,10 +62,15 @@
       <if test="answer != null">
         #{answer,jdbcType=VARCHAR},
       </if>
+      <if test="queryableTime != null">
+        #{queryableTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=TINYINT},
+      </if>
     </trim>
   </insert>
-  <!--自定义SQL:End-->
-
+    <!--自定义SQL:End-->
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -117,7 +131,7 @@
   </sql>
   <sql id="Base_Column_List">
     object_submit_id, uid, object_problem_id, result_status, gmt_create, gmt_modified, 
-    answer
+    answer, queryable_time, score
   </sql>
   <select id="selectByExample" parameterType="com.dcoj.entity.example.ObjectSubmissionEntityExample" resultMap="BaseResultMap">
     select
@@ -149,13 +163,17 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <!--<insert id="insert" parameterType="com.dcoj.entity.ObjectSubmissionEntity">
+  <!-- 
+  		已被重写
+  <insert id="insert" parameterType="com.dcoj.entity.ObjectSubmissionEntity" useGeneratedKeys="true" keyProperty="objectSubmitId">
     insert into object_submission (object_submit_id, uid, object_problem_id, 
-      result_status, answer)
+      result_status, answer, queryable_time, 
+      score)
     values (#{objectSubmitId,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{objectProblemId,jdbcType=INTEGER}, 
-      #{resultStatus,jdbcType=TINYINT}, #{answer,jdbcType=VARCHAR})
+      #{resultStatus,jdbcType=TINYINT}, #{answer,jdbcType=VARCHAR}, #{queryableTime,jdbcType=TIMESTAMP}, 
+      #{score,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.dcoj.entity.ObjectSubmissionEntity">
+  <insert id="insertSelective" parameterType="com.dcoj.entity.ObjectSubmissionEntity" useGeneratedKeys="true" keyProperty="objectSubmitId">
     insert into object_submission
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="objectSubmitId != null">
@@ -172,6 +190,12 @@
       </if>
       <if test="answer != null">
         answer,
+      </if>
+      <if test="queryableTime != null">
+        queryable_time,
+      </if>
+      <if test="score != null">
+        score,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -190,8 +214,14 @@
       <if test="answer != null">
         #{answer,jdbcType=VARCHAR},
       </if>
+      <if test="queryableTime != null">
+        #{queryableTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=TINYINT},
+      </if>
     </trim>
-  </insert>-->
+  </insert> -->
   <select id="countByExample" parameterType="com.dcoj.entity.example.ObjectSubmissionEntityExample" resultType="java.lang.Long">
     select count(*) from object_submission
     <if test="_parameter != null">
@@ -216,6 +246,12 @@
       <if test="record.answer != null">
         answer = #{record.answer,jdbcType=VARCHAR},
       </if>
+      <if test="record.queryableTime != null">
+        queryable_time = #{record.queryableTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.score != null">
+        score = #{record.score,jdbcType=TINYINT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -227,7 +263,9 @@
       uid = #{record.uid,jdbcType=INTEGER},
       object_problem_id = #{record.objectProblemId,jdbcType=INTEGER},
       result_status = #{record.resultStatus,jdbcType=TINYINT},
-      answer = #{record.answer,jdbcType=VARCHAR}
+      answer = #{record.answer,jdbcType=VARCHAR},
+      queryable_time = #{record.queryableTime,jdbcType=TIMESTAMP},
+      score = #{record.score,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -247,6 +285,12 @@
       <if test="answer != null">
         answer = #{answer,jdbcType=VARCHAR},
       </if>
+      <if test="queryableTime != null">
+        queryable_time = #{queryableTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=TINYINT},
+      </if>
     </set>
     where object_submit_id = #{objectSubmitId,jdbcType=INTEGER}
   </update>
@@ -255,7 +299,9 @@
     set uid = #{uid,jdbcType=INTEGER},
       object_problem_id = #{objectProblemId,jdbcType=INTEGER},
       result_status = #{resultStatus,jdbcType=TINYINT},
-      answer = #{answer,jdbcType=VARCHAR}
+      answer = #{answer,jdbcType=VARCHAR},
+      queryable_time = #{queryableTime,jdbcType=TIMESTAMP},
+      score = #{score,jdbcType=TINYINT}
     where object_submit_id = #{objectSubmitId,jdbcType=INTEGER}
   </update>
 </mapper>

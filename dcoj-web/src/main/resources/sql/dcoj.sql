@@ -112,15 +112,18 @@ CREATE TABLE `object_submission`  (
   `gmt_modified` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   `answer` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户的提交答案',
   `queryable_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '可查询时间',
+  `score` tinyint(255) NOT NULL DEFAULT 0 COMMENT '分数',
   PRIMARY KEY (`object_submit_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of object_submission
 -- ----------------------------
-INSERT INTO `object_submission` VALUES (2, 2, 1, 1, '2019-04-30 09:34:47', '2019-04-30 09:34:47', 'C', '2019-04-30 10:27:12');
-INSERT INTO `object_submission` VALUES (3, 2, 2, 1, '2019-04-30 09:36:43', '2019-04-30 09:36:43', 'C', '2019-04-30 10:27:12');
-INSERT INTO `object_submission` VALUES (4, 2, 2, 1, '2019-04-30 09:40:43', '2019-04-30 09:40:43', 'C', '2019-04-30 10:27:12');
+INSERT INTO `object_submission` VALUES (2, 2, 1, 1, '2019-04-30 09:34:47', '2019-04-30 09:34:47', 'C', '2019-04-30 10:27:12', 0);
+INSERT INTO `object_submission` VALUES (3, 2, 2, 1, '2019-04-30 09:36:43', '2019-04-30 09:36:43', 'C', '2019-04-30 10:27:12', 0);
+INSERT INTO `object_submission` VALUES (4, 2, 2, 1, '2019-04-30 09:40:43', '2019-04-30 09:40:43', 'C', '2019-04-30 10:27:12', 0);
+INSERT INTO `object_submission` VALUES (5, 1, 1, 1, '2019-05-09 19:48:24', '2019-05-09 19:48:24', 'A', '2019-05-09 19:48:24', 0);
+INSERT INTO `object_submission` VALUES (6, 2, 2, 1, '2019-05-09 19:50:52', '2019-05-09 19:50:52', 'C', '2019-05-09 19:50:52', 0);
 
 -- ----------------------------
 -- Table structure for object_tag
