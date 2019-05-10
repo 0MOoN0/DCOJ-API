@@ -6,6 +6,7 @@ import com.dcoj.judge.JudgeResult;
 import com.dcoj.judge.LanguageEnum;
 import com.dcoj.judge.ResultEnum;
 import com.dcoj.judge.entity.ResponseEntity;
+import com.dcoj.judge.entity.TestCaseResponseEntity;
 import com.dcoj.judge.task.ProblemJudgeTask;
 import com.dcoj.service.JudgeService;
 import com.dcoj.service.ProgramProblemService;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -48,9 +50,27 @@ public class JudgeServiceImpl implements JudgeService {
         int pid = task.getPid();
         int owner = task.getOwner();
         ResultEnum result = response.getResult();
+        // 查看详细判卷结果，并计算分数
+        float score = 100;
+        if(response.getResult() != ResultEnum.AC){
+            score = 0;
+            List<TestCaseResponseEntity> testCases = response.getTestCases();
+            int size = testCases.size();
+            float singleTestCaseScore = 0;    // 单个测试用例分数
+            if(size != 0){
+                singleTestCaseScore = 100 / size;
+            }
+            for (TestCaseResponseEntity tcResponse: testCases
+                 ) {
+                score += tcResponse.getResult() == ResultEnum.AC ? singleTestCaseScore : 0;
+            }
+        }
         // 保存提交
         saveSubmission(task.getSourceCode(), task.getLang(), response.getTime(), response.getMemory(),
-                result, owner, task.getPid(), 0, 0);
+                result, owner,
+                task.getPid(), 0, 0,
+                (byte) (Math.round(score * 100) / 100)      // 将分数四舍五入到整数并强转为Byte
+        );
         // 更新用户日志
 //  TODO:20190403 Leon updateUserLog(owner, result);
 
@@ -79,9 +99,9 @@ public class JudgeServiceImpl implements JudgeService {
 
 
     public void saveSubmission(String sourceCode, LanguageEnum lang, double usingTime, int memory, ResultEnum result,
-                               int owner, int pid, int eid, int gid){
+                               int owner, int pid, int eid, int gid, byte score){
         // TODO 20190410 Leon Upload sourceCode
-        submissionService.save(owner, pid, eid, gid, 0, lang, usingTime, memory, result);
+        submissionService.save(owner, pid, eid, gid, 0, lang, usingTime, memory, result, score);
     }
 
 }

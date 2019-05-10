@@ -10,8 +10,11 @@ public class JWTUtilTest {
 
     @Test
     public void testSign(){
-        String token = JWTUtil.sign(1, "sadf");
+        String token = JWTUtil.sign(6, "sadf");
         System.out.println(token);
+
+        //部分token
+        // uid=6:token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjYsImV4cCI6MTU1ODA2MDkwNH0.dlRe6C_fj_MahK-7JPtFlH7JtjopEeGrXlWi3j_eWdI
     }
 
     @Test

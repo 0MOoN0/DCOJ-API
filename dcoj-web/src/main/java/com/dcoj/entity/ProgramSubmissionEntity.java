@@ -57,4 +57,7 @@ public class ProgramSubmissionEntity {
 
     /** 该Submission可以查询的时间 */
     private Timestamp queryableTime;
+
+    /** 该次提交的分数 */
+    private Byte score;
 }

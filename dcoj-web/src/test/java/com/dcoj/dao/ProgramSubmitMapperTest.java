@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Leon
@@ -61,7 +62,7 @@ public class ProgramSubmitMapperTest {
 
         ProgramSubmissionEntityExample example = new ProgramSubmissionEntityExample();
         ProgramSubmissionEntityExample.Criteria criteria = example.createCriteria();
-        criteria.andSubIdEqualTo(3);
+        criteria.andSubIdEqualTo(65);
         submissionMapper.updateByExample(submission, example);
     }
 
@@ -69,7 +70,7 @@ public class ProgramSubmitMapperTest {
     public void testSelect(){
         ProgramSubmissionEntityExample example = new ProgramSubmissionEntityExample();
         ProgramSubmissionEntityExample.Criteria criteria = example.createCriteria();
-        criteria.andSubIdEqualTo(3);
+        criteria.andSubIdEqualTo(65);
         List<ProgramSubmissionEntity> submissionEntities = submissionMapper.selectByExample(example);
         submissionEntities.parallelStream().forEach((submissionEntity)-> System.out.println(submissionEntity));
     }
@@ -78,7 +79,7 @@ public class ProgramSubmitMapperTest {
     public void testDelete(){
         ProgramSubmissionEntityExample example = new ProgramSubmissionEntityExample();
         ProgramSubmissionEntityExample.Criteria criteria = example.createCriteria();
-        criteria.andSubIdEqualTo(3);
+        criteria.andSubIdEqualTo(65);
 
         submissionMapper.deleteByExample(example);
     }
@@ -92,7 +93,7 @@ public class ProgramSubmitMapperTest {
         Calendar end = Calendar.getInstance();
         end.set(2019, 4, 16, 19, 34, 0);*/
         LocalDateTime begin = LocalDateTime.of(2019, 4, 16, 19, 33, 0);
-        LocalDateTime end = LocalDateTime.of(2019, 4, 16, 19, 34, 0);
+        LocalDateTime end = LocalDateTime.of(2019, 5, 16, 19, 34, 0);
 
 //        System.out.println();
 //        System.out.println();
@@ -109,8 +110,10 @@ public class ProgramSubmitMapperTest {
         ProgramSubmissionEntityExample submissionEntityExample = new ProgramSubmissionEntityExample();
         submissionEntityExample.setOrderByClause("time");
         submissionEntityExample.setOrderByClause("memory");
-        String orderByClause = submissionEntityExample.getOrderByClause();  // only "memory"
-        System.out.println(orderByClause);
+        List<ProgramSubmissionEntity> programSubmissionEntities = submissionMapper.selectByExample(submissionEntityExample);
+        Optional.ofNullable(programSubmissionEntities)
+                .ifPresent(Entities -> programSubmissionEntities.parallelStream()
+                .forEach(System.out::println));
     }
 
 }

@@ -27,7 +27,7 @@ public interface ProgramSubmissionService {
      * @return 新增数据的主键
      */
     int save(int uid, int pid, int eid, int gid, int sourceCode, LanguageEnum lang, double usingTime, int memory,
-              ResultEnum status);
+              ResultEnum status, byte score);
 
     /**
      * 根据题目ID查询该题目的Submission数量
