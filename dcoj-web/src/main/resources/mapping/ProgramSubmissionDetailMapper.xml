@@ -7,7 +7,48 @@
     <result column="sub_id" jdbcType="INTEGER" property="subId" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="source_code" jdbcType="INTEGER" property="sourceCode" />
   </resultMap>
+  <!--自定义SQL Begin:-->
+  <insert id="insert" parameterType="com.dcoj.entity.ProgramSubmissionDetailEntity"  useGeneratedKeys="true" keyProperty="sdId">
+    insert into program_submission_detail (sd_id, judge_detail, sub_id, 
+      source_code)
+    values (#{sdId,jdbcType=INTEGER}, #{judgeDetail,jdbcType=VARCHAR}, #{subId,jdbcType=INTEGER}, 
+      #{sourceCode,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dcoj.entity.ProgramSubmissionDetailEntity" useGeneratedKeys="true" keyProperty="sdId">
+    insert into program_submission_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sdId != null">
+        sd_id,
+      </if>
+      <if test="judgeDetail != null">
+        judge_detail,
+      </if>
+      <if test="subId != null">
+        sub_id,
+      </if>
+      <if test="sourceCode != null">
+        source_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sdId != null">
+        #{sdId,jdbcType=INTEGER},
+      </if>
+      <if test="judgeDetail != null">
+        #{judgeDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="subId != null">
+        #{subId,jdbcType=INTEGER},
+      </if>
+      <if test="sourceCode != null">
+        #{sourceCode,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <!--自定义SQL End:-->
+  
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -67,7 +108,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    sd_id, judge_detail, sub_id, gmt_create, gmt_modified
+    sd_id, judge_detail, sub_id, gmt_create, gmt_modified, source_code
   </sql>
   <select id="selectByExample" parameterType="com.dcoj.entity.example.ProgramSubmissionDetailEntityExample" resultMap="BaseResultMap">
     select
@@ -99,11 +140,13 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  <!-- 
+	此SQL已被重写	  
   <insert id="insert" parameterType="com.dcoj.entity.ProgramSubmissionDetailEntity">
-    insert into program_submission_detail (sd_id, judge_detail, sub_id
-      )
-    values (#{sdId,jdbcType=INTEGER}, #{judgeDetail,jdbcType=VARCHAR}, #{subId,jdbcType=INTEGER}
-      )
+    insert into program_submission_detail (sd_id, judge_detail, sub_id, 
+      source_code)
+    values (#{sdId,jdbcType=INTEGER}, #{judgeDetail,jdbcType=VARCHAR}, #{subId,jdbcType=INTEGER}, 
+      #{sourceCode,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.dcoj.entity.ProgramSubmissionDetailEntity">
     insert into program_submission_detail
@@ -117,6 +160,9 @@
       <if test="subId != null">
         sub_id,
       </if>
+      <if test="sourceCode != null">
+        source_code,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="sdId != null">
@@ -128,8 +174,11 @@
       <if test="subId != null">
         #{subId,jdbcType=INTEGER},
       </if>
+      <if test="sourceCode != null">
+        #{sourceCode,jdbcType=INTEGER},
+      </if>
     </trim>
-  </insert>
+  </insert> -->
   <select id="countByExample" parameterType="com.dcoj.entity.example.ProgramSubmissionDetailEntityExample" resultType="java.lang.Long">
     select count(*) from program_submission_detail
     <if test="_parameter != null">
@@ -148,6 +197,9 @@
       <if test="record.subId != null">
         sub_id = #{record.subId,jdbcType=INTEGER},
       </if>
+      <if test="record.sourceCode != null">
+        source_code = #{record.sourceCode,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -157,7 +209,8 @@
     update program_submission_detail
     set sd_id = #{record.sdId,jdbcType=INTEGER},
       judge_detail = #{record.judgeDetail,jdbcType=VARCHAR},
-      sub_id = #{record.subId,jdbcType=INTEGER}
+      sub_id = #{record.subId,jdbcType=INTEGER},
+      source_code = #{record.sourceCode,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -171,13 +224,17 @@
       <if test="subId != null">
         sub_id = #{subId,jdbcType=INTEGER},
       </if>
+      <if test="sourceCode != null">
+        source_code = #{sourceCode,jdbcType=INTEGER},
+      </if>
     </set>
     where sd_id = #{sdId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.dcoj.entity.ProgramSubmissionDetailEntity">
     update program_submission_detail
     set judge_detail = #{judgeDetail,jdbcType=VARCHAR},
-      sub_id = #{subId,jdbcType=INTEGER}
+      sub_id = #{subId,jdbcType=INTEGER},
+      source_code = #{sourceCode,jdbcType=INTEGER}
     where sd_id = #{sdId,jdbcType=INTEGER}
   </update>
 </mapper>

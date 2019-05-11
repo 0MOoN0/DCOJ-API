@@ -8,10 +8,7 @@ import com.dcoj.judge.ResultEnum;
 import com.dcoj.judge.entity.ResponseEntity;
 import com.dcoj.judge.entity.TestCaseResponseEntity;
 import com.dcoj.judge.task.ProblemJudgeTask;
-import com.dcoj.service.JudgeService;
-import com.dcoj.service.ProgramProblemService;
-import com.dcoj.service.ProgramProblemUserService;
-import com.dcoj.service.ProgramSubmissionService;
+import com.dcoj.service.*;
 import com.dcoj.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +33,9 @@ public class JudgeServiceImpl implements JudgeService {
 
     @Autowired
     private ProgramSubmissionService submissionService;
+
+    @Autowired
+    private ProgramSubmissionDetailService programSubmissionDetailService;
 
     @Override
     public JudgeResult getJudgeResult(String id) {
@@ -65,6 +65,8 @@ public class JudgeServiceImpl implements JudgeService {
                 score += tcResponse.getResult() == ResultEnum.AC ? singleTestCaseScore : 0;
             }
         }
+        // TODO: 20190511 Leon saveJudgeDetail;
+
         // 保存提交
         saveSubmission(task.getSourceCode(), task.getLang(), response.getTime(), response.getMemory(),
                 result, owner,
@@ -72,7 +74,7 @@ public class JudgeServiceImpl implements JudgeService {
                 (byte) (Math.round(score * 100) / 100)      // 将分数四舍五入到整数并强转为Byte
         );
         // 更新用户日志
-//  TODO:20190403 Leon updateUserLog(owner, result);
+        //  TODO:20190403 Leon updateUserLog(owner, result);
 
         // 当前判卷用户是否已经AC过
         boolean isAC = false;
