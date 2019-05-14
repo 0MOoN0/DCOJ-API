@@ -29,7 +29,7 @@ public class ProgramSubmissionServiceImplTest {
             submissionService.save(5, 1, 11,0,0, LanguageEnum.JAVA8, i, i, ResultEnum.AC);
             Thread.sleep(1000);
         }*/
-        int key = submissionService.save(6, 1, 11, 0, 0, LanguageEnum.CPP, 1, 1, ResultEnum.AC, (byte) 0);
+        int key = submissionService.save(6, 1, 11, 0,  LanguageEnum.CPP, 1, 1, ResultEnum.AC, (byte) 0);
         System.out.println(key);
 
     }

@@ -68,7 +68,7 @@ public class JudgeServiceImpl implements JudgeService {
         // TODO: 20190511 Leon saveJudgeDetail;
 
         // 保存提交
-        saveSubmission(task.getSourceCode(), task.getLang(), response.getTime(), response.getMemory(),
+        saveSubmission(task.getLang(), response.getTime(), response.getMemory(),
                 result, owner,
                 task.getPid(), 0, 0,
                 (byte) (Math.round(score * 100) / 100)      // 将分数四舍五入到整数并强转为Byte
@@ -100,10 +100,10 @@ public class JudgeServiceImpl implements JudgeService {
     }
 
 
-    public void saveSubmission(String sourceCode, LanguageEnum lang, double usingTime, int memory, ResultEnum result,
+    public void saveSubmission(LanguageEnum lang, double usingTime, int memory, ResultEnum result,
                                int owner, int pid, int eid, int gid, byte score){
         // TODO 20190410 Leon Upload sourceCode
-        submissionService.save(owner, pid, eid, gid, 0, lang, usingTime, memory, result, score);
+        submissionService.save(owner, pid, eid, gid, lang, usingTime, memory, result, score);
     }
 
 }
