@@ -35,6 +35,7 @@ public class SimpleTest {
     public void testEnum(){
         LanguageEnum java8 = LanguageEnum.valueOf("Java8");
         System.out.println(java8);
+
     }
 
 
