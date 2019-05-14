@@ -99,5 +99,20 @@ public interface ProgramProblemService {
      * @param status 题目状态
      * @return 根据题目状态返回该类型的题目
      */
-    List<ProgramProblemEntity> listAll(Integer status);
+//    List<ProgramProblemEntity> listAll(Integer status);
+
+
+    /**
+     * 查询所有编程题目
+     *
+     * @param list 标签列表
+     * @param uid 用户id
+     * @param difficult 难度
+     * @param query 查询关键字
+     * @return 结果
+     */
+    List<Map<String, Object>> listAll(List<Integer> list,
+                                      Integer uid,
+                                      Integer difficult,
+                                      String query);
 }

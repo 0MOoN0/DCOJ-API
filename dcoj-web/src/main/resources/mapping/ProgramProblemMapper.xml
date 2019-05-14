@@ -85,14 +85,15 @@
         where program_problem_id = #{programProblemId} and is_deleted = 0
     </update>
 
-    <select id="listAll" resultMap="problemResultMap" parameterType="java.lang.Integer">
-        select
-        <include refid="Base_Column_List"/>
-        from program_problem where is_deleted = 0
-        <if test="status != null">
-            and `status` = #{status,jdbcType=INTEGER}
-        </if>
-    </select>
+    <!--<select id="listAll" resultMap="problemResultMap" parameterType="java.lang.Integer">-->
+        <!--&lt;!&ndash;select&ndash;&gt;-->
+        <!--&lt;!&ndash;<include refid="Base_Column_List"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;from program_problem where is_deleted = 0&ndash;&gt;-->
+        <!--&lt;!&ndash;<if test="status != null">&ndash;&gt;-->
+        <!--&lt;!&ndash;and `status` = #{status,jdbcType=INTEGER}&ndash;&gt;-->
+        <!--&lt;!&ndash;</if>&ndash;&gt;-->
+
+    <!--</select>-->
 
     <!--<select id="listByType" resultMap="problemResultMap">-->
         <!--select-->
@@ -191,5 +192,53 @@
         WHERE program_problem_tag.program_problem_id = #{programProblemId}
           and program_problem_tag.is_deleted = 0;
     </select>
+
+    <select id="listAll" resultType="java.util.HashMap">
+
+        SELECT
+        program_problem.program_problem_id,
+        title,
+        difficult,
+        submit_times,
+        ac_times
+        <if test="uid != null">
+            , program_problem_user.status
+        </if>
+        FROM program_problem
+        <if test="uid != null">
+            LEFT JOIN program_problem_user ON program_problem.program_problem_id=program_problem_user.pid AND
+            program_problem_user.uid=#{uid}
+        </if>
+        <where>
+            <if test="uid != null">
+                AND program_problem_user.status="AC"
+            </if>
+            <if test="difficult != null">
+                AND difficult=#{difficult}
+            </if>
+            <if test="tagList != null">
+                AND program_problem.program_problem_id IN (
+                select program_problem_id from program_problem_tag
+                where program_tag_id in
+                <foreach  item="item" index="index" collection="tagList"
+                          open="(" separator="," close=" )">
+                    #{item}
+                </foreach>
+                and is_deleted = 0
+                group by program_problem_id
+                having count(program_problem_id) = ${tagList.size}
+                )
+            </if>
+            <if test="query != null">
+                AND title LIKE '%${query}%'
+            </if>
+            AND is_deleted = 0
+        </where>
+
+        ORDER BY program_problem_id ASC
+
+    </select>
+
+
 </mapper>
 

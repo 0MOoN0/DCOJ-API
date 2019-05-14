@@ -14,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 对多个ProgramProblem进行操作
  *
@@ -31,16 +33,22 @@ public class ProgramProblemsController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page_num", value = "页码", required = true, paramType = "query" ),
             @ApiImplicitParam(name = "page_size", value = "每页显示数量", required = true,  paramType = "query"),
-            @ApiImplicitParam(name = "status", value = "题目状态",  paramType = "query")
+            @ApiImplicitParam(name = "tagList", value = "标签列表",  paramType = "query"),
+            @ApiImplicitParam(name = "uid", value = "用户id",  paramType = "query"),
+            @ApiImplicitParam(name = "difficult", value = "题目难度",  paramType = "query"),
+            @ApiImplicitParam(name = "query", value = "查询关键字",  paramType = "query")
     })
     @GetMapping
-    public ResponseEntity listAll(@RequestParam(name = "page_num") int pageNum,
-                                  @RequestParam(name = "page_size") int pageSize,
-                                  @RequestParam(name = "status",required = false) Integer status) {
+    public ResponseEntity listAll(@RequestParam(name="tagList",required = false) List<Integer> list,
+                                      @RequestParam(name = "uid",required = false) Integer uid,
+                                      @RequestParam(name="difficult",required = false) Integer difficult,
+                                      @RequestParam(name = "query",required = false) String query,
+                                      @RequestParam(name = "page_num") int pageNum,
+                                  @RequestParam(name = "page_size") int pageSize) {
         // pageNum  页码
         // pageSize 每页显示数量
         Page pager = PageHelper.startPage(pageNum, pageSize);
-        return new ResponseEntity(WebUtil.generatePageData(pager, programProblemService.listAll(status)));
+        return new ResponseEntity(WebUtil.generatePageData(pager, programProblemService.listAll(list,uid,difficult,query)));
     }
 
 //    @ApiOperation("根据类型获取所有题目")

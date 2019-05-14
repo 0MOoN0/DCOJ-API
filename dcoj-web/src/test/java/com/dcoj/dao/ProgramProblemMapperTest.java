@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -76,8 +77,8 @@ public class ProgramProblemMapperTest {
 //
     @Test
     public void listAll() {
-        List<ProgramProblemEntity> list =  programProblemMapper.listAll(0);
-        list.forEach(System.out::println);
+//        List<ProgramProblemEntity> list =  programProblemMapper.listAll(0);
+//        list.forEach(System.out::println);
     }
 //
 //    @Test
@@ -145,4 +146,14 @@ public class ProgramProblemMapperTest {
 //            map.forEach((k,v)-> System.out.println("k:"+k+" v:"+v));
 //        }
 //    }
+
+    @Test
+    public void listAllProblem(){
+        List<Integer> list = Arrays.asList(1,3);
+//        programProblemMapper.listAll(list,1,2,null).forEach(System.out::println);
+        programProblemMapper.listAll(null,null,null,null).forEach(System.out::println);
+    }
+
+
+
 }

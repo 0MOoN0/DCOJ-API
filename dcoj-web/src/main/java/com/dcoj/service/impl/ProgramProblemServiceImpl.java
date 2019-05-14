@@ -165,13 +165,17 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
     }
 
     /**
-     * 根据状态查询编程题(不加参数则查询全部)
+     * 查询所有编程题目
      *
-     * @param status 题目状态
-     * @return 根据题目状态返回该类型的题目
+     * @param list      标签列表
+     * @param uid       用户id
+     * @param difficult 难度
+     * @param query     查询关键字
+     * @return 结果
      */
     @Override
-    public List<ProgramProblemEntity> listAll(Integer status) {
-        return programProblemMapper.listAll(status);
+    public List<Map<String, Object>> listAll(List<Integer> list, Integer uid, Integer difficult, String query) {
+        System.out.println("list:"+list+" uid:"+uid + " difficult:"+difficult+" query:"+query);
+        return programProblemMapper.listAll(list,uid,difficult,query);
     }
 }

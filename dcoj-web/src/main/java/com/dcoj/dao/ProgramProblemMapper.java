@@ -96,6 +96,21 @@ public interface ProgramProblemMapper {
      * @param status 题目状态
      * @return 根据题目状态返回该类型的题目
      */
-    List<ProgramProblemEntity> listAll(@Param("status") Integer status);
+//    List<ProgramProblemEntity> listAll(@Param("status") Integer status);
+
+    /**
+     * 查询所有编程题目
+     *
+     * @param list 标签列表
+     * @param uid 用户id
+     * @param difficult 难度
+     * @param query 查询关键字
+     * @return 结果
+     */
+    List<Map<String, Object>> listAll(@Param("tagList") List<Integer> list,
+                                 @Param("uid") Integer uid,
+                                 @Param("difficult") Integer difficult,
+                                 @Param("query") String query);
+
 
 }

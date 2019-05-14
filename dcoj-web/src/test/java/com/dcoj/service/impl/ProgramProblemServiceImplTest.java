@@ -58,7 +58,7 @@ public class ProgramProblemServiceImplTest {
 
     @Test
     public void listAll() {
-        programProblemService.listAll(0).forEach(System.out::println);
+//        programProblemService.listAll(0).forEach(System.out::println);
     }
 
 //    @Test
