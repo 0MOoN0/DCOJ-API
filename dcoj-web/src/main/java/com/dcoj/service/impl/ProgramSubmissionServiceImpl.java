@@ -48,7 +48,6 @@ public class ProgramSubmissionServiceImpl implements ProgramSubmissionService {
         entity.setPid(pid);
         entity.setEid(eid);
         entity.setGid(gid);
-        entity.setSourceCode(sourceCode);
         entity.setLang(lang);
         entity.setUsingTime(new BigDecimal(usingTime));
         entity.setMemory(memory);

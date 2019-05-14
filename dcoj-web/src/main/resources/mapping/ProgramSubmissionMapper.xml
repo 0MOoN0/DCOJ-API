@@ -5,7 +5,6 @@
     <id column="sub_id" jdbcType="INTEGER" property="subId" />
     <result column="uid" jdbcType="INTEGER" property="uid" />
     <result column="pid" jdbcType="INTEGER" property="pid" />
-    <result column="source_code" jdbcType="INTEGER" property="sourceCode" />
     <result column="using_time" jdbcType="DECIMAL" property="usingTime" />
     <result column="memory" jdbcType="INTEGER" property="memory" />
     <result column="status" jdbcType="CHAR" property="status" />
@@ -19,8 +18,8 @@
     <result column="score" jdbcType="TINYINT" property="score" />
   </resultMap>
   
-  <!--自定义SQL Begin:-->
-  <select id="listProblemLeaderboard" parameterType="com.dcoj.entity.example.ProgramSubmissionEntityExample" resultMap="BaseResultMap">
+    <!--自定义SQL Begin:-->
+      <select id="listProblemLeaderboard" parameterType="com.dcoj.entity.example.ProgramSubmissionEntityExample" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from (
@@ -42,19 +41,20 @@
       order by ${orderByClause}
     </if>
   </select>
-  <insert id="insert" parameterType="com.dcoj.entity.example.ProgramSubmissionEntityExample"  useGeneratedKeys="true" keyProperty="subId">
+    
+    <insert id="insert" parameterType="com.dcoj.entity.ProgramSubmissionEntity"  useGeneratedKeys="true" keyProperty="subId">
     insert into program_submission (sub_id, uid, pid, 
-      source_code, using_time, memory, 
-      status, submit_time, lang, 
-      eid, gid, queryable_time, 
-      score)
+      using_time, memory, status, 
+      submit_time, lang, eid, 
+      gid, queryable_time, score
+      )
     values (#{subId,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, 
-      #{sourceCode,jdbcType=INTEGER}, #{usingTime,jdbcType=DECIMAL}, #{memory,jdbcType=INTEGER}, 
-      #{status,jdbcType=CHAR}, #{submitTime,jdbcType=TIMESTAMP}, #{lang,jdbcType=CHAR}, 
-      #{eid,jdbcType=INTEGER}, #{gid,jdbcType=INTEGER}, #{queryableTime,jdbcType=TIMESTAMP}, 
-      #{score,jdbcType=TINYINT})
+      #{usingTime,jdbcType=DECIMAL}, #{memory,jdbcType=INTEGER}, #{status,jdbcType=CHAR}, 
+      #{submitTime,jdbcType=TIMESTAMP}, #{lang,jdbcType=CHAR}, #{eid,jdbcType=INTEGER}, 
+      #{gid,jdbcType=INTEGER}, #{queryableTime,jdbcType=TIMESTAMP}, #{score,jdbcType=TINYINT}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.dcoj.entity.example.ProgramSubmissionEntityExample"  useGeneratedKeys="true" keyProperty="subId">
+  <insert id="insertSelective" parameterType="com.dcoj.entity.ProgramSubmissionEntity"  useGeneratedKeys="true" keyProperty="subId">
     insert into program_submission
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="subId != null">
@@ -65,9 +65,6 @@
       </if>
       <if test="pid != null">
         pid,
-      </if>
-      <if test="sourceCode != null">
-        source_code,
       </if>
       <if test="usingTime != null">
         using_time,
@@ -107,9 +104,6 @@
       <if test="pid != null">
         #{pid,jdbcType=INTEGER},
       </if>
-      <if test="sourceCode != null">
-        #{sourceCode,jdbcType=INTEGER},
-      </if>
       <if test="usingTime != null">
         #{usingTime,jdbcType=DECIMAL},
       </if>
@@ -139,8 +133,8 @@
       </if>
     </trim>
   </insert>
+    <!--自定义SQL End:-->
   
-  <!--自定义SQL End:-->
   
   
   <sql id="Example_Where_Clause">
@@ -202,8 +196,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    sub_id, uid, pid, source_code, using_time, memory, status, submit_time, gmt_create, 
-    gmt_modified, lang, eid, gid, queryable_time, score
+    sub_id, uid, pid, using_time, memory, status, submit_time, gmt_create, gmt_modified, 
+    lang, eid, gid, queryable_time, score
   </sql>
   <select id="selectByExample" parameterType="com.dcoj.entity.example.ProgramSubmissionEntityExample" resultMap="BaseResultMap">
     select
@@ -236,18 +230,18 @@
     </if>
   </delete>
   <!-- 
-  		此SQL已被重写
+  	此SQL已被重写
   <insert id="insert" parameterType="com.dcoj.entity.ProgramSubmissionEntity">
     insert into program_submission (sub_id, uid, pid, 
-      source_code, using_time, memory, 
-      status, submit_time, lang, 
-      eid, gid, queryable_time, 
-      score)
+      using_time, memory, status, 
+      submit_time, lang, eid, 
+      gid, queryable_time, score
+      )
     values (#{subId,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, 
-      #{sourceCode,jdbcType=INTEGER}, #{usingTime,jdbcType=DECIMAL}, #{memory,jdbcType=INTEGER}, 
-      #{status,jdbcType=CHAR}, #{submitTime,jdbcType=TIMESTAMP}, #{lang,jdbcType=CHAR}, 
-      #{eid,jdbcType=INTEGER}, #{gid,jdbcType=INTEGER}, #{queryableTime,jdbcType=TIMESTAMP}, 
-      #{score,jdbcType=TINYINT})
+      #{usingTime,jdbcType=DECIMAL}, #{memory,jdbcType=INTEGER}, #{status,jdbcType=CHAR}, 
+      #{submitTime,jdbcType=TIMESTAMP}, #{lang,jdbcType=CHAR}, #{eid,jdbcType=INTEGER}, 
+      #{gid,jdbcType=INTEGER}, #{queryableTime,jdbcType=TIMESTAMP}, #{score,jdbcType=TINYINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.dcoj.entity.ProgramSubmissionEntity">
     insert into program_submission
@@ -260,9 +254,6 @@
       </if>
       <if test="pid != null">
         pid,
-      </if>
-      <if test="sourceCode != null">
-        source_code,
       </if>
       <if test="usingTime != null">
         using_time,
@@ -301,9 +292,6 @@
       </if>
       <if test="pid != null">
         #{pid,jdbcType=INTEGER},
-      </if>
-      <if test="sourceCode != null">
-        #{sourceCode,jdbcType=INTEGER},
       </if>
       <if test="usingTime != null">
         #{usingTime,jdbcType=DECIMAL},
@@ -352,9 +340,6 @@
       <if test="record.pid != null">
         pid = #{record.pid,jdbcType=INTEGER},
       </if>
-      <if test="record.sourceCode != null">
-        source_code = #{record.sourceCode,jdbcType=INTEGER},
-      </if>
       <if test="record.usingTime != null">
         using_time = #{record.usingTime,jdbcType=DECIMAL},
       </if>
@@ -392,7 +377,6 @@
     set sub_id = #{record.subId,jdbcType=INTEGER},
       uid = #{record.uid,jdbcType=INTEGER},
       pid = #{record.pid,jdbcType=INTEGER},
-      source_code = #{record.sourceCode,jdbcType=INTEGER},
       using_time = #{record.usingTime,jdbcType=DECIMAL},
       memory = #{record.memory,jdbcType=INTEGER},
       status = #{record.status,jdbcType=CHAR},
@@ -414,9 +398,6 @@
       </if>
       <if test="pid != null">
         pid = #{pid,jdbcType=INTEGER},
-      </if>
-      <if test="sourceCode != null">
-        source_code = #{sourceCode,jdbcType=INTEGER},
       </if>
       <if test="usingTime != null">
         using_time = #{usingTime,jdbcType=DECIMAL},
@@ -452,7 +433,6 @@
     update program_submission
     set uid = #{uid,jdbcType=INTEGER},
       pid = #{pid,jdbcType=INTEGER},
-      source_code = #{sourceCode,jdbcType=INTEGER},
       using_time = #{usingTime,jdbcType=DECIMAL},
       memory = #{memory,jdbcType=INTEGER},
       status = #{status,jdbcType=CHAR},
