@@ -1,9 +1,18 @@
 package com.dcoj.entity.example;
 
+import com.dcoj.judge.LanguageEnum;
+import com.dcoj.judge.ResultEnum;
+
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 使用Mybatis-Generator生成
+ *
+ * @author Leon
+ */
 public class AttachmentEntityExample {
     protected String orderByClause;
 
@@ -628,4 +637,5 @@ public class AttachmentEntityExample {
             this(condition, value, secondValue, null);
         }
     }
+
 }

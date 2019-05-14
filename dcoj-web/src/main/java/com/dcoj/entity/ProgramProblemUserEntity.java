@@ -1,5 +1,6 @@
 package com.dcoj.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.dcoj.judge.ResultEnum;
 import lombok.Data;
 
@@ -20,7 +21,9 @@ public class ProgramProblemUserEntity {
     /** 题目状态 */
     private ResultEnum status;
     /** 创建时间 自动生成*/
+    @JSONField(name = "gmt_create")
     private Timestamp gmtCreate;
     /** 修改时间 自动生成*/
+    @JSONField(name = "gmt_modified")
     private Timestamp gmtModified;
 }
