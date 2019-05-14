@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
+ * 编程提交详情(ProgramSubmissionDetail)服务类
+ *
  * @author Leon
  */
 @Service

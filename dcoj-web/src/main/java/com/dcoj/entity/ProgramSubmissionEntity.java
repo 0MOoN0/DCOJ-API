@@ -1,5 +1,6 @@
 package com.dcoj.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.dcoj.judge.LanguageEnum;
 import com.dcoj.judge.ResultEnum;
 import io.swagger.annotations.ApiModel;
@@ -17,6 +18,7 @@ import java.sql.Timestamp;
 public class ProgramSubmissionEntity {
 
     /** SubmissionID */
+    @JSONField(name = "sub_id")
     private Integer subId;
 
     /** 用户ID */
@@ -29,6 +31,7 @@ public class ProgramSubmissionEntity {
     private LanguageEnum lang;
 
     /** 判卷所用的平均时间 */
+    @JSONField(name = "using_time")
     private BigDecimal usingTime;
 
     /** 判卷使用的平均内存 */
@@ -38,16 +41,16 @@ public class ProgramSubmissionEntity {
     private ResultEnum status;
 
     /** 提交判卷的时间 */
+    @JSONField(name = "submit_time")
     private Timestamp submitTime;
 
     /** 创建时间 */
+    @JSONField(name = "gmt_create")
     private Timestamp gmtCreate;
 
     /** 修改时间 */
+    @JSONField(name = "gmt_modified")
     private Timestamp gmtModified;
-
-    /** 用户提交的源码 */
-    private Integer sourceCode;
 
     /** 试卷ID */
     private Integer eid;
@@ -56,6 +59,7 @@ public class ProgramSubmissionEntity {
     private Integer gid;
 
     /** 该Submission可以查询的时间 */
+    @JSONField(name = "queryable_time")
     private Timestamp queryableTime;
 
     /** 该次提交的分数 */

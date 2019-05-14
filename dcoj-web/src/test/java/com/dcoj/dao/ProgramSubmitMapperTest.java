@@ -36,7 +36,6 @@ public class ProgramSubmitMapperTest {
         submission.setLang(LanguageEnum.JAVA8);
         submission.setMemory(123);
         submission.setPid(0);
-        submission.setSourceCode(123);
         submission.setStatus(ResultEnum.SE);
         submission.setSubmitTime(new Timestamp(System.currentTimeMillis()));
         submission.setUsingTime(new BigDecimal(3));
@@ -54,7 +53,6 @@ public class ProgramSubmitMapperTest {
         submission.setLang(LanguageEnum.PYTHON35);
         submission.setMemory(123);
         submission.setPid(0);
-        submission.setSourceCode(123);
         submission.setStatus(ResultEnum.AC);
         submission.setSubmitTime(new Timestamp(System.currentTimeMillis()));
         submission.setUsingTime(new BigDecimal(3));

@@ -7,11 +7,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 使用Mybatis-Generator生成
- *
- * @author Leon
- */
 public class ProgramSubmissionEntityExample {
     protected String orderByClause;
 
@@ -290,66 +285,6 @@ public class ProgramSubmissionEntityExample {
 
         public Criteria andPidNotBetween(Integer value1, Integer value2) {
             addCriterion("pid not between", value1, value2, "pid");
-            return (Criteria) this;
-        }
-
-        public Criteria andSourceCodeIsNull() {
-            addCriterion("source_code is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSourceCodeIsNotNull() {
-            addCriterion("source_code is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSourceCodeEqualTo(Integer value) {
-            addCriterion("source_code =", value, "sourceCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSourceCodeNotEqualTo(Integer value) {
-            addCriterion("source_code <>", value, "sourceCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSourceCodeGreaterThan(Integer value) {
-            addCriterion("source_code >", value, "sourceCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSourceCodeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("source_code >=", value, "sourceCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSourceCodeLessThan(Integer value) {
-            addCriterion("source_code <", value, "sourceCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSourceCodeLessThanOrEqualTo(Integer value) {
-            addCriterion("source_code <=", value, "sourceCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSourceCodeIn(List<Integer> values) {
-            addCriterion("source_code in", values, "sourceCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSourceCodeNotIn(List<Integer> values) {
-            addCriterion("source_code not in", values, "sourceCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSourceCodeBetween(Integer value1, Integer value2) {
-            addCriterion("source_code between", value1, value2, "sourceCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSourceCodeNotBetween(Integer value1, Integer value2) {
-            addCriterion("source_code not between", value1, value2, "sourceCode");
             return (Criteria) this;
         }
 
