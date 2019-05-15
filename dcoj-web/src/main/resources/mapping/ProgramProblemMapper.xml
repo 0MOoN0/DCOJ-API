@@ -15,7 +15,6 @@
 
     <resultMap id="problemResultMap" type="ProgramProblemEntity">
         <id column="program_problem_id" property="programProblemId"/>
-        <!--<result column="type" property="type"/>-->
         <result column="description" property="description"/>
         <result column="difficult" property="difficult"/>
         <result column="submit_times" property="submitTimes"/>
@@ -24,12 +23,8 @@
         <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" javaType="java.sql.Timestamp"/>
         <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" javaType="java.sql.Timestamp"/>
         <result column="is_deleted" property="deleted"/>
-
-        <!--<result column="answer" property="answer"/>-->
-
         <result column="title" property="title"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
-        <!--<result column="lang" property="lang"/>-->
         <result column="input_format" property="inputFormat"/>
         <result column="output_format" property="outputFormat"/>
         <result column="samples" property="samples"/>
@@ -47,13 +42,6 @@
         where is_deleted = 0
     </select>
 
-    <!--<select id="countProblemsByType" resultType="Integer">-->
-        <!--select count(*)-->
-        <!--from program_problem-->
-        <!--where is_deleted = 0-->
-          <!--and `type` = #{type}-->
-    <!--</select>-->
-
     <update id="removeByPrimaryKey">
         update program_problem
         <set>
@@ -65,13 +53,11 @@
     <update id="updateProgramProblem">
         update program_problem
         <set>
-            <!--<if test="type != null">`type` = #{type},</if>-->
             <if test="description != null">description = #{description},</if>
             <if test="difficult != null">difficult = #{difficult},</if>
             <if test="submitTimes != null">submit_times = #{submitTimes},</if>
             <if test="ACTimes != null">ac_times = #{ACTimes},</if>
             <if test="WATimes != null">wa_times = #{WATimes},</if>
-            <!--<if test="answer != null">answer = #{answer},</if>-->
             <if test="title != null">title = #{title},</if>
             <if test="inputFormat != null">input_format = #{inputFormat},</if>
             <if test="outputFormat != null">output_format = #{outputFormat},</if>
@@ -85,22 +71,6 @@
         where program_problem_id = #{programProblemId} and is_deleted = 0
     </update>
 
-    <!--<select id="listAll" resultMap="problemResultMap" parameterType="java.lang.Integer">-->
-        <!--&lt;!&ndash;select&ndash;&gt;-->
-        <!--&lt;!&ndash;<include refid="Base_Column_List"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;from program_problem where is_deleted = 0&ndash;&gt;-->
-        <!--&lt;!&ndash;<if test="status != null">&ndash;&gt;-->
-        <!--&lt;!&ndash;and `status` = #{status,jdbcType=INTEGER}&ndash;&gt;-->
-        <!--&lt;!&ndash;</if>&ndash;&gt;-->
-
-    <!--</select>-->
-
-    <!--<select id="listByType" resultMap="problemResultMap">-->
-        <!--select-->
-        <!--<include refid="Base_Column_List"/>-->
-        <!--from program_problem where is_deleted = 0 and `type` = #{type}-->
-    <!--</select>-->
-
     <select id="getByPrimaryKey" resultMap="problemResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -111,18 +81,12 @@
     <insert id="save" parameterType="ProgramProblemEntity" useGeneratedKeys="true" keyProperty="programProblemId">
         insert into program_problem
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <!--<if test="type != null">-->
-                <!--type,-->
-            <!--</if>-->
             <if test="description != null">
                 description,
             </if>
             <if test="difficult != null">
                 difficult,
             </if>
-            <!--<if test="answer != null">-->
-                <!--answer,-->
-            <!--</if>-->
             <if test="title != null">
                 title,
             </if>
@@ -146,18 +110,12 @@
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
-        <!--<if test="type != null">-->
-            <!--#{type},-->
-        <!--</if>-->
         <if test="description != null">
             #{description},
         </if>
         <if test="difficult != null">
             #{difficult},
         </if>
-        <!--<if test="answer != null">-->
-            <!--#{answer},-->
-        <!--</if>-->
         <if test="title != null">
             #{title},
         </if>

@@ -51,15 +51,6 @@ public class ProgramProblemsController {
         return new ResponseEntity(WebUtil.generatePageData(pager, programProblemService.listAll(list,uid,difficult,query)));
     }
 
-//    @ApiOperation("根据类型获取所有题目")
-//    @GetMapping("/problems/{type}")
-//    public ResponseEntity listByType(@RequestParam(name = "page") int page,
-//                                     @RequestParam(name = "page_size") int pageSize,
-//                                     @PathVariable(name = "type") int type) {
-//        Page pager = PageHelper.startPage(page, pageSize);
-//        return new ResponseEntity(WebUtil.generatePageData(pager, programProblemService.listByType(type)));
-//    }
-
     //TODO:4.12 WANGQING 未完成导出题目、导入题目
 
 }
