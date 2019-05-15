@@ -14,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 对多个ObjectProblem进行操作
  *
@@ -32,47 +34,18 @@ public class ObjectProblemsController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page_num", value = "页码", required = true, paramType = "query" ),
             @ApiImplicitParam(name = "page_size", value = "每页显示数量", required = true,  paramType = "query"),
-            @ApiImplicitParam(name = "status", value = "题目状态",  paramType = "query"),
-            @ApiImplicitParam(name = "type", value = "题目类型", paramType = "query")
+            @ApiImplicitParam(name = "tagList", value = "标签列表",  paramType = "query"),
+            @ApiImplicitParam(name = "uid", value = "用户id",  paramType = "query"),
+            @ApiImplicitParam(name = "query", value = "查询关键字",  paramType = "query")
     })
     @GetMapping
-    public ResponseEntity listAll(@RequestParam(name = "page_num") int pageNum,
-                                  @RequestParam(name = "page_size") int pageSize,
-                                  @RequestParam(name = "status",required = false) Integer status,
-                                  @RequestParam(name = "type",required = false) Integer type) {
+    public ResponseEntity listAll(@RequestParam(name="tagList",required = false) List<Integer> list,
+                                  @RequestParam(name = "uid",required = false) Integer uid,
+                                  @RequestParam(name = "query",required = false) String query,
+                                  @RequestParam(name = "page_num") int pageNum,
+                                  @RequestParam(name = "page_size") int pageSize) {
         Page pager = PageHelper.startPage(pageNum, pageSize);
-        return new ResponseEntity(WebUtil.generatePageData(pager, objectProblemService.listAll(status,type)));
+        return new ResponseEntity(WebUtil.generatePageData(pager, objectProblemService.listAll(list,uid,query)));
     }
-
-//    @ApiOperation("根据题目类型或状态获取所有题目")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "page_num", value = "页码", required = true, paramType = "int" ),
-//            @ApiImplicitParam(name = "page_size", value = "每页显示数量", required = true, paramType = "int"),
-//            @ApiImplicitParam(name = "status", value = "题目状态", required = true, paramType = "int"),
-//    })
-//    @GetMapping
-//    public ResponseEntity listByTypeStatus(@RequestParam(name = "page_num") int pageNum,
-//                                     @RequestParam(name = "page_size") int pageSize,
-//                                     @PathVariable(name = "status") int status) {
-//        Page pager = PageHelper.startPage(pageNum, pageSize);
-//        return new ResponseEntity(WebUtil.generatePageData(pager, objectProblemService.listByStatus(status)));
-//    }
-
-//    @ApiOperation("根据客观题状态获取所有题目")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "page_num", value = "页码", required = true, paramType = "int" ),
-//            @ApiImplicitParam(name = "page_size", value = "每页显示数量", required = true, paramType = "int"),
-//            @ApiImplicitParam(name = "status", value = "题目状态", required = true, paramType = "int"),
-//    })
-//    @GetMapping("/status")
-//    public ResponseEntity countByStatus(@RequestParam(name = "page_num") int pageNum,
-//                                     @RequestParam(name = "page_size") int pageSize,
-//                                     @RequestParam(name = "status") int status) {
-////        objectProblemService
-////        return new ResponseEntity();
-//return null;
-//    }
-
-
 
 }

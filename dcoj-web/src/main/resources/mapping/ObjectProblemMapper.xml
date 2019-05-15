@@ -5,6 +5,8 @@
     <id column="object_problem_id" property="objectProblemId" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="answer" property="answer" jdbcType="VARCHAR" />
+    <result column="submit_times" property="submitTimes" jdbcType="INTEGER" />
+    <result column="ac_times" property="ACTimes" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
     <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
@@ -12,7 +14,7 @@
     <result column="description" property="description"/>
   </resultMap>
   <sql id="Base_Column_List" >
-    object_problem_id, type, description, answer, `status`, gmt_create, gmt_modified, is_deleted
+    object_problem_id, type, description, answer, submit_times, ac_times, `status`, gmt_create, gmt_modified, is_deleted
   </sql>
   <select id="getByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -139,15 +141,47 @@
       and `status` = #{status}
   </select>
 
-  <select id="listAll" resultMap="BaseResultMap"  parameterType="java.lang.Integer">
-    select     <include refid="Base_Column_List"/>
-    from object_problem
-    where is_deleted = 0
-    <if test="status != null">
-      and `status` = #{status,jdbcType=INTEGER}
+  <select id="listAll" resultType="java.util.HashMap">
+    SELECT
+    object_problem.object_problem_id,
+    description,
+    submit_times,
+    ac_times
+    <if test="uid != null">
+      , object_problem_user.status
     </if>
-    <if test="type != null">
-      and `type` = #{type,jdbcType=INTEGER}
+    FROM object_problem
+    <if test="uid != null">
+      LEFT JOIN object_problem_user ON object_problem.object_problem_id=object_problem_user.pid AND
+      object_problem_user.uid=#{uid}
     </if>
+    <where>
+      <if test="uid != null">
+        AND object_problem_user.status=1
+      </if>
+      <if test="tagList != null">
+        AND object_problem.object_problem_id IN (
+        select object_problem_id from object_problem_tag
+        where object_tag_id in
+        <foreach  item="item" index="index" collection="tagList"
+                  open="(" separator="," close=" )">
+          #{item}
+        </foreach>
+        and is_deleted = 0
+        group by object_problem_id
+        having count(object_problem_id) = ${tagList.size}
+        )
+      </if>
+      <if test="query != null">
+        AND title LIKE '%${query}%'
+      </if>
+      AND is_deleted = 0
+    </where>
+
+    ORDER BY object_problem_id ASC
+
   </select>
+
+
+
 </mapper>

@@ -199,14 +199,17 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
     }
 
     /**
-     * 根据状态、类型查询客观题(不加参数则查询全部)
+     * 查询所有编程题目
      *
-     * @param status 题目状态
-     * @param type 题目类型
-     * @return 根据题目状态、题目类型返回该类型的题目
+     * @param list      标签列表
+     * @param uid       用户id
+     * @param query     查询关键字
+     * @return 结果
      */
     @Override
-    public List<ObjectProblemEntity> listAll(Integer status, Integer type) {
-        return objectProblemMapper.listAll(status,type);
+    public List<Map<String, Object>> listAll(List<Integer> list, Integer uid, String query) {
+        return objectProblemMapper.listAll(list,uid,query);
     }
+
 }
+

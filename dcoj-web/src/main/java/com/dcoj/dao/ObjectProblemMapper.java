@@ -82,11 +82,15 @@ public interface ObjectProblemMapper {
     int countObjectProblemsByStatus(Integer status);
 
     /**
-     * 根据状态、类型查询客观题(不加参数则查询全部)
+     * 查询所有编程题目
      *
-     * @param status 题目状态
-     * @param type 题目类型
-     * @return 根据题目状态、题目类型返回该类型的题目
+     * @param list 标签列表
+     * @param uid 用户id
+     * @param query 查询关键字
+     * @return 结果
      */
-    List<ObjectProblemEntity> listAll(@Param("status") Integer status, @Param("type") Integer type);
+    List<Map<String, Object>> listAll(@Param("tagList") List<Integer> list,
+                                      @Param("uid") Integer uid,
+                                      @Param("query") String query);
+
 }

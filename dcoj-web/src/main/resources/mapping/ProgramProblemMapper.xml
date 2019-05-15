@@ -194,7 +194,6 @@
     </select>
 
     <select id="listAll" resultType="java.util.HashMap">
-
         SELECT
         program_problem.program_problem_id,
         title,

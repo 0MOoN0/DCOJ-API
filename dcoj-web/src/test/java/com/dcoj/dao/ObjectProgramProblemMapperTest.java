@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -130,6 +131,8 @@ public class ObjectProgramProblemMapperTest {
     @Test
     public void listAll(){
         //objectProblemMapper.listAll().forEach(System.out::println);
+        List<Integer> list = Arrays.asList(1);
+        objectProblemMapper.listAll(list,null,null).forEach(System.out::println);
     }
 
     @Test

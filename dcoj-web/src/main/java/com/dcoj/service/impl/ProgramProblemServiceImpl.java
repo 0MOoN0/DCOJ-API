@@ -178,4 +178,5 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
         System.out.println("list:"+list+" uid:"+uid + " difficult:"+difficult+" query:"+query);
         return programProblemMapper.listAll(list,uid,difficult,query);
     }
+
 }

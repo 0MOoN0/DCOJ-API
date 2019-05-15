@@ -20,6 +20,10 @@ public class ObjectProblemEntity {
     private Integer type;
     /** 题目答案 */
     private String answer;
+    /** 提交次数 */
+    private Integer submitTimes;
+    /** 通过次数 */
+    private Integer ACTimes;
     /** 题目状态 */
     private Integer status;
     /** 题目最后更新时间 */
