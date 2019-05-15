@@ -42,7 +42,7 @@ public class ProgramSubmissionServiceImpl implements ProgramSubmissionService {
      * @return 新增数据的主键
      */
     @Override
-    public int save(int uid, int pid, int eid, int gid, int sourceCode, LanguageEnum lang, double usingTime, int memory, ResultEnum status, byte score) {
+    public int save(int uid, int pid, int eid, int gid, LanguageEnum lang, double usingTime, int memory, ResultEnum status, byte score) {
         ProgramSubmissionEntity entity = new ProgramSubmissionEntity();
         entity.setUid(uid);
         entity.setPid(pid);
