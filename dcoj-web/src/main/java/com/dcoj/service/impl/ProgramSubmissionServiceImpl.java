@@ -147,4 +147,15 @@ public class ProgramSubmissionServiceImpl implements ProgramSubmissionService {
         return submissionMapper.selectByExample(submissionEntityExample);
     }
 
+    /**
+     * 根据ProgramSubmission ID查询ProgramSubmission
+     *
+     * @param subId
+     * @return      如果没有对应结果，返回NULL
+     */
+    @Override
+    public ProgramSubmissionEntity getById(int subId) {
+        return submissionMapper.selectByPrimaryKey(subId);
+    }
+
 }

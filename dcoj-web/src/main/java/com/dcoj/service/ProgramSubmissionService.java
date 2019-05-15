@@ -19,7 +19,6 @@ public interface ProgramSubmissionService {
      * @param pid           题目ID
      * @param eid           试卷ID
      * @param gid           用户组ID
-     * @param sourceCode    判卷源码
      * @param lang          判卷语言
      * @param usingTime          使用的时间
      * @param memory        使用的内存
@@ -65,6 +64,13 @@ public interface ProgramSubmissionService {
      * @return
      */
     List<ProgramSubmissionEntity> listUserSubmission(int uid);
+
+    /**
+     * 根据ProgramSubmission ID查询ProgramSubmission
+     *
+     * @return  如果没有对应结果，返回NULL
+     */
+    ProgramSubmissionEntity getById(int subId);
 
 
 }
