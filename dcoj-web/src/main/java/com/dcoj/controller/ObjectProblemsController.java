@@ -24,7 +24,7 @@ import java.util.List;
 @RestController
 @Validated
 @Api(tags = "多个客观题管理")
-@RequestMapping(value = "/objectProblems", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/object-problems", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ObjectProblemsController {
 
     @Autowired
@@ -34,12 +34,12 @@ public class ObjectProblemsController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page_num", value = "页码", required = true, paramType = "query" ),
             @ApiImplicitParam(name = "page_size", value = "每页显示数量", required = true,  paramType = "query"),
-            @ApiImplicitParam(name = "tagList", value = "标签列表",  paramType = "query"),
+            @ApiImplicitParam(name = "tag_list", value = "标签列表",  paramType = "query"),
             @ApiImplicitParam(name = "uid", value = "用户id",  paramType = "query"),
             @ApiImplicitParam(name = "query", value = "查询关键字",  paramType = "query")
     })
     @GetMapping
-    public ResponseEntity listAll(@RequestParam(name="tagList",required = false) List<Integer> list,
+    public ResponseEntity listAll(@RequestParam(name="tag_list",required = false) List<Integer> list,
                                   @RequestParam(name = "uid",required = false) Integer uid,
                                   @RequestParam(name = "query",required = false) String query,
                                   @RequestParam(name = "page_num") int pageNum,

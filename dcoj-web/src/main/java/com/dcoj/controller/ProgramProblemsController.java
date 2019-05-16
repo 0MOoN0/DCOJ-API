@@ -24,7 +24,7 @@ import java.util.List;
 @RestController
 @Validated
 @Api(tags = "多个编程题管理")
-@RequestMapping(value = "/programProblems", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/program-problems", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ProgramProblemsController {
     @Autowired
     private ProgramProblemService programProblemService;
@@ -33,13 +33,13 @@ public class ProgramProblemsController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page_num", value = "页码", required = true, paramType = "query" ),
             @ApiImplicitParam(name = "page_size", value = "每页显示数量", required = true,  paramType = "query"),
-            @ApiImplicitParam(name = "tagList", value = "标签列表",  paramType = "query"),
+            @ApiImplicitParam(name = "tag_list", value = "标签列表",  paramType = "query"),
             @ApiImplicitParam(name = "uid", value = "用户id",  paramType = "query"),
             @ApiImplicitParam(name = "difficult", value = "题目难度",  paramType = "query"),
             @ApiImplicitParam(name = "query", value = "查询关键字",  paramType = "query")
     })
     @GetMapping
-    public ResponseEntity listAll(@RequestParam(name="tagList",required = false) List<Integer> list,
+    public ResponseEntity listAll(@RequestParam(name="tag_list",required = false) List<Integer> list,
                                       @RequestParam(name = "uid",required = false) Integer uid,
                                       @RequestParam(name="difficult",required = false) Integer difficult,
                                       @RequestParam(name = "query",required = false) String query,
@@ -50,7 +50,5 @@ public class ProgramProblemsController {
         Page pager = PageHelper.startPage(pageNum, pageSize);
         return new ResponseEntity(WebUtil.generatePageData(pager, programProblemService.listAll(list,uid,difficult,query)));
     }
-
-    //TODO:4.12 WANGQING 未完成导出题目、导入题目
 
 }

@@ -21,7 +21,7 @@ import javax.validation.Valid;
 @RestController
 @Validated
 @Api(tags = "单个客观题标签管理")
-@RequestMapping(value = "/objectTag", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/object-tag", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ObjectTagController {
     @Autowired
     private ObjectTagService objectTagService;
@@ -34,26 +34,26 @@ public class ObjectTagController {
     }
 
     @ApiOperation("删除标签")
-    @ApiImplicitParam(name = "objectTagId", value = "标签id", required = true)
-    @DeleteMapping("/{objectTagId}")
-    public ResponseEntity removeByPrimaryKey(@PathVariable int objectTagId) {
+    @ApiImplicitParam(name = "object_tag_id", value = "标签id", required = true)
+    @DeleteMapping("/{object_tag_id}")
+    public ResponseEntity removeByPrimaryKey(@PathVariable("object_tag_id") int objectTagId) {
         objectTagService.removeByPrimaryKey(objectTagId);
         return new ResponseEntity("标签删除成功");
     }
 
     @ApiOperation("更新标签名")
-    @ApiImplicitParam(name = "objectTagId", value = "标签id", required = true)
-    @PutMapping("/{objectTagId}")
-    public ResponseEntity updateTag(@PathVariable int objectTagId,
+    @ApiImplicitParam(name = "object_tag_id", value = "标签id", required = true)
+    @PutMapping("/{object_tag_id}")
+    public ResponseEntity updateTag(@PathVariable("object_tag_id") int objectTagId,
                                     @RequestBody @Valid AddTagFormat format) {
         objectTagService.updateByPrimaryKey(objectTagId, format.getName());
         return new ResponseEntity("标签更新成功");
     }
 
     @ApiOperation("查询一个标签")
-    @ApiImplicitParam(name = "objectTagId", value = "标签id", required = true)
-    @GetMapping("/{objectTagId}")
-    public ResponseEntity getByPrimaryKey(@PathVariable int objectTagId) {
+    @ApiImplicitParam(name = "object_tag_id", value = "标签id", required = true)
+    @GetMapping("/{object_tag_id}")
+    public ResponseEntity getByPrimaryKey(@PathVariable("object_tag_id") int objectTagId) {
         objectTagService.getByPrimaryKey(objectTagId);
         return new ResponseEntity("标签查询成功");
     }

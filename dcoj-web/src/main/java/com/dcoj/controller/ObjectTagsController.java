@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Validated
 @Api(tags = "多个客观题标签管理")
-@RequestMapping(value = "/objectTags", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/object-tags", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ObjectTagsController {
     @Autowired
     private ObjectTagService objectTagService;

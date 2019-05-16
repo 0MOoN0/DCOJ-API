@@ -27,7 +27,7 @@ import java.util.Map;
 @RestController
 @Validated
 @Api(tags = "单个编程题管理")
-@RequestMapping(value = "/programProblem", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/program-problem", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ProgramProblemController {
 
     @Autowired
@@ -36,27 +36,27 @@ public class ProgramProblemController {
     //TODO: 4.13 WNAGQING 与测试用例相关的Controller未写
 
     @ApiOperation("获取该题的所有标签")
-    @ApiImplicitParam(name = "programProblemId", value = "编程题id")
-    @GetMapping("/tags/{programProblemId}")
-    public ResponseEntity listProblemTagsByPid(@PathVariable("programProblemId") int programProblemId) {
+    @ApiImplicitParam(name = "program_problem_id", value = "编程题id")
+    @GetMapping("/tags/{program_problem_id}")
+    public ResponseEntity listProblemTagsByPid(@PathVariable("program_problem_id") int programProblemId) {
        return new ResponseEntity(programProblemService.listProgramProblemTagsByPid(programProblemId));
     }
 
     @ApiOperation("删除指定题目")
-    @ApiImplicitParam(name = "programProblemId", value = "编程题id")
-    @DeleteMapping("/{programProblemId}")
-    public ResponseEntity removeByPid(@PathVariable int programProblemId) {
+    @ApiImplicitParam(name = "program_problem_id", value = "编程题id")
+    @DeleteMapping("/{program_problem_id}")
+    public ResponseEntity removeByPid(@PathVariable("program_problem_id") int programProblemId) {
         programProblemService.removeByPrimaryKey(programProblemId);
         return new ResponseEntity("题目删除成功");
     }
 
     @ApiOperation("获取指定一道题目的信息")
-    @ApiImplicitParam(name = "programProblemId", value = "编程题id")
-    @GetMapping("/{programProblemId}")
-    public ResponseEntity getByPrimaryKey(@PathVariable int programProblemId) {
+    @ApiImplicitParam(name = "program_problem_id", value = "编程题id")
+    @GetMapping("/{program_problem_id}")
+    public ResponseEntity getByPrimaryKey(@PathVariable("program_problem_id") int programProblemId) {
         ProgramProblemEntity programProblemEntity = programProblemService.getByPrimaryKey(programProblemId);
         Map<String, Object> dataMap = new HashMap<>(2);
-        dataMap.put("programProblem", programProblemEntity);
+        dataMap.put("program_problem", programProblemEntity);
         return new ResponseEntity(dataMap);
     }
 
@@ -82,9 +82,9 @@ public class ProgramProblemController {
 
 
     @ApiOperation("更新编程题目")
-    @ApiImplicitParam(name = "programProblemId", value = "编程题id")
-    @PutMapping("/{programProblemId}")
-    public ResponseEntity updateProgram(@PathVariable("programProblemId") int programProblemId,
+    @ApiImplicitParam(name = "program_problem_id", value = "编程题id")
+    @PutMapping("/{program_problem_id}")
+    public ResponseEntity updateProgram(@PathVariable("program_problem_id") int programProblemId,
                                         @RequestBody @Valid ProgramProblemFormat format) {
         ProgramProblemEntity newProgramProblemEntity = new ProgramProblemEntity();
         newProgramProblemEntity.setTitle(format.getTitle());

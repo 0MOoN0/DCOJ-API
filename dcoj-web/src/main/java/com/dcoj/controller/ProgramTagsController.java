@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Validated
 @Api(tags = "多个编程题标签管理")
-@RequestMapping(value = "/programTags", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/program-tags", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ProgramTagsController {
     @Autowired
     private ProgramTagService programTagService;

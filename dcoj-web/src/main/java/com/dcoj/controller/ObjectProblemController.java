@@ -24,34 +24,34 @@ import java.util.Map;
 @RestController
 @Validated
 @Api(tags = "单个客观题管理")
-@RequestMapping(value = "/objectProblem", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/object-problem", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ObjectProblemController {
 
     @Autowired
     private ObjectProblemService objectProblemService;
 
     @ApiOperation("获取该题的所有标签")
-    @ApiImplicitParam(name = "objectProblemId", value = "客观题id", required = true, paramType = "path" )
-    @GetMapping("/tags/{objectProblemId}")
-    public ResponseEntity listObjectProblemTagsByPrimaryKey(@PathVariable("objectProblemId") Integer objectProblemId) {
+    @ApiImplicitParam(name = "object_problem_id", value = "客观题id", required = true, paramType = "path" )
+    @GetMapping("/tags/{object_problem_id}")
+    public ResponseEntity listObjectProblemTagsByPrimaryKey(@PathVariable("object_problem_id") Integer objectProblemId) {
         return new ResponseEntity(objectProblemService.listObjectProblemTagsByPrimaryKey(objectProblemId));
     }
 
     @ApiOperation("删除指定题目")
-    @ApiImplicitParam(name = "objectProblemId", value = "客观题id", required = true, paramType = "path" )
-    @DeleteMapping("/{objectProblemId}")
-    public ResponseEntity removeByPrimaryKey(@PathVariable Integer objectProblemId) {
+    @ApiImplicitParam(name = "object_problem_id", value = "客观题id", required = true, paramType = "path" )
+    @DeleteMapping("/{object_problem_id}")
+    public ResponseEntity removeByPrimaryKey(@PathVariable("object_problem_id") Integer objectProblemId) {
         objectProblemService.removeByPrimaryKey(objectProblemId);
         return new ResponseEntity("题目删除成功");
     }
 
     @ApiOperation("获取指定一道题目的信息")
-    @ApiImplicitParam(name = "objectProblemId", value = "客观题id", required = true, paramType = "path" )
-    @GetMapping("/{objectProblemId}")
-    public ResponseEntity getByPrimaryKey(@PathVariable Integer objectProblemId) {
+    @ApiImplicitParam(name = "object_problem_id", value = "客观题id", required = true, paramType = "path" )
+    @GetMapping("/{object_problem_id}")
+    public ResponseEntity getByPrimaryKey(@PathVariable("object_problem_id") Integer objectProblemId) {
         ObjectProblemEntity objectProblemEntity = objectProblemService.getByPrimaryKey(objectProblemId);
         Map<String, Object> dataMap = new HashMap<>(2);
-        dataMap.put("objectProblem", objectProblemEntity);
+        dataMap.put("object_problem", objectProblemEntity);
         return new ResponseEntity(dataMap);
     }
 
@@ -68,8 +68,8 @@ public class ObjectProblemController {
     }
 
     @ApiOperation("更新题目")
-    @PutMapping("/{objectProblemId}")
-    public ResponseEntity updateProblemAndTags(@PathVariable("objectProblemId") Integer objectProblemId,
+    @PutMapping("/{object_problem_id}")
+    public ResponseEntity updateProblemAndTags(@PathVariable("object_problem_id") Integer objectProblemId,
                                                  @RequestBody @Valid ObjectProblemFormat format) {
         ObjectProblemEntity objectProblemEntity = new ObjectProblemEntity();
         objectProblemEntity.setType(format.getType());
