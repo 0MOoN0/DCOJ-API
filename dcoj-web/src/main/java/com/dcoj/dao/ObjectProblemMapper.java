@@ -84,8 +84,8 @@ public interface ObjectProblemMapper {
     /**
      * 查询所有编程题目
      *
-     * @param list 标签列表
-     * @param uid 用户id
+     * @param list  标签列表
+     * @param uid   用户id
      * @param query 查询关键字
      * @return 结果
      */

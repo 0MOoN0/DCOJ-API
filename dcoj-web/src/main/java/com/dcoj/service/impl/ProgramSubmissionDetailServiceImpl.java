@@ -24,7 +24,7 @@ public class ProgramSubmissionDetailServiceImpl implements ProgramSubmissionDeta
     /**
      * 根据Submission ID获取提交详情
      *
-     * @param subId     SubmissionID
+     * @param subId SubmissionID
      * @return
      */
     @Override
@@ -33,7 +33,7 @@ public class ProgramSubmissionDetailServiceImpl implements ProgramSubmissionDeta
         submissionDetailEntityExample.createCriteria()
                 .andSubIdEqualTo(subId);
         List<ProgramSubmissionDetailEntity> submissionDetailEntities = submissionDetailMapper.selectByExample(submissionDetailEntityExample);
-        if(submissionDetailEntities.size()>0){
+        if (submissionDetailEntities.size() > 0) {
             return submissionDetailEntities.get(0);
         }
         return null;

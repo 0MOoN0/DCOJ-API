@@ -25,7 +25,7 @@ public class ObjectSubmissionMapperTest {
     private ObjectSubmissionMapper objectSubmissionMapper;
 
     @Test
-    public void testSave(){
+    public void testSave() {
         ObjectSubmissionEntity objectSubmissionEntity = new ObjectSubmissionEntity();
         objectSubmissionEntity.setAnswer("A");
         objectSubmissionEntity.setObjectProblemId(1);
@@ -35,7 +35,7 @@ public class ObjectSubmissionMapperTest {
     }
 
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
         ObjectSubmissionEntity objectSubmissionEntity = new ObjectSubmissionEntity();
         objectSubmissionEntity.setResultStatus((byte) 0);
         ObjectSubmissionEntityExample objectSubmissionEntityExample = new ObjectSubmissionEntityExample();
@@ -45,25 +45,25 @@ public class ObjectSubmissionMapperTest {
     }
 
     @Test
-    public void testSelect(){
+    public void testSelect() {
         ObjectSubmissionEntityExample objectSubmissionEntityExample = new ObjectSubmissionEntityExample();
         objectSubmissionEntityExample.createCriteria()
                 .andObjectSubmitIdEqualTo(1);
         List<ObjectSubmissionEntity> objectSubmissionEntities = objectSubmissionMapper.selectByExample(objectSubmissionEntityExample);
         Optional.ofNullable(objectSubmissionEntities)
                 .ifPresent(
-                        entitys->entitys.parallelStream()
-                        .forEach(System.out::print)
+                        entitys -> entitys.parallelStream()
+                                .forEach(System.out::print)
                 );
     }
 
     @Test
-    public void testDelete(){
+    public void testDelete() {
         ObjectSubmissionEntityExample objectSubmissionEntityExample = new ObjectSubmissionEntityExample();
         objectSubmissionEntityExample.createCriteria()
                 .andObjectSubmitIdEqualTo(1);
         int i = objectSubmissionMapper.deleteByExample(objectSubmissionEntityExample);
-        System.out.println("======"+i);
+        System.out.println("======" + i);
     }
 
 }

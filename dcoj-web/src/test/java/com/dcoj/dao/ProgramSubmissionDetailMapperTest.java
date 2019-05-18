@@ -24,7 +24,7 @@ public class ProgramSubmissionDetailMapperTest {
     private ProgramSubmissionDetailMapper programSubmissionDetailMapper;
 
     @Test
-    public void testSave(){
+    public void testSave() {
         ProgramSubmissionDetailEntity programSubmissionDetailEntity = new ProgramSubmissionDetailEntity();
         JSONObject resultJson = new JSONObject();
         // memory
@@ -53,22 +53,22 @@ public class ProgramSubmissionDetailMapperTest {
         programSubmissionDetailEntity.setSubId(14);
 
         int i = programSubmissionDetailMapper.insertSelective(programSubmissionDetailEntity);
-        System.out.println("============="+i+" sql was successfully executed");
-        System.out.println("ProgramSubmissionDetail ID is "+programSubmissionDetailEntity.getSdId());
+        System.out.println("=============" + i + " sql was successfully executed");
+        System.out.println("ProgramSubmissionDetail ID is " + programSubmissionDetailEntity.getSdId());
     }
 
     // 测试修改
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
         ProgramSubmissionDetailEntity programSubmissionDetailEntity = new ProgramSubmissionDetailEntity();
         programSubmissionDetailEntity.setSourceCode(123);
         programSubmissionDetailEntity.setSdId(2);
         int i = programSubmissionDetailMapper.updateByPrimaryKeySelective(programSubmissionDetailEntity);
-        System.out.println("============="+i + " update SQL was successfully executed !");
+        System.out.println("=============" + i + " update SQL was successfully executed !");
     }
 
     @Test
-    public void testSelect(){
+    public void testSelect() {
         ProgramSubmissionDetailEntity programSubmissionDetailEntity = programSubmissionDetailMapper.selectByPrimaryKey(1);
         System.out.println(programSubmissionDetailEntity);
         ProgramSubmissionDetailEntityExample programSubmissionDetailEntityExample = new ProgramSubmissionDetailEntityExample();
@@ -80,7 +80,7 @@ public class ProgramSubmissionDetailMapperTest {
     }
 
     @Test
-    public void testDelete(){
+    public void testDelete() {
         programSubmissionDetailMapper.deleteByPrimaryKey(1);
         ProgramSubmissionDetailEntityExample programSubmissionDetailEntityExample = new ProgramSubmissionDetailEntityExample();
         programSubmissionDetailEntityExample.createCriteria()

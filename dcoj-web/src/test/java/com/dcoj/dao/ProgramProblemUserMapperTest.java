@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * ProblemUser测试类
+ *
  * @author Leon
  */
 @RunWith(SpringRunner.class)
@@ -23,7 +24,7 @@ public class ProgramProblemUserMapperTest {
     private ProgramProblemUserMapper problemUserMapper;
 
     @Test
-    public void testSave(){
+    public void testSave() {
         ProgramProblemUserEntity userEntity = new ProgramProblemUserEntity();
         userEntity.setPid(1);
         userEntity.setStatus(ResultEnum.AC);
@@ -32,7 +33,7 @@ public class ProgramProblemUserMapperTest {
     }
 
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
         ProgramProblemUserEntity userEntity = new ProgramProblemUserEntity();
         userEntity.setPid(1);
         userEntity.setStatus(ResultEnum.WA);
@@ -44,7 +45,7 @@ public class ProgramProblemUserMapperTest {
     }
 
     @Test
-    public void testSelect(){
+    public void testSelect() {
         ProgramProblemUserEntityExample example = new ProgramProblemUserEntityExample();
         example.createCriteria().andPidEqualTo(1).andUidEqualTo(1);
         List<ProgramProblemUserEntity> problemUserEntities = problemUserMapper.selectByExample(example);
@@ -52,14 +53,14 @@ public class ProgramProblemUserMapperTest {
     }
 
     @Test
-    public void testDelete(){
+    public void testDelete() {
         ProgramProblemUserEntityExample example = new ProgramProblemUserEntityExample();
         example.createCriteria().andPidEqualTo(1).andUidEqualTo(1);
         problemUserMapper.deleteByExample(example);
     }
 
     @Test
-    public void testCountByExample(){
+    public void testCountByExample() {
         ProgramProblemUserEntityExample problemUserEntityExample = new ProgramProblemUserEntityExample();
         problemUserEntityExample.createCriteria().andUidEqualTo(1).andPidEqualTo(3);
         long countByExample = problemUserMapper.countByExample(problemUserEntityExample);

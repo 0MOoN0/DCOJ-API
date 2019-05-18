@@ -19,6 +19,7 @@ import java.util.Optional;
 
 /**
  * 判卷相关业务层
+ *
  * @author Leon
  */
 
@@ -52,16 +53,16 @@ public class JudgeServiceImpl implements JudgeService {
         ResultEnum result = response.getResult();
         // 查看详细判卷结果，并计算分数
         float score = 100;
-        if(response.getResult() != ResultEnum.AC){
+        if (response.getResult() != ResultEnum.AC) {
             score = 0;
             List<TestCaseResponseEntity> testCases = response.getTestCases();
             int size = testCases.size();
             float singleTestCaseScore = 0;    // 单个测试用例分数
-            if(size != 0){
+            if (size != 0) {
                 singleTestCaseScore = 100 / size;
             }
-            for (TestCaseResponseEntity tcResponse: testCases
-                 ) {
+            for (TestCaseResponseEntity tcResponse : testCases
+            ) {
                 score += tcResponse.getResult() == ResultEnum.AC ? singleTestCaseScore : 0;
             }
         }
@@ -101,7 +102,7 @@ public class JudgeServiceImpl implements JudgeService {
 
 
     public void saveSubmission(LanguageEnum lang, double usingTime, int memory, ResultEnum result,
-                               int owner, int pid, int eid, int gid, byte score){
+                               int owner, int pid, int eid, int gid, byte score) {
         // TODO 20190410 Leon Upload sourceCode
         submissionService.save(owner, pid, eid, gid, lang, usingTime, memory, result, score);
     }

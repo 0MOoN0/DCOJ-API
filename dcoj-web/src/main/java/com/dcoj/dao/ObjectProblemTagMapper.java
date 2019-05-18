@@ -10,7 +10,7 @@ public interface ObjectProblemTagMapper {
      * 为某道题添加一个或者多个标签
      *
      * @param objectProblemId 题目id
-     * @param objectTagId 标签id
+     * @param objectTagId     标签id
      * @return 返回值为1时，则保存成功，否则失败
      */
     int save(@Param("objectProblemId") int objectProblemId, @Param("objectTagId") int objectTagId);

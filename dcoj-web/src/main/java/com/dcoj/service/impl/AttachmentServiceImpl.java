@@ -34,12 +34,11 @@ public class AttachmentServiceImpl implements AttachmentService {
      *
      * @param aid 附件ID
      * @return
-    @Override
-    public String getAttachmentURLByAid(int aid) {
-        AttachmentEntity attachmentEntity = attachmentMapper.selectByPrimaryKey(aid);
-        WebUtil.assertNotNull(attachmentEntity, "文件不存在，无法获取文件地址");
-        return attachmentEntity.getUrl();
-    }
+     @Override public String getAttachmentURLByAid(int aid) {
+     AttachmentEntity attachmentEntity = attachmentMapper.selectByPrimaryKey(aid);
+     WebUtil.assertNotNull(attachmentEntity, "文件不存在，无法获取文件地址");
+     return attachmentEntity.getUrl();
+     }
      */
 
 }

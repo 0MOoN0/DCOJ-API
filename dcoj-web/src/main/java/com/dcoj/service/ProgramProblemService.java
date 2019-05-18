@@ -32,23 +32,24 @@ public interface ProgramProblemService {
     /**
      * 更新一道题目信息
      *
-     * @param programProblemId 要修改的题目id
-     * @param newTags 更新后题目的标签
+     * @param programProblemId     要修改的题目id
+     * @param newTags              更新后题目的标签
      * @param programProblemEntity 题目实体类对象
      */
     void updateProblemAndTags(Integer programProblemId, JSONArray newTags, ProgramProblemEntity programProblemEntity);
 
     /**
      * 通过编号查询题目
+     *
      * @param programProblemId 题目id
-     * @return  题目实体类对象
+     * @return 题目实体类对象
      */
     ProgramProblemEntity getByPrimaryKey(int programProblemId);
 
     /**
      * 添加一道题目
      *
-     * @param tags 题目标签
+     * @param tags                 题目标签
      * @param programProblemEntity 题目实体类对象
      * @return 题目id
      */
@@ -57,8 +58,8 @@ public interface ProgramProblemService {
     /**
      * 根据判卷状态更新Problem
      *
-     * @param pid           题目业务id
-     * @param result        判卷结果
+     * @param pid    题目业务id
+     * @param result 判卷结果
      */
     void updateProblemTimes(int pid, ResultEnum result);
 
@@ -73,10 +74,10 @@ public interface ProgramProblemService {
     /**
      * 查询所有编程题目
      *
-     * @param list 标签列表
-     * @param uid 用户id
+     * @param list      标签列表
+     * @param uid       用户id
      * @param difficult 难度
-     * @param query 查询关键字
+     * @param query     查询关键字
      * @return 结果
      */
     List<Map<String, Object>> listAll(List<Integer> list,

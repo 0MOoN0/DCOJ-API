@@ -20,14 +20,14 @@ public class ProgramSubmissionDetailServiceImplTest {
     private ProgramSubmissionDetailService submissionDetailService;
 
     @Test
-    public void testHelloWorld(){
+    public void testHelloWorld() {
         System.out.println("helloworld!");
     }
 
     @Test
-    public void testGet(){
+    public void testGet() {
         ProgramSubmissionDetailEntity submissionDetailBySubId = submissionDetailService.getSubmissionDetailBySubId(14);
-        System.out.println("==============="+submissionDetailBySubId);
+        System.out.println("===============" + submissionDetailBySubId);
     }
 
 }

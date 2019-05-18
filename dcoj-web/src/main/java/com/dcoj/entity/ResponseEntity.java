@@ -5,6 +5,7 @@ import lombok.Data;
 
 /**
  * 通用响应类型，用于后端与前端数据交互
+ *
  * @author Leon
  **/
 @Data

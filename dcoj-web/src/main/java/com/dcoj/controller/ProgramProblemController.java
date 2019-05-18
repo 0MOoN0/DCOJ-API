@@ -39,7 +39,7 @@ public class ProgramProblemController {
     @ApiImplicitParam(name = "program_problem_id", value = "编程题id")
     @GetMapping("/tags/{program_problem_id}")
     public ResponseEntity listProblemTagsByPid(@PathVariable("program_problem_id") int programProblemId) {
-       return new ResponseEntity(programProblemService.listProgramProblemTagsByPid(programProblemId));
+        return new ResponseEntity(programProblemService.listProgramProblemTagsByPid(programProblemId));
     }
 
     @ApiOperation("删除指定题目")
@@ -95,8 +95,8 @@ public class ProgramProblemController {
         // 检查格式规范
         checkProgramSamples(format.getSamples());
         newProgramProblemEntity.setSamples(format.getSamples());
-       // checkProblemTags(format.getTags());
-        WebUtil.assertIsSuccess(format.getRunTime()>0,"运行时间不能小于0");
+        // checkProblemTags(format.getTags());
+        WebUtil.assertIsSuccess(format.getRunTime() > 0, "运行时间不能小于0");
         newProgramProblemEntity.setRunTime(format.getRunTime());
         newProgramProblemEntity.setMemory(format.getMemory());
         programProblemService.updateProblemAndTags(programProblemId, format.getTags(), newProgramProblemEntity);
@@ -109,11 +109,11 @@ public class ProgramProblemController {
      * @param samples 样例
      */
     private void checkProgramSamples(JSONArray samples) {
-        WebUtil.assertIsSuccess(samples.size()!=0,"样本不得为空");
-        for (Object obj: samples) {
+        WebUtil.assertIsSuccess(samples.size() != 0, "样本不得为空");
+        for (Object obj : samples) {
             boolean input = ((JSONObject) obj).containsKey("input");
             boolean output = ((JSONObject) obj).containsKey("output");
-            WebUtil.assertIsSuccess(input && output,"样本格式不符");
+            WebUtil.assertIsSuccess(input && output, "样本格式不符");
         }
     }
 
@@ -122,19 +122,19 @@ public class ProgramProblemController {
      *
      * @param format 题目格式对象
      */
-    private void checkProgramFormat(ProgramProblemFormat format){
-        WebUtil.assertIsSuccess((format.getTitle() != null&& format.getTitle().trim().length() != 0),
+    private void checkProgramFormat(ProgramProblemFormat format) {
+        WebUtil.assertIsSuccess((format.getTitle() != null && format.getTitle().trim().length() != 0),
                 "标题不得为空");
         WebUtil.assertIsSuccess(format.getDescription() != null,
                 "题目描述不能为空");
         WebUtil.assertIsSuccess(format.getInputFormat() != null,
                 "输入规范不得为空");
-         WebUtil.assertIsSuccess(format.getOutputFormat() != null,
-                 "输出规范不得为空");
-         WebUtil.assertIsSuccess(format.getRunTime() > 0,
-                 "运行时间不能小于0");
-         WebUtil.assertIsSuccess(format.getMemory() > 0 && format.getMemory() <= 256,
-                 "运行内存不能为0且不能超过256");
+        WebUtil.assertIsSuccess(format.getOutputFormat() != null,
+                "输出规范不得为空");
+        WebUtil.assertIsSuccess(format.getRunTime() > 0,
+                "运行时间不能小于0");
+        WebUtil.assertIsSuccess(format.getMemory() > 0 && format.getMemory() <= 256,
+                "运行内存不能为0且不能超过256");
     }
 
 }

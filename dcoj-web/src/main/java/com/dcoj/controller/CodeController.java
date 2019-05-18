@@ -49,14 +49,14 @@ public class CodeController {
 
     @ApiOperation("测试代码提交")
     @PostMapping
-    public ResponseEntity previewSubmit(@RequestBody @Valid PreviewSubmitFormat format){
+    public ResponseEntity previewSubmit(@RequestBody @Valid PreviewSubmitFormat format) {
         int size = format.getTestCases().size();
         List<TestCaseEntity> testCases = new ArrayList<>(size);
-        if (size == 0){ //没有自定义测试用例
+        if (size == 0) { //没有自定义测试用例
             TestCaseEntity testCaseEntity = testCasesService.getOneByPid(format.getPid());
             testCases.add(testCaseEntity);
-        }else{
-            for(int i=0; i<size; i++) {
+        } else {
+            for (int i = 0; i < size; i++) {
                 //从Format中获取获取TestCase，并添加到测试代码测试用例中
                 JSONObject obj = format.getTestCases().getJSONObject(i);
                 String stdin = obj.getString("stdin");
@@ -64,7 +64,7 @@ public class CodeController {
                 if (stdout.length() == 0) {
                     throw new WebErrorException("输出字符串不得为空");
                 }
-                TestCaseEntity testCaseEntity = new TestCaseEntity(0,0,stdin,stdout);
+                TestCaseEntity testCaseEntity = new TestCaseEntity(0, 0, stdin, stdout);
                 testCases.add(testCaseEntity);
             }
         }
@@ -86,7 +86,7 @@ public class CodeController {
         if (gid != 0 && examId != 0) {
 //            id = asyncJudgeService.addGroupJudge(sourceCode, lang, owner, pid, cid, gid);
         } else if (examId != 0) {
-              //TODO 2019.04.15 Leon 试卷提交
+            //TODO 2019.04.15 Leon 试卷提交
 //            id = asyncJudgeService.addContestJudge(sourceCode, lang, owner, pid, cid);
         } else {
             id = asyncJudgeService.addProblemJudge(sourceCode, lang, examId, pid);

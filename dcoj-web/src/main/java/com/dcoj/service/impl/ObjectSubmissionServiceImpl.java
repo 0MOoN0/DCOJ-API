@@ -35,7 +35,7 @@ public class ObjectSubmissionServiceImpl implements ObjectSubmissionService {
         objectSubmissionEntity.setResultStatus((byte) resultStatus);
         objectSubmissionEntity.setAnswer(answer);
         int insert = objectSubmissionMapper.insertSelective(objectSubmissionEntity);
-        WebUtil.assertIsSuccess(insert==1, "保存失败");
+        WebUtil.assertIsSuccess(insert == 1, "保存失败");
         return objectSubmissionEntity.getObjectSubmitId();
     }
 }

@@ -30,6 +30,6 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public PermissionEntity findById(String permissionId) {
-        return mongoTemplate.findById(permissionId,PermissionEntity.class);
+        return mongoTemplate.findById(permissionId, PermissionEntity.class);
     }
 }

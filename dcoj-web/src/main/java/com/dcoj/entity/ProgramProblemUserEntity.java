@@ -14,16 +14,26 @@ import java.sql.Timestamp;
  */
 @Data
 public class ProgramProblemUserEntity {
-    /** 题目id */
+    /**
+     * 题目id
+     */
     private Integer pid;
-    /** 用户id */
+    /**
+     * 用户id
+     */
     private Integer uid;
-    /** 题目状态 */
+    /**
+     * 题目状态
+     */
     private ResultEnum status;
-    /** 创建时间 自动生成*/
+    /**
+     * 创建时间 自动生成
+     */
     @JSONField(name = "gmt_create")
     private Timestamp gmtCreate;
-    /** 修改时间 自动生成*/
+    /**
+     * 修改时间 自动生成
+     */
     @JSONField(name = "gmt_modified")
     private Timestamp gmtModified;
 }

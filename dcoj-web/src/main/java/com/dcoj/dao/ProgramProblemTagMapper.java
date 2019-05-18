@@ -16,14 +16,14 @@ public interface ProgramProblemTagMapper {
      * 为某道题添加一个或者多个标签
      *
      * @param programProblemId 题目id
-     * @param programTagId 标签id
+     * @param programTagId     标签id
      * @return 返回值为1时，则保存成功，否则失败
      */
     int save(@Param("programProblemId") int programProblemId, @Param("programTagId") int programTagId);
 
     /**
      * 统计某道题标签的个数
-     * 
+     *
      * @param programProblemId 题目id
      * @return 返回该题目的标签个数
      */
@@ -31,7 +31,7 @@ public interface ProgramProblemTagMapper {
 
     /**
      * 得到某道题的所有标签
-     * 
+     *
      * @param programProblemId 题目id
      * @return 包含所有标签id的List集合
      */
@@ -39,7 +39,7 @@ public interface ProgramProblemTagMapper {
 
     /**
      * 通过pid 获取 TagProblemEntity对象
-     * 
+     *
      * @param pid 题目id
      * @return 返回 ProgramProblemTagEntity 实体类对象
      */

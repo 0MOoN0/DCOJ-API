@@ -14,7 +14,8 @@ public interface AttachmentService {
 
     /**
      * 根据附件(Attachment)获取Attachment信息
-     * @param aid   附件ID
+     *
+     * @param aid 附件ID
      * @return
      */
     AttachmentEntity getByAid(int aid);
@@ -24,6 +25,6 @@ public interface AttachmentService {
      * @param aid   附件ID
      * @return
 
-//    String getAttachmentURLByAid(int aid);
+    //    String getAttachmentURLByAid(int aid);
      */
 }

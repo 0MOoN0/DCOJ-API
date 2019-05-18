@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 /**
  * 全局异常处理器
- *
+ * <p>
  * RestControllerAdvice注解 用于全局异常处理，减少代码入侵
  * ExceptionHandler注解 拦截了异常，我们可以通过该注解实现自定义异常处理。其中，@ExceptionHandler 配置
  * 的 value 指定需要拦截的异常类型，上面拦截了 xxx.class 这种异常。
@@ -34,20 +34,22 @@ public class GlobalExceptionController {
 
     /**
      * 方法参数无效异常
-     * @param e     被捕捉到的MethodArgumentNotValidException
-     * @return      一个新的ResponseEntity对象，包含内容：HttpStatus.BAD_REQUEST.value()， ERROR_MESSAGE
+     *
+     * @param e 被捕捉到的MethodArgumentNotValidException
+     * @return 一个新的ResponseEntity对象，包含内容：HttpStatus.BAD_REQUEST.value()， ERROR_MESSAGE
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity handle(MethodArgumentNotValidException e) {
         FieldError error = e.getBindingResult().getFieldError();
-        return new ResponseEntity(HttpStatus.BAD_REQUEST.value(), error.getField()+": "+error.getDefaultMessage(), null);
+        return new ResponseEntity(HttpStatus.BAD_REQUEST.value(), error.getField() + ": " + error.getDefaultMessage(), null);
     }
 
     /**
-     *  邮件验证异常
+     * 邮件验证异常
+     *
      * @param e EmailVerifyException
-     * @return  一个新的ResponseEntity对象，包含内容：HttpStatus.BAD_REQUEST.value()， 验证异常错误信息
+     * @return 一个新的ResponseEntity对象，包含内容：HttpStatus.BAD_REQUEST.value()， 验证异常错误信息
      */
     @ExceptionHandler(EmailVerifyException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -67,14 +69,15 @@ public class GlobalExceptionController {
         String s = e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.toList()).get(0);
         return new ResponseEntity(HttpStatus.BAD_REQUEST.value(), s, null);
     }
-/*
-    @ExceptionHandler(ShiroException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseEntity handleShiro(HttpServletRequest request, Throwable ex) {
-        LOGGER.info(ex.getMessage());
-        return new ResponseEntity(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase(), null);
-    }
-*/
+
+    /*
+        @ExceptionHandler(ShiroException.class)
+        @ResponseStatus(HttpStatus.UNAUTHORIZED)
+        public ResponseEntity handleShiro(HttpServletRequest request, Throwable ex) {
+            LOGGER.info(ex.getMessage());
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase(), null);
+        }
+    */
     @ExceptionHandler(ForbiddenException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ResponseEntity handleForbidden(HttpServletRequest request, Throwable ex) {

@@ -1,7 +1,6 @@
 package com.dcoj.controller.exception;
 
 /**
- *
  * @author WANGQING
  */
 public class ForbiddenException extends RuntimeException {

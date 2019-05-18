@@ -2,6 +2,7 @@ package com.dcoj.service;
 
 /**
  * Id自增器
+ *
  * @author WANGQING
  */
 public interface IdGenerateCacheService {

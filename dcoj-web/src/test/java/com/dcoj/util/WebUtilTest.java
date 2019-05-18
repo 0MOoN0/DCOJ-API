@@ -23,11 +23,11 @@ public class WebUtilTest {
     private ProgramSubmissionMapper submissionMapper;
 
     @Test
-    public void pageHeplerTest(){
+    public void pageHeplerTest() {
         ProgramSubmissionEntityExample example = new ProgramSubmissionEntityExample();
         example.createCriteria().andPidEqualTo(1);
         example.setOrderByClause("'sub_id' DESC");
-        for (int i=1; i<=5; i++){
+        for (int i = 1; i <= 5; i++) {
             PageHelper.startPage(i, 2);
             List<ProgramSubmissionEntity> submissionEntities = submissionMapper.selectByExample(example);
             submissionEntities.parallelStream().forEach(submissionEntity -> System.out.println(submissionEntity));

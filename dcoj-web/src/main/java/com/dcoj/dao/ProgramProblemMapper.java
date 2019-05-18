@@ -101,16 +101,16 @@ public interface ProgramProblemMapper {
     /**
      * 查询所有编程题目
      *
-     * @param list 标签列表
-     * @param uid 用户id
+     * @param list      标签列表
+     * @param uid       用户id
      * @param difficult 难度
-     * @param query 查询关键字
+     * @param query     查询关键字
      * @return 结果
      */
     List<Map<String, Object>> listAll(@Param("tagList") List<Integer> list,
-                                 @Param("uid") Integer uid,
-                                 @Param("difficult") Integer difficult,
-                                 @Param("query") String query);
+                                      @Param("uid") Integer uid,
+                                      @Param("difficult") Integer difficult,
+                                      @Param("query") String query);
 
 
 }

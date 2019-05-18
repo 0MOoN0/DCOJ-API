@@ -24,7 +24,7 @@ public class ProgramProblemMapperTest {
     @Autowired
     private ProgramProblemMapper programProblemMapper;
 
-//    @Test
+    //    @Test
 //    public void countProblems() {
 //        System.out.println(programProblemMapper.countProblems());
 //    }
@@ -148,12 +148,11 @@ public class ProgramProblemMapperTest {
 //    }
 
     @Test
-    public void listAllProblem(){
-        List<Integer> list = Arrays.asList(1,3);
+    public void listAllProblem() {
+        List<Integer> list = Arrays.asList(1, 3);
 //        programProblemMapper.listAll(list,1,2,null).forEach(System.out::println);
-        programProblemMapper.listAll(null,null,null,null).forEach(System.out::println);
+        programProblemMapper.listAll(null, null, null, null).forEach(System.out::println);
     }
-
 
 
 }

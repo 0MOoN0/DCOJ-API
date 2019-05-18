@@ -13,6 +13,7 @@ import java.util.Map;
 
 /**
  * ProblemUserService实现
+ *
  * @author Leon
  */
 @Service
@@ -49,7 +50,7 @@ public class ProgramProblemUserServiceImpl implements ProgramProblemUserService 
         ProgramProblemUserEntityExample example = new ProgramProblemUserEntityExample();
         example.createCriteria().andPidEqualTo(pid).andUidEqualTo(uid);
         List<ProgramProblemUserEntity> problemUserEntities = problemUserMapper.selectByExample(example);
-        if(problemUserEntities.size()>0){
+        if (problemUserEntities.size() > 0) {
             return problemUserEntities.get(0);
         }
         return null;
@@ -82,6 +83,6 @@ public class ProgramProblemUserServiceImpl implements ProgramProblemUserService 
         problemUserEntity.setStatus(result);
         ProgramProblemUserEntityExample example = new ProgramProblemUserEntityExample();
         example.createCriteria().andUidEqualTo(uid).andPidEqualTo(pid);
-        problemUserMapper.updateByExample(problemUserEntity,example);
+        problemUserMapper.updateByExample(problemUserEntity, example);
     }
 }

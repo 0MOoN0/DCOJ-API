@@ -5,6 +5,7 @@ import lombok.Setter;
 
 /**
  * 抽象用户Task
+ *
  * @author Leon
  **/
 @Getter

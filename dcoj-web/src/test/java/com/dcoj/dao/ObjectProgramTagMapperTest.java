@@ -14,8 +14,6 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 /**
- *
- *
  * @author WANGQING
  */
 @RunWith(SpringRunner.class)
@@ -50,7 +48,7 @@ public class ObjectProgramTagMapperTest {
     }
 
     @Test
-    public void getByTagName(){
+    public void getByTagName() {
         System.out.println(objectTagMapper.getByTagName("Java"));
         System.out.println(objectTagMapper.getByTagName("Python"));
         System.out.println(objectTagMapper.getByTagName("xx"));
@@ -64,20 +62,20 @@ public class ObjectProgramTagMapperTest {
 
     @Test
     public void listAll() {
-         List<ObjectTagEntity> list = objectTagMapper.listAll();
-         list.forEach(System.out::println);
+        List<ObjectTagEntity> list = objectTagMapper.listAll();
+        list.forEach(System.out::println);
     }
 
     @Test
     public void updateByPrimaryKey() {
-        objectTagMapper.updateByPrimaryKey(1,"JXXX");
+        objectTagMapper.updateByPrimaryKey(1, "JXXX");
     }
 
     @Test
     public void updateTagUsedTimes() {
-        System.out.println(objectTagMapper.updateTagUsedTimes(1,true));
-        System.out.println(objectTagMapper.updateTagUsedTimes(1,true));
-        System.out.println(objectTagMapper.updateTagUsedTimes(1,false));
+        System.out.println(objectTagMapper.updateTagUsedTimes(1, true));
+        System.out.println(objectTagMapper.updateTagUsedTimes(1, true));
+        System.out.println(objectTagMapper.updateTagUsedTimes(1, false));
     }
 
     @Test

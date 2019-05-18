@@ -5,6 +5,7 @@ import com.dcoj.judge.ResultEnum;
 
 /**
  * 测试用例Entity(响应部分);
+ *
  * @author Leon
  **/
 public class TestCaseResponseEntity {

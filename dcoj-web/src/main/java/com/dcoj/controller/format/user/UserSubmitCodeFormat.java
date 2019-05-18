@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * 用户代码提交内容规范
+ *
  * @author Leon
  **/
 @Data

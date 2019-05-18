@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * 测试用例服务
+ *
  * @author Leon
  **/
 public interface TestCasesService {
@@ -18,8 +19,9 @@ public interface TestCasesService {
 
     /**
      * 根据题目ID获取一个测试用例
-     * @param pid   题目ID
-     * @return      测试用例对象
+     *
+     * @param pid 题目ID
+     * @return 测试用例对象
      */
     TestCaseEntity getOneByPid(int pid);
 

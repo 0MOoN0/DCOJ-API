@@ -30,13 +30,13 @@ public class ObjectProblemProgramTagMapperTest {
 
     @Test
     public void save() {
-        objectProblemTagMapper.save(1,1);
-        objectProblemTagMapper.save(2,1);
-        objectProblemTagMapper.save(3,1);
-        objectProblemTagMapper.save(4,1);
-        objectProblemTagMapper.save(5,1);
-        objectProblemTagMapper.save(6,1);
-        objectProblemTagMapper.save(2,7);
+        objectProblemTagMapper.save(1, 1);
+        objectProblemTagMapper.save(2, 1);
+        objectProblemTagMapper.save(3, 1);
+        objectProblemTagMapper.save(4, 1);
+        objectProblemTagMapper.save(5, 1);
+        objectProblemTagMapper.save(6, 1);
+        objectProblemTagMapper.save(2, 7);
     }
 
     @Test

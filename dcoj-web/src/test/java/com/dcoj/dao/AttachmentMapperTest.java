@@ -25,21 +25,21 @@ public class AttachmentMapperTest {
      * 测试增加
      */
     @Test
-    public void testInsert(){
+    public void testInsert() {
         AttachmentEntity attachmentEntity = new AttachmentEntity();
         attachmentEntity.setStatus((byte) 0);
         attachmentEntity.setUrl("XXX/XXX/XXX");
         attachmentEntity.setUid(0);
         attachmentEntity.setUploadTime(new Timestamp(System.currentTimeMillis()));
         attachmentMapper.insert(attachmentEntity);
-        System.out.println("EntityID =============== "+attachmentEntity.getAid());
+        System.out.println("EntityID =============== " + attachmentEntity.getAid());
     }
 
     /**
      * 测试更新
      */
     @Test
-    public void testUpdateByExample(){
+    public void testUpdateByExample() {
         AttachmentEntity attachmentEntity = new AttachmentEntity();
         attachmentEntity.setAid(1);
         attachmentEntity.setStatus((byte) 1);
@@ -53,7 +53,7 @@ public class AttachmentMapperTest {
     }
 
     @Test
-    public void testSelect(){
+    public void testSelect() {
         AttachmentEntityExample attachmentEntityExample = new AttachmentEntityExample();
         attachmentEntityExample.createCriteria()
                 .andAidEqualTo(1);
@@ -61,7 +61,7 @@ public class AttachmentMapperTest {
     }
 
     @Test
-    public void testDelete(){
+    public void testDelete() {
         AttachmentEntityExample attachmentEntityExample = new AttachmentEntityExample();
         attachmentEntityExample.createCriteria()
                 .andAidEqualTo(1);

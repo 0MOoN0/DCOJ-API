@@ -2,6 +2,7 @@ package com.dcoj.judge;
 
 /**
  * 判卷语言枚举类型
+ *
  * @author Leon
  **/
 public enum LanguageEnum {

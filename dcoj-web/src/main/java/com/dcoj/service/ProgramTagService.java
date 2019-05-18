@@ -40,7 +40,7 @@ public interface ProgramTagService {
      *
      * @param tagName 标签名
      */
-   // void removeByTagName(String tagName);
+    // void removeByTagName(String tagName);
 
     /**
      * 通过标签的id 删除标签
@@ -60,15 +60,15 @@ public interface ProgramTagService {
      * 更新标签名
      *
      * @param programTagId 标签id
-     * @param newName 修改后的标签名
+     * @param newName      修改后的标签名
      */
-    void updateByPrimaryKey(int programTagId,String newName);
+    void updateByPrimaryKey(int programTagId, String newName);
 
     /**
      * 更新标签使用次数
      *
      * @param programTagId 标签的id
-     * @param flag 若flag为true，则更新标签使用次数+1，若flag为false，则更新标签使用次数-1
+     * @param flag         若flag为true，则更新标签使用次数+1，若flag为false，则更新标签使用次数-1
      */
     void updateTagUsedTimes(int programTagId, boolean flag);
 

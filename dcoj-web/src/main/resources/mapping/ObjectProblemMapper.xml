@@ -1,187 +1,187 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.dcoj.dao.ObjectProblemMapper" >
-  <resultMap id="BaseResultMap" type="com.dcoj.entity.ObjectProblemEntity" >
-    <id column="object_problem_id" property="objectProblemId" jdbcType="INTEGER" />
-    <result column="type" property="type" jdbcType="VARCHAR" />
-    <result column="answer" property="answer" jdbcType="VARCHAR" />
-    <result column="submit_times" property="submitTimes" jdbcType="INTEGER" />
-    <result column="ac_times" property="ACTimes" jdbcType="INTEGER" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
-    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
-    <result column="is_deleted" property="deleted" jdbcType="INTEGER" />
-    <result column="description" property="description"/>
-  </resultMap>
-  <sql id="Base_Column_List" >
-    object_problem_id, type, description, answer, submit_times, ac_times, `status`, gmt_create, gmt_modified, is_deleted
-  </sql>
-  <select id="getByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from object_problem
-    where object_problem_id = #{objectProblemId,jdbcType=INTEGER}  and is_deleted = 0
-  </select>
-  <update id="removeByPrimaryKey" parameterType="java.lang.Integer" >
-    update object_problem
-    set is_deleted =1
-    where object_problem_id = #{objectProblemId,jdbcType=INTEGER} and is_deleted = 0
-  </update>
-  <insert id="insertSelective" parameterType="com.dcoj.entity.ObjectProblemEntity"
-          useGeneratedKeys="true" keyProperty="objectProblemId">
-    insert into object_problem
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="objectProblemId != null" >
-        object_problem_id,
-      </if>
-      <if test="type != null" >
-        type,
-      </if>
-      <if test="description != null">
+<mapper namespace="com.dcoj.dao.ObjectProblemMapper">
+    <resultMap id="BaseResultMap" type="com.dcoj.entity.ObjectProblemEntity">
+        <id column="object_problem_id" property="objectProblemId" jdbcType="INTEGER"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="answer" property="answer" jdbcType="VARCHAR"/>
+        <result column="submit_times" property="submitTimes" jdbcType="INTEGER"/>
+        <result column="ac_times" property="ACTimes" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+        <result column="is_deleted" property="deleted" jdbcType="INTEGER"/>
+        <result column="description" property="description"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        object_problem_id, type, description, answer, submit_times, ac_times, `status`, gmt_create, gmt_modified,
+        is_deleted
+    </sql>
+    <select id="getByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from object_problem
+        where object_problem_id = #{objectProblemId,jdbcType=INTEGER} and is_deleted = 0
+    </select>
+    <update id="removeByPrimaryKey" parameterType="java.lang.Integer">
+        update object_problem
+        set is_deleted =1
+        where object_problem_id = #{objectProblemId,jdbcType=INTEGER} and is_deleted = 0
+    </update>
+    <insert id="insertSelective" parameterType="com.dcoj.entity.ObjectProblemEntity"
+            useGeneratedKeys="true" keyProperty="objectProblemId">
+        insert into object_problem
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="objectProblemId != null">
+                object_problem_id,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="answer != null">
+                answer,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+            <if test="deleted != null">
+                is_deleted,
+            </if>
+            gmt_create,
+            gmt_modified
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="objectProblemId != null">
+                #{objectProblemId,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description},
+            </if>
+            <if test="answer != null">
+                #{answer,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=INTEGER},
+            </if>
+            DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'),
+            DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s')
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dcoj.entity.ObjectProblemEntity">
+        update object_problem
+        <set>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="answer != null">
+                answer = #{answer,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                is_deleted = #{deleted,jdbcType=INTEGER},
+            </if>
+        </set>
+        where object_problem_id = #{objectProblemId,jdbcType=INTEGER} and is_deleted = 0
+    </update>
+    <select id="listObjectProblemTagsByPrimaryKey" resultType="HashMap" parameterType="java.lang.Integer">
+        SELECT
+        object_problem_tag.object_problem_id,
+        object_tag.object_tag_id,
+        object_tag.tag_name,
+        object_tag.used_times
+        FROM object_problem_tag
+        LEFT JOIN object_tag
+        ON object_tag.object_tag_id = object_problem_tag.object_tag_id
+        WHERE object_problem_tag.object_problem_id = #{id}
+        and object_problem_tag.is_deleted = 0
+    </select>
+
+    <select id="countObjectProblems" resultType="java.lang.Integer">
+        select count(*)
+        from object_problem
+        where is_deleted = 0
+    </select>
+
+    <select id="countObjectProblemsByType" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select count(*)
+        from object_problem
+        where is_deleted = 0
+        and `type` = #{type}
+    </select>
+
+    <select id="getAnswerByPrimaryKey" resultType="java.lang.String" parameterType="java.lang.Integer">
+        select
+        answer
+        from object_problem where is_deleted = 0 and object_problem_id = #{objectProblemId,jdbcType=INTEGER}
+    </select>
+
+    <select id="countObjectProblemsByStatus" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select count(*)
+        from object_problem
+        where is_deleted = 0
+        and `status` = #{status}
+    </select>
+
+    <select id="listAll" resultType="java.util.HashMap">
+        SELECT
+        object_problem.object_problem_id,
         description,
-      </if>
-      <if test="answer != null" >
-        answer,
-      </if>
-      <if test="status != null" >
-         `status`,
-      </if>
-      <if test="deleted != null" >
-        is_deleted,
-      </if>
-      gmt_create,
-      gmt_modified
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="objectProblemId != null" >
-        #{objectProblemId,jdbcType=INTEGER},
-      </if>
-      <if test="type != null" >
-        #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null">
-        #{description},
-      </if>
-      <if test="answer != null" >
-        #{answer,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null" >
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="deleted != null" >
-        #{deleted,jdbcType=INTEGER},
-      </if>
-      DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'),
-      DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s')
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.dcoj.entity.ObjectProblemEntity" >
-    update object_problem
-    <set >
-      <if test="type != null" >
-        type = #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null">
-        description = #{description},
-      </if>
-      <if test="answer != null" >
-        answer = #{answer,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null" >
-        `status`,
-      </if>
-      <if test="gmtCreate != null" >
-        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="gmtModified != null" >
-        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deleted != null" >
-        is_deleted = #{deleted,jdbcType=INTEGER},
-      </if>
-    </set>
-    where object_problem_id = #{objectProblemId,jdbcType=INTEGER} and is_deleted = 0
-  </update>
-  <select id="listObjectProblemTagsByPrimaryKey" resultType="HashMap" parameterType="java.lang.Integer">
-    SELECT
-           object_problem_tag.object_problem_id,
-           object_tag.object_tag_id,
-           object_tag.tag_name,
-           object_tag.used_times
-    FROM object_problem_tag
-           LEFT JOIN object_tag
-                 ON object_tag.object_tag_id = object_problem_tag.object_tag_id
-    WHERE object_problem_tag.object_problem_id = #{id}
-      and object_problem_tag.is_deleted = 0
-  </select>
+        submit_times,
+        ac_times
+        <if test="uid != null">
+            , object_problem_user.status
+        </if>
+        FROM object_problem
+        <if test="uid != null">
+            LEFT JOIN object_problem_user ON object_problem.object_problem_id=object_problem_user.pid AND
+            object_problem_user.uid=#{uid}
+        </if>
+        <where>
+            <!--<if test="uid != null">-->
+                <!--AND object_problem_user.status=1-->
+            <!--</if>-->
+            <if test="tagList != null">
+                AND object_problem.object_problem_id IN (
+                select object_problem_id from object_problem_tag
+                where object_tag_id in
+                <foreach item="item" index="index" collection="tagList"
+                         open="(" separator="," close=" )">
+                    #{item}
+                </foreach>
+                and is_deleted = 0
+                group by object_problem_id
+                having count(object_problem_id) = ${tagList.size}
+                )
+            </if>
+            <if test="query != null">
+                AND title LIKE '%${query}%'
+            </if>
+            AND is_deleted = 0
+        </where>
 
-  <select id="countObjectProblems" resultType="java.lang.Integer">
-    select count(*)
-    from object_problem
-    where is_deleted = 0
-  </select>
+        ORDER BY object_problem_id ASC
 
-  <select id="countObjectProblemsByType" resultType="java.lang.Integer" parameterType="java.lang.Integer">
-    select count(*)
-    from object_problem
-    where is_deleted = 0
-      and `type` = #{type}
-  </select>
-
-  <select id="getAnswerByPrimaryKey" resultType="java.lang.String" parameterType="java.lang.Integer">
-    select
-           answer
-    from object_problem where is_deleted = 0 and object_problem_id = #{objectProblemId,jdbcType=INTEGER}
-  </select>
-
-  <select id="countObjectProblemsByStatus" resultType="java.lang.Integer" parameterType="java.lang.Integer">
-    select count(*)
-    from object_problem
-    where is_deleted = 0
-      and `status` = #{status}
-  </select>
-
-  <select id="listAll" resultType="java.util.HashMap">
-    SELECT
-    object_problem.object_problem_id,
-    description,
-    submit_times,
-    ac_times
-    <if test="uid != null">
-      , object_problem_user.status
-    </if>
-    FROM object_problem
-    <if test="uid != null">
-      LEFT JOIN object_problem_user ON object_problem.object_problem_id=object_problem_user.pid AND
-      object_problem_user.uid=#{uid}
-    </if>
-    <where>
-      <if test="uid != null">
-        AND object_problem_user.status=1
-      </if>
-      <if test="tagList != null">
-        AND object_problem.object_problem_id IN (
-        select object_problem_id from object_problem_tag
-        where object_tag_id in
-        <foreach  item="item" index="index" collection="tagList"
-                  open="(" separator="," close=" )">
-          #{item}
-        </foreach>
-        and is_deleted = 0
-        group by object_problem_id
-        having count(object_problem_id) = ${tagList.size}
-        )
-      </if>
-      <if test="query != null">
-        AND title LIKE '%${query}%'
-      </if>
-      AND is_deleted = 0
-    </where>
-
-    ORDER BY object_problem_id ASC
-
-  </select>
-
+    </select>
 
 
 </mapper>

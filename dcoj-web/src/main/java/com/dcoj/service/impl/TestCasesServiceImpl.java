@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * 测试用例Service
+ *
  * @author Leon
  */
 @Service
@@ -32,8 +33,9 @@ public class TestCasesServiceImpl implements TestCasesService {
 
     /**
      * 获取根据pid获取所有TestCases
-     * @param pid   题目的业务id
-     * @return      此题目的所有测试用例
+     *
+     * @param pid 题目的业务id
+     * @return 此题目的所有测试用例
      */
     @Override
     public List<TestCaseEntity> listAll(int pid) {

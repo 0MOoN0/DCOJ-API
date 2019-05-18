@@ -16,14 +16,16 @@ import javax.validation.constraints.NotNull;
  **/
 @Getter
 @Setter
-@ApiModel(value = "addTagFormat",description = "添加标签格式校验")
+@ApiModel(value = "addTagFormat", description = "添加标签格式校验")
 public class AddTagFormat {
 
-    /** 标签名 */
+    /**
+     * 标签名
+     */
     @NotBlank
     @Length(max = 20)
     @NotNull
-    @ApiModelProperty(value="标签名",name="name",example="二叉树")
+    @ApiModelProperty(value = "标签名", name = "name", example = "二叉树")
     private String name;
 
 }

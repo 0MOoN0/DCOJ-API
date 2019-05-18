@@ -23,6 +23,7 @@ public class ShiroFilter extends BasicHttpAuthenticationFilter {
 
     /**
      * 执行用户登陆
+     *
      * @param request
      * @param response
      * @return
@@ -40,10 +41,11 @@ public class ShiroFilter extends BasicHttpAuthenticationFilter {
 
     /**
      * 判断是否允许访问资源，如果访问被拒绝会进一步交给onAccessDenied
-     * @param request   incoming ServletRequest
-     * @param response  outgoing ServletResponse
-     * @param mappedValue   绑定路径参数
-     * @return     true：权限匹配，允许访问;  false：权限不匹配，拒绝访问
+     *
+     * @param request     incoming ServletRequest
+     * @param response    outgoing ServletResponse
+     * @param mappedValue 绑定路径参数
+     * @return true：权限匹配，允许访问;  false：权限不匹配，拒绝访问
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
@@ -128,6 +130,7 @@ public class ShiroFilter extends BasicHttpAuthenticationFilter {
 
     /**
      * 非法请求跳转到/401
+     *
      * @param req
      * @param resp
      */

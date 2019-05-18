@@ -5,6 +5,7 @@ import java.util.Map;
 
 /**
  * 收藏题目实体类
+ *
  * @author WANGQING
  */
 public class CollectProblemEntity {

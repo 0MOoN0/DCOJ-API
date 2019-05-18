@@ -1,6 +1,7 @@
 package com.dcoj.entity.example;
 
 import com.alibaba.fastjson.JSONObject;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;

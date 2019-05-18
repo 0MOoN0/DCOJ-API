@@ -19,7 +19,7 @@ public class AttachmentServiceImplTest {
     private AttachmentService attachmentService;
 
     @Test
-    public void testGetById(){
+    public void testGetById() {
         AttachmentEntity byAid = attachmentService.getByAid(2);
         System.out.println(byAid);
     }

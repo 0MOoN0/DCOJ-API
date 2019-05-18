@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 //TODO:04.26 WANGQING 编程题、客观题题目模块全部未加修改status方法
+
 /**
  * @author WANGQING
  */
@@ -45,11 +46,11 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
     @Override
     //TODO : 03.28 WANGQING 题目删除必须和submissions等其他表关联，部分功能未完善，已写的功能已测试
     public void removeByPrimaryKey(int programProblemId) {
-        WebUtil.assertNotNull(programProblemMapper.getByPrimaryKey(programProblemId),"题目不存在，删除失败");
-        
+        WebUtil.assertNotNull(programProblemMapper.getByPrimaryKey(programProblemId), "题目不存在，删除失败");
+
         List<Integer> tagList = programProblemTagService.getTagsByProgramProblemId(programProblemId);
         // 判断题目是否带有标签
-        if (tagList != null && tagList.size() != 0){
+        if (tagList != null && tagList.size() != 0) {
             // 删除该题目的所有标签
             programProblemTagService.removeProblemAllTags(programProblemId);
         }
@@ -61,19 +62,19 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
     /**
      * 更新一道题目信息
      *
-     * @param programProblemId           要修改的题目id
-     * @param newTags       更新后题目的标签
+     * @param programProblemId     要修改的题目id
+     * @param newTags              更新后题目的标签
      * @param programProblemEntity 题目实体类对象
      */
     @Override
     //TODO:03.30 WANGQING 该方法能实现功能，但是方法不是很好，期待写出更好的方法优化
     @Transactional(rollbackFor = Exception.class)
     public void updateProblemAndTags(Integer programProblemId, JSONArray newTags, ProgramProblemEntity programProblemEntity) {
-        WebUtil.assertNotNull(programProblemMapper.getByPrimaryKey(programProblemId),"该题目不存在，无法更新");
+        WebUtil.assertNotNull(programProblemMapper.getByPrimaryKey(programProblemId), "该题目不存在，无法更新");
         // 删除题目原本的所有旧标签
         programProblemTagService.removeProblemAllTags(programProblemId);
         // 判断题目添加的时候是否带有标签,有则添加
-        if (newTags != null && newTags.size() != 0 && !newTags.getJSONObject(0).isEmpty()){
+        if (newTags != null && newTags.size() != 0 && !newTags.getJSONObject(0).isEmpty()) {
             // 存放新修改的标签id集合
             List<Integer> finalTags = new ArrayList<>(newTags.size());
             //将JSONArray里的元素取出并存到List<Integer>
@@ -111,7 +112,7 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
     /**
      * 添加一道题目
      *
-     * @param tags 题目标签
+     * @param tags                 题目标签
      * @param programProblemEntity 题目实体类对象
      * @return 题目id
      */
@@ -123,7 +124,7 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
         int programProblemId = programProblemEntity.getProgramProblemId();
 
         // 判断题目添加的时候是否带有标签
-        if (tags != null && tags.size() != 0 && !tags.getJSONObject(0).isEmpty()){
+        if (tags != null && tags.size() != 0 && !tags.getJSONObject(0).isEmpty()) {
             // 保存tag标签并且添加tag标签使用次数
             List<Integer> tagList = new ArrayList<>(tags.size());
             for (int i = 0; i < tags.size(); i++) {
@@ -134,13 +135,14 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
             WebUtil.assertIsSuccess(tagList.size() != 0, "标签非法");
             // 添加pid和tag之间的关联
             for (Integer programTagId : tagList) {
-                programProblemTagService.save(programProblemId,programTagId );
+                programProblemTagService.save(programProblemId, programTagId);
             }
         }
         return programProblemId;
     }
 
     //TODO：03.30 WANGQING 跟判卷有关系的方法，未写
+
     /**
      * 根据判卷状态更新Problem
      *
@@ -160,7 +162,7 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
      */
     @Override
     public List<Map<String, Object>> listProgramProblemTagsByPid(int programProblemId) {
-        WebUtil.assertNotNull(programProblemMapper.getByPrimaryKey(programProblemId),"该题目不存在");
+        WebUtil.assertNotNull(programProblemMapper.getByPrimaryKey(programProblemId), "该题目不存在");
         return programProblemMapper.listProgramProblemTagsByPrimaryKey(programProblemId);
     }
 
@@ -175,8 +177,8 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
      */
     @Override
     public List<Map<String, Object>> listAll(List<Integer> list, Integer uid, Integer difficult, String query) {
-        System.out.println("list:"+list+" uid:"+uid + " difficult:"+difficult+" query:"+query);
-        return programProblemMapper.listAll(list,uid,difficult,query);
+        System.out.println("list:" + list + " uid:" + uid + " difficult:" + difficult + " query:" + query);
+        return programProblemMapper.listAll(list, uid, difficult, query);
     }
 
 }

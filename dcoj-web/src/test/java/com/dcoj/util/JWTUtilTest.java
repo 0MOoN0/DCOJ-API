@@ -9,7 +9,7 @@ import org.junit.Test;
 public class JWTUtilTest {
 
     @Test
-    public void testSign(){
+    public void testSign() {
         String token = JWTUtil.sign(2, "sadf");
         System.out.println(token);
 
@@ -19,7 +19,7 @@ public class JWTUtilTest {
     }
 
     @Test
-    public void testDecode(){
+    public void testDecode() {
         //eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjEsImV4cCI6MTU1Njg2NjY3Nn0.zSbGFXgCLGJykK1i4TYQA-KQVsPxueeRbB5vLYkG2bE
 
         int uid = JWTUtil.getUid("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjEsImV4cCI6MTU1Njg2NjY3Nn0.zSbGFXgCLGJykK1i4TYQA-KQVsPxueeRbB5vLYkG2bE");

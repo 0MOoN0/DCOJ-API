@@ -30,13 +30,13 @@ public class ProgramSubmissionServiceImpl implements ProgramSubmissionService {
     /**
      * 保存用户提交，包括试卷提交、单题提交
      *
-     * @param uid      用户ID
+     * @param uid        用户ID
      * @param pid        题目ID
      * @param eid        试卷ID
      * @param gid        用户组ID
      * @param sourceCode 判卷源码
      * @param lang       判卷语言
-     * @param usingTime       使用的时间
+     * @param usingTime  使用的时间
      * @param memory     使用的内存
      * @param status     判卷结果
      * @return 新增数据的主键
@@ -54,7 +54,7 @@ public class ProgramSubmissionServiceImpl implements ProgramSubmissionService {
         entity.setStatus(status);
         entity.setSubmitTime(new Timestamp(System.currentTimeMillis()));
         entity.setScore(score);
-        boolean flag = submissionMapper.insertSelective(entity)==1;
+        boolean flag = submissionMapper.insertSelective(entity) == 1;
         WebUtil.assertIsSuccess(flag, "代码提交记录保存失败");
         return entity.getSubId();
     }
@@ -78,15 +78,15 @@ public class ProgramSubmissionServiceImpl implements ProgramSubmissionService {
      * 查询用户当前题目的单题提交
      * 或者所有用户当前题目的单题提交
      *
-     * @param uid      用户ID，如果为零则查询所有用户当前题目的单题提交
-     * @param pid      题目ID
+     * @param uid 用户ID，如果为零则查询所有用户当前题目的单题提交
+     * @param pid 题目ID
      * @return List<SubmissionEntity>   返回值
      */
     @Override
     public List<ProgramSubmissionEntity> listUserProblemSubmissions(int uid, int pid) {
         ProgramSubmissionEntityExample example = new ProgramSubmissionEntityExample();
         //如果用户id不为零，表示查询某题某用户对应的提交
-        if(uid!=0){
+        if (uid != 0) {
             example.createCriteria()
                     .andUidEqualTo(uid)
                     .andPidEqualTo(pid)
@@ -118,13 +118,13 @@ public class ProgramSubmissionServiceImpl implements ProgramSubmissionService {
         submissionEntityExample.setDistinct(true);
         // 默认按照时间排序
         submissionEntityExample.setOrderByClause("using_time ASC");
-        if((grouyBy != null) && sortKeyWord.length()>0){
+        if ((grouyBy != null) && sortKeyWord.length() > 0) {
             //按照语言查询
             criteria.andLangEqualTo(LanguageEnum.valueOf(grouyBy));
         }
         // 按照关键字排序
-        if((sortKeyWord != null) && sortKeyWord.length()>0 && !sortKeyWord.equals("using_time")){
-            submissionEntityExample.setOrderByClause(sortKeyWord+" ASC");
+        if ((sortKeyWord != null) && sortKeyWord.length() > 0 && !sortKeyWord.equals("using_time")) {
+            submissionEntityExample.setOrderByClause(sortKeyWord + " ASC");
         }
 //        System.out.println(submissionEntityExample.getOrderByClause());
         criteria.andStatusEqualTo(ResultEnum.AC);
@@ -151,7 +151,7 @@ public class ProgramSubmissionServiceImpl implements ProgramSubmissionService {
      * 根据ProgramSubmission ID查询ProgramSubmission
      *
      * @param subId
-     * @return      如果没有对应结果，返回NULL
+     * @return 如果没有对应结果，返回NULL
      */
     @Override
     public ProgramSubmissionEntity getById(int subId) {

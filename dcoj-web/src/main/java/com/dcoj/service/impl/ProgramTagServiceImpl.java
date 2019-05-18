@@ -40,7 +40,7 @@ public class ProgramTagServiceImpl implements ProgramTagService {
      * 通过标签名得到标签实体类对象
      *
      * @param tagName 标签名
-     * @return  标签实体类对象
+     * @return 标签实体类对象
      */
     @Override
     public ProgramTagEntity getByTagName(String tagName) {
@@ -87,7 +87,7 @@ public class ProgramTagServiceImpl implements ProgramTagService {
         ProgramTagEntity programTagEntity = programTagMapper.getByPrimaryKey(programTagId);
         WebUtil.assertNotNull(programTagEntity, "该标签不存在，无法删除");
         int usedTimes = programTagMapper.getByPrimaryKey(programTagId).getUsedTimes();
-        WebUtil.assertIsSuccess(usedTimes == 0,"此标签已经被使用，无法删除");
+        WebUtil.assertIsSuccess(usedTimes == 0, "此标签已经被使用，无法删除");
         boolean flag = programTagMapper.removeByPrimaryKey(programTagId) == 1;
         WebUtil.assertIsSuccess(flag, "删除标签失败");
     }
@@ -105,14 +105,14 @@ public class ProgramTagServiceImpl implements ProgramTagService {
     /**
      * 更新标签名
      *
-     * @param programTagId     标签id
-     * @param newName 修改后的标签名
+     * @param programTagId 标签id
+     * @param newName      修改后的标签名
      */
     @Override
     public void updateByPrimaryKey(int programTagId, String newName) {
         ProgramTagEntity newProgramTagEntity = getByTagName(newName);
         WebUtil.assertNull(newProgramTagEntity, "已经存在此标签，修改失败");
-        boolean flag = programTagMapper.updateByPrimaryKey(programTagId,newName) == 1;
+        boolean flag = programTagMapper.updateByPrimaryKey(programTagId, newName) == 1;
         WebUtil.assertIsSuccess(flag, "更新标签名称失败");
     }
 
@@ -120,7 +120,7 @@ public class ProgramTagServiceImpl implements ProgramTagService {
      * 更新标签使用次数
      *
      * @param programTagId 标签的id
-     * @param flag 若flag为true，则更新标签使用次数+1，若flag为false，则更新标签使用次数-1
+     * @param flag         若flag为true，则更新标签使用次数+1，若flag为false，则更新标签使用次数-1
      */
     @Override
     public void updateTagUsedTimes(int programTagId, boolean flag) {

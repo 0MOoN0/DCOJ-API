@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * SubmissionService测试类
+ *
  * @author Leon
  */
 @RunWith(SpringRunner.class)
@@ -29,39 +30,39 @@ public class ProgramSubmissionServiceImplTest {
             submissionService.save(5, 1, 11,0,0, LanguageEnum.JAVA8, i, i, ResultEnum.AC);
             Thread.sleep(1000);
         }*/
-        int key = submissionService.save(6, 1, 11, 0,  LanguageEnum.CPP, 1, 1, ResultEnum.AC, (byte) 0);
+        int key = submissionService.save(6, 1, 11, 0, LanguageEnum.CPP, 1, 1, ResultEnum.AC, (byte) 0);
         System.out.println(key);
 
     }
 
     @Test
-    public void testCount(){
+    public void testCount() {
         int i = submissionService.countProblemSubmissions(0);
         System.out.println(i);
     }
 
     @Test
-    public void testListUserProblemSubmissions(){
+    public void testListUserProblemSubmissions() {
         List<ProgramSubmissionEntity> submissionEntities = submissionService.listUserProblemSubmissions(0, 1);
         submissionEntities.parallelStream().forEach(System.out::println);
     }
 
     @Test
-    public void testListProblemLeaderboard(){
+    public void testListProblemLeaderboard() {
 //        List<SubmissionEntity> submissionEntities = submissionService.listProblemLeaderboard(1, "submit_time", "PYTHON27");
 //        List<SubmissionEntity> submissionEntities = submissionService.listProblemLeaderboard(1, "using_time", "PYTHON27");
         List<ProgramSubmissionEntity> submissionEntities = submissionService.listProblemLeaderboard(1, "submit_time", "JAVA8");
-        for (ProgramSubmissionEntity se: submissionEntities
-             ) {
+        for (ProgramSubmissionEntity se : submissionEntities
+        ) {
             System.out.println(se);
         }
     }
 
     @Test
-    public void testListUserSubmission(){
+    public void testListUserSubmission() {
         List<ProgramSubmissionEntity> submissionEntities = submissionService.listUserSubmission(0);
-        for (ProgramSubmissionEntity se: submissionEntities
-             ) {
+        for (ProgramSubmissionEntity se : submissionEntities
+        ) {
             System.out.println(se);
         }
     }

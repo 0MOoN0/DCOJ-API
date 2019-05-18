@@ -23,14 +23,14 @@ public class IdGenerateCacheServiceImpl implements IdGenerateCacheService {
     public void initIdGenerateCache() {
         Long problemCount = mongoTemplate.count(new Query(), ProgramProblemEntity.class);
         Long tagCount = mongoTemplate.count(new Query(), ProgramTagEntity.class);
-        Cache<String,Long> idGenerateCache = GlobalCacheManager.getIdGenerateCache();
-        idGenerateCache.put("pidGenerate",problemCount);
-        idGenerateCache.put("tidGenerate",tagCount);
+        Cache<String, Long> idGenerateCache = GlobalCacheManager.getIdGenerateCache();
+        idGenerateCache.put("pidGenerate", problemCount);
+        idGenerateCache.put("tidGenerate", tagCount);
     }
 
     @Override
     public void updateIdGenerateCache() {
-        Cache<String,Long> idGenerateCache = GlobalCacheManager.getIdGenerateCache();
-        idGenerateCache.put("pidGenerate",idGenerateCache.get("problemIdGenerateCache")+1);
+        Cache<String, Long> idGenerateCache = GlobalCacheManager.getIdGenerateCache();
+        idGenerateCache.put("pidGenerate", idGenerateCache.get("problemIdGenerateCache") + 1);
     }
 }

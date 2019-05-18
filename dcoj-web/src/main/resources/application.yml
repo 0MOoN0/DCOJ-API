@@ -31,7 +31,7 @@ spring:
       "mail.smtp.starttls.enable": "true"
 mail:
   fromMail:
-     addr: dcoj@email.ylpriv.com
+    addr: dcoj@email.ylpriv.com
 
 mybatis:
   mapperLocations: classpath:mapping/*.xml
@@ -39,7 +39,7 @@ mybatis:
   type-handlers-package: com.dcoj.handler
   # 打印Mybatis日志
   configuration:
-      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 mapper:
   mappers: com.dcoj.dao

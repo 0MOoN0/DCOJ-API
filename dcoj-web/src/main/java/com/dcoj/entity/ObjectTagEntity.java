@@ -12,21 +12,33 @@ import java.sql.Timestamp;
  */
 @Data
 public class ObjectTagEntity {
-    /** 客观题标签id */
+    /**
+     * 客观题标签id
+     */
     @JSONField(name = "object_tag_id")
     private Integer objectTagId;
-    /** 标签名 */
+    /**
+     * 标签名
+     */
     @JSONField(name = "tag_name")
     private String tagName;
-    /** 标签使用次数 */
+    /**
+     * 标签使用次数
+     */
     @JSONField(name = "used_times")
     private Integer usedTimes;
-    /** 题目最后更新时间 */
+    /**
+     * 题目最后更新时间
+     */
     @JSONField(name = "gmt_modified")
     private Timestamp gmtModified;
-    /** 题目创建时间 */
+    /**
+     * 题目创建时间
+     */
     @JSONField(name = "gmt_create")
     private Timestamp gmtCreate;
-    /** 是否删除题目（题目是否存在） */
+    /**
+     * 是否删除题目（题目是否存在）
+     */
     private Integer deleted;
 }

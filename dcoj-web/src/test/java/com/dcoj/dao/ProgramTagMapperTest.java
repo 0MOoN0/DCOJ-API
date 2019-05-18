@@ -69,20 +69,19 @@ public class ProgramTagMapperTest {
 
     @Test
     public void updateTagUsedTimes() {
-        System.out.println(programTagMapper.updateTagUsedTimes(1,true));
-        System.out.println(programTagMapper.updateTagUsedTimes(2,true));
-        System.out.println(programTagMapper.updateTagUsedTimes(3,true));
-        System.out.println(programTagMapper.updateTagUsedTimes(3,true));
-        System.out.println(programTagMapper.updateTagUsedTimes(3,true));
-        System.out.println(programTagMapper.updateTagUsedTimes(3,false));
-        System.out.println(programTagMapper.updateTagUsedTimes(3,false));
+        System.out.println(programTagMapper.updateTagUsedTimes(1, true));
+        System.out.println(programTagMapper.updateTagUsedTimes(2, true));
+        System.out.println(programTagMapper.updateTagUsedTimes(3, true));
+        System.out.println(programTagMapper.updateTagUsedTimes(3, true));
+        System.out.println(programTagMapper.updateTagUsedTimes(3, true));
+        System.out.println(programTagMapper.updateTagUsedTimes(3, false));
+        System.out.println(programTagMapper.updateTagUsedTimes(3, false));
     }
 
     @Test
     public void countTags() {
         System.out.println(programTagMapper.countTags());
     }
-
 
 
 }

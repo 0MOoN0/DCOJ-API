@@ -10,7 +10,7 @@ import java.util.Set;
  * @author Leon
  */
 
- public class UserEntity {
+public class UserEntity {
     private Integer uid;
 
     @JSONField(name = "student_id")

@@ -14,7 +14,7 @@ public class SimpleTest {
 
 
     @Test
-    public void testJSON(){
+    public void testJSON() {
         ArrayList arrayList = new ArrayList();
         HashMap hashMap1 = new HashMap();
         hashMap1.put("key1", "value1");
@@ -32,7 +32,7 @@ public class SimpleTest {
     }
 
     @Test
-    public void testEnum(){
+    public void testEnum() {
         LanguageEnum java8 = LanguageEnum.valueOf("Java8");
         System.out.println(java8);
 

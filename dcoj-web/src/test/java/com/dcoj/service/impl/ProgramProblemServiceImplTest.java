@@ -101,7 +101,7 @@ public class ProgramProblemServiceImplTest {
     }
 
     @Test
-    public void testJSONArray(){
+    public void testJSONArray() {
         JSONArray ja = new JSONArray();
         ja.add(1);
         ja.add("B");

@@ -110,45 +110,45 @@
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
-        <if test="description != null">
-            #{description},
-        </if>
-        <if test="difficult != null">
-            #{difficult},
-        </if>
-        <if test="title != null">
-            #{title},
-        </if>
-        <if test="inputFormat != null">
-            #{inputFormat},
-        </if>
-        <if test="outputFormat != null">
-            #{outputFormat},
-        </if>
-        <if test="samples != null">
-            #{samples},
-        </if>
-        <if test="memory != null">
-            #{memory},
-        </if>
-        <if test="runTime != null">
-            #{runTime},
-        </if>
-          DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'),
-          DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s')
+            <if test="description != null">
+                #{description},
+            </if>
+            <if test="difficult != null">
+                #{difficult},
+            </if>
+            <if test="title != null">
+                #{title},
+            </if>
+            <if test="inputFormat != null">
+                #{inputFormat},
+            </if>
+            <if test="outputFormat != null">
+                #{outputFormat},
+            </if>
+            <if test="samples != null">
+                #{samples},
+            </if>
+            <if test="memory != null">
+                #{memory},
+            </if>
+            <if test="runTime != null">
+                #{runTime},
+            </if>
+            DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'),
+            DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s')
         </trim>
     </insert>
     <select id="listProgramProblemTagsByPrimaryKey" resultType="HashMap">
         SELECT
-               program_problem_tag.program_tag_id,
-               program_problem_tag.program_problem_id,
-               program_tag.tag_name,
-               program_tag.used_times
+        program_problem_tag.program_tag_id,
+        program_problem_tag.program_problem_id,
+        program_tag.tag_name,
+        program_tag.used_times
         FROM program_problem_tag
-                 LEFT JOIN program_tag
-                     ON program_problem_tag.program_tag_id = program_tag.program_tag_id
+        LEFT JOIN program_tag
+        ON program_problem_tag.program_tag_id = program_tag.program_tag_id
         WHERE program_problem_tag.program_problem_id = #{programProblemId}
-          and program_problem_tag.is_deleted = 0;
+        and program_problem_tag.is_deleted = 0;
     </select>
 
     <select id="listAll" resultType="java.util.HashMap">
@@ -167,9 +167,9 @@
             program_problem_user.uid=#{uid}
         </if>
         <where>
-            <if test="uid != null">
-                AND program_problem_user.status="AC"
-            </if>
+            <!--<if test="uid != null">-->
+                <!--AND program_problem_user.status="AC"-->
+            <!--</if>-->
             <if test="difficult != null">
                 AND difficult=#{difficult}
             </if>
@@ -177,8 +177,8 @@
                 AND program_problem.program_problem_id IN (
                 select program_problem_id from program_problem_tag
                 where program_tag_id in
-                <foreach  item="item" index="index" collection="tagList"
-                          open="(" separator="," close=" )">
+                <foreach item="item" index="index" collection="tagList"
+                         open="(" separator="," close=" )">
                     #{item}
                 </foreach>
                 and is_deleted = 0

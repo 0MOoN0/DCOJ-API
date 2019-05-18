@@ -57,10 +57,10 @@ public class ProgramTagServiceImplTest {
 
     @Test
     public void updateTagUsedTimes() {
-        programTagService.updateTagUsedTimes(10,true);
-        programTagService.updateTagUsedTimes(10,true);
-        programTagService.updateTagUsedTimes(10,true);
-        programTagService.updateTagUsedTimes(10,false);
+        programTagService.updateTagUsedTimes(10, true);
+        programTagService.updateTagUsedTimes(10, true);
+        programTagService.updateTagUsedTimes(10, true);
+        programTagService.updateTagUsedTimes(10, false);
     }
 
     @Test

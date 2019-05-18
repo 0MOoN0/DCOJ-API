@@ -18,25 +18,26 @@
         <result column="is_deleted" property="deleted"/>
     </resultMap>
 
-    <insert id="save" >
+    <insert id="save">
         insert into program_problem_tag (program_problem_id,program_tag_id,gmt_create,gmt_modified)
-        values (#{programProblemId}, #{programTagId},DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'),DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'))
+        values (#{programProblemId}, #{programTagId},DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'),DATE_FORMAT(NOW(),
+        '%Y-%m-%d %H:%m:%s'))
     </insert>
 
-    <select id="countTagsByProgramProblemId"  resultType="Integer">
+    <select id="countTagsByProgramProblemId" resultType="Integer">
         select count(*) from program_problem_tag where is_deleted = 0 and program_problem_id = #{programProblemId}
     </select>
 
     <select id="getTagsByProgramProblemId" resultType="Integer">
         select
-               program_tag_id
+        program_tag_id
         from program_problem_tag where is_deleted = 0 and program_problem_id = #{programProblemId}
     </select>
 
     <!--<select id="getByPid" resultMap="tagProblemResultMap">-->
-        <!--select-->
-        <!--<include refid="Base_Column_List"/>-->
-        <!--from tag_problem where is_deleted = 0 and pid = #{pid}-->
+    <!--select-->
+    <!--<include refid="Base_Column_List"/>-->
+    <!--from tag_problem where is_deleted = 0 and pid = #{pid}-->
     <!--</select>-->
 
     <update id="removeProblemAllTags">
@@ -48,11 +49,11 @@
     </update>
 
     <!--<update id="removeProblemTag">-->
-        <!--update tag_problem-->
-        <!--<set>-->
-            <!--is_deleted = 1-->
-        <!--</set>-->
-        <!--where pid = #{pid} and tid = #{tid} and is_deleted = 0-->
+    <!--update tag_problem-->
+    <!--<set>-->
+    <!--is_deleted = 1-->
+    <!--</set>-->
+    <!--where pid = #{pid} and tid = #{tid} and is_deleted = 0-->
     <!--</update>-->
 
 </mapper>

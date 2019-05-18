@@ -13,19 +13,29 @@ import java.util.Date;
  */
 @Data
 public class AttachmentEntity {
-    /** 附件ID */
+    /**
+     * 附件ID
+     */
     private Integer aid;
 
-    /** 用户ID */
+    /**
+     * 用户ID
+     */
     private Integer uid;
 
-    /** 附件URL */
+    /**
+     * 附件URL
+     */
     private String url;
 
-    /** 附件状态 0 失效 待删除 1 有效*/
+    /**
+     * 附件状态 0 失效 待删除 1 有效
+     */
     private Byte status;
 
-    /** 上传时间 */
+    /**
+     * 上传时间
+     */
     @JSONField(name = "upload_time")
     private Timestamp uploadTime;
 

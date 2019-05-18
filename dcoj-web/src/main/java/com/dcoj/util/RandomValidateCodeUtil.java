@@ -9,7 +9,7 @@ public class RandomValidateCodeUtil {
      * 获取随机的验证码数字6位
      */
     public static String getRandomString() {
-        return String.valueOf((int)((Math.random()*9+1)*100000));
+        return String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
     }
 
 

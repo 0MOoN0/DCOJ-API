@@ -37,7 +37,7 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
     //TODO : 04.23 WANGQING 题目删除必须和submissions等其他表关联，部分功能未完善，已写的功能已测试
     @Transactional(rollbackFor = Exception.class)
     public void removeByPrimaryKey(Integer objectProblemId) {
-        WebUtil.assertNotNull(objectProblemMapper.getByPrimaryKey(objectProblemId),"题目不存在，删除失败");
+        WebUtil.assertNotNull(objectProblemMapper.getByPrimaryKey(objectProblemId), "题目不存在，删除失败");
 
 //        // 检查题目是否有提交记录
 //        int submissions = submissionService.countProblemSubmissions(pid);
@@ -46,7 +46,7 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
 //        }
         List<Integer> tagList = objectProblemTagService.getTagsByObjectProblemId(objectProblemId);
         // 判断题目是否带有标签
-        if (tagList != null && tagList.size() != 0){
+        if (tagList != null && tagList.size() != 0) {
             // 删除该题目的所有标签
             objectProblemTagService.removeProblemAllTags(objectProblemId);
         }
@@ -70,7 +70,7 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
         int objectProblemId = record.getObjectProblemId();
 
         // 判断题目添加的时候是否带有标签
-        if (tags != null && tags.size() != 0 && !tags.getJSONObject(0).isEmpty()){
+        if (tags != null && tags.size() != 0 && !tags.getJSONObject(0).isEmpty()) {
             // 保存tag标签并且添加tag标签使用次数
             List<Integer> tagList = new ArrayList<>(tags.size());
             for (int i = 0; i < tags.size(); i++) {
@@ -110,12 +110,12 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
     @Override
     //TODO:04.23 WANGQING 该方法能实现功能，但是方法不是很好，期待写出更好的方法优化
     @Transactional(rollbackFor = Exception.class)
-    public void updateProblemAndTags(Integer objectProblemId,JSONArray newTags, ObjectProblemEntity record) {
-        WebUtil.assertNotNull(objectProblemMapper.getByPrimaryKey(objectProblemId),"该题目不存在，无法更新");
+    public void updateProblemAndTags(Integer objectProblemId, JSONArray newTags, ObjectProblemEntity record) {
+        WebUtil.assertNotNull(objectProblemMapper.getByPrimaryKey(objectProblemId), "该题目不存在，无法更新");
         // 删除题目原本的所有旧标签
         objectProblemTagService.removeProblemAllTags(objectProblemId);
         // 判断题目添加的时候是否带有标签,有则添加
-        if (newTags != null && newTags.size() != 0 && !newTags.getJSONObject(0).isEmpty()){
+        if (newTags != null && newTags.size() != 0 && !newTags.getJSONObject(0).isEmpty()) {
             // 存放新修改的标签id集合
             List<Integer> finalTags = new ArrayList<>(newTags.size());
             //将JSONArray里的元素取出并存到List<Integer>
@@ -165,7 +165,7 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
      */
     @Override
     public List<Map<String, Object>> listObjectProblemTagsByPrimaryKey(Integer objectProblemId) {
-        WebUtil.assertNotNull(objectProblemMapper.getByPrimaryKey(objectProblemId),"该题目不存在");
+        WebUtil.assertNotNull(objectProblemMapper.getByPrimaryKey(objectProblemId), "该题目不存在");
         return objectProblemMapper.listObjectProblemTagsByPrimaryKey(objectProblemId);
     }
 
@@ -179,9 +179,9 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
     @Override
     public int judgeObjectProblem(Integer objectProblemId, String userAnswer) {
         ObjectProblemEntity objectProblemEntity = objectProblemMapper.getByPrimaryKey(objectProblemId);
-        WebUtil.assertNotNull(objectProblemEntity,"该题目不存在");
+        WebUtil.assertNotNull(objectProblemEntity, "该题目不存在");
         // 判断答案，答案正确，则返回1，否则返回1
-        if (objectProblemEntity.getAnswer().equals(userAnswer)){
+        if (objectProblemEntity.getAnswer().equals(userAnswer)) {
             return 1;
         }
         return 0;
@@ -201,14 +201,14 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
     /**
      * 查询所有编程题目
      *
-     * @param list      标签列表
-     * @param uid       用户id
-     * @param query     查询关键字
+     * @param list  标签列表
+     * @param uid   用户id
+     * @param query 查询关键字
      * @return 结果
      */
     @Override
     public List<Map<String, Object>> listAll(List<Integer> list, Integer uid, String query) {
-        return objectProblemMapper.listAll(list,uid,query);
+        return objectProblemMapper.listAll(list, uid, query);
     }
 
 }

@@ -55,7 +55,7 @@ public interface ObjectTagMapper {
      * 更新标签名
      *
      * @param objectTagId 标签id
-     * @param newName 修改后的标签名
+     * @param newName     修改后的标签名
      * @return 返回值为1时，修改成功，为0则修改失败
      */
     int updateByPrimaryKey(@Param("objectTagId") Integer objectTagId, @Param("newName") String newName);
@@ -64,7 +64,7 @@ public interface ObjectTagMapper {
      * 更新标签使用次数
      *
      * @param objectTagId 标签id
-     * @param flag 若flag为true，则更新标签使用次数+1，若flag为false，则更新标签使用次数-1
+     * @param flag        若flag为true，则更新标签使用次数+1，若flag为false，则更新标签使用次数-1
      * @return 返回值为1时，修改成功，为0则修改失败
      */
     int updateTagUsedTimes(@Param("objectTagId") Integer objectTagId, @Param("flag") boolean flag);

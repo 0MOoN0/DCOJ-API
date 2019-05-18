@@ -26,6 +26,7 @@ public class AsyncJudgeServiceImplTest {
 
     @Autowired
     JudgeService judgeService;
+
     @Test
     public void addTestJudgeTest() throws InterruptedException {
         String sourceCode = "public class Main {public static void main(String[] args) {System.out.println(\"hll\");}}";
@@ -39,7 +40,7 @@ public class AsyncJudgeServiceImplTest {
         Thread.sleep(4000);
         JudgeResult judgeResult = judgeService.getJudgeResult(resultId);//根据判卷结果id获取判卷结果
         //打印结果
-        Optional.ofNullable(judgeResult).ifPresent(result-> System.out.println(result.getResponse().getResult()));
+        Optional.ofNullable(judgeResult).ifPresent(result -> System.out.println(result.getResponse().getResult()));
     }
 
 

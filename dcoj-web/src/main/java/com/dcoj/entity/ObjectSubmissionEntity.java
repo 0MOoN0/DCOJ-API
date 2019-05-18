@@ -13,18 +13,26 @@ import java.sql.Timestamp;
 @Data
 public class ObjectSubmissionEntity {
 
-    /** 客观题提交ID */
+    /**
+     * 客观题提交ID
+     */
     @JSONField(name = "object_submit_id")
     private Integer objectSubmitId;
 
-    /** 用户ID */
+    /**
+     * 用户ID
+     */
     private Integer uid;
 
-    /** 客观题ID */
+    /**
+     * 客观题ID
+     */
     @JSONField(name = "object_problem_id")
     private Integer objectProblemId;
 
-    /** 判题结果状态, 0:错误  1：正确 */
+    /**
+     * 判题结果状态, 0:错误  1：正确
+     */
     @JSONField(name = "result_status")
     private Byte resultStatus;
 
@@ -34,14 +42,20 @@ public class ObjectSubmissionEntity {
     @JSONField(name = "gmt_modified")
     private Timestamp gmtModified;
 
-    /** 用户提交的回答 */
+    /**
+     * 用户提交的回答
+     */
     private String answer;
 
-    /** 可查询时间 */
+    /**
+     * 可查询时间
+     */
     @JSONField(name = "queryable_time")
     private Timestamp queryableTime;
 
-    /** 分数 */
+    /**
+     * 分数
+     */
     private Byte score;
 
 }

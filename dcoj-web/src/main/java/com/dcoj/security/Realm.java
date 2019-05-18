@@ -33,14 +33,15 @@ public class Realm extends AuthorizingRealm {   //继承的此Realm自带缓存�
 
     /**
      * 权限验证时调用，返回权限等信息
-     * @param principals    Login Token
+     *
+     * @param principals Login Token
      * @return
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         // 获取当前用户会话
         UserSession session = SessionHelper.get();
-        if (session==null) {
+        if (session == null) {
             return null;
         }
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
@@ -48,9 +49,9 @@ public class Realm extends AuthorizingRealm {   //继承的此Realm自带缓存�
     }
 
 
-
     /**
      * 登陆验证
+     *
      * @param auth
      * @return
      * @throws AuthenticationException
@@ -60,7 +61,7 @@ public class Realm extends AuthorizingRealm {   //继承的此Realm自带缓存�
         String token = (String) auth.getCredentials();
         Cache<String, String> authCache = GlobalCacheManager.getAuthCache();
         // 缓存操作，将用户信息保存到缓存
-        if (! authCache.containsKey(token)) {
+        if (!authCache.containsKey(token)) {
             // get user info from database
             int uid = JWTUtil.getUid(token);
             UserEntity userEntity = userService.getUserByUid(uid);
@@ -74,7 +75,6 @@ public class Realm extends AuthorizingRealm {   //继承的此Realm自带缓存�
 
         return new SimpleAuthenticationInfo(token, token, "jwt_realm");
     }
-
 
 
 }

@@ -24,7 +24,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleEntity findById(String roleId) {
-        return mongoTemplate.findById(roleId,RoleEntity.class);
+        return mongoTemplate.findById(roleId, RoleEntity.class);
     }
 
     @Override

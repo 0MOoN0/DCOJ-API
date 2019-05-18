@@ -32,7 +32,7 @@ public class ObjectTagServiceImpl implements ObjectTagService {
         ObjectTagEntity objectTagEntity = objectTagMapper.getByPrimaryKey(objectTagId);
         WebUtil.assertNotNull(objectTagEntity, "该标签不存在，无法删除");
         int usedTimes = objectTagEntity.getUsedTimes();
-        WebUtil.assertIsSuccess(usedTimes == 0,"此标签已经被使用，无法删除");
+        WebUtil.assertIsSuccess(usedTimes == 0, "此标签已经被使用，无法删除");
         boolean flag = objectTagMapper.removeByPrimaryKey(objectTagId) == 1;
         WebUtil.assertIsSuccess(flag, "删除标签失败");
     }
@@ -97,7 +97,7 @@ public class ObjectTagServiceImpl implements ObjectTagService {
     public void updateByPrimaryKey(Integer objectTagId, String newName) {
         ObjectTagEntity objectTagEntity = getByTagName(newName);
         WebUtil.assertNull(objectTagEntity, "已经存在此标签,修改失败");
-        boolean flag = objectTagMapper.updateByPrimaryKey(objectTagId,newName) == 1;
+        boolean flag = objectTagMapper.updateByPrimaryKey(objectTagId, newName) == 1;
         WebUtil.assertIsSuccess(flag, "更新标签名称失败");
     }
 

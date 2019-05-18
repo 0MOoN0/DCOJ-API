@@ -21,7 +21,7 @@ public class TestCaseMapperTest {
     private TestCaseMapper testCaseMapper;
 
     @Test
-    public void testSelectOne(){
+    public void testSelectOne() {
         TestCaseEntityExample example = new TestCaseEntityExample();
         example.createCriteria().andPidEqualTo(10);
         TestCaseEntity testCaseEntity = testCaseMapper.selectOneByExample(example);
@@ -29,7 +29,7 @@ public class TestCaseMapperTest {
     }
 
     @Test
-    public void testSelectAll(){
+    public void testSelectAll() {
         TestCaseEntityExample example = new TestCaseEntityExample();
         example.createCriteria().andPidEqualTo(10);
         List<TestCaseEntity> testCaseEntities = testCaseMapper.selectByExample(example);

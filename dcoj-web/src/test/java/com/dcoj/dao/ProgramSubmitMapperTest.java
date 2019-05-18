@@ -31,7 +31,7 @@ public class ProgramSubmitMapperTest {
      * 测试SubmissionMapper
      */
     @Test
-    public void testSave(){
+    public void testSave() {
         ProgramSubmissionEntity submission = new ProgramSubmissionEntity();
         submission.setLang(LanguageEnum.JAVA8);
         submission.setMemory(123);
@@ -47,7 +47,7 @@ public class ProgramSubmitMapperTest {
      * 测试修改
      */
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
         ProgramSubmissionEntity submission = new ProgramSubmissionEntity();
         submission.setSubId(3);
         submission.setLang(LanguageEnum.PYTHON35);
@@ -65,16 +65,16 @@ public class ProgramSubmitMapperTest {
     }
 
     @Test
-    public void testSelect(){
+    public void testSelect() {
         ProgramSubmissionEntityExample example = new ProgramSubmissionEntityExample();
         ProgramSubmissionEntityExample.Criteria criteria = example.createCriteria();
         criteria.andSubIdEqualTo(65);
         List<ProgramSubmissionEntity> submissionEntities = submissionMapper.selectByExample(example);
-        submissionEntities.parallelStream().forEach((submissionEntity)-> System.out.println(submissionEntity));
+        submissionEntities.parallelStream().forEach((submissionEntity) -> System.out.println(submissionEntity));
     }
 
     @Test
-    public void testDelete(){
+    public void testDelete() {
         ProgramSubmissionEntityExample example = new ProgramSubmissionEntityExample();
         ProgramSubmissionEntityExample.Criteria criteria = example.createCriteria();
         criteria.andSubIdEqualTo(65);
@@ -83,7 +83,7 @@ public class ProgramSubmitMapperTest {
     }
 
     @Test
-    public void tsetCompareWithTimestamp(){
+    public void tsetCompareWithTimestamp() {
         ProgramSubmissionEntityExample example = new ProgramSubmissionEntityExample();
 //        example.createCriteria().andGmtCreateLessThan(new Timestamp(System.currentTimeMillis()));
 /*        Calendar begin = Calendar.getInstance();
@@ -97,21 +97,21 @@ public class ProgramSubmitMapperTest {
 //        System.out.println();
 
 
-        example.createCriteria().andSubmitTimeBetween(Timestamp.valueOf(begin),Timestamp.valueOf(end));
+        example.createCriteria().andSubmitTimeBetween(Timestamp.valueOf(begin), Timestamp.valueOf(end));
 
         List<ProgramSubmissionEntity> submissionEntities = submissionMapper.selectByExample(example);
         submissionEntities.parallelStream().forEach(submissionEntity -> System.out.println(submissionEntity));
     }
 
     @Test
-    public void testSort(){
+    public void testSort() {
         ProgramSubmissionEntityExample submissionEntityExample = new ProgramSubmissionEntityExample();
         submissionEntityExample.setOrderByClause("time");
         submissionEntityExample.setOrderByClause("memory");
         List<ProgramSubmissionEntity> programSubmissionEntities = submissionMapper.selectByExample(submissionEntityExample);
         Optional.ofNullable(programSubmissionEntities)
                 .ifPresent(Entities -> programSubmissionEntities.parallelStream()
-                .forEach(System.out::println));
+                        .forEach(System.out::println));
     }
 
 }

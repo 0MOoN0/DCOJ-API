@@ -19,7 +19,7 @@ public class ObjectSubmissionServiceImplTest {
 
 
     @Test
-    public void testSave(){
+    public void testSave() {
         int c = objectSubmissionService.save(2, 2, 1, "C");
         System.out.println(c);
     }

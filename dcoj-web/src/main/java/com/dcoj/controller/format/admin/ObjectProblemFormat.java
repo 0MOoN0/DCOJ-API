@@ -17,16 +17,24 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class ObjectProblemFormat {
-    /** 题目类型 0-选择题 1-填空题 2-判断题*/
+    /**
+     * 题目类型 0-选择题 1-填空题 2-判断题
+     */
     @NotNull
-    @Range(min = 0,max = 2)
+    @Range(min = 0, max = 2)
     private Integer type;
-    /** 题目描述 */
+    /**
+     * 题目描述
+     */
     @NotNull
     private JSONObject description;
-    /** 题目标签 */
+    /**
+     * 题目标签
+     */
     private JSONArray objectTags;
-    /** 题目答案 */
+    /**
+     * 题目答案
+     */
     @NotNull
     private String answer;
 }
