@@ -1,17 +1,19 @@
 package com.dcoj.util;
 
-
-
 import com.dcoj.config.DcojConfig;
+import com.dcoj.judge.LanguageEnum;
+import org.apache.commons.io.FileUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.mock.web.MockMultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
  * 文件上传工具类
  *
- * @author ruoyi
+ * @author WANGQING
  */
 public class FileUploadUtils {
     /**
@@ -33,6 +35,7 @@ public class FileUploadUtils {
      * 默认文件类型jpg
      */
     public static final String IMAGE_JPG_EXTENSION = ".jpg";
+
 
     private static int counter = 0;
 
@@ -60,14 +63,14 @@ public class FileUploadUtils {
     }
 
     /**
-     * 根据文件路径上传
+     * 根据文件路径上传头像
      *
      * @param baseDir 相对应用的基目录
-     * @param file    上传的文件
+     * @param file    上传的头像
      * @return 文件名称
      * @throws IOException
      */
-    public static final String uploadPicture(String baseDir, MultipartFile file) throws IOException {
+    public static final String uploadAvatar(String baseDir, MultipartFile file) throws IOException {
         try {
             return upload(baseDir, file, FileUploadUtils.IMAGE_JPG_EXTENSION);
         } catch (Exception e) {
@@ -75,20 +78,63 @@ public class FileUploadUtils {
         }
     }
 
+//    /**
+//     * 根据文件路径上传头像
+//     *
+//     * @param baseDir 相对应用的基目录
+//     * @param file    上传的头像
+//     * @return 文件名称
+//     * @throws IOException
+//     */
+//    public static final String uploadText(String baseDir, MultipartFile file) throws IOException {
+//        try {
+//            return upload(baseDir, file, ".txt");
+//        } catch (Exception e) {
+//            throw new IOException(e.getMessage(), e);
+//        }
+//    }
+
     /**
-     * 根据文件路径上传
+     * 根据文件路径上传代码
      *
      * @param baseDir 相对应用的基目录
-     * @param file    上传的文件
+     * @param code    上传的代码
      * @return 文件名称
      * @throws IOException
      */
-    public static final String uploadText(String baseDir, MultipartFile file) throws IOException {
-        try {
-            return upload(baseDir, file, ".txt");
-        } catch (Exception e) {
-            throw new IOException(e.getMessage(), e);
+    public static final String uploadCode(String baseDir, String code, LanguageEnum lang) throws IOException{
+        String suffix = "";
+        File file = null;
+        FileInputStream inputStream = null;
+        MultipartFile multipartFile = null;
+        switch (lang) {
+            case JAVA8:
+                suffix += ".java";
+                break;
+            case C:
+                suffix += ".c";
+                break;
+            case CPP:
+                suffix += ".cpp";
+                break;
+            default:
+                suffix += ".py";
+                break;
         }
+        try {
+            // 创建临时文件，使用6随机数作为文件名
+            file = File.createTempFile(RandomValidateCodeUtil.getRandomString(), suffix);
+            FileUtils.writeStringToFile(file, code, "utf-8");
+            inputStream = new FileInputStream(file);
+            // 将file转换为MultipartFile
+            multipartFile = new MockMultipartFile(file.getName(), inputStream);
+            // 在程序退出时删除临时文件
+            file.deleteOnExit();
+        } catch (Exception e) {
+//            throw new IOException(e.getMessage(), e);
+            WebUtil.assertIsSuccess(false, "上传代码失败");
+        }
+        return upload(baseDir, multipartFile, suffix);
     }
 
     /**
@@ -98,18 +144,14 @@ public class FileUploadUtils {
      * @param file      上传的文件
      * @param extension 上传文件类型
      * @return 返回上传成功的文件名
-     * @throws FileSizeLimitExceededException       如果超出最大大小
-     * @throws FileNameLengthLimitExceededException 文件名太长
-     * @throws IOException                          比如读写文件出错时
+     * @throws IOException 比如读写文件出错时
      */
-    public static final String  upload(String baseDir, MultipartFile file, String extension) throws IOException{
-           // throws FileSizeLimitExceededException, IOException, FileNameLengthLimitExceededException {
+    public static final String upload(String baseDir, MultipartFile file, String extension) throws IOException {
 
         int fileNamelength = file.getOriginalFilename().length();
-        if (fileNamelength > FileUploadUtils.DEFAULT_FILE_NAME_LENGTH) {
-            System.out.println("文件名长度超出限定长度");
-//            throw new FileNameLengthLimitExceededException(FileUploadUtils.DEFAULT_FILE_NAME_LENGTH);
-        }
+        // 判断文件名长度是否超出限定长度
+        WebUtil.assertIsSuccess(fileNamelength <= FileUploadUtils.DEFAULT_FILE_NAME_LENGTH,
+                "文件名长度超出限定长度");
 
         assertAllowed(file);
 
@@ -151,14 +193,11 @@ public class FileUploadUtils {
      * 文件大小校验
      *
      * @param file 上传的文件
-     * @return
-     * @throws FileSizeLimitExceededException 如果超出最大大小
      */
     public static final void assertAllowed(MultipartFile file) {//throws FileSizeLimitExceededException {
         long size = file.getSize();
-        if (DEFAULT_MAX_SIZE != -1 && size > DEFAULT_MAX_SIZE) {
-            System.out.println("文件大小超出最大限定大小");
-            //throw new FileSizeLimitExceededException(DEFAULT_MAX_SIZE / 1024 / 1024);
-        }
+        WebUtil.assertIsSuccess((size <= DEFAULT_MAX_SIZE),
+                "文件大小超出最大限定大小");
     }
+
 }
