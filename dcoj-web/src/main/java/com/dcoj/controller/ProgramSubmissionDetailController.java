@@ -65,7 +65,7 @@ public class ProgramSubmissionDetailController {
         WebUtil.assertNotNull(programSubmissionEntity, "参数错误");
         WebUtil.assertIsSuccess(programSubmissionEntity.getUid() == subUserId, "参数错误");
         WebUtil.assertIsSuccess(programSubmissionEntity.getPid()==pid, "参数错误");
-        
+
         int uid = JWTUtil.getUid(token);
         HashMap resultMap = new HashMap<>();
         ProgramProblemUserEntity problemUserEntity = problemUserService.getByPidUid(pid, uid);

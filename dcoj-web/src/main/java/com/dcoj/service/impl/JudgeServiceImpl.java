@@ -68,11 +68,14 @@ public class JudgeServiceImpl implements JudgeService {
         // TODO: 20190511 Leon saveJudgeDetail;
 
         // 保存提交
-        saveSubmission(task.getLang(), response.getTime(), response.getMemory(),
-                result, owner,
-                task.getPid(), 0, 0,
-                (byte) (Math.round(score * 100) / 100)      // 将分数四舍五入到整数并强转为Byte
+        int subId = submissionService.save(owner, pid, 0, 0, task.getLang(), response.getTime(),
+                response.getMemory(),
+                result,
+                (byte) score// 将分数四舍五入到整数并强转为Byte
         );
+        // 保存提交详情
+        saveProgramSubmissionDetail(response, subId);
+
         // 更新用户日志
         //  TODO:20190403 Leon updateUserLog(owner, result);
 
@@ -100,10 +103,9 @@ public class JudgeServiceImpl implements JudgeService {
     }
 
 
-    public void saveSubmission(LanguageEnum lang, double usingTime, int memory, ResultEnum result,
-                               int owner, int pid, int eid, int gid, byte score){
-        // TODO 20190410 Leon Upload sourceCode
-        submissionService.save(owner, pid, eid, gid, lang, usingTime, memory, result, score);
+    public int saveProgramSubmissionDetail(ResponseEntity responseEntity,int subId){
+        // TODO: Leon 上传用户提交源码，获取源码ID
+        return programSubmissionDetailService.save(responseEntity, subId, 0);
     }
 
 }
