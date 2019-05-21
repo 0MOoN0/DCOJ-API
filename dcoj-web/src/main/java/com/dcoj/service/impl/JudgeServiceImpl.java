@@ -1,19 +1,21 @@
 package com.dcoj.service.impl;
 
 import com.dcoj.cache.GlobalCacheManager;
+import com.dcoj.config.DcojConfig;
 import com.dcoj.entity.ProgramProblemUserEntity;
 import com.dcoj.judge.JudgeResult;
-import com.dcoj.judge.LanguageEnum;
 import com.dcoj.judge.ResultEnum;
 import com.dcoj.judge.entity.ResponseEntity;
 import com.dcoj.judge.entity.TestCaseResponseEntity;
 import com.dcoj.judge.task.ProblemJudgeTask;
 import com.dcoj.service.*;
+import com.dcoj.util.FileUploadUtils;
 import com.dcoj.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +40,9 @@ public class JudgeServiceImpl implements JudgeService {
     @Autowired
     private ProgramSubmissionDetailService programSubmissionDetailService;
 
+    @Autowired
+    private AttachmentService attachmentService;
+
     @Override
     public JudgeResult getJudgeResult(String id) {
         JudgeResult result = GlobalCacheManager.getSubmissionCache().get(id);
@@ -53,20 +58,19 @@ public class JudgeServiceImpl implements JudgeService {
         ResultEnum result = response.getResult();
         // 查看详细判卷结果，并计算分数
         float score = 100;
-        if(response.getResult() != ResultEnum.AC){
+        if (response.getResult() != ResultEnum.AC) {
             score = 0;
             List<TestCaseResponseEntity> testCases = response.getTestCases();
             int size = testCases.size();
             float singleTestCaseScore = 0;    // 单个测试用例分数
-            if(size != 0){
+            if (size != 0) {
                 singleTestCaseScore = 100 / size;
             }
-            for (TestCaseResponseEntity tcResponse: testCases
-                 ) {
+            for (TestCaseResponseEntity tcResponse : testCases
+            ) {
                 score += tcResponse.getResult() == ResultEnum.AC ? singleTestCaseScore : 0;
             }
         }
-        // TODO: 20190511 Leon saveJudgeDetail;
 
         // 保存提交
         int subId = submissionService.save(owner, pid, 0, 0, task.getLang(), response.getTime(),
@@ -75,8 +79,7 @@ public class JudgeServiceImpl implements JudgeService {
                 (byte) score// 将分数四舍五入到整数并强转为Byte
         );
         // 保存提交详情
-        saveProgramSubmissionDetail(response, subId);
-
+        saveProgramSubmissionDetail(response, task, subId);
         // 更新用户日志
         //  TODO:20190403 Leon updateUserLog(owner, result);
 
@@ -104,9 +107,17 @@ public class JudgeServiceImpl implements JudgeService {
     }
 
 
-    public int saveProgramSubmissionDetail(ResponseEntity responseEntity,int subId){
-        // TODO: Leon 上传用户提交源码，获取源码ID
-        return programSubmissionDetailService.save(responseEntity, subId, 0);
+    public int saveProgramSubmissionDetail(ResponseEntity responseEntity, ProblemJudgeTask task, int subId){
+        int sourceCode = 0;
+        try {
+            String url = FileUploadUtils.uploadCode(DcojConfig.getUploadPath(), task.getSourceCode(), task.getLang());
+            sourceCode = attachmentService.save(task.getOwner(), url);
+        } catch (IOException e) {   // 此处只捕捉IO异常
+            // 如果此处报错，所有的操作都将回滚，用户体验不好，建议前端同时做校验
+//            throw new WebErrorException("上传文件失败");
+            // 日志记录
+        }
+        return programSubmissionDetailService.save(responseEntity, subId, sourceCode);
     }
 
 }

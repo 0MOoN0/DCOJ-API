@@ -105,7 +105,7 @@ public class TestController {
 //        url = "D:/profile/upload/2019/05/20/01017f12b88d9f4e79dc38060e3883da.java";
 
         // 通过url创建文件
-        File file = new File(url);
+        File file = new File(DcojConfig.getUploadPath()+"\\"+url);
         // 后缀名
         String suffixName = url.substring(url.lastIndexOf("."));
         //判断文件是否存在如果不存在就返回异常

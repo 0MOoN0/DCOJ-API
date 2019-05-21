@@ -1,8 +1,4 @@
-#spring:
-#  profiles:
-#    active: leon
 
----
 spring:
   datasource:
     # 数据库访问配置, 使用druid数据源

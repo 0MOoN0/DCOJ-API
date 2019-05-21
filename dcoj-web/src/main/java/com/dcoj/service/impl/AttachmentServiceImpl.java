@@ -30,6 +30,23 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     /**
+     * 保存附件相关信息，附件入库
+     *
+     * @param owner 此附件的所属人
+     * @param url   附件的路径
+     * @return 如果保存成功，返回附件的ID，否则返回0
+     */
+    @Override
+    public int save(int owner, String url) {
+        AttachmentEntity attachmentEntity = new AttachmentEntity();
+        attachmentEntity.setUid(owner);
+        attachmentEntity.setUrl(url);
+        int i = attachmentMapper.insertSelective(attachmentEntity);
+        boolean flag = i==1;
+        return flag ? attachmentEntity.getAid() : 0;
+    }
+
+    /**
      * 根据附件ID获取URL
      *
      * @param aid 附件ID
