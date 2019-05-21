@@ -32,13 +32,13 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>
-            <groupId>io.spring.platform</groupId>
-            <artifactId>platform-bom</artifactId>
-            <version>Brussels-SR6</version>
-            <type>pom</type>
-            <scope>import</scope>
-        </dependency>-->
+        <!--        <dependency>
+                    <groupId>io.spring.platform</groupId>
+                    <artifactId>platform-bom</artifactId>
+                    <version>Brussels-SR6</version>
+                    <type>pom</type>
+                    <scope>import</scope>
+                </dependency>-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
@@ -58,6 +58,8 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <!--true表示它将创建（fork）一个新的JVM来运行编译器。这有点慢，但隔离效果更好。-->
+                    <!--false表示编译器直接在你运行maven的JVM中启动，这使得构建更不可重复-->
                     <fork>true</fork>
                     <addResources>true</addResources><!--支持静态文件热部署-->
                 </configuration>

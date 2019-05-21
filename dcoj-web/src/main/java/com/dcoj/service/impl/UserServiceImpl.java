@@ -21,6 +21,7 @@ import java.util.*;
 
 /**
  * 用户服务实现类
+ *
  * @author Leon
  */
 @Service
@@ -31,18 +32,19 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 进行用户注册
-     * @param studentId     账号学号
-     * @param email         账号邮箱
-     * @param nickname      账号昵称
-     * @param password      账号密码
+     *
+     * @param studentId 账号学号
+     * @param email     账号邮箱
+     * @param nickname  账号昵称
+     * @param password  账号密码
      */
     @Override
     public void register(String studentId, String email, String nickname, String password) {
-        if(mongoTemplate.exists(new Query(Criteria.where("email").is(email)),UserEntity.class)){
+        if (mongoTemplate.exists(new Query(Criteria.where("email").is(email)), UserEntity.class)) {
             throw new WebErrorException("邮箱已经注册");
-        }else if(mongoTemplate.exists(new Query(Criteria.where("nickName").is(nickname)),UserEntity.class)){
+        } else if (mongoTemplate.exists(new Query(Criteria.where("nickName").is(nickname)), UserEntity.class)) {
             throw new WebErrorException("昵称已经存在");
-        }else if(mongoTemplate.exists(new Query(Criteria.where("nickName").is(nickname)),UserEntity.class)){
+        } else if (mongoTemplate.exists(new Query(Criteria.where("nickName").is(nickname)), UserEntity.class)) {
             throw new WebErrorException("学号已经注册");
         }
         UserEntity newUserEntity = new UserEntity();
@@ -56,9 +58,9 @@ public class UserServiceImpl implements UserService {
         newUserEntity.setRoles(roles);
         newUserEntity.setRegisterTime(System.currentTimeMillis());
         newUserEntity.setVerified(1);
-        try{
+        try {
             mongoTemplate.save(newUserEntity);
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new WebErrorException("用户注册失败");
         }
     }
@@ -70,40 +72,44 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity login(IndexLoginFormat format) {
-        UserEntity userEntity = null;
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUid(1);
+        userEntity.setPassword(format.getPassword());
+/*      TODO 20190426 Leon完成Login方法
         if(Optional.ofNullable(format.getEmail()).isPresent() && !format.getEmail().trim().equals("")){
             userEntity = mongoTemplate.findOne(new Query(Criteria.where("email").is(format.getEmail()).
                             andOperator(Criteria.where("password").is(format.getPassword()))),
                     UserEntity.class);
-        }else if(Optional.ofNullable(format.getStudentId()).isPresent() && !format.getStudentId().trim().equals("")){
+        }else
+        if(Optional.ofNullable(format.getStudentId()).isPresent() && !format.getStudentId().trim().equals("")){
             userEntity = mongoTemplate.findOne(new Query(Criteria.where("sutdentId").is(format.getStudentId()).
                     andOperator(Criteria.where("password").is(format.getStudentId()))),
                     UserEntity.class);
         }
         if (!Optional.ofNullable(userEntity).isPresent()){
             throw new WebErrorException("用户名或密码错误");
-        }
+        }*/
         return userEntity;
     }
 
     @Override
-    public UserEntity getUserByUid(String uid) {
-        return mongoTemplate.findById(new ObjectId(uid), UserEntity.class);
+    public UserEntity getUserByUid(int uid) {
+        return null;
     }
 
     @Override
     public UserEntity getUserByEmail(String email) {
-        return mongoTemplate.findOne(new Query(Criteria.where("email").is(email)),UserEntity.class);
+        return mongoTemplate.findOne(new Query(Criteria.where("email").is(email)), UserEntity.class);
     }
 
     @Override
     public UserEntity getUserByNickname(String nickname) {
-        return mongoTemplate.findOne(new Query(Criteria.where("nickName").is(nickname)),UserEntity.class);
+        return mongoTemplate.findOne(new Query(Criteria.where("nickName").is(nickname)), UserEntity.class);
     }
 
     @Override
     public UserEntity getUserByStudentId(String studentId) {
-        return mongoTemplate.findOne(new Query(Criteria.where("studentId").is(studentId)),UserEntity.class);
+        return mongoTemplate.findOne(new Query(Criteria.where("studentId").is(studentId)), UserEntity.class);
     }
 
     @Override
@@ -143,35 +149,36 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void resetUserPassword(String email, String password, String emailToken) {
-        Cache<String, String> cache =null;
+        Cache<String, String> cache = null;
         // 进行缓存校验
-        if (Optional.ofNullable(GlobalCacheManager.getEmailVerifyCache()).isPresent()){
+        if (Optional.ofNullable(GlobalCacheManager.getEmailVerifyCache()).isPresent()) {
             cache = GlobalCacheManager.getEmailVerifyCache();
-            if (cache.get(emailToken).split(":")[1].equals(email)){
+            if (cache.get(emailToken).split(":")[1].equals(email)) {
                 Update update = new Update();
-                update.set("password",new Md5Hash(password).toString());
+                update.set("password", new Md5Hash(password).toString());
                 Query query = new Query();
                 query.addCriteria(Criteria.where("email").is(email));
                 UserEntity modifiedUser = mongoTemplate.findAndModify(query, update, UserEntity.class);
                 // 如果无法通过email找到用户，说明用户不存在
-                if(!Optional.ofNullable(modifiedUser).isPresent()){
+                if (!Optional.ofNullable(modifiedUser).isPresent()) {
                     throw new WebErrorException("无法重置密码，用户不存在");
                 }
-            }else {
+            } else {
                 throw new WebErrorException("无法重置密码，邮箱与缓存不匹配");
             }
-        }else {
+        } else {
             throw new WebErrorException("无法重置密码，缓存不存在");
         }
     }
 
     /**
-     *  通过邮箱检查用户是否存在
-     * @param email     用户邮箱
-     * @return      Boolean，检查结果.true：用户存在;false：用户不存在
+     * 通过邮箱检查用户是否存在
+     *
+     * @param email 用户邮箱
+     * @return Boolean，检查结果.true：用户存在;false：用户不存在
      */
     @Override
     public boolean checkUserByEmail(String email) {
-        return mongoTemplate.exists(new Query(Criteria.where("email").is(email)),UserEntity.class);
+        return mongoTemplate.exists(new Query(Criteria.where("email").is(email)), UserEntity.class);
     }
 }

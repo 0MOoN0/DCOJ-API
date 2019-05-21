@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dcoj.dao.ProgramProblemMapper">
+
+    <sql id="Base_Column_List">
+        program_problem_id,description,difficult,submit_times
+        ,ac_times,wa_times,gmt_create,gmt_modified,
+        is_deleted,title,input_format,output_format,
+        samples,run_time,`memory`,used_times,rte_times,tle_times,
+        ce_times,`status`
+    </sql>
+
+    <resultMap id="problemResultMap" type="ProgramProblemEntity">
+        <id column="program_problem_id" property="programProblemId"/>
+        <result column="description" property="description"/>
+        <result column="difficult" property="difficult"/>
+        <result column="submit_times" property="submitTimes"/>
+        <result column="ac_times" property="ACTimes"/>
+        <result column="wa_times" property="WATimes"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" javaType="java.sql.Timestamp"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" javaType="java.sql.Timestamp"/>
+        <result column="is_deleted" property="deleted"/>
+        <result column="title" property="title"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="input_format" property="inputFormat"/>
+        <result column="output_format" property="outputFormat"/>
+        <result column="samples" property="samples"/>
+        <result column="run_time" property="runTime"/>
+        <result column="memory" property="memory"/>
+        <result column="used_times" property="usedTimes"/>
+        <result column="rte_times" property="RTETimes"/>
+        <result column="tle_times" property="TLETimes"/>
+        <result column="ce_times" property="CETimes"/>
+    </resultMap>
+
+    <select id="countProgramProblems" resultType="Integer">
+        select count(*)
+        from program_problem
+        where is_deleted = 0
+    </select>
+
+    <update id="removeByPrimaryKey">
+        update program_problem
+        <set>
+            is_deleted = 1
+        </set>
+        where program_problem_id = #{programProblemId} and is_deleted = 0
+    </update>
+
+    <update id="updateProgramProblem">
+        update program_problem
+        <set>
+            <if test="description != null">description = #{description},</if>
+            <if test="difficult != null">difficult = #{difficult},</if>
+            <if test="submitTimes != null">submit_times = #{submitTimes},</if>
+            <if test="ACTimes != null">ac_times = #{ACTimes},</if>
+            <if test="WATimes != null">wa_times = #{WATimes},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="inputFormat != null">input_format = #{inputFormat},</if>
+            <if test="outputFormat != null">output_format = #{outputFormat},</if>
+            <if test="samples != null">samples = #{samples},</if>
+            <if test="runTime != null">run_time = #{runTime},</if>
+            <if test="memory != null">`memory` = #{memory},</if>
+            <if test="RTETimes != null">rte_times = #{RTETimes},</if>
+            <if test="TLETimes != null">tle_times = #{TLETimes},</if>
+            <if test="CETimes != null">ce_times = #{CETimes},</if>
+        </set>
+        where program_problem_id = #{programProblemId} and is_deleted = 0
+    </update>
+
+    <select id="getByPrimaryKey" resultMap="problemResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from program_problem where is_deleted = 0 and program_problem_id = #{programProblemId}
+    </select>
+
+
+    <insert id="save" parameterType="ProgramProblemEntity" useGeneratedKeys="true" keyProperty="programProblemId">
+        insert into program_problem
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="description != null">
+                description,
+            </if>
+            <if test="difficult != null">
+                difficult,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="inputFormat != null">
+                input_format,
+            </if>
+            <if test="outputFormat != null">
+                output_format,
+            </if>
+            <if test="samples != null">
+                samples,
+            </if>
+            <if test="memory != null">
+                `memory`,
+            </if>
+            <if test="runTime != null">
+                run_time,
+            </if>
+            gmt_create,
+            gmt_modified
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="description != null">
+                #{description},
+            </if>
+            <if test="difficult != null">
+                #{difficult},
+            </if>
+            <if test="title != null">
+                #{title},
+            </if>
+            <if test="inputFormat != null">
+                #{inputFormat},
+            </if>
+            <if test="outputFormat != null">
+                #{outputFormat},
+            </if>
+            <if test="samples != null">
+                #{samples},
+            </if>
+            <if test="memory != null">
+                #{memory},
+            </if>
+            <if test="runTime != null">
+                #{runTime},
+            </if>
+            DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'),
+            DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s')
+        </trim>
+    </insert>
+    <select id="listProgramProblemTagsByPrimaryKey" resultType="HashMap">
+        SELECT
+        program_problem_tag.program_tag_id,
+        program_problem_tag.program_problem_id,
+        program_tag.tag_name,
+        program_tag.used_times
+        FROM program_problem_tag
+        LEFT JOIN program_tag
+        ON program_problem_tag.program_tag_id = program_tag.program_tag_id
+        WHERE program_problem_tag.program_problem_id = #{programProblemId}
+        and program_problem_tag.is_deleted = 0;
+    </select>
+
+    <select id="listAll" resultType="java.util.HashMap">
+        SELECT
+        program_problem.program_problem_id,
+        title,
+        difficult,
+        submit_times,
+        ac_times
+        <if test="uid != null">
+            , program_problem_user.status
+        </if>
+        FROM program_problem
+        <if test="uid != null">
+            LEFT JOIN program_problem_user ON program_problem.program_problem_id=program_problem_user.pid AND
+            program_problem_user.uid=#{uid}
+        </if>
+        <where>
+            <!--<if test="uid != null">-->
+                <!--AND program_problem_user.status="AC"-->
+            <!--</if>-->
+            <if test="difficult != null">
+                AND difficult=#{difficult}
+            </if>
+            <if test="tagList != null">
+                AND program_problem.program_problem_id IN (
+                select program_problem_id from program_problem_tag
+                where program_tag_id in
+                <foreach item="item" index="index" collection="tagList"
+                         open="(" separator="," close=" )">
+                    #{item}
+                </foreach>
+                and is_deleted = 0
+                group by program_problem_id
+                having count(program_problem_id) = ${tagList.size}
+                )
+            </if>
+            <if test="query != null">
+                AND title LIKE '%${query}%'
+            </if>
+            AND is_deleted = 0
+        </where>
+
+        ORDER BY program_problem_id ASC
+
+    </select>
+
+
+</mapper>
+

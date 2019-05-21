@@ -7,11 +7,12 @@ import java.util.List;
 
 /**
  * 请求响应Entity，用于封装判卷结果
+ *
  * @author Leon
  **/
 public class ResponseEntity {
 
-    public ResponseEntity(double time, int memory, ResultEnum result,  List<TestCaseResponseEntity> testCases) {
+    public ResponseEntity(double time, int memory, ResultEnum result, List<TestCaseResponseEntity> testCases) {
         this.time = time;
         this.memory = memory;
         this.result = result;

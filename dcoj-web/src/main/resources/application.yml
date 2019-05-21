@@ -1,7 +1,25 @@
+#spring:
+#  profiles:
+#    active: leon
+
+---
 spring:
+  datasource:
+    # 数据库访问配置, 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://167.179.92.37:6666/dcoj?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true
+    username: dcoj_api
+    password: 123456
+    druid:
+      stat-view-servlet:
+        enabled: true
+        login-username: dcoj_api
+        login-password: 123456
   data:
     mongodb:
       uri: mongodb://localhost/dcoj_api
+
   mail:
     host: smtp.zoho.com
     username: dcoj@email.ylpriv.com
@@ -13,4 +31,21 @@ spring:
       "mail.smtp.starttls.enable": "true"
 mail:
   fromMail:
-     addr: dcoj@email.ylpriv.com
+    addr: dcoj@email.ylpriv.com
+
+mybatis:
+  mapperLocations: classpath:mapping/*.xml
+  typeAliasesPackage: com.dcoj.entity
+  type-handlers-package: com.dcoj.handler
+  # 打印Mybatis日志
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+mapper:
+  mappers: com.dcoj.dao
+  not-empty: false
+  identity: MYSQL
+
+dcoj:
+  # 文件路径
+  profile: D:/profile/

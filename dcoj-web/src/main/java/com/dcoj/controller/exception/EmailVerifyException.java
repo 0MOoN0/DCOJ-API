@@ -5,11 +5,11 @@ package com.dcoj.controller.exception;
  */
 public class EmailVerifyException extends RuntimeException {
 
-    public EmailVerifyException(){
+    public EmailVerifyException() {
         super("邮箱认证失败");
     }
 
-    public EmailVerifyException(String message){
+    public EmailVerifyException(String message) {
         super(message);
     }
 

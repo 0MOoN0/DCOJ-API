@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * 评论实体类
+ *
  * @author WANGQING
  */
 public class CommentEntity {

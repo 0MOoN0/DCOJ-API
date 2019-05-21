@@ -12,7 +12,7 @@ import java.util.Date;
 public class JWTUtil {
 
     // 过期时间
-    private static final long EXPIRE = 7*24*60*60*1000;
+    private static final long EXPIRE = 7 * 24 * 60 * 60 * 1000;
 
     public static boolean decode(String token, String secret) {
         try {
@@ -31,9 +31,9 @@ public class JWTUtil {
     }
 
     // 发放签证
-    public static String sign(String uid, String secret) {
+    public static String sign(int uid, String secret) {
         try {
-            Date date = new Date(System.currentTimeMillis()+EXPIRE);
+            Date date = new Date(System.currentTimeMillis() + EXPIRE);
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withClaim("uid", uid)
@@ -45,13 +45,13 @@ public class JWTUtil {
         }
     }
 
-    public static String getUid(String token) {
+    public static int getUid(String token) {
         try {
             // 对token进行解码
             DecodedJWT decodedJWT = JWT.decode(token);
-            return decodedJWT.getClaim("uid").asString();
+            return decodedJWT.getClaim("uid").asInt();
         } catch (JWTDecodeException e) {
-            return null;
+            return 0;
         }
     }
 

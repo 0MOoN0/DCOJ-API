@@ -14,7 +14,6 @@ public class IndexRegisterFormat {
 
     @Email
     @NotNull
-    // TODO:临时邮箱认证
     private String email;
 
     @NotBlank

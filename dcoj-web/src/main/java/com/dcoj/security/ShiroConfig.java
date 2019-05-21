@@ -24,7 +24,7 @@ public class ShiroConfig {
 
     @Bean("securityManager")
     public DefaultWebSecurityManager getManager(Realm realm) {
-        DefaultWebSecurityManager  manager = new DefaultWebSecurityManager();
+        DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
         manager.setRealm(realm);
 
 //        manager.setAuthorizer(new ModularRealmAuthorizer());

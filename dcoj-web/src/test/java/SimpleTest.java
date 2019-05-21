@@ -1,29 +1,55 @@
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dcoj.judge.LanguageEnum;
+import com.dcoj.util.FileUploadUtils;
+import com.dcoj.util.RandomValidateCodeUtil;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Leon on 2019/2/7.
  */
 public class SimpleTest {
 
-    public static void main(String[] args) {
-        try {
-            SimpleTest simpleTest = new SimpleTest();
-            SimpleTest t = simpleTest.getT(SimpleTest.class);
-        }catch (Exception e){}
+
+    @Test
+    public void testJSON() {
+        ArrayList arrayList = new ArrayList();
+        HashMap hashMap1 = new HashMap();
+        hashMap1.put("key1", "value1");
+        HashMap hashMap2 = new HashMap();
+        hashMap2.put("key2", "value2");
+        HashMap hashMap3 = new HashMap();
+        hashMap3.put("key3", "value3");
+        arrayList.add(hashMap1);
+        arrayList.add(hashMap2);
+        arrayList.add(hashMap3);
+        JSONArray array = new JSONArray(arrayList);
+        JSONObject jsonObject = array.getJSONObject(0);
+        Integer integer = jsonObject.getInteger("11");
+        System.out.println(integer);
     }
 
-    public <T> T getT(Class<T> clazz){
-        return (T) new Object();
+    @Test
+    public void testEnum() {
+        LanguageEnum java8 = LanguageEnum.valueOf("Java8");
+        System.out.println(java8);
+
     }
 
-    public <T> T parseJsonToObj(String json, Class<T> c) {
+    @Test
+    public void testRandom(){
+        System.out.println(RandomValidateCodeUtil.getRandomString());
         try {
-            JSONObject jsonObject = JSONObject.parseObject(json);
-            return JSON.toJavaObject(jsonObject, c);
-        } catch (Exception e) {
+            FileUploadUtils.uploadCode("","",LanguageEnum.valueOf("JAVA8"));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return null;
     }
 
 }

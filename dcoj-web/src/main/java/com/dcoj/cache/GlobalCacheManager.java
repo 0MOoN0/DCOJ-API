@@ -1,6 +1,7 @@
 package com.dcoj.cache;
 
 
+import com.dcoj.config.DefaultConfig;
 import com.dcoj.judge.JudgeResult;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
@@ -32,7 +33,7 @@ public class GlobalCacheManager {
     /**
      * 格式:["emailToken":"verify:email:sendTime",...]
      */
-    private static Cache<String,String> emailVerifyCache;
+    private static Cache<String, String> emailVerifyCache;
 
     /**
      * 格式:["taskId":JudgeResult]
@@ -42,8 +43,7 @@ public class GlobalCacheManager {
     /**
      * [{"XXXIdGenerate":number}]
      */
-    private static Cache<String,Long> idGenerateCache;
-
+    private static Cache<String, Long> idGenerateCache;
 
 
     static {
@@ -59,7 +59,7 @@ public class GlobalCacheManager {
                         CacheConfigurationBuilder.newCacheConfigurationBuilder(
                                 String.class,
                                 Set.class,
-                                ResourcePoolsBuilder.newResourcePoolsBuilder().heap(10,MemoryUnit.MB)
+                                ResourcePoolsBuilder.newResourcePoolsBuilder().heap(10, MemoryUnit.MB)
                         )
                 );
         // 邮箱认证缓存，5分钟之内如果没有访问，则缓存超时
@@ -68,8 +68,8 @@ public class GlobalCacheManager {
                         CacheConfigurationBuilder.newCacheConfigurationBuilder(
                                 String.class,
                                 String.class,
-                                ResourcePoolsBuilder.newResourcePoolsBuilder().heap(2,MemoryUnit.MB)
-                        ).withExpiry(ExpiryPolicyBuilder.timeToIdleExpiration(Duration.of(5,ChronoUnit.MINUTES)))
+                                ResourcePoolsBuilder.newResourcePoolsBuilder().heap(2, MemoryUnit.MB)
+                        ).withExpiry(ExpiryPolicyBuilder.timeToIdleExpiration(Duration.of(DefaultConfig.CAPTCHA_EXPIRED_TIME, ChronoUnit.MINUTES)))
                 );
 
         submissionCache = cacheManager
@@ -78,16 +78,16 @@ public class GlobalCacheManager {
                                 String.class,
                                 JudgeResult.class,
                                 ResourcePoolsBuilder.newResourcePoolsBuilder().heap(100, MemoryUnit.MB))
-                                .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.of(1,ChronoUnit.HOURS)))
+                                .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.of(1, ChronoUnit.HOURS)))
                                 .withSizeOfMaxObjectGraph(5000)
                                 .build());
 
         idGenerateCache = cacheManager
-                .createCache("problemIdGenerateCache",
+                .createCache("idGenerateCache",
                         CacheConfigurationBuilder.newCacheConfigurationBuilder(
                                 String.class,
                                 Long.class,
-                                ResourcePoolsBuilder.newResourcePoolsBuilder().heap(2,MemoryUnit.MB)
+                                ResourcePoolsBuilder.newResourcePoolsBuilder().heap(2, MemoryUnit.MB)
                         )
                 );
 
@@ -101,11 +101,11 @@ public class GlobalCacheManager {
         return permissionCache;
     }
 
-    public static Cache<String,String> getEmailVerifyCache(){
+    public static Cache<String, String> getEmailVerifyCache() {
         return emailVerifyCache;
     }
 
-    public static Cache<String,JudgeResult> getSubmissionCache() {
+    public static Cache<String, JudgeResult> getSubmissionCache() {
         return submissionCache;
     }
 

@@ -1,87 +1,59 @@
 package com.dcoj.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import lombok.Data;
+
+import java.sql.Timestamp;
 
 /**
  * 测试用例类
+ *
  * @author Leon
  **/
-@Document(collection = "test_case")
+@Data
 public class TestCaseEntity {
 
-    private Integer tid;
+    /**
+     * 测试用例 id
+     */
+    @JSONField(name = "tc_id")
+    private Integer tcId;
 
+    /**
+     * 测试用例对应的题目id
+     */
     private Integer pid;
 
+    /**
+     * 输入
+     */
     private String stdin;
 
+    /**
+     * 输出
+     */
     private String stdout;
 
-    private Integer strength;
+    /**
+     * 创建时间
+     */
+    @JSONField(name = "gmt_create")
+    private Timestamp gmtCreate;
 
-    @JSONField(name = "create_time")
-    @Field("create_time")
-    private Long createTime;
+    /**
+     * 修改时间
+     */
+    @JSONField(name = "gmt_modified")
+    private Timestamp gmtModified;
+
+    public TestCaseEntity(Integer tcId, Integer pid, String stdin, String stdout) {
+        this.tcId = tcId;
+        this.pid = pid;
+        this.stdin = stdin;
+        this.stdout = stdout;
+    }
 
 
     public TestCaseEntity() {
-    }
-
-    public TestCaseEntity(Integer pid, String stdin, String stdout, Integer strength, Long createTime) {
-        this.pid = pid;
-        this.stdin = stdin;
-        this.stdout = stdout;
-        this.strength = strength;
-        this.createTime = createTime;
-    }
-
-    public Integer getTid() {
-        return tid;
-    }
-
-    public void setTid(Integer tid) {
-        this.tid = tid;
-    }
-
-    public Integer getPid() {
-        return pid;
-    }
-
-    public void setPid(Integer pid) {
-        this.pid = pid;
-    }
-
-    public String getStdin() {
-        return stdin;
-    }
-
-    public void setStdin(String stdin) {
-        this.stdin = stdin;
-    }
-
-    public String getStdout() {
-        return stdout;
-    }
-
-    public void setStdout(String stdout) {
-        this.stdout = stdout;
-    }
-
-    public Integer getStrength() {
-        return strength;
-    }
-
-    public void setStrength(Integer strength) {
-        this.strength = strength;
-    }
-
-    public Long getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Long createTime) {
-        this.createTime = createTime;
     }
 }

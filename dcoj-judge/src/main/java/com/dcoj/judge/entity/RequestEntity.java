@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * 请求体Entity
+ *
  * @author Leon
  **/
 public class RequestEntity {

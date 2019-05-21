@@ -55,7 +55,7 @@ public class JudgeRunner {
                     THREAD_POOL.execute(new Runner(judgeTask));
                 } catch (Exception e) {
                     // 如果抛出异常则将缓存中的判卷状态标为异常
-//                    submissionCache.get(judgeTask.getId()).setStatus(JudgeStatus.Error);
+                    submissionCache.get(judgeTask.getId()).setStatus(JudgeStatus.Error);
                     LOGGER.error(e.getMessage());
                 }
             }
@@ -81,10 +81,10 @@ public class JudgeRunner {
             LanguageEnum lang = judgeTask.getLang();
             String sourceCode = judgeTask.getSourceCode();
             int time = judgeTask.getTime();
-            int memory =judgeTask.getMemory();
+            int memory = judgeTask.getMemory();
             // 将测试用例封装为请求测试用例
             List<TestCaseRequestEntity> testCases = new ArrayList<>(judgeTask.getTestCases().size());
-            for (TestCaseEntity entity: judgeTask.getTestCases()) {
+            for (TestCaseEntity entity : judgeTask.getTestCases()) {
                 TestCaseRequestEntity requestEntity = new TestCaseRequestEntity(entity.getStdin(), entity.getStdout());
                 testCases.add(requestEntity);
             }
@@ -115,7 +115,7 @@ public class JudgeRunner {
             // 正在保存
             judgeResult.setStatus(JudgeStatus.Saving);
 
-           if (judgeTask instanceof ProblemJudgeTask) {
+            if (judgeTask instanceof ProblemJudgeTask) {
                 LOGGER.info("Saving problem");
                 judgeService.saveProblemCode((ProblemJudgeTask) judgeTask, judgeResult.getResponse());
             } else {

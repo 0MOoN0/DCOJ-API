@@ -1,7 +1,9 @@
 package com.dcoj.util;
 
 import java.security.MessageDigest;
+
 import org.apache.commons.codec.binary.Hex;
+
 import java.util.Random;
 
 /**
