@@ -55,14 +55,4 @@ public class JWTUtil {
         }
     }
 
-    /*public static void main(String[] args) {
-        Set<String> per = new HashSet<>();
-        per.add("teacher");
-        per.add("student");
-        String token = sign(1, 1, per, "123");
-        System.out.println(token);
-        System.out.println(decode(token, "123"));
-        UserSession session = SessionHelper.get();
-        System.out.println(session.getUid()+";"+session.getRole()+";"+session.getPermission());
-    }*/
 }

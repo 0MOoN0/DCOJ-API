@@ -8,9 +8,7 @@ import com.dcoj.judge.ResultEnum;
 import com.dcoj.judge.entity.ResponseEntity;
 import com.dcoj.judge.entity.TestCaseResponseEntity;
 import com.dcoj.judge.task.ProblemJudgeTask;
-import com.dcoj.service.JudgeService;
-import com.dcoj.service.ProblemService;
-import com.dcoj.service.ProblemUserService;
+import com.dcoj.service.*;
 import com.dcoj.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,27 +53,30 @@ public class JudgeServiceImpl implements JudgeService {
         ResultEnum result = response.getResult();
         // 查看详细判卷结果，并计算分数
         float score = 100;
-        if (response.getResult() != ResultEnum.AC) {
+        if(response.getResult() != ResultEnum.AC){
             score = 0;
             List<TestCaseResponseEntity> testCases = response.getTestCases();
             int size = testCases.size();
             float singleTestCaseScore = 0;    // 单个测试用例分数
-            if (size != 0) {
+            if(size != 0){
                 singleTestCaseScore = 100 / size;
             }
-            for (TestCaseResponseEntity tcResponse : testCases
-            ) {
+            for (TestCaseResponseEntity tcResponse: testCases
+                 ) {
                 score += tcResponse.getResult() == ResultEnum.AC ? singleTestCaseScore : 0;
             }
         }
         // TODO: 20190511 Leon saveJudgeDetail;
 
         // 保存提交
-        saveSubmission(task.getLang(), response.getTime(), response.getMemory(),
-                result, owner,
-                task.getPid(), 0, 0,
-                (byte) (Math.round(score * 100) / 100)      // 将分数四舍五入到整数并强转为Byte
+        int subId = submissionService.save(owner, pid, 0, 0, task.getLang(), response.getTime(),
+                response.getMemory(),
+                result,
+                (byte) score// 将分数四舍五入到整数并强转为Byte
         );
+        // 保存提交详情
+        saveProgramSubmissionDetail(response, subId);
+
         // 更新用户日志
         //  TODO:20190403 Leon updateUserLog(owner, result);
 
@@ -103,10 +104,9 @@ public class JudgeServiceImpl implements JudgeService {
     }
 
 
-    public void saveSubmission(LanguageEnum lang, double usingTime, int memory, ResultEnum result,
-                               int owner, int pid, int eid, int gid, byte score) {
-        // TODO 20190410 Leon Upload sourceCode
-        submissionService.save(owner, pid, eid, gid, lang, usingTime, memory, result, score);
+    public int saveProgramSubmissionDetail(ResponseEntity responseEntity,int subId){
+        // TODO: Leon 上传用户提交源码，获取源码ID
+        return programSubmissionDetailService.save(responseEntity, subId, 0);
     }
 
 }

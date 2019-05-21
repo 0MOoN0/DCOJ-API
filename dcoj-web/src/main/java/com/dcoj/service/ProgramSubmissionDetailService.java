@@ -1,6 +1,7 @@
 package com.dcoj.service;
 
 import com.dcoj.entity.ProgramSubmissionDetailEntity;
+import com.dcoj.judge.entity.ResponseEntity;
 
 /**
  * 提交详情类(SubmissionDetail)Service
@@ -16,5 +17,14 @@ public interface ProgramSubmissionDetailService {
      * @return
      */
     ProgramSubmissionDetailEntity getSubmissionDetailBySubId(int subId);
+
+    /**
+     * 保存判卷详情
+     * @param responseEntity    判卷结果
+     * @param subId             提交ID
+     * @param scourceCode       源码附件ID
+     * @return                  保存后的ProgramSubmissionDetail的ID
+     */
+    int save(ResponseEntity responseEntity, int subId, int scourceCode);
 
 }
