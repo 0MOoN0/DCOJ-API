@@ -80,7 +80,7 @@ public class JudgeServiceImpl implements JudgeService {
         );
         // 保存提交详情
         saveProgramSubmissionDetail(response, task, subId);
-        // 更新用户日志
+        // 更新用户信息
         //  TODO:20190403 Leon updateUserLog(owner, result);
 
         // 当前判卷用户是否已经AC过

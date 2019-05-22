@@ -9,7 +9,7 @@ public class DefaultConfig {
 
     public static final int PROGRAM_USED_TIME = 3;
 
-    public static final int PROGRAM_USED_MEMORY = 128;
+    public static final int PROGRAM_USED_MEMORY = 256;
 
     // 排行榜刷新时间 5min
     public static final int LEADERBOARD_REFRESH_TIME = 5;
