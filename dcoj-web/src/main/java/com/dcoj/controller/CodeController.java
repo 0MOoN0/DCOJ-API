@@ -86,11 +86,11 @@ public class CodeController {
     @ApiOperation("用户判卷提交")
 //    @RequiresAuthentication
     @PostMapping("/user")
-    public ResponseEntity submitCode(@RequestBody @Valid UserSubmitCodeFormat format, @RequestHeader("token") String token) {
+    public ResponseEntity submitCode(@RequestBody @Valid UserSubmitCodeFormat format, @RequestHeader("authorization") String authorization) {
         int pid = format.getPid();
         int examId = format.getExaminationId();
         int gid = format.getGroupId();
-        int uid = JWTUtil.getUid(token);
+        int uid = JWTUtil.getUid(authorization);
         String sourceCode = format.getSourceCode();
         LanguageEnum lang = format.getLang();
         String id = null;

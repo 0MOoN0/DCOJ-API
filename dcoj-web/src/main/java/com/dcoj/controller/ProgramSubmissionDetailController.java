@@ -44,7 +44,7 @@ public class ProgramSubmissionDetailController {
      * @param subUserId         当前Submission的用户ID
      * @param pid               当前Problem的ID
      * @param subId             当前Submission的ID
-     * @param token             用户token
+     * @param authorization             用户token
      * @return
      */
     @ApiOperation("获取提交详情")
@@ -59,14 +59,14 @@ public class ProgramSubmissionDetailController {
     public ResponseEntity getSubDetail(@RequestParam("sub_user_id") int subUserId,
                                        @RequestParam("pid") int pid,
                                        @RequestParam("sub_id") int subId,
-                                       @RequestHeader("token") String token){
+                                       @RequestHeader("authorization") String authorization){
         // 判断提交信息是否与记录一致
         ProgramSubmissionEntity programSubmissionEntity = programSubmissionService.getById(subId);
         WebUtil.assertNotNull(programSubmissionEntity, "参数错误");
         WebUtil.assertIsSuccess(programSubmissionEntity.getUid() == subUserId, "参数错误");
         WebUtil.assertIsSuccess(programSubmissionEntity.getPid()==pid, "参数错误");
         
-        int uid = JWTUtil.getUid(token);
+        int uid = JWTUtil.getUid(authorization);
         HashMap resultMap = new HashMap<>();
         ProgramProblemUserEntity problemUserEntity = problemUserService.getByPidUid(pid, uid);
         // 判断要查看的提交详情是不是当前用户提交的

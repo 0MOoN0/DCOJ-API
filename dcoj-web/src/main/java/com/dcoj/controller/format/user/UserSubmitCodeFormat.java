@@ -21,7 +21,7 @@ public class UserSubmitCodeFormat {
 
     @NotNull
     @Range(min = 1)
-    @JSONField(name = "problem_id")
+    @JSONField(name = "pid")
     private Integer pid;
 
     @Range(min = 0)
