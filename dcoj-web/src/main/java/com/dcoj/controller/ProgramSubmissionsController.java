@@ -29,7 +29,7 @@ public class ProgramSubmissionsController {
 
     @ApiOperation("获取用户所有编程题提交(Submission)")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page_num", value = "页数", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "page_num", value = "页号", required = true, paramType = "query"),
             @ApiImplicitParam(name = "page_size", value = "页大小", required = true, paramType = "query"),
             @ApiImplicitParam(name = "authorization", value = "用户token", required = true, paramType = "header")
     })
@@ -49,7 +49,7 @@ public class ProgramSubmissionsController {
      *
      * @param uid      用户ID，如果为0则查询当前题目所有可查询的提交
      * @param pid      题目ID
-     * @param page     页码
+     * @param pageNum     页码
      * @param pageSize 每页大小
      * @return
      */
@@ -57,16 +57,16 @@ public class ProgramSubmissionsController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, paramType = "query"),
             @ApiImplicitParam(name = "pid", value = "题目ID", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "page_num", value = "页数", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "page_num", value = "页号", required = true, paramType = "query"),
             @ApiImplicitParam(name = "page_size", value = "页大小", required = true, paramType = "query")
     })
     @GetMapping("/problem")
     public ResponseEntity listProblemSubmissions(@RequestParam("uid") int uid,
                                                  @RequestParam("pid") int pid,
-                                                 @RequestParam("page_num") int page,
+                                                 @RequestParam("page_num") int pageNum,
                                                  @RequestParam("page_size") int pageSize) {
         // 获取当前问题所有人的提交
-        Page pager = PageHelper.startPage(page, pageSize);
+        Page pager = PageHelper.startPage(pageNum, pageSize);
         if (uid == 0) {
             return new ResponseEntity(WebUtil.generatePageData(pager, submissionService.listUserProblemSubmissions(0, pid)));
         }
@@ -89,7 +89,7 @@ public class ProgramSubmissionsController {
             @ApiImplicitParam(name = "pid", value = "题目ID", required = true, paramType = "query"),
             @ApiImplicitParam(name = "sort_keyword", value = "排序关键字", required = true, paramType = "query"),
             @ApiImplicitParam(name = "group_by", value = "分组关键字", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "page_num", value = "页数", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "page_num", value = "页号", required = true, paramType = "query"),
             @ApiImplicitParam(name = "page_size", value = "页大小", required = true, paramType = "query")
     })
     @GetMapping("/problem/leaderboard")

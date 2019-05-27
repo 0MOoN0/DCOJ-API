@@ -34,10 +34,6 @@ public class ProgramSubmissionDetailController {
     @Autowired
     private ProgramProblemUserService problemUserService;
 
-//    @Autowired
-//    private AttachmentService attachmentService;
-
-
 
     /**
      * 根据提交ID获取提交详情
@@ -52,7 +48,7 @@ public class ProgramSubmissionDetailController {
             @ApiImplicitParam(name = "sub_user_id", value = "当前Submission的用户ID", required = true, paramType = "query"),
             @ApiImplicitParam(name = "pid", value = "当前Problem的ID", required = true, paramType = "query"),
             @ApiImplicitParam(name = "sub_id", value = "当前Submission的ID", required = true, paramType = "query" ),
-            @ApiImplicitParam(name = "token", value = "用户token", required = true, paramType = "header")
+            @ApiImplicitParam(name = "authorization", value = "用户token", required = true, paramType = "header")
         }
     )
     @GetMapping

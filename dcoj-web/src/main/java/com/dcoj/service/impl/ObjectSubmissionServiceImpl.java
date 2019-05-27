@@ -2,10 +2,14 @@ package com.dcoj.service.impl;
 
 import com.dcoj.dao.ObjectSubmissionMapper;
 import com.dcoj.entity.ObjectSubmissionEntity;
+import com.dcoj.entity.example.ObjectSubmissionEntityExample;
 import com.dcoj.service.ObjectSubmissionService;
 import com.dcoj.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * 用户客观题提交相关服务
@@ -37,5 +41,20 @@ public class ObjectSubmissionServiceImpl implements ObjectSubmissionService {
         int insert = objectSubmissionMapper.insertSelective(objectSubmissionEntity);
         WebUtil.assertIsSuccess(insert == 1, "保存失败");
         return objectSubmissionEntity.getObjectSubmitId();
+    }
+
+    /**
+     * 根据用户ID获取所有客观题提交
+     *
+     * @param uid 用户ID
+     * @return
+     */
+    @Override
+    public List<ObjectSubmissionEntity> listObjectSubmissionByUid(int uid) {
+        ObjectSubmissionEntityExample objectSubmissionEntityExample = new ObjectSubmissionEntityExample();
+        objectSubmissionEntityExample.createCriteria()
+                .andUidEqualTo(uid)
+                .andQueryableTimeLessThan(new Timestamp(System.currentTimeMillis()));
+        return objectSubmissionMapper.selectByExample(objectSubmissionEntityExample);
     }
 }
