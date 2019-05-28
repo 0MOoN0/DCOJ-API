@@ -72,7 +72,6 @@ public class Realm extends AuthorizingRealm {   //继承的此Realm自带缓存�
         if (!JWTUtil.decode(token, secret)) {
             throw new AuthenticationException("Token invalid");
         }
-
         return new SimpleAuthenticationInfo(token, token, "jwt_realm");
     }
 

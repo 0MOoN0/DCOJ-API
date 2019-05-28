@@ -1,19 +1,21 @@
 package com.dcoj.service.impl;
 
 import com.dcoj.cache.GlobalCacheManager;
+import com.dcoj.config.DcojConfig;
 import com.dcoj.entity.ProgramProblemUserEntity;
 import com.dcoj.judge.JudgeResult;
-import com.dcoj.judge.LanguageEnum;
 import com.dcoj.judge.ResultEnum;
 import com.dcoj.judge.entity.ResponseEntity;
 import com.dcoj.judge.entity.TestCaseResponseEntity;
 import com.dcoj.judge.task.ProblemJudgeTask;
 import com.dcoj.service.*;
+import com.dcoj.util.FileUploadUtils;
 import com.dcoj.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +39,9 @@ public class JudgeServiceImpl implements JudgeService {
 
     @Autowired
     private ProgramSubmissionDetailService programSubmissionDetailService;
+
+    @Autowired
+    private AttachmentService attachmentService;
 
     @Override
     public JudgeResult getJudgeResult(String id) {
@@ -66,15 +71,16 @@ public class JudgeServiceImpl implements JudgeService {
                 score += tcResponse.getResult() == ResultEnum.AC ? singleTestCaseScore : 0;
             }
         }
-        // TODO: 20190511 Leon saveJudgeDetail;
 
         // 保存提交
-        saveSubmission(task.getLang(), response.getTime(), response.getMemory(),
-                result, owner,
-                task.getPid(), 0, 0,
-                (byte) (Math.round(score * 100) / 100)      // 将分数四舍五入到整数并强转为Byte
+        int subId = submissionService.save(owner, pid, 0, 0, task.getLang(), response.getTime(),
+                response.getMemory(),
+                result,
+                (byte) score// 将分数四舍五入到整数并强转为Byte
         );
-        // 更新用户日志
+        // 保存提交详情
+        saveProgramSubmissionDetail(response, task, subId);
+        // 更新用户信息
         //  TODO:20190403 Leon updateUserLog(owner, result);
 
         // 当前判卷用户是否已经AC过
@@ -101,10 +107,17 @@ public class JudgeServiceImpl implements JudgeService {
     }
 
 
-    public void saveSubmission(LanguageEnum lang, double usingTime, int memory, ResultEnum result,
-                               int owner, int pid, int eid, int gid, byte score) {
-        // TODO 20190410 Leon Upload sourceCode
-        submissionService.save(owner, pid, eid, gid, lang, usingTime, memory, result, score);
+    public int saveProgramSubmissionDetail(ResponseEntity responseEntity, ProblemJudgeTask task, int subId){
+        int sourceCode = 0;
+        try {
+            String url = FileUploadUtils.uploadCode(DcojConfig.getUploadPath(), task.getSourceCode(), task.getLang());
+            sourceCode = attachmentService.save(task.getOwner(), url);
+        } catch (IOException e) {   // 此处只捕捉IO异常
+            // 如果此处报错，所有的操作都将回滚，用户体验不好，建议前端同时做校验
+//            throw new WebErrorException("上传文件失败");
+            // 日志记录
+        }
+        return programSubmissionDetailService.save(responseEntity, subId, sourceCode);
     }
 
 }

@@ -34,7 +34,6 @@ public class ProgramSubmissionServiceImpl implements ProgramSubmissionService {
      * @param pid        题目ID
      * @param eid        试卷ID
      * @param gid        用户组ID
-     * @param sourceCode 判卷源码
      * @param lang       判卷语言
      * @param usingTime  使用的时间
      * @param memory     使用的内存

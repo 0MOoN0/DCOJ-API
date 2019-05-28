@@ -28,10 +28,11 @@ public class Main {
                 128, list);
         Judger judger = dcoj(requestEntity);
         ResponseEntity responseEntity = judger.judge();
+        System.out.println(requestEntity);
     }
 
     // 工厂方法，创建一个Judger
     private static Judger dcoj(RequestEntity requestEntity) {
-        return new Judger("http://192.168.199.138:5000", requestEntity, new DCOJJudger());
+        return new Judger("http://167.179.92.37:5000", requestEntity, new DCOJJudger());
     }
 }

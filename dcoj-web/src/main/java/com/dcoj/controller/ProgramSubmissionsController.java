@@ -51,7 +51,6 @@ public class ProgramSubmissionsController {
      * @param pid      题目ID
      * @param page     页码
      * @param pageSize 每页大小
-     * @param token    用户登陆token
      * @return
      */
     @ApiOperation("获取当前题目的相关提交，需要传入用户token")
@@ -59,8 +58,7 @@ public class ProgramSubmissionsController {
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true, paramType = "query"),
             @ApiImplicitParam(name = "pid", value = "题目ID", required = true, paramType = "query"),
             @ApiImplicitParam(name = "page_num", value = "页数", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "page_size", value = "页大小", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "authorization", value = "用户token", required = true, paramType = "header")
+            @ApiImplicitParam(name = "page_size", value = "页大小", required = true, paramType = "query")
     })
     @GetMapping("/problem")
     public ResponseEntity listProblemSubmissions(@RequestParam("uid") int uid,

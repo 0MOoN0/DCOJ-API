@@ -2,8 +2,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dcoj.judge.LanguageEnum;
+import com.dcoj.util.FileUploadUtils;
+import com.dcoj.util.RandomValidateCodeUtil;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -38,5 +42,14 @@ public class SimpleTest {
 
     }
 
+    @Test
+    public void testRandom(){
+        System.out.println(RandomValidateCodeUtil.getRandomString());
+        try {
+            FileUploadUtils.uploadCode("","",LanguageEnum.valueOf("JAVA8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

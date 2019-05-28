@@ -27,4 +27,13 @@ public interface AttachmentService {
 
     //    String getAttachmentURLByAid(int aid);
      */
+
+    /**
+     * 保存附件相关信息，附件入库
+     *
+     * @param owner     此附件的所属人
+     * @param url       附件的路径
+     * @return          返回附件的ID
+     */
+    int save(int owner, String url);
 }
