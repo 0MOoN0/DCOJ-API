@@ -1,5 +1,9 @@
 package com.dcoj.service;
 
+import com.dcoj.entity.ObjectSubmissionEntity;
+
+import java.util.List;
+
 /**
  * 客观题提交服务
  *
@@ -19,5 +23,12 @@ public interface ObjectSubmissionService {
      */
     int save(int uid, int objectProblemId, int resultStatus, String answer);
 
+    /**
+     * 根据用户ID获取所有客观题提交
+     *
+     * @param uid             用户ID
+     * @return
+     */
+    List<ObjectSubmissionEntity> listObjectSubmissionByUid(int uid);
 
 }
