@@ -7,8 +7,8 @@
     <result column="answer_sheet" jdbcType="VARCHAR" property="answerSheet" />
     <result column="result_sheet" jdbcType="VARCHAR" property="resultSheet" />
     <result column="queryable_time" jdbcType="TIMESTAMP" property="queryableTime" />
-    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+<!--    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />-->
   </resultMap>
 
   <!--自定义SQL：Begin-->
@@ -119,8 +119,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    exam_submission_detail_id, exam_submission_id, answer_sheet, result_sheet, queryable_time, 
-    gmt_create, gmt_modified
+    exam_submission_detail_id, exam_submission_id, answer_sheet, result_sheet, queryable_time
   </sql>
   <select id="selectByExample" parameterType="com.dcoj.entity.example.ExaminationSubmissionDetailEntityExample" resultMap="BaseResultMap">
     select

@@ -17,8 +17,4 @@ public class ExaminationSubmissionDetailEntity {
 
     private Timestamp queryableTime;
 
-    private Timestamp gmtCreate;
-
-    private Timestamp gmtModified;
-
 }

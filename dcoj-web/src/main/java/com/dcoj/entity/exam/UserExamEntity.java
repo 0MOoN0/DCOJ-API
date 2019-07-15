@@ -4,6 +4,7 @@ import com.dcoj.exam.ExamJudgeStatus;
 import com.dcoj.judge.JudgeStatus;
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
