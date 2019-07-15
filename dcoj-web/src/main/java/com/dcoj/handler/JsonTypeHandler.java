@@ -1,6 +1,7 @@
 package com.dcoj.handler;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;
@@ -31,7 +32,7 @@ public class JsonTypeHandler extends BaseTypeHandler<JSONObject> {
      */
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, JSONObject parameter, JdbcType jdbcType) throws SQLException {
-        ps.setString(i, String.valueOf(parameter.toJSONString()));
+        ps.setString(i, String.valueOf(parameter.toJSONString(parameter,SerializerFeature.WriteNullStringAsEmpty)));
     }
 
     /**
