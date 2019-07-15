@@ -32,6 +32,8 @@ public class RequestEntity {
         this.memoryLimit = memoryLimit;
         this.testCases = testCases;
     }
+    // 20190709: Leon 新增无参构造方法
+    public RequestEntity(){}
 
     public LanguageEnum getLang() {
         return lang;

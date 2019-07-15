@@ -34,6 +34,22 @@ public class SimpleTest {
         Integer integer = jsonObject.getInteger("11");
         System.out.println(integer);
     }
+    @Test
+    public void testJSON2(){
+        // 测试输出格式
+        ArrayList arrayList = new ArrayList();
+        HashMap hashMap1 = new HashMap();
+        hashMap1.put("key1", "value1");
+        HashMap hashMap2 = new HashMap();
+        hashMap2.put("key2", "value2");
+        HashMap hashMap3 = new HashMap();
+        hashMap3.put("key3", "value3");
+        arrayList.add(hashMap1);
+        arrayList.add(hashMap2);
+        arrayList.add(hashMap3);
+        JSONArray array = new JSONArray(arrayList);
+        System.out.println(array.toJSONString());
+    }
 
     @Test
     public void testEnum() {

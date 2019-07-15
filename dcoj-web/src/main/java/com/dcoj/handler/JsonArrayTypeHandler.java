@@ -3,6 +3,7 @@ package com.dcoj.handler;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;
@@ -33,7 +34,7 @@ public class JsonArrayTypeHandler extends BaseTypeHandler<JSONArray> {
      */
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, JSONArray parameter, JdbcType jdbcType) throws SQLException {
-        ps.setString(i, parameter.toJSONString());
+        ps.setString(i, parameter.toJSONString(parameter,SerializerFeature.WriteNullStringAsEmpty));
     }
 
     /**

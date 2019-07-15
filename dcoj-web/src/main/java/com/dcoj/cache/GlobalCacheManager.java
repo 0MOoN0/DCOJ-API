@@ -2,6 +2,7 @@ package com.dcoj.cache;
 
 
 import com.dcoj.config.DefaultConfig;
+import com.dcoj.entity.exam.UserExamEntity;
 import com.dcoj.judge.JudgeResult;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
@@ -44,6 +45,8 @@ public class GlobalCacheManager {
      * [{"XXXIdGenerate":number}]
      */
     private static Cache<String, Long> idGenerateCache;
+
+    private static Cache<String, UserExamEntity> examCache;
 
 
     static {
@@ -90,6 +93,16 @@ public class GlobalCacheManager {
                                 ResourcePoolsBuilder.newResourcePoolsBuilder().heap(2, MemoryUnit.MB)
                         )
                 );
+        // TODO: Leon 20190708 完善试卷缓存内容
+        // 试卷缓存默认5小时后失效
+        examCache = cacheManager
+                .createCache("examCache",
+                        CacheConfigurationBuilder.newCacheConfigurationBuilder(
+                                String.class,
+                                UserExamEntity.class,
+                                ResourcePoolsBuilder.newResourcePoolsBuilder().heap(100, MemoryUnit.MB))
+                                .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.of(5, ChronoUnit.HOURS)))
+                                .build());
 
     }
 
@@ -109,7 +122,13 @@ public class GlobalCacheManager {
         return submissionCache;
     }
 
+    public static Cache<String, UserExamEntity> getExamCache() {
+        return examCache;
+    }
+
     public static Cache<String, Long> getIdGenerateCache() {
         return idGenerateCache;
     }
+
+
 }

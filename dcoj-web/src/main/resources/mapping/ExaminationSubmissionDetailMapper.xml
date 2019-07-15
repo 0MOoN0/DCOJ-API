@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dcoj.dao.ExaminationSubmissionDetailMapper">
+  <resultMap id="BaseResultMap" type="com.dcoj.entity.ExaminationSubmissionDetailEntity">
+    <id column="exam_submission_detail_id" jdbcType="INTEGER" property="examSubmissionDetailId" />
+    <result column="exam_submission_id" jdbcType="INTEGER" property="examSubmissionId" />
+    <result column="answer_sheet" jdbcType="VARCHAR" property="answerSheet" />
+    <result column="result_sheet" jdbcType="VARCHAR" property="resultSheet" />
+    <result column="queryable_time" jdbcType="TIMESTAMP" property="queryableTime" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+
+  <!--自定义SQL：Begin-->
+  <insert id="insert" parameterType="com.dcoj.entity.ExaminationSubmissionDetailEntity" keyProperty="sdId">
+    insert into examination_submission_detail (exam_submission_detail_id, exam_submission_id,
+      answer_sheet, result_sheet, queryable_time
+      )
+    values (#{examSubmissionDetailId,jdbcType=INTEGER}, #{examSubmissionId,jdbcType=INTEGER},
+      #{answerSheet,jdbcType=VARCHAR}, #{resultSheet,jdbcType=VARCHAR}, #{queryableTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dcoj.entity.ExaminationSubmissionDetailEntity" keyProperty="sdId">
+    insert into examination_submission_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="examSubmissionDetailId != null">
+        exam_submission_detail_id,
+      </if>
+      <if test="examSubmissionId != null">
+        exam_submission_id,
+      </if>
+      <if test="answerSheet != null">
+        answer_sheet,
+      </if>
+      <if test="resultSheet != null">
+        result_sheet,
+      </if>
+      <if test="queryableTime != null">
+        queryable_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="examSubmissionDetailId != null">
+        #{examSubmissionDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="examSubmissionId != null">
+        #{examSubmissionId,jdbcType=INTEGER},
+      </if>
+      <if test="answerSheet != null">
+        #{answerSheet,jdbcType=VARCHAR},
+      </if>
+      <if test="resultSheet != null">
+        #{resultSheet,jdbcType=VARCHAR},
+      </if>
+      <if test="queryableTime != null">
+        #{queryableTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <!--自定义SQL：End-->
+
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    exam_submission_detail_id, exam_submission_id, answer_sheet, result_sheet, queryable_time, 
+    gmt_create, gmt_modified
+  </sql>
+  <select id="selectByExample" parameterType="com.dcoj.entity.example.ExaminationSubmissionDetailEntityExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from examination_submission_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from examination_submission_detail
+    where exam_submission_detail_id = #{examSubmissionDetailId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from examination_submission_detail
+    where exam_submission_detail_id = #{examSubmissionDetailId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dcoj.entity.example.ExaminationSubmissionDetailEntityExample">
+    delete from examination_submission_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <!--<insert id="insert" parameterType="com.dcoj.entity.ExaminationSubmissionDetailEntity">
+    insert into examination_submission_detail (exam_submission_detail_id, exam_submission_id, 
+      answer_sheet, result_sheet, queryable_time
+      )
+    values (#{examSubmissionDetailId,jdbcType=INTEGER}, #{examSubmissionId,jdbcType=INTEGER}, 
+      #{answerSheet,jdbcType=VARCHAR}, #{resultSheet,jdbcType=VARCHAR}, #{queryableTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dcoj.entity.ExaminationSubmissionDetailEntity">
+    insert into examination_submission_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="examSubmissionDetailId != null">
+        exam_submission_detail_id,
+      </if>
+      <if test="examSubmissionId != null">
+        exam_submission_id,
+      </if>
+      <if test="answerSheet != null">
+        answer_sheet,
+      </if>
+      <if test="resultSheet != null">
+        result_sheet,
+      </if>
+      <if test="queryableTime != null">
+        queryable_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="examSubmissionDetailId != null">
+        #{examSubmissionDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="examSubmissionId != null">
+        #{examSubmissionId,jdbcType=INTEGER},
+      </if>
+      <if test="answerSheet != null">
+        #{answerSheet,jdbcType=VARCHAR},
+      </if>
+      <if test="resultSheet != null">
+        #{resultSheet,jdbcType=VARCHAR},
+      </if>
+      <if test="queryableTime != null">
+        #{queryableTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>-->
+  <select id="countByExample" parameterType="com.dcoj.entity.example.ExaminationSubmissionDetailEntityExample" resultType="java.lang.Long">
+    select count(*) from examination_submission_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update examination_submission_detail
+    <set>
+      <if test="record.examSubmissionDetailId != null">
+        exam_submission_detail_id = #{record.examSubmissionDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="record.examSubmissionId != null">
+        exam_submission_id = #{record.examSubmissionId,jdbcType=INTEGER},
+      </if>
+      <if test="record.answerSheet != null">
+        answer_sheet = #{record.answerSheet,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resultSheet != null">
+        result_sheet = #{record.resultSheet,jdbcType=VARCHAR},
+      </if>
+      <if test="record.queryableTime != null">
+        queryable_time = #{record.queryableTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update examination_submission_detail
+    set exam_submission_detail_id = #{record.examSubmissionDetailId,jdbcType=INTEGER},
+      exam_submission_id = #{record.examSubmissionId,jdbcType=INTEGER},
+      answer_sheet = #{record.answerSheet,jdbcType=VARCHAR},
+      result_sheet = #{record.resultSheet,jdbcType=VARCHAR},
+      queryable_time = #{record.queryableTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dcoj.entity.ExaminationSubmissionDetailEntity">
+    update examination_submission_detail
+    <set>
+      <if test="examSubmissionId != null">
+        exam_submission_id = #{examSubmissionId,jdbcType=INTEGER},
+      </if>
+      <if test="answerSheet != null">
+        answer_sheet = #{answerSheet,jdbcType=VARCHAR},
+      </if>
+      <if test="resultSheet != null">
+        result_sheet = #{resultSheet,jdbcType=VARCHAR},
+      </if>
+      <if test="queryableTime != null">
+        queryable_time = #{queryableTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where exam_submission_detail_id = #{examSubmissionDetailId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dcoj.entity.ExaminationSubmissionDetailEntity">
+    update examination_submission_detail
+    set exam_submission_id = #{examSubmissionId,jdbcType=INTEGER},
+      answer_sheet = #{answerSheet,jdbcType=VARCHAR},
+      result_sheet = #{resultSheet,jdbcType=VARCHAR},
+      queryable_time = #{queryableTime,jdbcType=TIMESTAMP}
+    where exam_submission_detail_id = #{examSubmissionDetailId,jdbcType=INTEGER}
+  </update>
+</mapper>
