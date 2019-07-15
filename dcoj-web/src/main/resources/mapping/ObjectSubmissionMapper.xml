@@ -6,8 +6,6 @@
         <result column="uid" jdbcType="INTEGER" property="uid"/>
         <result column="object_problem_id" jdbcType="INTEGER" property="objectProblemId"/>
         <result column="result_status" jdbcType="TINYINT" property="resultStatus"/>
-        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
-        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
         <result column="answer" jdbcType="VARCHAR" property="answer"/>
         <result column="queryable_time" jdbcType="TIMESTAMP" property="queryableTime"/>
         <result column="score" jdbcType="TINYINT" property="score"/>
@@ -134,7 +132,7 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-        object_submit_id, uid, object_problem_id, result_status, gmt_create, gmt_modified,
+        object_submit_id, uid, object_problem_id, result_status,
         answer, queryable_time, score
     </sql>
     <select id="selectByExample" parameterType="com.dcoj.entity.example.ObjectSubmissionEntityExample"

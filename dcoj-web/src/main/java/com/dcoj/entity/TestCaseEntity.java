@@ -34,18 +34,6 @@ public class TestCaseEntity {
      */
     private String stdout;
 
-    /**
-     * 创建时间
-     */
-    @JSONField(name = "gmt_create")
-    private Timestamp gmtCreate;
-
-    /**
-     * 修改时间
-     */
-    @JSONField(name = "gmt_modified")
-    private Timestamp gmtModified;
-
     public TestCaseEntity(Integer tcId, Integer pid, String stdin, String stdout) {
         this.tcId = tcId;
         this.pid = pid;

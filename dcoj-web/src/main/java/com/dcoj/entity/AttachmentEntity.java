@@ -38,11 +38,4 @@ public class AttachmentEntity {
      */
     @JSONField(name = "upload_time")
     private Timestamp uploadTime;
-
-    @JSONField(name = "gmt_create")
-    private Timestamp gmtCreate;
-
-    @JSONField(name = "gmt_modified")
-    private Timestamp gmtModified;
-
 }

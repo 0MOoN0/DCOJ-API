@@ -6,8 +6,6 @@
         <result column="pid" jdbcType="INTEGER" property="pid"/>
         <result column="stdin" jdbcType="VARCHAR" property="stdin"/>
         <result column="stdout" jdbcType="VARCHAR" property="stdout"/>
-        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
-        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
     </resultMap>
 
     <!--自定义SQL:Begin-->
@@ -91,7 +89,7 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-        tc_id, pid, stdin, stdout, gmt_create, gmt_modified
+        tc_id, pid, stdin, stdout
     </sql>
     <select id="selectByExample" parameterType="com.dcoj.entity.example.TestCaseEntityExample"
             resultMap="BaseResultMap">

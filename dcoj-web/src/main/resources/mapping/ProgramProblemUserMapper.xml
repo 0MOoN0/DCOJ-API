@@ -5,14 +5,12 @@
         <result column="pid" jdbcType="INTEGER" property="pid"/>
         <result column="uid" jdbcType="INTEGER" property="uid"/>
         <result column="status" jdbcType="CHAR" property="status"/>
-        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
-        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
     </resultMap>
 
     <!--自定义SQL: Begin-->
     <select id="listUserProblemsByUid" resultType="HashMap">
-        SELECT program_problem_user.*, problem.title FROM program_problem_user LEFT JOIN problem ON
-        program_problem_user.pid=problem.pid
+        SELECT program_problem_user.*, problem.title FROM program_problem_user LEFT JOIN program_problem problem ON
+        program_problem_user.pid=problem.program_problem_id
         WHERE program_problem_user.uid = #{uid}
     </select>
     <!--自定义SQL: End-->
@@ -78,7 +76,7 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-        pid, uid, status, gmt_create, gmt_modified
+        pid, uid, status
     </sql>
     <select id="selectByExample" parameterType="com.dcoj.entity.example.ProgramProblemUserEntityExample"
             resultMap="BaseResultMap">

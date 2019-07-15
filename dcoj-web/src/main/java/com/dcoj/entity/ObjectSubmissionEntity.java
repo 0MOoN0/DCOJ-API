@@ -36,12 +36,6 @@ public class ObjectSubmissionEntity {
     @JSONField(name = "result_status")
     private Byte resultStatus;
 
-    @JSONField(name = "gmt_create")
-    private Timestamp gmtCreate;
-
-    @JSONField(name = "gmt_modified")
-    private Timestamp gmtModified;
-
     /**
      * 用户提交的回答
      */
