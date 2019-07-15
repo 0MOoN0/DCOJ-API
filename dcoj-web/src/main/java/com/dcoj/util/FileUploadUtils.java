@@ -78,21 +78,21 @@ public class FileUploadUtils {
         }
     }
 
-//    /**
-//     * 根据文件路径上传头像
-//     *
-//     * @param baseDir 相对应用的基目录
-//     * @param file    上传的头像
-//     * @return 文件名称
-//     * @throws IOException
-//     */
-//    public static final String uploadText(String baseDir, MultipartFile file) throws IOException {
-//        try {
-//            return upload(baseDir, file, ".txt");
-//        } catch (Exception e) {
-//            throw new IOException(e.getMessage(), e);
-//        }
-//    }
+    /**
+     * 根据文件路径上传头像
+     *
+     * @param baseDir 相对应用的基目录
+     * @param file    上传的头像
+     * @return 文件名称
+     * @throws IOException
+     */
+    public static final String uploadText(String baseDir, MultipartFile file) throws IOException {
+        try {
+            return upload(baseDir, file, ".txt");
+        } catch (Exception e) {
+            throw new IOException(e.getMessage(), e);
+        }
+    }
 
     /**
      * 根据文件路径上传代码
