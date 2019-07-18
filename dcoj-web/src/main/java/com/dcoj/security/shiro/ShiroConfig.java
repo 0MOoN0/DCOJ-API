@@ -1,4 +1,4 @@
-package com.dcoj.security;
+package com.dcoj.security.shiro;
 
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;

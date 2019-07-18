@@ -11,37 +11,53 @@ import java.util.List;
  *
  * @author WANGQING
  */
-
 public interface UserMapper {
-    void register(String studentId, String email, String nickname, String password);
 
+    /**
+     * 新增一个用户
+     *
+     * @param userEntity 用户信息
+     * @return 返回1则插入成功，返回0则插入失败
+     */
+    // TODO: 2019.7.18 WANGQING 未在xml中添加此方法
+    //int save(UserEntity userEntity);
+
+    /**
+     * 统计学生数量
+     *
+     * @return 学生数量
+     */
     int countUsers();
 
-    UserEntity login(IndexLoginFormat format);
+    /**
+     * 获取一个用户的详细信息
+     *
+     * @param userId 用户id
+     * @return 用户信息
+     */
+    UserEntity getByPrimaryKey(Integer userId);
 
-    UserEntity getUserByUid(String uid);
-
-    UserEntity getUserByEmail(String email);
-
-    UserEntity getUserByNickname(String nickname);
-
-    UserEntity getUserByStudentId(String studentId);
-
+    /**
+     * 显示用户列表
+     *
+     * @return 结果
+     */
     List<UserEntity> listAll();
 
-    void updateUserProfile(Integer uid, String nickname, String motto, Integer gender);
+    /**
+     * 更新用户信息
+     *
+     * @param userId     用户id
+     * @param userEntity 用户信息
+     * @return 返回1则更新成功，返回0则更新失败
+     */
+    int updateUser(Integer userId, UserEntity userEntity);
 
-    void updateUser(int uid, UserEntity userEntity);
-
-    void uploadUserAvatar(Integer uid, MultipartFile file);
-
-    void updateUserPassword(int uid, String oldPassword, String newPassword);
-
-    void updateUserEmail(int uid, String email);
-
-    void verifyUserEmail(int uid, String code);
-
-    void resetUserPassword(String email, String password, String emailToken);
-
-    boolean checkUserByEmail(String email);
+    /**
+     * 删除一个用户
+     *
+     * @param userId 用户id
+     * @return 返回1则删除成功，返回0则删除失败
+     */
+    int removeByPrimaryKey(Integer userId);
 }
