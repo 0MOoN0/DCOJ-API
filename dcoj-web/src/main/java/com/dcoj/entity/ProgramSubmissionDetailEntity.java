@@ -30,12 +30,6 @@ public class ProgramSubmissionDetailEntity {
     @JSONField(name = "sub_id")
     private Integer subId;
 
-    @JSONField(name = "gmt_create")
-    private Timestamp gmtCreate;
-
-    @JSONField(name = "gmt_modified")
-    private Timestamp gmtModified;
-
     /**
      * 源码附件ID
      */

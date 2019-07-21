@@ -62,18 +62,6 @@ public class ProgramSubmissionEntity {
     private Timestamp submitTime;
 
     /**
-     * 创建时间
-     */
-    @JSONField(name = "gmt_create")
-    private Timestamp gmtCreate;
-
-    /**
-     * 修改时间
-     */
-    @JSONField(name = "gmt_modified")
-    private Timestamp gmtModified;
-
-    /**
      * 试卷ID
      */
     private Integer eid;

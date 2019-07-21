@@ -9,8 +9,6 @@
         <result column="memory" jdbcType="INTEGER" property="memory"/>
         <result column="status" jdbcType="CHAR" property="status"/>
         <result column="submit_time" jdbcType="TIMESTAMP" property="submitTime"/>
-        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
-        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
         <result column="lang" jdbcType="CHAR" property="lang"/>
         <result column="eid" jdbcType="INTEGER" property="eid"/>
         <result column="gid" jdbcType="INTEGER" property="gid"/>
@@ -200,7 +198,7 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-        sub_id, uid, pid, using_time, memory, status, submit_time, gmt_create, gmt_modified,
+        sub_id, uid, pid, using_time, memory, status, submit_time,
         lang, eid, gid, queryable_time, score
     </sql>
     <select id="selectByExample" parameterType="com.dcoj.entity.example.ProgramSubmissionEntityExample"

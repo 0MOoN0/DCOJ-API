@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Leon
@@ -76,7 +77,8 @@ public class ProgramSubmissionDetailMapperTest {
                 .andSourceCodeEqualTo(123)
                 .andSubIdEqualTo(14);
         List<ProgramSubmissionDetailEntity> programSubmissionDetailEntities = programSubmissionDetailMapper.selectByExample(programSubmissionDetailEntityExample);
-        System.out.println(programSubmissionDetailEntities.get(0));
+        Optional.ofNullable(programSubmissionDetailEntities)
+                .ifPresent(System.out::println);
     }
 
     @Test

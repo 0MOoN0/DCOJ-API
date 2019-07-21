@@ -44,7 +44,7 @@ public class ProgramProblemUserServiceImplTest {
         List<Map<String, Object>> maps = problemUserService.listUserProblemHistory(0);
         Optional.ofNullable(maps).ifPresent(maps1 -> maps1.parallelStream().forEach(stringObjectMap -> stringObjectMap.entrySet().parallelStream()
                 .forEach(stringObjectEntry -> {
-                    System.out.println("The key is = " + stringObjectEntry.getKey() + "The value is = " + stringObjectEntry.getValue());
+                    System.out.println("The key is = " + stringObjectEntry.getKey() + "   The value is = " + stringObjectEntry.getValue());
                 })));
     }
 

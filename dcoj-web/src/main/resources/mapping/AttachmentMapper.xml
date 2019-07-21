@@ -7,8 +7,6 @@
         <result column="url" jdbcType="VARCHAR" property="url"/>
         <result column="status" jdbcType="TINYINT" property="status"/>
         <result column="upload_time" jdbcType="TIMESTAMP" property="uploadTime"/>
-        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
-        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
     </resultMap>
     <!--自定义SQL：Begin -->
     <insert id="insert" parameterType="com.dcoj.entity.AttachmentEntity" useGeneratedKeys="true" keyProperty="aid">
@@ -118,7 +116,7 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-        aid, uid, url, status, upload_time, gmt_create, gmt_modified
+        aid, uid, url, status, upload_time
     </sql>
     <select id="selectByExample" parameterType="com.dcoj.entity.example.AttachmentEntityExample"
             resultMap="BaseResultMap">
