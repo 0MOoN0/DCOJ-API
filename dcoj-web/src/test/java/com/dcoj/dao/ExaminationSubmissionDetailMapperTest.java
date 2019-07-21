@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dcoj.entity.ExaminationSubmissionDetailEntity;
 import com.dcoj.entity.exam.AnswerEntity;
+import com.dcoj.entity.example.ExaminationSubmissionDetailEntityExample;
 import com.dcoj.judge.LanguageEnum;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -84,11 +85,5 @@ public class ExaminationSubmissionDetailMapperTest {
         ExaminationSubmissionDetailEntity examinationSubmissionDetailEntity = examinationSubmissionDetailMapper.selectByPrimaryKey(1);
         System.out.println(examinationSubmissionDetailEntity);
     }
-
-    @Test
-    public void testSelectWithQueryableTime(){
-
-    }
-
 
 }
