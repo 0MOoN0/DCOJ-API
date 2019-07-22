@@ -29,12 +29,20 @@ public interface ExaminationSubmissionService {
      * 保存试卷提交
      *
      * @param judgeStatus       判卷状态
-     * @param ExamID            试卷ID
+     * @param examID            试卷ID
      * @param score             结果分数
      * @param timestamp         可查询时间
      * @param UID               用户ID
      * @return                  返回试卷提交的自动生成ID
      */
-    int save(ExamJudgeStatus judgeStatus, Integer ExamID, Integer score, Timestamp timestamp, Integer UID);
+    int save(ExamJudgeStatus judgeStatus, Integer examID, Integer score, Timestamp timestamp, Integer UID);
+
+    /**
+     * 按试卷和分数对成绩进行排名，如果分数相同，则按照保存时间升序
+     *
+     * @param examID            试卷ID
+     * @return                  查询结果：List<ExaminationSubmissionEntity>
+     */
+    List<ExaminationSubmissionEntity> listExamLeaderBoard(Integer examID);
 
 }
