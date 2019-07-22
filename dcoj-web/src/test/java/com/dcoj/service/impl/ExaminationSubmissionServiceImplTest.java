@@ -26,13 +26,21 @@ public class ExaminationSubmissionServiceImplTest {
 
     @Test
     public void testSave(){
-        int save = examinationSubmissionService.save(ExamJudgeStatus.Judging, 1, 90, new Timestamp(System.currentTimeMillis()), 1);
-        System.out.println("ID == "+save);
+        for(int i=0; i<5; i++){
+            int save = examinationSubmissionService.save(ExamJudgeStatus.Judging, 1, 90-i, new Timestamp(System.currentTimeMillis()), 1);
+            System.out.println("ID == "+save);
+        }
     }
 
     @Test
     public void testSelect(){
         List<ExaminationSubmissionEntity> examinationSubmissionEntities = examinationSubmissionService.listByID(null, null);
+        Optional.ofNullable(examinationSubmissionEntities).ifPresent(System.out::println);
+    }
+
+    @Test
+    public void testListExamLeaderBoard(){
+        List<ExaminationSubmissionEntity> examinationSubmissionEntities = examinationSubmissionService.listExamLeaderBoard(1);
         Optional.ofNullable(examinationSubmissionEntities).ifPresent(System.out::println);
     }
 

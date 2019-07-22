@@ -54,22 +54,37 @@ public class ExaminationSubmissionServiceImpl implements ExaminationSubmissionSe
      * 保存试卷提交
      *
      * @param judgeStatus 判卷状态
-     * @param ExamID      试卷ID
+     * @param examID      试卷ID
      * @param score       结果分数
      * @param timestamp   可查询时间
      * @param UID         用户ID
      * @return 返回试卷提交的自动生成ID
      */
     @Override
-    public int save(ExamJudgeStatus judgeStatus, Integer ExamID, Integer score, Timestamp timestamp, Integer UID) {
+    public int save(ExamJudgeStatus judgeStatus, Integer examID, Integer score, Timestamp timestamp, Integer UID) {
         ExaminationSubmissionEntity examinationSubmissionEntity = new ExaminationSubmissionEntity();
         examinationSubmissionEntity.setExamStatus(judgeStatus);
-        examinationSubmissionEntity.setExamId(ExamID);
+        examinationSubmissionEntity.setExamId(examID);
         examinationSubmissionEntity.setScore(score);
         examinationSubmissionEntity.setQueryableTime(timestamp);
         examinationSubmissionEntity.setUid(UID);
         boolean flag = examinationSubmissionMapper.insertSelective(examinationSubmissionEntity) == 1;
         WebUtil.assertIsSuccess(flag, "考试提交保存失败");
         return examinationSubmissionEntity.getExamSubmissionId();
+    }
+
+    /**
+     * 按试卷和分数对成绩进行排名，如果分数相同，则按照保存时间升序
+     *
+     * @param examID 试卷ID
+     * @return 查询结果：List<ExaminationSubmissionEntity>
+     */
+    @Override
+    public List<ExaminationSubmissionEntity> listExamLeaderBoard(Integer examID) {
+        ExaminationSubmissionEntityExample examinationSubmissionEntityExample = new ExaminationSubmissionEntityExample();
+        ExaminationSubmissionEntityExample.Criteria criteria = examinationSubmissionEntityExample.createCriteria();
+        criteria.andExamIdEqualTo(examID);
+        examinationSubmissionEntityExample.setOrderByClause("score desc,gmt_create asc");
+        return examinationSubmissionMapper.selectByExample(examinationSubmissionEntityExample);
     }
 }
