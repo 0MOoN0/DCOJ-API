@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * 客观题目标签关联 业务层实现
+ * 客观题、标签关联 业务层实现
  *
  * @author WANGQING
  */

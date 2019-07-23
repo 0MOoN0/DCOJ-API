@@ -4,6 +4,11 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+/**
+ * 客观题、标签关联 持久层
+ *
+ * @author WANGQING
+ */
 public interface ObjectProblemTagMapper {
 
     /**

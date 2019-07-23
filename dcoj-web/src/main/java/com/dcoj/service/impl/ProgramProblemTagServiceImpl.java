@@ -1,9 +1,8 @@
 package com.dcoj.service.impl;
 
 import com.dcoj.dao.ProgramProblemTagMapper;
-import com.dcoj.entity.ProgramProblemTagEntity;
-import com.dcoj.service.ProgramTagService;
 import com.dcoj.service.ProgramProblemTagService;
+import com.dcoj.service.ProgramTagService;
 import com.dcoj.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * 题目标签关联业务层
+ * 编程题、标签关联 业务层实现
  *
  * @author WANGQING
  */

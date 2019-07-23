@@ -1,5 +1,6 @@
-package com.dcoj.security;
+package com.dcoj.security.shiro;
 
+import com.dcoj.security.JWToken;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

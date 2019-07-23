@@ -53,7 +53,8 @@ public class AccountController {
     public ResponseEntity register(@RequestBody @Valid IndexRegisterFormat format, @RequestHeader("email_token") String emailToken) {
         boolean verifyFlag = MailUtil.verifyEmailFromCache(emailToken, format.getVerifyCode(), format.getEmail(), 300000);
         if (verifyFlag) {
-            userService.register(format.getStudentId(), format.getEmail(), format.getEmail(), format.getPassword());
+            // TODO: 2019.7.6 WANGQING 登录
+            //userService.register(format.getStudentId(), format.getEmail(), format.getEmail(), format.getPassword());
             //移除验证码缓存
             return new ResponseEntity("注册成功");
         } else {
@@ -109,19 +110,20 @@ public class AccountController {
     @PostMapping("/forget_password_code")
     public ResponseEntity forgetPasswordCode(@RequestBody @Valid IndexRegisterCodeFormat format) {
 
-        boolean isExist = userService.checkUserByEmail(format.getEmail());
-        if (isExist) {
-            String verifyCode = RandomValidateCodeUtil.getRandomString();
-            //token password由验证码和当前时间戳组成
-            String token = Md5HashUtil.generate(verifyCode + System.currentTimeMillis());
-            //获取缓存并将token和发送时间存入缓存
-            Cache<String, String> emailVerifyCache = GlobalCacheManager.getEmailVerifyCache();
-            mailService.sendMail(format.getEmail(), "【DCOJ】邮箱验证", verifyCode);
-            emailVerifyCache.put(token, token + ":" + format.getEmail() + ":" + System.currentTimeMillis());
-            return new ResponseEntity("邮件发送成功", token);
-        } else {
-            throw new WebErrorException("邮件发送失败");
-        }
+//        boolean isExist = userService.checkUserByEmail(format.getEmail());
+//        if (isExist) {
+//            String verifyCode = RandomValidateCodeUtil.getRandomString();
+//            //token password由验证码和当前时间戳组成
+//            String token = Md5HashUtil.generate(verifyCode + System.currentTimeMillis());
+//            //获取缓存并将token和发送时间存入缓存
+//            Cache<String, String> emailVerifyCache = GlobalCacheManager.getEmailVerifyCache();
+//            mailService.sendMail(format.getEmail(), "【DCOJ】邮箱验证", verifyCode);
+//            emailVerifyCache.put(token, token + ":" + format.getEmail() + ":" + System.currentTimeMillis());
+//            return new ResponseEntity("邮件发送成功", token);
+//        } else {
+//            throw new WebErrorException("邮件发送失败");
+//        }
+        return null;
     }
 
     /**
@@ -134,31 +136,33 @@ public class AccountController {
     @SuppressWarnings("all")
     @PostMapping("/register_code")
     public ResponseEntity registerCode(@RequestBody @Valid IndexRegisterCodeFormat format) {
-        boolean isExist = userService.checkUserByEmail(format.getEmail());
-        if (!isExist) {
-            String verifyCode = RandomValidateCodeUtil.getRandomString();
-            //token password由验证码和当前时间戳组成
-            String token = Md5HashUtil.generate(verifyCode + System.currentTimeMillis());
-            //获取缓存并将token和发送时间存入缓存
-            Cache<String, String> emailVerifyCache = GlobalCacheManager.getEmailVerifyCache();
-            mailService.sendMail(format.getEmail(), "【DCOJ】邮箱验证", verifyCode);
-            emailVerifyCache.put(token, token + ":" + format.getEmail() + ":" + System.currentTimeMillis());
-            return new ResponseEntity("邮件发送成功", token);
-        } else {
-            throw new WebErrorException("邮件发送失败");
-        }
+//        boolean isExist = userService.checkUserByEmail(format.getEmail());
+//        if (!isExist) {
+//            String verifyCode = RandomValidateCodeUtil.getRandomString();
+//            //token password由验证码和当前时间戳组成
+//            String token = Md5HashUtil.generate(verifyCode + System.currentTimeMillis());
+//            //获取缓存并将token和发送时间存入缓存
+//            Cache<String, String> emailVerifyCache = GlobalCacheManager.getEmailVerifyCache();
+//            mailService.sendMail(format.getEmail(), "【DCOJ】邮箱验证", verifyCode);
+//            emailVerifyCache.put(token, token + ":" + format.getEmail() + ":" + System.currentTimeMillis());
+//            return new ResponseEntity("邮件发送成功", token);
+//        } else {
+//            throw new WebErrorException("邮件发送失败");
+//        }
+        return null;
     }
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid IndexLoginFormat format) {
-        UserEntity userEntity = userService.login(format);
-        String token = JWTUtil.sign(userEntity.getUid(), userEntity.getPassword());
-        // 检查用户权限缓存，如果用户权限缓存不存在则刷新
-/*        Set<String> permissionSet = GlobalCacheManager.getPermissionCache().get(userEntity.getUid());
-        if(!Optional.ofNullable(permissionSet).isPresent()){
-            cacheService.reloadPermissionCacheByUid(userEntity.getUid());
-        }*/
-        return new ResponseEntity("登入成功", token);
+//        UserEntity userEntity = userService.login(format);
+//        String token = JWTUtil.sign(userEntity.getUid(), userEntity.getPassword());
+//        // 检查用户权限缓存，如果用户权限缓存不存在则刷新
+///*        Set<String> permissionSet = GlobalCacheManager.getPermissionCache().get(userEntity.getUid());
+//        if(!Optional.ofNullable(permissionSet).isPresent()){
+//            cacheService.reloadPermissionCacheByUid(userEntity.getUid());
+//        }*/
+//        return new ResponseEntity("登入成功", token);
+        return null;
     }
 
     /**
@@ -190,7 +194,8 @@ public class AccountController {
     */
     @PutMapping("/reset_password")
     public ResponseEntity resetPassword(@RequestBody @Valid ResetPasswordFormat format, @RequestHeader("email_token") String emailToken) {
-        userService.resetUserPassword(format.getEmail(), format.getPassword(), emailToken);
-        return new ResponseEntity("密码重置成功");
+//        userService.resetUserPassword(format.getEmail(), format.getPassword(), emailToken);
+//        return new ResponseEntity("密码重置成功");
+        return null;
     }
 }

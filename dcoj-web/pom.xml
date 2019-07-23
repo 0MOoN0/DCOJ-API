@@ -108,6 +108,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
+        <!--常用的编码方法的工具类包-->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
 
         <!--<dependency>-->
             <!--<groupId>commons-fileupload</groupId>-->
