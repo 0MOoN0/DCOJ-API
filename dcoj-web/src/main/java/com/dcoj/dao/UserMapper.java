@@ -1,13 +1,12 @@
 package com.dcoj.dao;
 
-import com.dcoj.controller.format.index.IndexLoginFormat;
 import com.dcoj.entity.UserEntity;
-import org.springframework.web.multipart.MultipartFile;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
- * 用户管理持久层
+ * 用户 持久层
  *
  * @author WANGQING
  */
@@ -47,11 +46,10 @@ public interface UserMapper {
     /**
      * 更新用户信息
      *
-     * @param userId     用户id
      * @param userEntity 用户信息
      * @return 返回1则更新成功，返回0则更新失败
      */
-    int updateUser(Integer userId, UserEntity userEntity);
+    int updateUser(UserEntity userEntity);
 
     /**
      * 删除一个用户

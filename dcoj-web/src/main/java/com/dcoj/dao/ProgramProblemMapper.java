@@ -1,6 +1,5 @@
 package com.dcoj.dao;
 
-import com.dcoj.entity.ObjectProblemEntity;
 import com.dcoj.entity.ProgramProblemEntity;
 import org.apache.ibatis.annotations.Param;
 
@@ -8,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 题目管理持久层
+ * 编程题 持久层
  *
  * @author WANGQING
  */

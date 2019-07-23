@@ -1,31 +1,26 @@
 package com.dcoj.service.impl;
 
-import com.dcoj.cache.GlobalCacheManager;
-import com.dcoj.controller.exception.WebErrorException;
-import com.dcoj.controller.format.index.IndexLoginFormat;
-import com.dcoj.entity.RoleEntity;
+import com.dcoj.dao.UserMapper;
 import com.dcoj.entity.UserEntity;
 import com.dcoj.service.UserService;
-import org.apache.shiro.crypto.hash.Md5Hash;
-import org.bson.types.ObjectId;
-import org.ehcache.Cache;
+import com.dcoj.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.List;
 
 /**
- * 用户服务实现类
+ * 用户 业务层实现
  *
- * @author Leon WANGQING
+ * @author WANGQING
  */
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private UserMapper userMapper;
+
     /**
      * 统计学生数量
      *
@@ -33,7 +28,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public int countUsers() {
-        return 0;
+        return userMapper.countUsers();
     }
 
     /**
@@ -43,8 +38,10 @@ public class UserServiceImpl implements UserService {
      * @return 用户信息
      */
     @Override
-    public UserEntity getUserByUserId(Integer userId) {
-        return null;
+    public UserEntity getByPrimaryKey(Integer userId) {
+        UserEntity userEntity = userMapper.getByPrimaryKey(userId);
+        WebUtil.assertNotNull(userEntity, "不存在此用户");
+        return userEntity;
     }
 
     /**
@@ -54,7 +51,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<UserEntity> listAll() {
-        return null;
+        return userMapper.listAll();
     }
 
     /**
@@ -65,7 +62,29 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void updateUser(Integer userId, UserEntity userEntity) {
+        WebUtil.assertNotNull(userMapper.getByPrimaryKey(userId), "该用户不存在，无法更新");
+        userEntity.setUserId(userId);
+        boolean flag = userMapper.updateUser(userEntity) == 1;
+        WebUtil.assertIsSuccess(flag, "用户更新失败");
+    }
 
+    /**
+     * 删除一个用户
+     *
+     * @param userId 用户id
+     * @return 返回1则删除成功，返回0则删除失败
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void removeByPrimaryKey(Integer userId) {
+        WebUtil.assertNotNull(userMapper.getByPrimaryKey(userId), "用户不存在，删除失败");
+        //TODO:WANGQING 2019.7.23
+        // 判断是否跟角色关联
+
+
+        // 删除role
+        boolean flag = userMapper.removeByPrimaryKey(userId) == 1;
+        WebUtil.assertIsSuccess(flag, "删除用户失败");
     }
 
     /**
@@ -77,19 +96,20 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void updateUserPassword(Integer userId, String oldPassword, String newPassword) {
-
+        UserEntity userEntity = userMapper.getByPrimaryKey(userId);
+        WebUtil.assertNotNull(userEntity, "不存在此用户");
+        // 重置用户密码
+        if (newPassword != null && oldPassword != null &&oldPassword.equals(userEntity.getPassword())){
+            userEntity.setPassword(newPassword);
+        }else {
+            // 密码默认000000
+            userEntity.setPassword("000000");
+        }
+        boolean flag = userMapper.updateUser(userEntity) == 1;
+        WebUtil.assertIsSuccess(flag, "密码更新或者重置失败");
+        // TODO: WANGQING 2019.7.23 该方法未完善未优化
     }
 
-    /**
-     * 重置用户密码
-     *
-     * @param userId   用户id
-     * @param password 用户密码
-     */
-    @Override
-    public void resetUserPassword(Integer userId, String password) {
-
-    }
 
 
 // TODO : 2019.7.6 WANGQING 注释

@@ -6,12 +6,11 @@ import com.dcoj.service.ProgramTagService;
 import com.dcoj.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
- * 标签业务层实现
+ * 标签（编程题） 业务层实现
  *
  * @author WANGQING
  */

@@ -5,8 +5,10 @@ import com.dcoj.entity.UserEntity;
 import java.util.List;
 
 /**
- * @author Leon
- **/
+ * 用户 业务层
+ *
+ * @author WANGQING
+ */
 public interface UserService {
     /**
      * 统计学生数量
@@ -21,7 +23,7 @@ public interface UserService {
      * @param userId 用户id
      * @return 用户信息
      */
-    UserEntity getUserByUserId(Integer userId);
+    UserEntity getByPrimaryKey(Integer userId);
 
     /**
      * 显示用户列表
@@ -39,6 +41,13 @@ public interface UserService {
     void updateUser(Integer userId, UserEntity userEntity);
 
     /**
+     * 删除一个用户
+     *
+     * @param userId 用户id
+     */
+    void removeByPrimaryKey(Integer userId);
+
+    /**
      * 更新用户密码
      *
      * @param userId 用户id
@@ -46,14 +55,6 @@ public interface UserService {
      * @param newPassword 新密码
      */
     void updateUserPassword(Integer userId, String oldPassword, String newPassword);
-
-    /**
-     * 重置用户密码
-     *
-     * @param userId 用户id
-     * @param password 用户密码
-     */
-    void resetUserPassword(Integer userId, String password);
 
 
 
