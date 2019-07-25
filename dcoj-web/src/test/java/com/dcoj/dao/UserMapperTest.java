@@ -30,6 +30,12 @@ public class UserMapperTest {
     }
 
     @Test
+    public void getByUsername() {
+        System.out.println(userMapper.getByUsername("admin1"));
+        System.out.println(userMapper.getByUsername("admin"));
+    }
+
+    @Test
     public void listAll() {
         userMapper.listAll().forEach(System.out::println);
     }

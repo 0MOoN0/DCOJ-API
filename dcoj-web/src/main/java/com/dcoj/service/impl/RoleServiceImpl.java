@@ -1,6 +1,7 @@
 package com.dcoj.service.impl;
 
 import com.dcoj.dao.RoleMapper;
+import com.dcoj.dao.UserMapper;
 import com.dcoj.entity.RoleEntity;
 import com.dcoj.service.RoleResourcesService;
 import com.dcoj.service.RoleService;
@@ -20,6 +21,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RoleMapper roleMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Autowired
     private RoleResourcesService roleResourcesService;
@@ -95,10 +99,9 @@ public class RoleServiceImpl implements RoleService {
      * @return 结果
      */
     @Override
-    public List<RoleEntity> listRolesByUserId(Integer userId) {
-        //TODO :WANGQING 2019.7.23 判断用户不存在
-        //WebUtil.assertNotNull(roleMapper.getByPrimaryKey(roleId), "该用户不存在");
-        return roleMapper.listRolesByUserId(userId);
+    public RoleEntity getRoleByUserId(Integer userId) {
+        WebUtil.assertNotNull(userMapper.getByPrimaryKey(userId), "该用户不存在");
+        return roleMapper.getRoleByUserId(userId);
     }
 
     /**

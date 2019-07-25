@@ -37,6 +37,14 @@ public interface UserMapper {
     UserEntity getByPrimaryKey(Integer userId);
 
     /**
+     * 获取一个用户的详细信息
+     *
+     * @param username 用户名
+     * @return 用户信息
+     */
+    UserEntity getByUsername(String username);
+
+    /**
      * 显示用户列表
      *
      * @return 结果
@@ -58,4 +66,6 @@ public interface UserMapper {
      * @return 返回1则删除成功，返回0则删除失败
      */
     int removeByPrimaryKey(Integer userId);
+
+
 }

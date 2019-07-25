@@ -1,7 +1,7 @@
 package com.dcoj.controller;
 
 import com.dcoj.cache.GlobalCacheManager;
-import com.dcoj.controller.exception.WebErrorException;
+import com.dcoj.config.DefaultConfig;
 import com.dcoj.controller.format.index.*;
 import com.dcoj.entity.ResponseEntity;
 import com.dcoj.entity.UserEntity;
@@ -10,22 +10,28 @@ import com.dcoj.service.MailService;
 import com.dcoj.service.UserService;
 import com.dcoj.util.JWTUtil;
 import com.dcoj.util.MailUtil;
-import com.dcoj.util.Md5HashUtil;
-import com.dcoj.util.RandomValidateCodeUtil;
+import com.dcoj.util.WebUtil;
+import com.github.pagehelper.util.StringUtil;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.ehcache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Optional;
-import java.util.Set;
+
 
 /**
- * @author Leon
- * @author WangQing
- **/
+ * 用户管理 控制器
+ *
+ * @author Leon WangQing
+ */
 @RestController
 @Validated
 @RequestMapping(value = "/account", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -39,6 +45,7 @@ public class AccountController {
 
     @Autowired
     private CacheService cacheService;
+
 
 
     /**
@@ -152,18 +159,25 @@ public class AccountController {
         return null;
     }
 
+    private Cache<String, String> authCache = GlobalCacheManager.getAuthCache();
+
+
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid IndexLoginFormat format) {
-//        UserEntity userEntity = userService.login(format);
-//        String token = JWTUtil.sign(userEntity.getUid(), userEntity.getPassword());
+    public ResponseEntity login(HttpServletResponse response,@RequestBody @Valid IndexLoginFormat format) {
+        UserEntity userEntity = userService.login(format);
+        WebUtil.assertNotNull(userEntity, "用户密码错误");
+        String token = JWTUtil.sign(userEntity.getUserId(), userEntity.getPassword());
+        authCache.put(DefaultConfig.TOKEN+userEntity.getUsername(),token);
+
 //        // 检查用户权限缓存，如果用户权限缓存不存在则刷新
 ///*        Set<String> permissionSet = GlobalCacheManager.getPermissionCache().get(userEntity.getUid());
 //        if(!Optional.ofNullable(permissionSet).isPresent()){
 //            cacheService.reloadPermissionCacheByUid(userEntity.getUid());
 //        }*/
-//        return new ResponseEntity("登入成功", token);
-        return null;
+        return new ResponseEntity("登入成功");
     }
+
+
 
     /**
      * 忘记密码部分--验证密码是否正确

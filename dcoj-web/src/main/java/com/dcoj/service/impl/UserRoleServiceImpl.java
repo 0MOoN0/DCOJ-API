@@ -58,7 +58,7 @@ public class UserRoleServiceImpl implements UserRoleService {
      */
     @Override
     public UserRoleEntity getByUserId(Integer userId) {
-        UserRoleEntity userRoleEntity = userRoleMapper.getByPrimaryKey(userId);
+        UserRoleEntity userRoleEntity = userRoleMapper.getByUserId(userId);
         WebUtil.assertNotNull(userRoleEntity, "不存在此用户角色关联");
         return userRoleEntity;
     }

@@ -1,14 +1,17 @@
 package com.dcoj.service.impl;
 
+import com.dcoj.controller.format.index.IndexLoginFormat;
 import com.dcoj.dao.UserMapper;
 import com.dcoj.entity.UserEntity;
 import com.dcoj.service.UserService;
+import com.dcoj.util.JWTUtil;
 import com.dcoj.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 用户 业务层实现
@@ -40,6 +43,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity getByPrimaryKey(Integer userId) {
         UserEntity userEntity = userMapper.getByPrimaryKey(userId);
+        WebUtil.assertNotNull(userEntity, "不存在此用户");
+        return userEntity;
+    }
+
+    /**
+     * 获取一个用户的详细信息
+     *
+     * @param username 用户名
+     * @return 用户信息
+     */
+    @Override
+    public UserEntity getByUsername(String username) {
+        UserEntity userEntity = userMapper.getByUsername(username);
         WebUtil.assertNotNull(userEntity, "不存在此用户");
         return userEntity;
     }
@@ -99,9 +115,9 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = userMapper.getByPrimaryKey(userId);
         WebUtil.assertNotNull(userEntity, "不存在此用户");
         // 重置用户密码
-        if (newPassword != null && oldPassword != null &&oldPassword.equals(userEntity.getPassword())){
+        if (newPassword != null && oldPassword != null && oldPassword.equals(userEntity.getPassword())) {
             userEntity.setPassword(newPassword);
-        }else {
+        } else {
             // 密码默认000000
             userEntity.setPassword("000000");
         }
@@ -110,9 +126,39 @@ public class UserServiceImpl implements UserService {
         // TODO: WANGQING 2019.7.23 该方法未完善未优化
     }
 
+    /**
+     * 登录
+     *
+     * @param format 登录验证
+     * @return 结果
+     */
+    @Override
+    public UserEntity login(IndexLoginFormat format) {
+        UserEntity userEntity = userMapper.getByUsername(format.getUsername());
+        // 验证密码
+        if (userEntity.getPassword().equals(format.getPassword())) {
+            return userEntity;
+        }
+        return null;
+    }
 
+    /**
+     * 根据token获取用户信息
+     *
+     * @param token 密钥
+     * @return 结果
+     */
+    @Override
+    public UserEntity getByToken(String token) {
+        // 获取当前用户
+        int userId = JWTUtil.getUid(token);
+        UserEntity user = userMapper.getByPrimaryKey(userId);
+        if (Optional.ofNullable(user).isPresent())
+            return user;
+        return null;
+    }
 
-// TODO : 2019.7.6 WANGQING 注释
+    // TODO : 2019.7.6 WANGQING 注释
 //    /**
 //     * 进行用户注册
 //     *

@@ -2,10 +2,13 @@ package com.dcoj.security.shiro;
 
 
 import com.dcoj.cache.GlobalCacheManager;
+import com.dcoj.config.DefaultConfig;
+import com.dcoj.entity.ResourcesEntity;
+import com.dcoj.entity.RoleEntity;
 import com.dcoj.entity.UserEntity;
 import com.dcoj.security.JWToken;
-import com.dcoj.security.SessionHelper;
-import com.dcoj.security.UserSession;
+import com.dcoj.service.ResourcesService;
+import com.dcoj.service.RoleService;
 import com.dcoj.service.UserService;
 import com.dcoj.util.JWTUtil;
 import org.apache.shiro.SecurityUtils;
@@ -20,6 +23,13 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.ehcache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 自定义Realm
@@ -31,6 +41,12 @@ public class Realm extends AuthorizingRealm {   //继承的此Realm自带缓存�
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
+
+    @Autowired
+    private ResourcesService resourcesService;
 
     @Override
     public boolean supports(AuthenticationToken token) {
@@ -47,16 +63,24 @@ public class Realm extends AuthorizingRealm {   //继承的此Realm自带缓存�
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         String token = (String)SecurityUtils.getSubject().getPrincipal();
         // 获取当前用户
-        int userId = JWTUtil.getUid(token);
-        UserEntity user = userService.getUserByUserId(userId);
+        UserEntity user = userService.getByToken(token);
         if (user == null) {
             return null;
         }
-
-
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        //info.addRole(String.valueOf(session.getRole()));
-        //info.addStringPermissions(session.getPermission());
+        RoleEntity roleEntity = roleService.getRoleByUserId(user.getUserId());
+        info.addRole(roleEntity.getName());
+        List<ResourcesEntity> list = resourcesService.listByRoleId(roleEntity.getRoleId());
+        if (!CollectionUtils.isEmpty(list)) {
+            Set<String> permissionSet = new HashSet<>();
+            for (ResourcesEntity resources : list) {
+                String permission = null;
+                if (!StringUtils.isEmpty(permission = resources.getPermission())) {
+                    permissionSet.addAll(Arrays.asList(permission.trim().split(",")));
+                }
+            }
+            info.setStringPermissions(permissionSet);
+        }
         return info;
     }
 
@@ -72,16 +96,16 @@ public class Realm extends AuthorizingRealm {   //继承的此Realm自带缓存�
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException {
         // 获取token
         String token = (String) auth.getCredentials();
+        System.out.println("token:"+token);
+        // 获取当前用户
+        UserEntity user = userService.getByToken(token);
         Cache<String, String> authCache = GlobalCacheManager.getAuthCache();
         // 缓存操作，将用户信息保存到缓存
         if (!authCache.containsKey(token)) {
-            // get user info from database
-            int uid = JWTUtil.getUid(token);
-            //UserEntity userEntity = userService.getUserByUid(uid);
-            //authCache.put(token, String.valueOf(userEntity.getPassword()));
+            authCache.put(DefaultConfig.TOKEN+user.getUsername(), token);
         }
         // secret 是用户的密码
-        String secret = authCache.get(token);
+        String secret = user.getPassword();
         if (!JWTUtil.decode(token, secret)) {
             throw new AuthenticationException("Token invalid");
         }

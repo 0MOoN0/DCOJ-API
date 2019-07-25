@@ -59,6 +59,12 @@
         from `user` where  user_id = #{userId} and is_deleted = 0
     </select>
 
+    <select id="getByUsername" resultMap="userResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from `user` where  username = #{username} and is_deleted = 0
+    </select>
+
     <select id="listAll" resultMap="userResultMap">
         select
         <include refid="Base_Column_List"/>

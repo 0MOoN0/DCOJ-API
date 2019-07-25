@@ -1,5 +1,6 @@
 package com.dcoj.service;
 
+import com.dcoj.controller.format.index.IndexLoginFormat;
 import com.dcoj.entity.UserEntity;
 
 import java.util.List;
@@ -26,6 +27,14 @@ public interface UserService {
     UserEntity getByPrimaryKey(Integer userId);
 
     /**
+     * 获取一个用户的详细信息
+     *
+     * @param username 用户名
+     * @return 用户信息
+     */
+    UserEntity getByUsername(String username);
+
+    /**
      * 显示用户列表
      *
      * @return 结果
@@ -35,7 +44,7 @@ public interface UserService {
     /**
      * 更新用户信息
      *
-     * @param userId 用户id
+     * @param userId     用户id
      * @param userEntity 用户信息
      */
     void updateUser(Integer userId, UserEntity userEntity);
@@ -50,13 +59,27 @@ public interface UserService {
     /**
      * 更新用户密码
      *
-     * @param userId 用户id
+     * @param userId      用户id
      * @param oldPassword 旧密码
      * @param newPassword 新密码
      */
     void updateUserPassword(Integer userId, String oldPassword, String newPassword);
 
+    /**
+     * 登录
+     *
+     * @param format 登录验证
+     * @return 结果
+     */
+    UserEntity login(IndexLoginFormat format);
 
+    /**
+     * 根据token获取用户信息
+     *
+     * @param token 密钥
+     * @return 结果
+     */
+    UserEntity getByToken(String token);
 
     // TODO：2019.7.6 WANGQING 注释
 //    void register(String studentId, String email, String nickname, String password);

@@ -49,7 +49,7 @@ public interface RoleMapper {
      * @param userId 管理员id
      * @return 结果
      */
-    List<RoleEntity> listRolesByUserId(Integer userId);
+    RoleEntity getRoleByUserId(Integer userId);
 
     /**
      * 列出所有角色

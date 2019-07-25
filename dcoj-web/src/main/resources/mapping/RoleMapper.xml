@@ -96,7 +96,7 @@
         where role_id = #{roleId,jdbcType=INTEGER} and is_deleted = 0
     </update>
 
-    <select id="listRolesByUserId" resultType="com.dcoj.entity.RoleEntity" parameterType="java.lang.Integer">
+    <select id="getRoleByUserId" resultType="com.dcoj.entity.RoleEntity" parameterType="java.lang.Integer">
         select role.role_id      as roleId,
                role.name         as `name`,
                role.description  as description,

@@ -48,6 +48,7 @@ public class RoleMapperTest {
 
     @Test
     public void listRolesByUserId() {
+        System.out.println(roleMapper.getRoleByUserId(1));
     }
 
     @Test
