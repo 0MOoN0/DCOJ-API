@@ -20,6 +20,4 @@ public class AnswerEntity {
 
     private LanguageEnum lang;
 
-    private Integer score;
-
 }

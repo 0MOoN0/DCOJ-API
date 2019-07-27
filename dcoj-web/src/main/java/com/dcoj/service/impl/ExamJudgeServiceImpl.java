@@ -6,6 +6,7 @@ import com.dcoj.config.DcojConfig;
 import com.dcoj.entity.ProgramProblemEntity;
 import com.dcoj.entity.TestCaseEntity;
 import com.dcoj.entity.exam.AnswerEntity;
+import com.dcoj.entity.exam.ExamProblemResultEntity;
 import com.dcoj.exam.ExamAutoTaskExtends;
 import com.dcoj.judge.ResultEnum;
 import com.dcoj.judge.entity.RequestEntity;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -52,6 +54,8 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
     public void examJudge(List<AnswerEntity> answerSheet, Judger judger, ExamAutoTaskExtends examAutoTaskExtends, JSONArray examProblem) {
         // 请求实体类
         RequestEntity requestEntity = new RequestEntity();
+        List<ExamProblemResultEntity> resultSheet = new ArrayList<ExamProblemResultEntity>();
+        ExamProblemResultEntity examProblemResultEntity = new ExamProblemResultEntity();
         // 判卷器
         for (AnswerEntity answerEntity : answerSheet){
             switch (answerEntity.getProblemType()){
@@ -71,7 +75,6 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
                     if (responseEntity.getResult() == ResultEnum.SE) {
                         // TODO: Leon 20190709 System Error结果，需要记录到判卷情况
                         // 上传源码
-
 //                            return;
                     }
                     // 保存判卷结果
@@ -90,11 +93,18 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
                     programSubmissionDetailService.save(responseEntity, subId, attachId);*/
                     JSONObject problemDetail = examProblem.getJSONObject(answerEntity.getExamProblemLocate());
                     Integer score = problemDetail.getInteger("problem_score");
-                    saveExamProgramSubmission(examAutoTaskExtends, answerEntity,0, responseEntity, score);
+                    Integer submissionDetailID = saveExamProgramSubmission(examAutoTaskExtends, answerEntity, 0, responseEntity, score);
                     // TODO: Leon 20190724 更新题目状态、更新用户做题状态
+
+                    // 封装resultSheet
+                    examProblemResultEntity.setExamProblemLocate(answerEntity.getExamProblemLocate());
+                    examProblemResultEntity.setScore(score);
+                    examProblemResultEntity.setSubmissionDetail(submissionDetailID);
+                    resultSheet.add(examProblemResultEntity);
 
                     break;
                 case 2:     // 客观题
+
                     //选择题判卷
                     int i = objectProblemService.judgeObjectProblem(answerEntity.getProblemId(), answerEntity.getAnswer().toString());
                     if(i==1){
@@ -105,9 +115,11 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
                     break;
             }
         }
+        // 保存examSubmission
+        // 保存examSubmissionDetail
     }
-    // 保存编程题题目
-    protected void saveExamProgramSubmission (ExamAutoTaskExtends examAutoTaskExtends, AnswerEntity answerEntity, Integer groupId, ResponseEntity responseEntity, Integer problemScore){
+    // 保存编程题题目，返回submissionDetail的ID
+    protected Integer saveExamProgramSubmission (ExamAutoTaskExtends examAutoTaskExtends, AnswerEntity answerEntity, Integer groupId, ResponseEntity responseEntity, Integer problemScore){
         // 统计分数
         // 测试用例正确个数
         long ACCount = responseEntity.getTestCases().stream().filter(Predicate.isEqual(ResultEnum.AC)).count();
@@ -124,6 +136,6 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
         }
         int attachId = attachmentService.save(examAutoTaskExtends.getUid(), sourceFileName);
         // 保存做题详情
-        programSubmissionDetailService.save(responseEntity, subId, attachId);
+        return programSubmissionDetailService.save(responseEntity, subId, attachId);
     }
 }
