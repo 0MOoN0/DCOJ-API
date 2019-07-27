@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
 <form enctype="multipart/form-data" method="post" action="/updateAvatar">
@@ -13,10 +14,49 @@
     文件：<input type="file" name="file"/>
     <input type="submit" value="上传"/>
 </form>
+<form method="post" action="/account/login">
+    账号：<input type="input" name="username" id="username"/>
+    密码：<input type="input" name="password" id="password"/>
+    <input type="button" value="登录" id="login"/>
+</form>
 
 <!--<form  method="post" action="/test/export">-->
 
 <!--<input type="submit" value="下载"/>-->
 <!--</form>-->
 </body>
+<script>
+    $(function () {
+        $("#login").on( "click", function() {
+            alert("LOGIN")
+            var use = $("#username").val()
+            var pwd = $("#password").val()
+            $.ajax({
+                //请求方式
+                type : "POST",
+                //请求的媒体类型
+                contentType: "application/json;charset=UTF-8",
+                //请求地址
+                url : "/account/login",
+                dataType:'json',
+                //数据，json字符串
+                data : JSON.stringify({ "username": use, "password": pwd }),
+                //请求成功
+                success : function(result) {
+                    console.log(result);
+                },
+                //请求失败，包含具体的错误信息
+                error : function(e){
+                    console.log(e.data);
+                    console.log(e.status);
+                    console.log(e.responseText);
+                }
+            });
+        })
+    })
+
+
+
+
+</script>
 </html>

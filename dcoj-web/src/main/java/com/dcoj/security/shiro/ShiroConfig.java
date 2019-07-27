@@ -7,6 +7,7 @@ import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSource
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -17,13 +18,15 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * @author Smith
- **/
+ * Shiro配置
+ *
+ * @author WANGQING
+ */
 @Configuration
 public class ShiroConfig {
 
     @Bean("securityManager")
-    public DefaultWebSecurityManager getManager(Realm realm) {
+    public DefaultWebSecurityManager getManager(@Qualifier("userRealm")Realm realm) {
         DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
         manager.setRealm(realm);
 
@@ -54,8 +57,8 @@ public class ShiroConfig {
 //        factoryBean.setLoginUrl("/login");
         // 自定义URL规则，所有的请求都通过自定义Filter，访问401和404不通过自定义Filter
         Map<String, String> filterRuleMap = new LinkedHashMap<>();
-        filterRuleMap.put("/401", "anon");
-        filterRuleMap.put("/404", "anon");
+//        filterRuleMap.put("/401", "anon");
+//        filterRuleMap.put("/404", "anon");
         filterRuleMap.put("/**", "jwt");
         factoryBean.setFilterChainDefinitionMap(filterRuleMap);
         return factoryBean;
@@ -84,4 +87,13 @@ public class ShiroConfig {
         advisor.setSecurityManager(securityManager);
         return advisor;
     }
+
+    /**
+     * 创建Realm
+     */
+    @Bean("userRealm")
+    public Realm getRealm() {
+        return new Realm();
+    }
+
 }

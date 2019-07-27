@@ -14,6 +14,7 @@ import com.dcoj.util.WebUtil;
 import com.github.pagehelper.util.StringUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.ehcache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +46,6 @@ public class AccountController {
 
     @Autowired
     private CacheService cacheService;
-
-
 
     /**
      * 用户注册
@@ -161,12 +160,29 @@ public class AccountController {
 
     private Cache<String, String> authCache = GlobalCacheManager.getAuthCache();
 
+    @RequiresPermissions("account:view")
+    @GetMapping("/view")
+    @ResponseBody
+    public Object accountView(){
+        System.out.println("account:view");
+        return "account:view";
+    }
 
+    @RequiresPermissions("account:edit")
+    @GetMapping("/edit")
+    @ResponseBody
+    public Object accountEdit(){
+        System.out.println("account:edit");
+        return "account:edit";
+    }
+
+//Token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjIsImV4cCI6MTU2NDgyMjcxMn0.Aqui3QAenrlQbIM7CBe33IomjgDFgRDr6cZCkRyA_uw
     @PostMapping("/login")
     public ResponseEntity login(HttpServletResponse response,@RequestBody @Valid IndexLoginFormat format) {
         UserEntity userEntity = userService.login(format);
         WebUtil.assertNotNull(userEntity, "用户密码错误");
         String token = JWTUtil.sign(userEntity.getUserId(), userEntity.getPassword());
+        System.out.println("Token:"+token);
         authCache.put(DefaultConfig.TOKEN+userEntity.getUsername(),token);
 
 //        // 检查用户权限缓存，如果用户权限缓存不存在则刷新
@@ -176,6 +192,8 @@ public class AccountController {
 //        }*/
         return new ResponseEntity("登入成功");
     }
+
+
 
 
 

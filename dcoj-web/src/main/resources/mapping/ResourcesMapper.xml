@@ -187,7 +187,7 @@
         FROM resources,
              role,
              role_resources
-        WHERE role.role_id = 1
+        WHERE role.role_id = #{roleId,jdbcType=INTEGER}
           and resources.is_deleted = 0
           and role_resources.is_deleted = 0
           and role.is_deleted = 0

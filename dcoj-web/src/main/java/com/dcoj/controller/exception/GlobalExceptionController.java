@@ -5,6 +5,7 @@ import com.dcoj.entity.ResponseEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.ShiroException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -68,6 +69,19 @@ public class GlobalExceptionController {
     public ResponseEntity handle(ConstraintViolationException e) {
         String s = e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.toList()).get(0);
         return new ResponseEntity(HttpStatus.BAD_REQUEST.value(), s, null);
+    }
+
+    /**
+     * 当你访问没有权限的控制器则跳转到此处
+     *
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(org.apache.shiro.authz.UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity handleShiroException(org.apache.shiro.authz.UnauthorizedException e) {
+//        String s = e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.toList()).get(0);
+        return new ResponseEntity("你没有权限访问");
     }
 
     /*

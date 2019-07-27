@@ -1,4 +1,4 @@
-package com.dcoj.dao;
+package com.dcoj.service;
 
 import com.dcoj.entity.ResourcesEntity;
 import org.junit.Test;
@@ -14,10 +14,10 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ResourcesMapperTest {
+public class ResourcesServiceTest {
 
     @Autowired
-    private ResourcesMapper resourcesMapper;
+    private ResourcesService resourcesService;
 
     @Test
     public void removeByPrimaryKey() {
@@ -25,22 +25,14 @@ public class ResourcesMapperTest {
 
     @Test
     public void save() {
-        ResourcesEntity resources = new ResourcesEntity();
-        resources.setName("hel");
-        resourcesMapper.save(resources);
     }
 
     @Test
     public void getByPrimaryKey() {
-        System.out.println(resourcesMapper.getByPrimaryKey(21));
     }
 
     @Test
     public void updateResources() {
-        ResourcesEntity resources = new ResourcesEntity();
-        resources.setName("hel11");
-        resources.setResourcesId(21);
-        resourcesMapper.updateResources(resources);
     }
 
     @Test
@@ -49,7 +41,10 @@ public class ResourcesMapperTest {
 
     @Test
     public void listByRoleId() {
-        System.out.println(resourcesMapper.listByRoleId(3));
+        System.out.println(resourcesService.listByRoleId(3));
+        for (ResourcesEntity resourcesEntity : resourcesService.listByRoleId(3)) {
+            System.out.println(resourcesEntity);
+        }
     }
 
     @Test
@@ -58,11 +53,9 @@ public class ResourcesMapperTest {
 
     @Test
     public void listAll() {
-        resourcesMapper.listAll().forEach(System.out::println);
     }
 
     @Test
-    public void countResource() {
-        System.out.println(resourcesMapper.countResources());
+    public void countResources() {
     }
 }
