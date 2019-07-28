@@ -12,5 +12,8 @@ public class ExamAutoTaskExtends extends ExamAutoTask {
     private String answer;
     // 用户考卷ID，根据此ID从缓存中获取试卷相关提交信息
     private Integer examUserId;
+    private Integer uid;
+    // 试卷ID
+    private Integer examId;
 
 }

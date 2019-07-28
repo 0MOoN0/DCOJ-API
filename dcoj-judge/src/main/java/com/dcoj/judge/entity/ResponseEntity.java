@@ -10,6 +10,7 @@ import java.util.List;
  *
  * @author Leon
  **/
+
 public class ResponseEntity {
 
     public ResponseEntity(double time, int memory, ResultEnum result, List<TestCaseResponseEntity> testCases) {
