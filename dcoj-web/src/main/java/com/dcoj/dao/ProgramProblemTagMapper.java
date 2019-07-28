@@ -1,12 +1,11 @@
 package com.dcoj.dao;
 
-import com.dcoj.entity.ProgramProblemTagEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
- * 题目标签关联持久层
+ * 编程题、标签关联 持久层
  *
  * @author WANGQING
  */

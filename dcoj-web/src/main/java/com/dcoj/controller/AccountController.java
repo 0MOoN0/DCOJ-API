@@ -1,7 +1,7 @@
 package com.dcoj.controller;
 
 import com.dcoj.cache.GlobalCacheManager;
-import com.dcoj.controller.exception.WebErrorException;
+import com.dcoj.config.DefaultConfig;
 import com.dcoj.controller.format.index.*;
 import com.dcoj.entity.ResponseEntity;
 import com.dcoj.entity.UserEntity;
@@ -10,22 +10,29 @@ import com.dcoj.service.MailService;
 import com.dcoj.service.UserService;
 import com.dcoj.util.JWTUtil;
 import com.dcoj.util.MailUtil;
-import com.dcoj.util.Md5HashUtil;
-import com.dcoj.util.RandomValidateCodeUtil;
+import com.dcoj.util.WebUtil;
+import com.github.pagehelper.util.StringUtil;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.ehcache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Optional;
-import java.util.Set;
+
 
 /**
- * @author Leon
- * @author WangQing
- **/
+ * 用户管理 控制器
+ *
+ * @author Leon WangQing
+ */
 @RestController
 @Validated
 @RequestMapping(value = "/account", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -40,7 +47,6 @@ public class AccountController {
     @Autowired
     private CacheService cacheService;
 
-
     /**
      * 用户注册
      *
@@ -53,7 +59,8 @@ public class AccountController {
     public ResponseEntity register(@RequestBody @Valid IndexRegisterFormat format, @RequestHeader("email_token") String emailToken) {
         boolean verifyFlag = MailUtil.verifyEmailFromCache(emailToken, format.getVerifyCode(), format.getEmail(), 300000);
         if (verifyFlag) {
-            userService.register(format.getStudentId(), format.getEmail(), format.getEmail(), format.getPassword());
+            // TODO: 2019.7.6 WANGQING 登录
+            //userService.register(format.getStudentId(), format.getEmail(), format.getEmail(), format.getPassword());
             //移除验证码缓存
             return new ResponseEntity("注册成功");
         } else {
@@ -109,19 +116,20 @@ public class AccountController {
     @PostMapping("/forget_password_code")
     public ResponseEntity forgetPasswordCode(@RequestBody @Valid IndexRegisterCodeFormat format) {
 
-        boolean isExist = userService.checkUserByEmail(format.getEmail());
-        if (isExist) {
-            String verifyCode = RandomValidateCodeUtil.getRandomString();
-            //token password由验证码和当前时间戳组成
-            String token = Md5HashUtil.generate(verifyCode + System.currentTimeMillis());
-            //获取缓存并将token和发送时间存入缓存
-            Cache<String, String> emailVerifyCache = GlobalCacheManager.getEmailVerifyCache();
-            mailService.sendMail(format.getEmail(), "【DCOJ】邮箱验证", verifyCode);
-            emailVerifyCache.put(token, token + ":" + format.getEmail() + ":" + System.currentTimeMillis());
-            return new ResponseEntity("邮件发送成功", token);
-        } else {
-            throw new WebErrorException("邮件发送失败");
-        }
+//        boolean isExist = userService.checkUserByEmail(format.getEmail());
+//        if (isExist) {
+//            String verifyCode = RandomValidateCodeUtil.getRandomString();
+//            //token password由验证码和当前时间戳组成
+//            String token = Md5HashUtil.generate(verifyCode + System.currentTimeMillis());
+//            //获取缓存并将token和发送时间存入缓存
+//            Cache<String, String> emailVerifyCache = GlobalCacheManager.getEmailVerifyCache();
+//            mailService.sendMail(format.getEmail(), "【DCOJ】邮箱验证", verifyCode);
+//            emailVerifyCache.put(token, token + ":" + format.getEmail() + ":" + System.currentTimeMillis());
+//            return new ResponseEntity("邮件发送成功", token);
+//        } else {
+//            throw new WebErrorException("邮件发送失败");
+//        }
+        return null;
     }
 
     /**
@@ -134,32 +142,60 @@ public class AccountController {
     @SuppressWarnings("all")
     @PostMapping("/register_code")
     public ResponseEntity registerCode(@RequestBody @Valid IndexRegisterCodeFormat format) {
-        boolean isExist = userService.checkUserByEmail(format.getEmail());
-        if (!isExist) {
-            String verifyCode = RandomValidateCodeUtil.getRandomString();
-            //token password由验证码和当前时间戳组成
-            String token = Md5HashUtil.generate(verifyCode + System.currentTimeMillis());
-            //获取缓存并将token和发送时间存入缓存
-            Cache<String, String> emailVerifyCache = GlobalCacheManager.getEmailVerifyCache();
-            mailService.sendMail(format.getEmail(), "【DCOJ】邮箱验证", verifyCode);
-            emailVerifyCache.put(token, token + ":" + format.getEmail() + ":" + System.currentTimeMillis());
-            return new ResponseEntity("邮件发送成功", token);
-        } else {
-            throw new WebErrorException("邮件发送失败");
-        }
+//        boolean isExist = userService.checkUserByEmail(format.getEmail());
+//        if (!isExist) {
+//            String verifyCode = RandomValidateCodeUtil.getRandomString();
+//            //token password由验证码和当前时间戳组成
+//            String token = Md5HashUtil.generate(verifyCode + System.currentTimeMillis());
+//            //获取缓存并将token和发送时间存入缓存
+//            Cache<String, String> emailVerifyCache = GlobalCacheManager.getEmailVerifyCache();
+//            mailService.sendMail(format.getEmail(), "【DCOJ】邮箱验证", verifyCode);
+//            emailVerifyCache.put(token, token + ":" + format.getEmail() + ":" + System.currentTimeMillis());
+//            return new ResponseEntity("邮件发送成功", token);
+//        } else {
+//            throw new WebErrorException("邮件发送失败");
+//        }
+        return null;
     }
 
-    @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid IndexLoginFormat format) {
-        UserEntity userEntity = userService.login(format);
-        String token = JWTUtil.sign(userEntity.getUid(), userEntity.getPassword());
-        // 检查用户权限缓存，如果用户权限缓存不存在则刷新
-/*        Set<String> permissionSet = GlobalCacheManager.getPermissionCache().get(userEntity.getUid());
-        if(!Optional.ofNullable(permissionSet).isPresent()){
-            cacheService.reloadPermissionCacheByUid(userEntity.getUid());
-        }*/
-        return new ResponseEntity("登入成功", token);
+    private Cache<String, String> authCache = GlobalCacheManager.getAuthCache();
+
+    @RequiresPermissions("account:view")
+    @GetMapping("/view")
+    @ResponseBody
+    public Object accountView(){
+        System.out.println("account:view");
+        return "account:view";
     }
+
+    @RequiresPermissions("account:edit")
+    @GetMapping("/edit")
+    @ResponseBody
+    public Object accountEdit(){
+        System.out.println("account:edit");
+        return "account:edit";
+    }
+
+//Token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjIsImV4cCI6MTU2NDgyMjcxMn0.Aqui3QAenrlQbIM7CBe33IomjgDFgRDr6cZCkRyA_uw
+    @PostMapping("/login")
+    public ResponseEntity login(HttpServletResponse response,@RequestBody @Valid IndexLoginFormat format) {
+        UserEntity userEntity = userService.login(format);
+        WebUtil.assertNotNull(userEntity, "用户密码错误");
+        String token = JWTUtil.sign(userEntity.getUserId(), userEntity.getPassword());
+        System.out.println("Token:"+token);
+        authCache.put(DefaultConfig.TOKEN+userEntity.getUsername(),token);
+
+//        // 检查用户权限缓存，如果用户权限缓存不存在则刷新
+///*        Set<String> permissionSet = GlobalCacheManager.getPermissionCache().get(userEntity.getUid());
+//        if(!Optional.ofNullable(permissionSet).isPresent()){
+//            cacheService.reloadPermissionCacheByUid(userEntity.getUid());
+//        }*/
+        return new ResponseEntity("登入成功");
+    }
+
+
+
+
 
     /**
      * 忘记密码部分--验证密码是否正确
@@ -190,7 +226,8 @@ public class AccountController {
     */
     @PutMapping("/reset_password")
     public ResponseEntity resetPassword(@RequestBody @Valid ResetPasswordFormat format, @RequestHeader("email_token") String emailToken) {
-        userService.resetUserPassword(format.getEmail(), format.getPassword(), emailToken);
-        return new ResponseEntity("密码重置成功");
+//        userService.resetUserPassword(format.getEmail(), format.getPassword(), emailToken);
+//        return new ResponseEntity("密码重置成功");
+        return null;
     }
 }

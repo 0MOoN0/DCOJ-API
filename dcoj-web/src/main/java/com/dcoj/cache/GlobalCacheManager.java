@@ -17,12 +17,14 @@ import java.time.temporal.ChronoUnit;
 import java.util.Set;
 
 /**
- * @author Leon
- **/
+ * 自定义全局缓存处理器
+ *
+ * @author Leon WANGQING
+ */
 public class GlobalCacheManager {
 
     /**
-     * [{token, password}, ...]
+     *  格式:[token_username:token, ...]
      */
     private static Cache<String, String> authCache;
 
@@ -56,7 +58,9 @@ public class GlobalCacheManager {
                         CacheConfigurationBuilder.newCacheConfigurationBuilder(
                                 String.class,
                                 String.class,
-                                ResourcePoolsBuilder.newResourcePoolsBuilder().heap(10, MemoryUnit.MB)));
+                                ResourcePoolsBuilder.newResourcePoolsBuilder().heap(10, MemoryUnit.MB))
+                                .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.of(DefaultConfig.TOKEN_EXPIRED_TIME, ChronoUnit.MINUTES))))
+        ;
         permissionCache = cacheManager
                 .createCache("permissionCache",
                         CacheConfigurationBuilder.newCacheConfigurationBuilder(

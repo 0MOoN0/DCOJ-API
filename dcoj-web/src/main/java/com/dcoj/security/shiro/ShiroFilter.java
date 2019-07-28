@@ -1,5 +1,6 @@
-package com.dcoj.security;
+package com.dcoj.security.shiro;
 
+import com.dcoj.security.JWToken;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @author Leon
- **/
+ * 重写Shiro过滤器
+ *
+ * @author Leon WANGQING
+ */
 //@CrossOrigin
 public class ShiroFilter extends BasicHttpAuthenticationFilter {
 
@@ -49,39 +52,13 @@ public class ShiroFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-/*        HttpServletRequest req = WebUtils.toHttp(request);
-        // 判断是否允许访问资源
         if (isLoginAttempt(request, response)) {
             try {
-                //如果是登陆操作，执行登陆
                 executeLogin(request, response);
-                //通过token获取uid
-                String authorization = req.getHeader("Authorization");
-                String uid = JWTUtil.getUid(authorization);
-                //查询权限是否匹配，匹配时要求请求方式和请求路径匹配,权限根据传入token的uid匹配
-                Set<PermissionEntity> permissionId = GlobalCacheManager.getPermissionCache().get(uid);
-                return Optional.ofNullable(permissionId).map(permissionEntities ->
-                        permissionEntities.parallelStream().anyMatch(permissionEntity ->
-                                permissionEntity.getURI().equals(req.getRequestURI().toLowerCase())&&permissionEntity.getMethod().equals(req.getMethod())
-                        )
-                        // 如果Optional中没有值，返回false，这种情况在GUEST的权限为空的时候存在
-                ).orElse(false);
             } catch (Exception e) {
-                //登陆出错将重定向到401
                 sendRedirect(request, response);
             }
-        }else{
-            //访客登陆,获取身份为GUEST的权限
-            Set<PermissionEntity> permissions = GlobalCacheManager.getPermissionCache().get("GUEST");
-            //查看权限集合中是否与当前访问匹配，匹配时要求请求方式和请求路径匹配
-            return Optional.ofNullable(permissions).map(permissionEntities ->
-                permissionEntities.parallelStream().anyMatch(n->
-                        n.getURI().equals(req.getRequestURI().toLowerCase())&&
-                                n.getMethod().equals(req.getMethod())
-                )
-                    //如果Optional中没有值，返回false，这种情况在GUEST的权限为空的时候存在
-            ).orElse(false);
-        }*/
+        }
         //默认拦截所有请求
         return true;
     }

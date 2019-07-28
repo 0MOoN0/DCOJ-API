@@ -3,7 +3,7 @@ package com.dcoj.service;
 import java.util.List;
 
 /**
- * 客观题目标签关联 业务层
+ * 客观题、标签关联 业务层
  *
  * @author WANGQING
  */

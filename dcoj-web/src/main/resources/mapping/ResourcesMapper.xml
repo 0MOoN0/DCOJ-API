@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dcoj.dao.ResourcesMapper">
+    <resultMap id="BaseResultMap" type="com.dcoj.entity.ResourcesEntity">
+        <id column="resources_id" property="resourcesId" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="permission" property="permission" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="external" property="external" jdbcType="INTEGER"/>
+        <result column="available" property="available" jdbcType="INTEGER"/>
+        <result column="icon" property="icon" jdbcType="VARCHAR"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+        <result column="is_deleted" property="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        resources_id, `name`, type, url, permission, parent_id, sort, external, available,
+        icon, gmt_create, gmt_modified, is_deleted
+    </sql>
+    <update id="removeByPrimaryKey" parameterType="java.lang.Integer">
+        update resources
+        set is_deleted = 1
+        where resources_id = #{resourcesId,jdbcType=INTEGER}
+          and is_deleted = 0
+    </update>
+
+    <insert id="save" parameterType="com.dcoj.entity.ResourcesEntity">
+        insert into resources
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="resourcesId != null">
+                resources_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="permission != null">
+                permission,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="external != null">
+                external,
+            </if>
+            <if test="available != null">
+                available,
+            </if>
+            <if test="icon != null">
+                icon,
+            </if>
+
+            <if test="deleted != null">
+                is_deleted,
+            </if>
+            gmt_create,
+            gmt_modified,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="resourcesId != null">
+                #{resourcesId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="permission != null">
+                #{permission,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="external != null">
+                #{external,jdbcType=INTEGER},
+            </if>
+            <if test="available != null">
+                #{available,jdbcType=INTEGER},
+            </if>
+            <if test="icon != null">
+                #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=INTEGER},
+            </if>
+            DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'),
+            DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s')
+        </trim>
+    </insert>
+    
+    <select id="getByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from resources
+        where resources_id = #{resourcesId,jdbcType=INTEGER} and is_deleted = 0
+    </select>
+ 
+    <update id="updateResources" parameterType="com.dcoj.entity.ResourcesEntity">
+        update resources
+        <set>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="permission != null">
+                permission = #{permission,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="external != null">
+                external = #{external,jdbcType=INTEGER},
+            </if>
+            <if test="available != null">
+                available = #{available,jdbcType=INTEGER},
+            </if>
+            <if test="icon != null">
+                icon = #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                is_deleted = #{deleted,jdbcType=INTEGER},
+            </if>
+        </set>
+        where resources_id = #{resourcesId,jdbcType=INTEGER}  and is_deleted = 0
+    </update>
+
+    <select id="listUrlAndPermission" resultMap="BaseResultMap">
+        SELECT url, permission
+        FROM resources
+        WHERE url IS NOT NULL
+          and is_deleted = 0
+        ORDER BY sort ASC
+    </select>
+
+    <select id="listByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT resources.resources_id  as resourcesId,
+               resources.name          as `name`,
+               resources.type          as `type`,
+               resources.url           as `url`,
+               resources.permission    as `permission`,
+               resources.parent_id     as `parentId`,
+               resources.sort          as `sort`,
+               resources.external      as external,
+               resources.available     as available,
+               resources.icon          as icon,
+               resources.gmt_create   as gmtCreate,
+               resources.gmt_modified as gmtModified,
+               resources.is_deleted    as deleted
+        FROM resources,
+             role,
+             role_resources
+        WHERE role.role_id = #{roleId,jdbcType=INTEGER}
+          and resources.is_deleted = 0
+          and role_resources.is_deleted = 0
+          and role.is_deleted = 0
+          and role_resources.resources_id = resources.resources_id
+          and role_resources.role_id = role.role_id
+    </select>
+
+    <select id="listResourcesWithSelectedByRoleId" resultType="java.util.HashMap"
+            parameterType="java.lang.Integer">
+        SELECT re.resources_id as resourcesId,
+               re.`name`       as `name`,
+               re.parent_id    as parentId,
+               (
+                       CASE
+                           WHEN EXISTS(
+                                    SELECT 1
+                                    FROM role_resources rr
+                                    WHERE rr.resources_id = re.resources_id
+                                      AND rr.role_id = #{id}
+                                      and rr.is_deleted = 0
+                               )
+                                 THEN 'true'
+                           ELSE 'false'
+                               END
+                       )       AS checked
+        FROM resources re
+        where re.is_deleted = 0
+        ORDER BY re.sort ASC
+    </select>
+
+    <select id="listAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        resources
+        WHERE
+        is_deleted = 0
+    </select>
+
+    <select id="countResources" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM resources
+        WHERE is_deleted = 0
+    </select>
+
+
+</mapper>

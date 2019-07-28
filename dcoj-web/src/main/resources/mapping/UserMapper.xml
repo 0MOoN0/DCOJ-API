@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dcoj.dao.UserMapper">
+
+    <sql id="Base_Column_List">
+        user_id,
+        username,
+        `password`,
+        email,
+        student_name,
+        avatar,
+        motto,
+        gender,
+        submit_times,
+        ac_times,
+        wa_times,
+        rte_times,
+        tle_times,
+        cet_times,
+        finished_problems,
+        gmt_create,
+        gmt_modified,
+        is_deleted
+    </sql>
+
+    <resultMap id="userResultMap" type="com.dcoj.entity.UserEntity">
+        <id column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="student_name" property="studentName"/>
+        <result column="email" property="email"/>
+        <result column="avatar" property="avatar"/>
+        <result column="gender" property="gender"/>
+        <result column="motto" property="motto"/>
+        <result column="submit_times" property="submitTimes"/>
+        <result column="ac_times" property="ACTimes"/>
+        <result column="wa_times" property="WATimes"/>
+        <result column="rte_times" property="RTETimes"/>
+        <result column="tle_times" property="TLETimes"/>
+        <result column="ce_times" property="CETimes"/>
+        <result column="finished_problems" property="finishedProblems"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" javaType="java.sql.Timestamp"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" javaType="java.sql.Timestamp"/>
+        <result column="is_deleted" property="deleted"/>
+    </resultMap>
+
+    <select id="countUsers" resultType="Integer">
+        select count(*)
+        from `user`
+        where is_deleted = 0
+    </select>
+
+    <select id="getByPrimaryKey" resultMap="userResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from `user` where  user_id = #{userId} and is_deleted = 0
+    </select>
+
+    <select id="getByUsername" resultMap="userResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from `user` where  username = #{username} and is_deleted = 0
+    </select>
+
+    <select id="listAll" resultMap="userResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from `user` where  is_deleted = 0
+    </select>
+
+    <update id="updateUser">
+        update `user`
+        <set>
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">`password` = #{password},</if>
+            <if test="studentName != null">student_name = #{student_name},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="submitTimes != null">submit_times = #{submitTimes},</if>
+            <if test="ACTimes != null">ac_times = #{ACTimes},</if>
+            <if test="WATimes != null">wa_times = #{WATimes},</if>
+            <if test="RTETimes != null">rte_times = #{RTETimes},</if>
+            <if test="TLETimes != null">tle_times = #{TLETimes},</if>
+            <if test="CETimes != null">cet_times = #{CETimes},</if>
+            <if test="finishedProblems != null">finished_problems = #{finishedProblems},</if>
+            <if test="motto != null">motto = #{motto},</if>
+        </set>
+        where user_id = #{userId} and is_deleted = 0
+    </update>
+
+    <update id="removeByPrimaryKey">
+        update `user`
+        <set>
+            is_deleted = 1
+        </set>
+        where user_id = #{userId} and is_deleted = 0
+    </update>
+
+
+    <!--<insert id="save" parameterType="ProgramProblemEntity" useGeneratedKeys="true" keyProperty="programProblemId">-->
+        <!--insert into program_problem-->
+        <!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
+            <!--<if test="description != null">-->
+                <!--description,-->
+            <!--</if>-->
+            <!--<if test="difficult != null">-->
+                <!--difficult,-->
+            <!--</if>-->
+            <!--<if test="title != null">-->
+                <!--title,-->
+            <!--</if>-->
+            <!--<if test="inputFormat != null">-->
+                <!--input_format,-->
+            <!--</if>-->
+            <!--<if test="outputFormat != null">-->
+                <!--output_format,-->
+            <!--</if>-->
+            <!--<if test="samples != null">-->
+                <!--samples,-->
+            <!--</if>-->
+            <!--<if test="memory != null">-->
+                <!--`memory`,-->
+            <!--</if>-->
+            <!--<if test="runTime != null">-->
+                <!--run_time,-->
+            <!--</if>-->
+            <!--gmt_create,-->
+            <!--gmt_modified-->
+        <!--</trim>-->
+        <!--values-->
+        <!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
+            <!--<if test="description != null">-->
+                <!--#{description},-->
+            <!--</if>-->
+            <!--<if test="difficult != null">-->
+                <!--#{difficult},-->
+            <!--</if>-->
+            <!--<if test="title != null">-->
+                <!--#{title},-->
+            <!--</if>-->
+            <!--<if test="inputFormat != null">-->
+                <!--#{inputFormat},-->
+            <!--</if>-->
+            <!--<if test="outputFormat != null">-->
+                <!--#{outputFormat},-->
+            <!--</if>-->
+            <!--<if test="samples != null">-->
+                <!--#{samples},-->
+            <!--</if>-->
+            <!--<if test="memory != null">-->
+                <!--#{memory},-->
+            <!--</if>-->
+            <!--<if test="runTime != null">-->
+                <!--#{runTime},-->
+            <!--</if>-->
+            <!--DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'),-->
+            <!--DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s')-->
+        <!--</trim>-->
+    <!--</insert>-->
+
+
+
+
+</mapper>
+

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 客观题 数据层
+ * 客观题 持久层
  *
  * @author WANGQING
  */

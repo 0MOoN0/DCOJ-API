@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * 标签 数据层
+ * 标签（客观题） 持久层
  *
  * @author WANGQING
  */

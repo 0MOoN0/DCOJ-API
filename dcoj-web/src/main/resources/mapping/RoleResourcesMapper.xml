@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dcoj.dao.RoleResourcesMapper">
+    <resultMap id="BaseResultMap" type="com.dcoj.entity.RoleResourcesEntity">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="role_id" property="roleId" jdbcType="INTEGER"/>
+        <result column="resources_id" property="resourcesId" jdbcType="INTEGER"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+        <result column="is_deleted" property="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        role_id, resources_id, gmt_create, gmt_modified, is_deleted
+    </sql>
+
+    <insert id="save" parameterType="com.dcoj.entity.RoleResourcesEntity">
+        insert into role_resources
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">
+                role_id,
+            </if>
+            <if test="resourcesId != null">
+                resources_id,
+            </if>
+            gmt_modified,
+            gmt_create
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">
+                #{roleId,jdbcType=INTEGER},
+            </if>
+            <if test="resourcesId != null">
+                #{resourcesId,jdbcType=INTEGER},
+            </if>
+            DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'),
+            DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s')
+        </trim>
+    </insert>
+
+    <update id="removeResourcesByRoleId" parameterType="java.lang.Integer">
+        update role_resources
+        set
+            is_deleted = 1
+        where role_id = #{roleId,jdbcType=INTEGER} and is_deleted = 0
+    </update>
+
+    <update id="removeResourcesByResourcesId" parameterType="java.lang.Integer">
+        update role_resources
+        set
+            is_deleted = 1
+        where resources_id = #{resourcesId,jdbcType=INTEGER} and is_deleted = 0
+    </update>
+
+    <select id="countResourcesByRoleId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(*)
+        from role_resources
+        where role_id = #{roleId,jdbcType=INTEGER} and is_deleted = 0
+    </select>
+
+    <select id="countRoleIdByResourcesId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(*)
+        from role_resources
+        where resources_id = #{resourcesId,jdbcType=INTEGER} and is_deleted = 0
+    </select>
+
+</mapper>

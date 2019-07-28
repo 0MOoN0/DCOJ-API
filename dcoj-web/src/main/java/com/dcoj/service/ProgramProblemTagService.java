@@ -1,11 +1,9 @@
 package com.dcoj.service;
 
-import com.dcoj.entity.ProgramProblemTagEntity;
-
 import java.util.List;
 
 /**
- * 题目标签关联业务层
+ * 编程题、标签关联 业务层
  *
  * @author WANGQING
  */

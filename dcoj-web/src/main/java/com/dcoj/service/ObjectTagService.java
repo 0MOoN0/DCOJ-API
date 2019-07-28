@@ -5,7 +5,7 @@ import com.dcoj.entity.ObjectTagEntity;
 import java.util.List;
 
 /**
- * 标签 业务层
+ * 标签（客观题） 业务层
  *
  * @author WANGQING
  */

@@ -6,29 +6,15 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 /**
- * 角色实体类
- *
  * @author WANGQING
  */
 @Data
-public class RoleEntity {
+public class RoleResourcesEntity {
     /**
      * 角色id
      */
     @JSONField(name = "role_id")
     private Integer roleId;
-    /**
-     * 角色名
-     */
-    private String name;
-    /**
-     * 角色描述
-     */
-    private String description;
-    /**
-     * 是否可用
-     */
-    private Integer available;
     /**
      * 最后更新时间
      */

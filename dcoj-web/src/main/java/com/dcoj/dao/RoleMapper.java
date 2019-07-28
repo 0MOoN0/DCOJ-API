@@ -1,21 +1,23 @@
-package com.dcoj.service;
+package com.dcoj.dao;
 
 import com.dcoj.entity.RoleEntity;
 
 import java.util.List;
 
 /**
- * 角色 业务层
+ * 角色 持久层
  *
  * @author WANGQING
  */
-public interface RoleService {
+public interface RoleMapper {
+
     /**
-     * 删除角色
+     * 通过roleId删除一个角色
      *
      * @param roleId 角色id
+     * @return 返回1则删除成功，返回0则删除失败
      */
-    void removeByPrimaryKey(Integer roleId);
+    int removeByPrimaryKey(Integer roleId);
 
     /**
      *  新增一个角色信息
@@ -36,10 +38,10 @@ public interface RoleService {
     /**
      * 更新一条角色信息
      *
-     * @param roleId 角色id
-     * @param record record 角色信息
+     * @param record 角色信息
+     * @return 返回值为1时，更新成功，为0则更新失败
      */
-    void updateRole(Integer roleId, RoleEntity record);
+    int updateRole(RoleEntity record);
 
     /**
      * 通过userId查询该用户的角色
@@ -62,14 +64,5 @@ public interface RoleService {
      * @return 结果
      */
     int countRoles();
-
-    /**
-     * 修改角色对应的资源权限
-     *
-     * @param roleId       角色id
-     * @param resourcesIds 资源id
-     * @return 结果
-     */
-    //void updateRoleResources(Integer roleId, String resourcesIds);
 
 }
