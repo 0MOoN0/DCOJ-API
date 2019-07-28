@@ -8,7 +8,11 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 import java.util.Date;
 
-
+/**
+ * JWT工具类
+ *
+ * @author WANGQING
+ */
 public class JWTUtil {
 
     // 过期时间

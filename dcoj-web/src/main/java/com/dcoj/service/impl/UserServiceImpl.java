@@ -5,7 +5,9 @@ import com.dcoj.dao.UserMapper;
 import com.dcoj.entity.UserEntity;
 import com.dcoj.service.UserService;
 import com.dcoj.util.JWTUtil;
+import com.dcoj.util.Md5Utils;
 import com.dcoj.util.WebUtil;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -135,11 +137,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity login(IndexLoginFormat format) {
         UserEntity userEntity = userMapper.getByUsername(format.getUsername());
+        // md5加密
+        String md5Pwd = Md5Utils.formPassToDbPass(format.getPassword());
+        // SHA-256加密
+        String password = DigestUtils.sha256Hex(md5Pwd.getBytes());
         // 验证密码
-        if (userEntity.getPassword().equals(format.getPassword())) {
+        if (password.equals(userEntity.getPassword())) {
             return userEntity;
         }
         return null;
+    }
+
+    public static void main(String[] args) {
+        String md5Pwd = Md5Utils.formPassToDbPass("1");
+        String sha =  DigestUtils.sha256Hex(md5Pwd.getBytes());
+        System.out.println(md5Pwd);
+        System.out.println(sha);
     }
 
     /**

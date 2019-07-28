@@ -36,7 +36,7 @@ import java.util.Set;
  *
  * @author WANGQING
  */
-@Configuration // Configuration会将当前bean加入IoC容器
+//@Configuration // Configuration会将当前bean加入IoC容器
 public class Realm extends AuthorizingRealm {   //继承的此Realm自带缓存实现
 
     @Autowired
@@ -61,6 +61,7 @@ public class Realm extends AuthorizingRealm {   //继承的此Realm自带缓存�
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        System.out.println("执行授权逻辑");
         String token = (String)SecurityUtils.getSubject().getPrincipal();
         // 获取当前用户
         UserEntity user = userService.getByToken(token);
@@ -94,6 +95,7 @@ public class Realm extends AuthorizingRealm {   //继承的此Realm自带缓存�
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException {
+        System.out.println("执行认证逻辑");
         // 获取token
         String token = (String) auth.getCredentials();
         System.out.println("token:"+token);
