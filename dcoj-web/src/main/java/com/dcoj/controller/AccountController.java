@@ -11,21 +11,15 @@ import com.dcoj.service.UserService;
 import com.dcoj.util.JWTUtil;
 import com.dcoj.util.MailUtil;
 import com.dcoj.util.WebUtil;
-import com.github.pagehelper.util.StringUtil;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.subject.Subject;
 import org.ehcache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.Optional;
 
 
 /**
@@ -160,6 +154,7 @@ public class AccountController {
 
     private Cache<String, String> authCache = GlobalCacheManager.getAuthCache();
 
+    // 测试控制器
     @RequiresPermissions("account:view")
     @GetMapping("/view")
     @ResponseBody
@@ -168,6 +163,7 @@ public class AccountController {
         return "account:view";
     }
 
+    // 测试控制器
     @RequiresPermissions("account:edit")
     @GetMapping("/edit")
     @ResponseBody

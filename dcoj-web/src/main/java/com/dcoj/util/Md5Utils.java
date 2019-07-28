@@ -2,13 +2,14 @@ package com.dcoj.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.DigestUtils;
 
 import java.security.MessageDigest;
 
 /**
- * Md5加密方法
+ * Md5加密 工具类
  *
- * @author ruoyi
+ * @author WANGQING
  */
 public class Md5Utils {
     private static final Logger log = LoggerFactory.getLogger(Md5Utils.class);
@@ -51,4 +52,20 @@ public class Md5Utils {
             return s;
         }
     }
+
+    /** MD5加盐 */
+    private static final String salt = "1a2b3c4d";
+
+    /**
+     * MD5加盐
+     *
+     * @param inputPass 输入需要加密的String
+     * @return 结果
+     */
+    public static String formPassToDbPass(String inputPass){
+        String str = "" + salt.charAt(0) + salt.charAt(2) + inputPass + salt.charAt(5) + salt.charAt(4);
+        return DigestUtils.md5DigestAsHex(str.getBytes());
+    }
+
+
 }

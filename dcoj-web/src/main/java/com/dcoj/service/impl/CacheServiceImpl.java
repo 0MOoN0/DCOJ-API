@@ -2,8 +2,6 @@ package com.dcoj.service.impl;
 
 import com.dcoj.cache.GlobalCacheManager;
 import com.dcoj.service.CacheService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,8 +10,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class CacheServiceImpl implements CacheService {
 
-    @Autowired
-    private MongoTemplate mongoTemplate;
 
     /**
      * 重新加载指定缓存
