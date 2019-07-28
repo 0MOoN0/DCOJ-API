@@ -5,6 +5,8 @@ import com.dcoj.service.CacheService;
 import org.springframework.stereotype.Service;
 
 /**
+ * 缓存 业务层实现
+ *
  * @author Leon WANGQING
  */
 @Service

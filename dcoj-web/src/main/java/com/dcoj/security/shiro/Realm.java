@@ -11,6 +11,7 @@ import com.dcoj.service.ResourcesService;
 import com.dcoj.service.RoleService;
 import com.dcoj.service.UserService;
 import com.dcoj.util.JWTUtil;
+import com.dcoj.util.WebUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -62,7 +63,7 @@ public class Realm extends AuthorizingRealm {   //继承的此Realm自带缓存�
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         System.out.println("执行授权逻辑");
-        String token = (String)SecurityUtils.getSubject().getPrincipal();
+        String token = (String) SecurityUtils.getSubject().getPrincipal();
         // 获取当前用户
         UserEntity user = userService.getByToken(token);
         if (user == null) {
@@ -98,19 +99,22 @@ public class Realm extends AuthorizingRealm {   //继承的此Realm自带缓存�
         System.out.println("执行认证逻辑");
         // 获取token
         String token = (String) auth.getCredentials();
-        System.out.println("token:"+token);
+        System.out.println("token:" + token);
         // 获取当前用户
         UserEntity user = userService.getByToken(token);
         Cache<String, String> authCache = GlobalCacheManager.getAuthCache();
         // 缓存操作，将用户信息保存到缓存
         if (!authCache.containsKey(token)) {
-            authCache.put(DefaultConfig.TOKEN+user.getUsername(), token);
+            authCache.put(DefaultConfig.TOKEN + user.getUsername(), token);
         }
         // secret 是用户的密码
         String secret = user.getPassword();
-        if (!JWTUtil.decode(token, secret)) {
-            throw new AuthenticationException("Token invalid");
+        // 若token失效，则报错
+        if (JWTUtil.decode(token, secret)){
+            return null;
         }
+        //WebUtil.assertIsSuccess(JWTUtil.decode(token, secret), "Token invalid");
+//            throw new AuthenticationException("Token invalid");
         return new SimpleAuthenticationInfo(token, token, "jwt_realm");
     }
 
