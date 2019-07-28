@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 编程提交详情(ProgramSubmissionDetail)服务类
@@ -31,15 +32,15 @@ public class ProgramSubmissionDetailServiceImpl implements ProgramSubmissionDeta
      * @return
      */
     @Override
-    public ProgramSubmissionDetailEntity getSubmissionDetailBySubId(int subId) {
-        ProgramSubmissionDetailEntityExample submissionDetailEntityExample = new ProgramSubmissionDetailEntityExample();
+    public Map getSubmissionDetailBySubId(int subId) {
+/*        ProgramSubmissionDetailEntityExample submissionDetailEntityExample = new ProgramSubmissionDetailEntityExample();
         submissionDetailEntityExample.createCriteria()
                 .andSubIdEqualTo(subId);
         List<ProgramSubmissionDetailEntity> submissionDetailEntities = submissionDetailMapper.selectByExample(submissionDetailEntityExample);
         if (submissionDetailEntities.size() > 0) {
             return submissionDetailEntities.get(0);
-        }
-        return null;
+        }*/
+        return submissionDetailMapper.getProgramSubmissionDetailBySubmissionID(subId);
     }
 
     /**

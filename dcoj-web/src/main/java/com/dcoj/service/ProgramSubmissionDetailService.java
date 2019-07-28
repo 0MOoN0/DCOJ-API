@@ -3,6 +3,8 @@ package com.dcoj.service;
 import com.dcoj.entity.ProgramSubmissionDetailEntity;
 import com.dcoj.judge.entity.ResponseEntity;
 
+import java.util.Map;
+
 /**
  * 提交详情类(SubmissionDetail)Service
  *
@@ -16,7 +18,7 @@ public interface ProgramSubmissionDetailService {
      * @param subId Submission ID
      * @return
      */
-    ProgramSubmissionDetailEntity getSubmissionDetailBySubId(int subId);
+    Map getSubmissionDetailBySubId(int subId);
 
     /**
      * 保存判卷详情

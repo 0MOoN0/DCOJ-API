@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Map;
+
 /**
  * @author Leon
  */
@@ -26,7 +28,7 @@ public class ProgramSubmissionDetailServiceImplTest {
 
     @Test
     public void testGet() {
-        ProgramSubmissionDetailEntity submissionDetailBySubId = submissionDetailService.getSubmissionDetailBySubId(14);
+        Map submissionDetailBySubId = submissionDetailService.getSubmissionDetailBySubId(166);
         System.out.println("===============" + submissionDetailBySubId);
     }
 
