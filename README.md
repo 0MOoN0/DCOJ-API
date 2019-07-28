@@ -3,8 +3,7 @@ Drop Code Online Judge 在线学习评测系统
 # 使用提供的批处理文件启动应用
 本系统仍在开发中，系统内容迭代速度较快，现提供批处理文件使本系统快速启动，以便测试
 ## 必须的环境
-数据库：MySQL，需要root用户的密码为root，否则请修改`dcoj-web/src/main/resources/application-leon.yml`配置文件里面对应的数据库用户和密码  
-JDK1.8  
+JDK1.8或以上  
 Maven：  
 1.  需要配置环境变量，以便使用`mvn`命令对项目进行管理  
 2.  第一次启动该应用时需要从远程仓库上下载大量依赖，请配置好maven本地仓库，镜像等，远程仓库镜像推荐使用国内镜像  
@@ -16,3 +15,13 @@ Maven：
 # 应用访问
 DCOJ-API是一个RESTFul应用，提供API，使用批处理文件启动应用后，如果要查看API，请访问：http://localhost:8080/swagger-ui.html#/
 
+# Be going to do ......
+- [x] 重新设计系统架构，画图
+- [x] 写一个工具类，用于文件上传
+- [x] [FIXBUG]删除Entity的modified和create字段，修改mapper
+- [ ] 设计一个考试判卷机，用于考试判卷
+- [ ] 试卷模块设计
+- [ ] 试卷模板设计
+- [x] 权限设计
+- [ ] 分类模块设计
+- [ ] ……
