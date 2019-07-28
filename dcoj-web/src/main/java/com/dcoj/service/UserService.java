@@ -35,11 +35,12 @@ public interface UserService {
     UserEntity getByUsername(String username);
 
     /**
-     * 显示用户列表
+     * 通过用户名模糊查询用户信息
      *
+     * @param username 用户名
      * @return 结果
      */
-    List<UserEntity> listAll();
+    List<UserEntity> listAll(String username);
 
     /**
      * 更新用户信息

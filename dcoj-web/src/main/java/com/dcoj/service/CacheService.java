@@ -1,7 +1,9 @@
 package com.dcoj.service;
 
 /**
- * @author Leon
+ * 缓存 业务层
+ *
+ * @author Leon WANGQING
  */
 public interface CacheService {
 

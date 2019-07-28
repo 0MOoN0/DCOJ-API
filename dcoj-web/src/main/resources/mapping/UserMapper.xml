@@ -56,19 +56,22 @@
     <select id="getByPrimaryKey" resultMap="userResultMap">
         select
         <include refid="Base_Column_List"/>
-        from `user` where  user_id = #{userId} and is_deleted = 0
+        from `user` where user_id = #{userId} and is_deleted = 0
     </select>
 
     <select id="getByUsername" resultMap="userResultMap">
         select
         <include refid="Base_Column_List"/>
-        from `user` where  username = #{username} and is_deleted = 0
+        from `user` where username = #{username} and is_deleted = 0
     </select>
 
-    <select id="listAll" resultMap="userResultMap">
+    <select id="listAll" resultMap="userResultMap" parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
-        from `user` where  is_deleted = 0
+        from `user` where is_deleted = 0
+        <if test="username != null">
+            and username LIKE '%${username}%'
+        </if>
     </select>
 
     <update id="updateUser">
@@ -102,67 +105,65 @@
 
 
     <!--<insert id="save" parameterType="ProgramProblemEntity" useGeneratedKeys="true" keyProperty="programProblemId">-->
-        <!--insert into program_problem-->
-        <!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
-            <!--<if test="description != null">-->
-                <!--description,-->
-            <!--</if>-->
-            <!--<if test="difficult != null">-->
-                <!--difficult,-->
-            <!--</if>-->
-            <!--<if test="title != null">-->
-                <!--title,-->
-            <!--</if>-->
-            <!--<if test="inputFormat != null">-->
-                <!--input_format,-->
-            <!--</if>-->
-            <!--<if test="outputFormat != null">-->
-                <!--output_format,-->
-            <!--</if>-->
-            <!--<if test="samples != null">-->
-                <!--samples,-->
-            <!--</if>-->
-            <!--<if test="memory != null">-->
-                <!--`memory`,-->
-            <!--</if>-->
-            <!--<if test="runTime != null">-->
-                <!--run_time,-->
-            <!--</if>-->
-            <!--gmt_create,-->
-            <!--gmt_modified-->
-        <!--</trim>-->
-        <!--values-->
-        <!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
-            <!--<if test="description != null">-->
-                <!--#{description},-->
-            <!--</if>-->
-            <!--<if test="difficult != null">-->
-                <!--#{difficult},-->
-            <!--</if>-->
-            <!--<if test="title != null">-->
-                <!--#{title},-->
-            <!--</if>-->
-            <!--<if test="inputFormat != null">-->
-                <!--#{inputFormat},-->
-            <!--</if>-->
-            <!--<if test="outputFormat != null">-->
-                <!--#{outputFormat},-->
-            <!--</if>-->
-            <!--<if test="samples != null">-->
-                <!--#{samples},-->
-            <!--</if>-->
-            <!--<if test="memory != null">-->
-                <!--#{memory},-->
-            <!--</if>-->
-            <!--<if test="runTime != null">-->
-                <!--#{runTime},-->
-            <!--</if>-->
-            <!--DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'),-->
-            <!--DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s')-->
-        <!--</trim>-->
+    <!--insert into program_problem-->
+    <!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
+    <!--<if test="description != null">-->
+    <!--description,-->
+    <!--</if>-->
+    <!--<if test="difficult != null">-->
+    <!--difficult,-->
+    <!--</if>-->
+    <!--<if test="title != null">-->
+    <!--title,-->
+    <!--</if>-->
+    <!--<if test="inputFormat != null">-->
+    <!--input_format,-->
+    <!--</if>-->
+    <!--<if test="outputFormat != null">-->
+    <!--output_format,-->
+    <!--</if>-->
+    <!--<if test="samples != null">-->
+    <!--samples,-->
+    <!--</if>-->
+    <!--<if test="memory != null">-->
+    <!--`memory`,-->
+    <!--</if>-->
+    <!--<if test="runTime != null">-->
+    <!--run_time,-->
+    <!--</if>-->
+    <!--gmt_create,-->
+    <!--gmt_modified-->
+    <!--</trim>-->
+    <!--values-->
+    <!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
+    <!--<if test="description != null">-->
+    <!--#{description},-->
+    <!--</if>-->
+    <!--<if test="difficult != null">-->
+    <!--#{difficult},-->
+    <!--</if>-->
+    <!--<if test="title != null">-->
+    <!--#{title},-->
+    <!--</if>-->
+    <!--<if test="inputFormat != null">-->
+    <!--#{inputFormat},-->
+    <!--</if>-->
+    <!--<if test="outputFormat != null">-->
+    <!--#{outputFormat},-->
+    <!--</if>-->
+    <!--<if test="samples != null">-->
+    <!--#{samples},-->
+    <!--</if>-->
+    <!--<if test="memory != null">-->
+    <!--#{memory},-->
+    <!--</if>-->
+    <!--<if test="runTime != null">-->
+    <!--#{runTime},-->
+    <!--</if>-->
+    <!--DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'),-->
+    <!--DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s')-->
+    <!--</trim>-->
     <!--</insert>-->
-
-
 
 
 </mapper>

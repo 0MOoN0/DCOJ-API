@@ -37,7 +37,7 @@ public class UserMapperTest {
 
     @Test
     public void listAll() {
-        userMapper.listAll().forEach(System.out::println);
+        userMapper.listAll("adm").forEach(System.out::println);
     }
 
     @Test

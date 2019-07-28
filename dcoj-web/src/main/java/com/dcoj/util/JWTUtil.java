@@ -15,11 +15,18 @@ import java.util.Date;
  */
 public class JWTUtil {
 
-    // 过期时间
+    /** 过期时间 */
     private static final long EXPIRE = 7 * 24 * 60 * 60 * 1000;
-    // 过期时间一个月
+    /** 过期时间一个月 */
     private static final long EXPIRE_Month = 7 * 24 * 60 * 60 * 1000 * 4 ;
 
+    /**
+     * 对token进行解码
+     *
+     * @param token token密钥
+     * @param secret 用户密钥
+     * @return 结果
+     */
     public static boolean decode(String token, String secret) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -36,7 +43,13 @@ public class JWTUtil {
         }
     }
 
-    // 发放签证
+    /**
+     * 发放签证
+     *
+     * @param uid 用户id
+     * @param secret 用户密码
+     * @return 生成带有时间戳的token字符串
+     */
     public static String sign(int uid, String secret) {
         try {
             Date date = new Date(System.currentTimeMillis() + EXPIRE_Month);
@@ -51,6 +64,12 @@ public class JWTUtil {
         }
     }
 
+    /**
+     * 通过token获取用户id
+     *
+     * @param token token密钥
+     * @return 用户id
+     */
     public static int getUid(String token) {
         try {
             // 对token进行解码

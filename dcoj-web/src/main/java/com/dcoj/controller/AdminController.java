@@ -1,10 +1,7 @@
 package com.dcoj.controller;
 
 import com.dcoj.entity.ResponseEntity;
-import com.dcoj.service.ObjectProblemService;
-import com.dcoj.service.ObjectTagService;
-import com.dcoj.service.ProgramProblemService;
-import com.dcoj.service.ProgramTagService;
+import com.dcoj.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -37,6 +34,15 @@ public class AdminController {
     @Autowired
     private ObjectTagService objectTagService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
+
+    @Autowired
+    private ResourcesService resourcesService;
+
     @GetMapping("/overview")
     public ResponseEntity getOverview() {
         // HashMap初始化必须指定容器容量，2的n次幂
@@ -45,6 +51,9 @@ public class AdminController {
         data.put("programProblems", programProblemService.countProgramProblems());
         data.put("objectTags", objectTagService.countTags());
         data.put("objectProblems", objectProblemService.countObjectProblems());
+        data.put("users", userService.countUsers());
+        data.put("roles", roleService.countRoles());
+        data.put("resources", resourcesService.countResources());
 
         return new ResponseEntity(data);
     }

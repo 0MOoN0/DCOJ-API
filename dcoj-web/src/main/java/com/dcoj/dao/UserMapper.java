@@ -47,9 +47,10 @@ public interface UserMapper {
     /**
      * 显示用户列表
      *
+     * @param username 用户名
      * @return 结果
      */
-    List<UserEntity> listAll();
+    List<UserEntity> listAll(@Param("username") String username);
 
     /**
      * 更新用户信息

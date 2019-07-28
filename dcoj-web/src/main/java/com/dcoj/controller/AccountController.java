@@ -11,6 +11,7 @@ import com.dcoj.service.UserService;
 import com.dcoj.util.JWTUtil;
 import com.dcoj.util.MailUtil;
 import com.dcoj.util.WebUtil;
+import io.swagger.annotations.Api;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.ehcache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import javax.validation.Valid;
  */
 @RestController
 @Validated
+@Api(tags = "用户操作")
 @RequestMapping(value = "/account", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class AccountController {
 
@@ -154,7 +156,7 @@ public class AccountController {
 
     private Cache<String, String> authCache = GlobalCacheManager.getAuthCache();
 
-    // 测试控制器
+    // 测试控制器 不用可删除
     @RequiresPermissions("account:view")
     @GetMapping("/view")
     @ResponseBody
@@ -163,7 +165,7 @@ public class AccountController {
         return "account:view";
     }
 
-    // 测试控制器
+    // 测试控制器 不用可删除
     @RequiresPermissions("account:edit")
     @GetMapping("/edit")
     @ResponseBody
@@ -188,7 +190,6 @@ public class AccountController {
 //        }*/
         return new ResponseEntity("登入成功");
     }
-
 
 
 
@@ -226,4 +227,6 @@ public class AccountController {
 //        return new ResponseEntity("密码重置成功");
         return null;
     }
+
+
 }

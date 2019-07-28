@@ -63,13 +63,14 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 显示用户列表
+     * 通过用户名模糊查询用户信息
      *
+     * @param username 用户名
      * @return 结果
      */
     @Override
-    public List<UserEntity> listAll() {
-        return userMapper.listAll();
+    public List<UserEntity> listAll(String username) {
+        return userMapper.listAll(username);
     }
 
     /**
@@ -137,22 +138,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity login(IndexLoginFormat format) {
         UserEntity userEntity = userMapper.getByUsername(format.getUsername());
-        // md5加密
-        String md5Pwd = Md5Utils.formPassToDbPass(format.getPassword());
+        // 前端发来的format.getPassword()密码已经是 加密后的密文
         // SHA-256加密
-        String password = DigestUtils.sha256Hex(md5Pwd.getBytes());
+        String password = DigestUtils.sha256Hex(format.getPassword().getBytes());
         // 验证密码
         if (password.equals(userEntity.getPassword())) {
             return userEntity;
         }
         return null;
-    }
-
-    public static void main(String[] args) {
-        String md5Pwd = Md5Utils.formPassToDbPass("1");
-        String sha =  DigestUtils.sha256Hex(md5Pwd.getBytes());
-        System.out.println(md5Pwd);
-        System.out.println(sha);
     }
 
     /**

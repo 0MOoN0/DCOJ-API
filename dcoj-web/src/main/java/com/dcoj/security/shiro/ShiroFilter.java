@@ -73,6 +73,7 @@ public class ShiroFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+        System.out.println("ShiroFilter:onAccessDenied");
         sendChallenge(request, response);
         return false;
     }
@@ -92,6 +93,7 @@ public class ShiroFilter extends BasicHttpAuthenticationFilter {
 
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
+        System.out.println("ShiroFilter:preHandle");
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("Origin"));
@@ -114,6 +116,7 @@ public class ShiroFilter extends BasicHttpAuthenticationFilter {
      * @param resp
      */
     private void sendRedirect(ServletRequest req, ServletResponse resp) {
+        System.out.println("ShiroFilter:sendRedirect");
         try {
             HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
             httpServletResponse.sendRedirect("/401");
