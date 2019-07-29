@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Leon
@@ -71,7 +72,7 @@ public class ProgramSubmissionDetailController {
                 problemUserEntity.getStatus()==ResultEnum.AC )
                 ){       // 不是当前用户提交的，但当前用户AC过此题
 
-            ProgramSubmissionDetailEntity submissionDetailBySubId = submissionDetailService.getSubmissionDetailBySubId(subId);
+            Map submissionDetailBySubId = submissionDetailService.getSubmissionDetailBySubId(subId);
             resultMap.put("sub_detail", submissionDetailBySubId);
             // 获取当前题目测试用例
             List<TestCaseEntity> testCaseEntities = testCasesService.listAll(pid);

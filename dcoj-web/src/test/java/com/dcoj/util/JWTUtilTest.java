@@ -24,7 +24,9 @@ public class JWTUtilTest {
         //eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjEsImV4cCI6MTU1Njg2NjY3Nn0.zSbGFXgCLGJykK1i4TYQA-KQVsPxueeRbB5vLYkG2bE
 
         int uid = JWTUtil.getUid("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjIsImV4cCI6MTU1OTAyMTU1OH0.Le3GEdl2SJX-VrXdE5X8FacguK9OX-uZ4OLAz3-KzWw");
-        System.out.println(uid);
+        int uid1 = JWTUtil.getUid("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjEsImV4cCI6MTU2MjAxNjgzM30.B3v6SHdssOCiqtMplH7lOkhTxJre51Ui-URUpgt4poI");
+        JWTUtil.decode("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjEsImV4cCI6MTU2MjAxNjgzM30.B3v6SHdssOCiqtMplH7lOkhTxJre51Ui-URUpgt4poI","sadf");
+        System.out.println(uid1);
     }
 
 }
