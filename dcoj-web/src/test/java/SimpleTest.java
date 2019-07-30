@@ -2,6 +2,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dcoj.judge.LanguageEnum;
+import com.dcoj.judge.ResultEnum;
 import com.dcoj.util.FileUploadUtils;
 import com.dcoj.util.RandomValidateCodeUtil;
 import org.junit.Test;
@@ -53,8 +54,9 @@ public class SimpleTest {
 
     @Test
     public void testEnum() {
-        LanguageEnum java8 = LanguageEnum.valueOf("Java8");
-        System.out.println(java8);
+//        LanguageEnum java8 = LanguageEnum.valueOf("Java8");
+//        System.out.println(java8);
+        System.out.println(ResultEnum.AC.toString());
 
     }
 
