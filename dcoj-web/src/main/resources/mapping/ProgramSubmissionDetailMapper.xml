@@ -47,6 +47,14 @@
             </if>
         </trim>
     </insert>
+
+    <select id="getProgramSubmissionDetailBySubmissionID" parameterType="java.lang.Integer" resultType="Map">
+        SELECT subdetail.sd_id, subdetail.judge_detail, subdetail.sub_id, attachment.url source_code
+        FROM program_submission_detail subdetail, attachment attachment
+        WHERE
+         subdetail.sub_id = #{subId,jdbcType=INTEGER} and subdetail.source_code = attachment.aid
+    </select>
+
     <!--自定义SQL End:-->
 
     <sql id="Example_Where_Clause">

@@ -2,11 +2,11 @@ package com.dcoj.dao;
 
 import com.dcoj.entity.AttachmentEntity;
 import com.dcoj.entity.example.AttachmentEntityExample;
-
-import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Leon
@@ -34,4 +34,5 @@ public interface AttachmentMapper {
     int updateByPrimaryKeySelective(AttachmentEntity record);
 
     int updateByPrimaryKey(AttachmentEntity record);
+
 }

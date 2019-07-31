@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Leon
@@ -33,4 +34,7 @@ public interface ProgramSubmissionDetailMapper {
     int updateByPrimaryKeySelective(ProgramSubmissionDetailEntity record);
 
     int updateByPrimaryKey(ProgramSubmissionDetailEntity record);
+
+    Map getProgramSubmissionDetailBySubmissionID(Integer subId);
+
 }
