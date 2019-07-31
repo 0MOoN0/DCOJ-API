@@ -238,7 +238,7 @@ public class AccountController {
         return new ResponseEntity("密码重置成功");
     }
 
-    @PutMapping("/forget_password")
+    @PutMapping("/edit_password")
     public ResponseEntity updateUserPassword(@RequestBody @Valid ForgetPasswordFormat format) {
         userService.updateUserPassword(format.getUserId(), format.getOldPassword(), format.getNewPassword());
         return new ResponseEntity("密码修改成功");
