@@ -189,7 +189,7 @@ public class AccountController {
 //        if(!Optional.ofNullable(permissionSet).isPresent()){
 //            cacheService.reloadPermissionCacheByUid(userEntity.getUid());
 //        }*/
-        return new ResponseEntity("登入成功");
+        return new ResponseEntity("登入成功", token);
     }
 
     @GetMapping("/token")
