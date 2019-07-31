@@ -164,6 +164,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity login(IndexLoginFormat format) {
         UserEntity userEntity = userMapper.getByUsername(format.getUsername());
+        if (userEntity == null)
+            return  null;
         // 前端发来的format.getPassword()密码已经是 加密后的密文
         // SHA-256加密
         String password = DigestUtils.sha256Hex(format.getPassword().getBytes());
