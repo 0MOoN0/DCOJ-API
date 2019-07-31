@@ -67,6 +67,13 @@ public interface UserService {
     void updateUserPassword(Integer userId, String oldPassword, String newPassword);
 
     /**
+     * 重置用户密码
+     *
+     * @param userId      用户id
+     */
+    void resetUserPassword(Integer userId);
+
+    /**
      * 登录
      *
      * @param format 登录验证

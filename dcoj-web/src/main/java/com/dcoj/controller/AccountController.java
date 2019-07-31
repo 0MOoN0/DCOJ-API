@@ -5,6 +5,7 @@ import com.dcoj.config.DefaultConfig;
 import com.dcoj.controller.format.index.*;
 import com.dcoj.entity.ResponseEntity;
 import com.dcoj.entity.UserEntity;
+import com.dcoj.security.JWToken;
 import com.dcoj.service.CacheService;
 import com.dcoj.service.MailService;
 import com.dcoj.service.UserService;
@@ -19,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -55,7 +57,6 @@ public class AccountController {
     public ResponseEntity register(@RequestBody @Valid IndexRegisterFormat format, @RequestHeader("email_token") String emailToken) {
         boolean verifyFlag = MailUtil.verifyEmailFromCache(emailToken, format.getVerifyCode(), format.getEmail(), 300000);
         if (verifyFlag) {
-            // TODO: 2019.7.6 WANGQING 登录
             //userService.register(format.getStudentId(), format.getEmail(), format.getEmail(), format.getPassword());
             //移除验证码缓存
             return new ResponseEntity("注册成功");
@@ -191,7 +192,16 @@ public class AccountController {
         return new ResponseEntity("登入成功");
     }
 
-
+    @GetMapping("/token")
+    public ResponseEntity getUserByToken(HttpServletRequest request) {
+        String authorization = request.getHeader("Authorization");
+        System.out.println("authorization:"+authorization);
+        WebUtil.assertIsSuccess(authorization != null, "Token无效，请重新登录");
+        UserEntity userEntity = userService.getByToken(authorization);
+        if (userEntity == null)
+            return new ResponseEntity("用户未登录");
+        return new ResponseEntity(userEntity);
+    }
 
 
     /**
@@ -203,12 +213,13 @@ public class AccountController {
      */
     @PostMapping("/verifyEmail")
     public ResponseEntity forgetPassword(@RequestBody @Valid ForgetPasswordFormat format, @RequestHeader("email_token") String emailToken) {
-        boolean verifyFlag = MailUtil.verifyEmailFromCache(emailToken, format.getVerifyCode(), format.getEmail(), 300000);
-        if (verifyFlag) {
-            return new ResponseEntity("认证码正确");
-        } else {
-            return new ResponseEntity("认证码错误");
-        }
+//        boolean verifyFlag = MailUtil.verifyEmailFromCache(emailToken, format.getVerifyCode(), format.getEmail(), 300000);
+//        if (verifyFlag) {
+//            return new ResponseEntity("认证码正确");
+//        } else {
+//            return new ResponseEntity("认证码错误");
+//        }
+        return null;
     }
 
     /*
@@ -222,11 +233,15 @@ public class AccountController {
         }
     */
     @PutMapping("/reset_password")
-    public ResponseEntity resetPassword(@RequestBody @Valid ResetPasswordFormat format, @RequestHeader("email_token") String emailToken) {
-//        userService.resetUserPassword(format.getEmail(), format.getPassword(), emailToken);
-//        return new ResponseEntity("密码重置成功");
-        return null;
+    public ResponseEntity resetPassword(Integer userId) {
+        userService.resetUserPassword(userId);
+        return new ResponseEntity("密码重置成功");
     }
 
+    @PutMapping("/forget_password")
+    public ResponseEntity updateUserPassword(@RequestBody @Valid ForgetPasswordFormat format) {
+        userService.updateUserPassword(format.getUserId(), format.getOldPassword(), format.getNewPassword());
+        return new ResponseEntity("密码修改成功");
+    }
 
 }

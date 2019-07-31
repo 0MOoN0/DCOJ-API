@@ -54,6 +54,7 @@ public class ShiroConfig {
         factoryBean.setSecurityManager(securityManager);
         // 访问未经授权的URL则跳到401页面
         factoryBean.setUnauthorizedUrl("/401");
+//        factoryBean.setUnauthorizedUrl("/account/token");
 //        factoryBean.setLoginUrl("/login");
         // 自定义URL规则，所有的请求都通过自定义Filter，访问401和404不通过自定义Filter
         Map<String, String> filterRuleMap = new LinkedHashMap<>();
