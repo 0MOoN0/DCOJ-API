@@ -9,7 +9,7 @@
 
     <!--自定义SQL: Begin-->
     <select id="listUserProblemsByUid" resultType="HashMap">
-        SELECT program_problem_user.*, problem.title FROM program_problem_user LEFT JOIN program_problem problem ON
+        SELECT program_problem_user.* , problem.title FROM program_problem_user LEFT JOIN program_problem problem ON
         program_problem_user.pid=problem.program_problem_id
         WHERE program_problem_user.uid = #{uid}
     </select>
