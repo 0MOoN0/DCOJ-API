@@ -1,5 +1,6 @@
 package com.dcoj.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.dcoj.entity.*;
 import com.dcoj.judge.ResultEnum;
 import com.dcoj.service.*;
@@ -72,6 +73,7 @@ public class ProgramSubmissionDetailController {
                 problemUserEntity.getStatus()==ResultEnum.AC )
                 ){       // 不是当前用户提交的，但当前用户AC过此题
 
+//            Map<Object,Object> submissionDetailBySubId = submissionDetailService.getSubmissionDetailBySubId(subId);
             Map submissionDetailBySubId = submissionDetailService.getSubmissionDetailBySubId(subId);
             resultMap.put("sub_detail", submissionDetailBySubId);
             // 获取当前题目测试用例

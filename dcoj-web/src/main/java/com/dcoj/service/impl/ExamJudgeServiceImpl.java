@@ -17,6 +17,7 @@ import com.dcoj.service.*;
 import com.dcoj.util.FileUploadUtils;
 import com.dcoj.util.JudgerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.plaf.synth.SynthTextAreaUI;
@@ -29,6 +30,7 @@ import java.util.function.Predicate;
 /**
  * @author Leon
  */
+@Service
 public class ExamJudgeServiceImpl implements ExamJudgeService {
 
     @Autowired
