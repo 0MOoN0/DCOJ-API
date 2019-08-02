@@ -6,6 +6,7 @@ import com.dcoj.entity.example.ProgramProblemUserEntityExample;
 import java.util.List;
 import java.util.Map;
 
+import com.dcoj.judge.ResultEnum;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -82,8 +83,9 @@ public interface ProgramProblemUserMapper {
      * 根据用户id查询对应的Problem title
      *
      * @param uid 用户ID
+     * @param result 用户做题题目状态
      * @return Map：{key: columnName, value: columnValue}
      */
-    List<Map<String, Object>> listUserProblemsByUid(int uid);
+    List<Map<String, Object>> listUserProblemsByUid(int uid, String result);
 
 }

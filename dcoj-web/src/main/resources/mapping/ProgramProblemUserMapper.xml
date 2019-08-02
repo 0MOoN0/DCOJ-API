@@ -11,7 +11,11 @@
     <select id="listUserProblemsByUid" resultType="HashMap">
         SELECT program_problem_user.* , problem.title FROM program_problem_user LEFT JOIN program_problem problem ON
         program_problem_user.pid=problem.program_problem_id
-        WHERE program_problem_user.uid = #{uid}
+        WHERE
+        program_problem_user.uid = #{uid}
+        <if test="result != null">
+            AND program_problem_user.status = #{result}
+        </if>
     </select>
     <!--自定义SQL: End-->
 

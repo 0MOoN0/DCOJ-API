@@ -41,8 +41,12 @@ public class ProgramProblemUserServiceImplTest {
 
     @Test
     public void testListUserProblemsByUid() {
-        List<Map<String, Object>> maps = problemUserService.listUserProblemHistory(1);
+        List<Map<String, Object>> maps = problemUserService.listUserProblemHistory(1,null);
         Optional.ofNullable(maps).ifPresent(maps1 -> maps1.parallelStream().forEach(stringObjectMap -> stringObjectMap.entrySet().parallelStream()
+                .forEach(System.out::println)));
+        System.out.println("================================================");
+        List<Map<String, Object>> maps2 = problemUserService.listUserProblemHistory(1,ResultEnum.AC);
+        Optional.ofNullable(maps2).ifPresent(maps1 -> maps1.parallelStream().forEach(stringObjectMap -> stringObjectMap.entrySet().parallelStream()
                 .forEach(System.out::println)));
     }
 

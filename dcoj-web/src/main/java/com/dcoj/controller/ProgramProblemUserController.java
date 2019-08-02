@@ -1,6 +1,7 @@
 package com.dcoj.controller;
 
 import com.dcoj.entity.ResponseEntity;
+import com.dcoj.judge.ResultEnum;
 import com.dcoj.service.ProgramProblemUserService;
 import com.dcoj.util.JWTUtil;
 import com.dcoj.util.WebUtil;
@@ -12,6 +13,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Leon
@@ -35,7 +38,16 @@ public class ProgramProblemUserController {
                                                 @RequestHeader("authorization") String authorization){
         int uid = JWTUtil.getUid(authorization);
         Page<Object> page = PageHelper.startPage(pageNum, pageSize);
-        return new ResponseEntity(WebUtil.generatePageData(page,programProblemUserService.listUserProblemHistory(uid)));
+        return new ResponseEntity(WebUtil.generatePageData(page,programProblemUserService.listUserProblemHistory(uid, null)));
+    }
+
+    @ApiOperation("获取用户编程题的AC提交历史(ProgramProblemUser)")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "uid", value = "用户ID", required = true, paramType = "query"),
+    })
+    @GetMapping("/ac-user")
+    public ResponseEntity listACProgramProblemUser(@RequestParam("uid") @NotNull Integer uid){
+        return new ResponseEntity(programProblemUserService.listUserProblemHistory(uid, ResultEnum.AC));
     }
 
 }
