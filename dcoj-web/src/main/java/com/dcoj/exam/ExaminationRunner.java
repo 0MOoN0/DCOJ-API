@@ -64,6 +64,9 @@ public class ExaminationRunner {
     @Autowired
     private ObjectSubmissionService objectSubmissionService;
 
+    @Autowired
+    private ExamJudgeService examJudgeService;
+
 
 
     private boolean start;
@@ -101,14 +104,10 @@ public class ExaminationRunner {
             UserExamEntity userExamEntity = examCache.get(examUserId + "");
             // 用户答题卡
             List<AnswerEntity> answerSheet = userExamEntity.getAnswerSheet();
+            examAutoTask.setExamJudgeStatus(ExamJudgeStatus.Saving);
 
+            // TODO: Leon 20190710 保存试卷提交
+//            examJudgeService.examJudge(answerSheet,new DCOJJudger(), examAutoTaskExtends, );
         }
-        examAutoTask.setExamJudgeStatus(ExamJudgeStatus.Saving);
-        // TODO: Leon 20190710 保存试卷提交
-        save();
-    }
-
-    public void save(){
-
     }
 }

@@ -1,5 +1,6 @@
 package com.dcoj.dao;
 
+import com.alibaba.fastjson.JSONObject;
 import com.dcoj.entity.ProgramSubmissionDetailEntity;
 import com.dcoj.entity.example.ProgramSubmissionDetailEntityExample;
 import org.apache.ibatis.annotations.Param;

@@ -12,7 +12,7 @@ public class AnswerEntity {
 
     private Integer examProblemLocate;
 
-    private Byte problemType;
+    private Integer problemType;
 
     private Integer problemId;
 

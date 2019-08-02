@@ -2,6 +2,7 @@ package com.dcoj.dao;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dcoj.entity.ProgramProblemEntity;
+import com.dcoj.judge.ResultEnum;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,5 +155,9 @@ public class ProgramProblemMapperTest {
         programProblemMapper.listAll(null, null, null, null).forEach(System.out::println);
     }
 
+    @Test
+    public void testUpdateProblemTimes(){
+        programProblemMapper.updateProblemTimes(21, ResultEnum.AC.toString());
+    }
 
 }
