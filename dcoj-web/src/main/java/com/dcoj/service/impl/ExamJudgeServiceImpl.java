@@ -63,8 +63,8 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
     @Autowired
     private ProgramProblemUserService programProblemUserService;
 
-
-//    private ObjectProblemUserService objectProblemUserService;
+    @Autowired
+    private ObjectProblemUserService objectProblemUserService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -99,25 +99,13 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
                         // 上传源码
 //                            return;
                     }
-                    // 保存判卷结果
-                    // 省去分数统计
-                    /*int subId = programSubmissionService.save(examAutoTaskExtends.getUid(), answerEntity.getProblemId(), examAutoTaskExtends.getExamId(), 0, answerEntity.getLang(),
-                            responseEntity.getTime(), responseEntity.getMemory(), responseEntity.getResult(), (byte) 95);*/
-                    // 上传代码附件
-/*                    String sourceFileName = null;
-                    try {
-                        sourceFileName = FileUploadUtils.uploadCode(DcojConfig.getProfile(), answerEntity.getAnswer().toString(), answerEntity.getLang());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    int attachId = attachmentService.save(examAutoTaskExtends.getUid(), sourceFileName);
-                    // 保存判卷详情
-                    programSubmissionDetailService.save(responseEntity, subId, attachId);*/
+
+                    // 获取题目详情
                     problemDetail = examProblem.getJSONObject(answerEntity.getExamProblemLocate());
+                    // 获取题目分数
                     problemScore = problemDetail.getInteger("problem_score");
-                    resultScore = resultScore + problemScore;
+                    // 计算分值，并保存编程题提交
                     Integer submissionDetailID = saveExamProgramSubmission(examAutoTaskExtends, answerEntity, 0, responseEntity, problemScore);
-                    // TODO: Leon 20190724 更新题目状态、更新用户做题状态
                     programProblemService.updateProblemTimes(answerEntity.getProblemId(), responseEntity.getResult());
                     programProblemUserService.updateByPidUid(answerEntity.getProblemId(), examAutoTaskExtends.getUid(), responseEntity.getResult());
                     // 封装resultSheet
@@ -127,19 +115,23 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
                     resultSheet.add(examProblemResultEntity);
                     break;
                 case 2:     // 客观题
-
                     //选择题判卷
                     int i = objectProblemService.judgeObjectProblem(answerEntity.getProblemId(), answerEntity.getAnswer().toString());
-                    if(i==1){
-                        // TODO: Leon 20190730 更新题目状态、更新用户做题状态
-                        // 保存客观题
-                        objectSubmissionService.save(examAutoTaskExtends.getUid(),answerEntity.getProblemId(),i,answerEntity.getAnswer().toString());
-                        examProblemResultEntity = new ExamProblemResultEntity();
-                        examProblemResultEntity.setExamProblemLocate(answerEntity.getExamProblemLocate());
-                        problemDetail = examProblem.getJSONObject(answerEntity.getExamProblemLocate());
-                        resultScore = i==1 ?  problemDetail.getInteger("problem_score") : 0;
-                        resultSheet.add(examProblemResultEntity);
-                    }
+                    // 获取题目详情
+                    problemDetail = examProblem.getJSONObject(answerEntity.getExamProblemLocate());
+                    // 根据题目详情获取分数
+                    problemScore = i==1 ?  problemDetail.getInteger("problem_score") : 0;
+                    // 计算判断题得分
+                    resultScore += problemScore;
+                    Integer ObjectsubmissionDetailID = objectSubmissionService.save(examAutoTaskExtends.getUid(), answerEntity.getProblemId(), i, answerEntity.getAnswer().toString());
+                    // 保存客观题答题详情
+                    examProblemResultEntity = new ExamProblemResultEntity();
+                    examProblemResultEntity.setExamProblemLocate(answerEntity.getExamProblemLocate());
+                    examProblemResultEntity.setScore(problemScore);
+                    examProblemResultEntity.setSubmissionDetail(ObjectsubmissionDetailID);
+                    resultSheet.add(examProblemResultEntity);
+                    // 更新用户客观题做题历史
+                    objectProblemUserService.insertOrUpdate(answerEntity.getProblemId(), examAutoTaskExtends.getUid(), i);
             }
         }
         // 保存examSubmission
@@ -151,11 +143,13 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
         resultSheetJson.put("result_sheet", resultSheet);
         examinationSubmissionDetailService.save(examSubmissionId,answerSheetJson,resultSheetJson,new Timestamp(System.currentTimeMillis()));
     }
+
+
     // 保存编程题题目，返回submissionDetail的ID
     protected Integer saveExamProgramSubmission (ExamAutoTaskExtends examAutoTaskExtends, AnswerEntity answerEntity, Integer groupId, ResponseEntity responseEntity, Integer problemScore){
         // 统计分数
         // 测试用例正确个数
-        long ACCount = responseEntity.getTestCases().stream().filter(Predicate.isEqual(ResultEnum.AC)).count();
+        long ACCount = responseEntity.getTestCases().stream().filter(ts -> ts.getResult().equals(ResultEnum.AC)).count();
         long resultProblemScore = problemScore * ACCount / responseEntity.getTestCases().size();
         // 保存提交
         int subId = programSubmissionService.save(examAutoTaskExtends.getUid(), answerEntity.getProblemId(), examAutoTaskExtends.getExamId(), groupId, answerEntity.getLang(),
@@ -171,6 +165,4 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
         // 保存做题详情
         return programSubmissionDetailService.save(responseEntity, subId, attachId);
     }
-
-
 }
