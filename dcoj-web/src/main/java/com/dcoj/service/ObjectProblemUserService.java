@@ -11,9 +11,12 @@ public interface ObjectProblemUserService {
 
     /**
      * 接受一条数据，更新或插入用户客观题提交状态
-     * @param objectProblemUserEntity       要进行更新或插入的数据
-     * @return                              更新的数据条数
+     *
+     * @param pid   题目ID
+     * @param uid   用户ID
+     * @param status    做题状态
+     * @return
      */
-    int insertOrUpdate(ObjectProblemUserEntity objectProblemUserEntity);
+    int insertOrUpdate(Integer pid, Integer uid, Integer status);
 
 }

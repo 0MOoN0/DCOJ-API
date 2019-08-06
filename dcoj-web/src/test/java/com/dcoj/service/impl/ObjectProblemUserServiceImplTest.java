@@ -21,18 +21,11 @@ public class ObjectProblemUserServiceImplTest {
     @Test
     public void testUpdateOrSave(){
         // 用于测试增加数据
-        ObjectProblemUserEntity entity1 = new ObjectProblemUserEntity();
-        entity1.setPid(21);
-        entity1.setUid(3);
-        entity1.setStatus((byte)1);
-        int i1 = objectProblemUserService.insertOrUpdate(entity1);
+        int i1 = objectProblemUserService.insertOrUpdate(22,3, (byte) 1);
         System.out.println("插入了 "+ i1 +" 条数据");
 
-        ObjectProblemUserEntity entity2 = new ObjectProblemUserEntity();
-        entity2.setPid(21);
-        entity2.setUid(3);
-        entity2.setStatus((byte) 0);
-        int i2 = objectProblemUserService.insertOrUpdate(entity2);
+        int i2 = objectProblemUserService.insertOrUpdate(22,3, (byte) 0);
+        System.out.println("更新了 "+ i2 +" 条数据");
     }
 
 }
