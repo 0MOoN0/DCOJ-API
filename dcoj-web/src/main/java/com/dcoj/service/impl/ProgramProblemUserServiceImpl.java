@@ -63,9 +63,12 @@ public class ProgramProblemUserServiceImpl implements ProgramProblemUserService 
      * @return ProblemUser集合
      */
     @Override
-    public List<Map<String, Object>> listUserProblemHistory(int uid) {
-        List<Map<String, Object>> maps = problemUserMapper.listUserProblemsByUid(uid);
-        return maps;
+    public List<Map<String, Object>> listUserProblemHistory(int uid, ResultEnum resultEnum) {
+
+        if(resultEnum != null){
+            return problemUserMapper.listUserProblemsByUid(uid, resultEnum.toString());
+        }
+        return problemUserMapper.listUserProblemsByUid(uid,null);
     }
 
     /**

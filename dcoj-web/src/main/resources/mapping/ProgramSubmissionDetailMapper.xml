@@ -48,6 +48,14 @@
         </trim>
     </insert>
 
+<!--    <resultMap id="myresultMap" type="java.util.HashMap">
+        <result column="sd_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        <result column="judge_detail" javaType="com.alibaba.fastjson.JSONObject" jdbcType="VARCHAR" typeHandler="com.dcoj.handler.JsonTypeHandler"/>
+        <result column="sub_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        <result column="source_code" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    </resultMap>-->
+
+<!--    resultMap="myresultMap"-->
     <select id="getProgramSubmissionDetailBySubmissionID" parameterType="java.lang.Integer" resultType="Map">
         SELECT subdetail.sd_id, subdetail.judge_detail, subdetail.sub_id, attachment.url source_code
         FROM program_submission_detail subdetail, attachment attachment

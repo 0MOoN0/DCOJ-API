@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * 客观题 业务层
  *
- * @author WANGQING
+ * @author WANGQING Leon
  */
 public interface ObjectProblemService {
     /**
@@ -94,6 +94,13 @@ public interface ObjectProblemService {
     List<Map<String, Object>> listAll(List<Integer> list,
                                       Integer uid,
                                       String query);
+    /**
+     * 更新题目次数内容
+     * @param objectProblemId       题目ID
+     * @param status                做题状态
+     * @return
+     */
+    int updateProblemTimesByUidPid(Integer objectProblemId, Byte status);
 
 
 }

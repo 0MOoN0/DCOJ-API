@@ -211,5 +211,16 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
         return objectProblemMapper.listAll(list, uid, query);
     }
 
+    /**
+     * 更新题目次数内容
+     * @param objectProblemId       题目ID
+     * @param status                做题状态
+     * @return
+     */
+    @Override
+    public int updateProblemTimesByUidPid(Integer objectProblemId, Byte status) {
+        return objectProblemMapper.updateProblemTimes(objectProblemId, status);
+    }
+
 }
 

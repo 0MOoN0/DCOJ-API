@@ -2,6 +2,7 @@ package com.dcoj.dao;
 
 import com.dcoj.entity.ObjectProblemEntity;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.Map;
  *
  * @author WANGQING
  */
+@Repository
 public interface ObjectProblemMapper {
     /**
      * 删除一道题目
@@ -92,5 +94,14 @@ public interface ObjectProblemMapper {
     List<Map<String, Object>> listAll(@Param("tagList") List<Integer> list,
                                       @Param("uid") Integer uid,
                                       @Param("query") String query);
+
+    /**
+     * 更新客观题统计次数
+     *
+     * @param objectProblemId
+     * @param status
+     * @return
+     */
+    int updateProblemTimes(Integer objectProblemId, Byte status);
 
 }

@@ -38,7 +38,7 @@ public interface ProgramProblemUserService {
      * @param uid 用户id
      * @return ProblemUser集合
      */
-    List<Map<String, Object>> listUserProblemHistory(int uid);
+    List<Map<String, Object>> listUserProblemHistory(int uid, ResultEnum result);
 
     /**
      * 根据用户id、题目id、做题结果更新ProblemUser

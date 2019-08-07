@@ -2,6 +2,7 @@ package com.dcoj.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.dcoj.entity.ProgramProblemEntity;
+import com.dcoj.judge.ResultEnum;
 import com.dcoj.service.ProgramProblemService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +16,7 @@ import java.util.Map;
 /**
  * 题目业务层测试类
  *
- * @author WANGQING
+ * @author WANGQING, Leon
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -109,5 +110,10 @@ public class ProgramProblemServiceImplTest {
         System.out.println(ja.toString());
         System.out.println("++++++++++++++++++++++++++++++++");
         System.out.println(ja.toJSONString());
+    }
+
+    @Test
+    public void testUpdateProblemTimes(){
+        programProblemService.updateProblemTimes(21, ResultEnum.WA);
     }
 }

@@ -36,6 +36,30 @@
         <result column="ce_times" property="CETimes"/>
     </resultMap>
 
+    <update id="updateProblemTimes">
+        update program_problem
+        set submit_times = submit_times + 1
+        <choose>
+            <when test="result == 'AC'">
+                , ac_times = ac_times +1
+            </when>
+            <when test="result == 'WA'">
+                , wa_times = wa_times +1
+            </when>
+            <when test="result == 'RTE'">
+                , rte_times = rte_times +1
+            </when>
+            <when test="result == 'TLE'">
+                , tle_times = tle_times +1
+            </when>
+            <when test="result == 'CE'">
+                , ce_times = ce_times +1
+            </when>
+        </choose>
+        where program_problem_id = #{pid}
+    </update>
+
+
     <select id="countProgramProblems" resultType="Integer">
         select count(*)
         from program_problem

@@ -10,8 +10,7 @@ import java.util.Map;
 /**
  * 编程题 业务层
  *
- * @author WANGQING
- * @author Leon
+ * @author WANGQING, Leon
  */
 public interface ProgramProblemService {
 

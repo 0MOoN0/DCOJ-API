@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * 编程题 业务层实现
  *
- * @author WANGQING
+ * @author WANGQING, Leon
  */
 @Service
 public class ProgramProblemServiceImpl implements ProgramProblemService {
@@ -153,7 +153,7 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
      */
     @Override
     public void updateProblemTimes(int pid, ResultEnum result) {
-
+        programProblemMapper.updateProblemTimes(pid, result.toString());
     }
 
     /**

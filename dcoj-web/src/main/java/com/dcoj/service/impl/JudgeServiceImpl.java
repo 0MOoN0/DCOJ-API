@@ -62,7 +62,8 @@ public class JudgeServiceImpl implements JudgeService {
             score = 0;
             List<TestCaseResponseEntity> testCases = response.getTestCases();
             int size = testCases.size();
-            float singleTestCaseScore = 0;    // 单个测试用例分数
+            // 单个测试用例分数
+            float singleTestCaseScore = 0;
             if (size != 0) {
                 singleTestCaseScore = 100 / size;
             }
@@ -81,7 +82,7 @@ public class JudgeServiceImpl implements JudgeService {
         // 保存提交详情
         saveProgramSubmissionDetail(response, task, subId);
         // 更新用户信息
-        //  TODO:20190403 Leon updateUserLog(owner, result);
+        //  TODO:20190403 Leon updateUserLog(owner, result); 注：UserLog并非ProblemUser,而是用户活动日志
 
         // 当前判卷用户是否已经AC过
         boolean isAC = false;

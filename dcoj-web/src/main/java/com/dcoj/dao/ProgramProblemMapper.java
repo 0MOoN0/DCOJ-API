@@ -1,7 +1,9 @@
 package com.dcoj.dao;
 
 import com.dcoj.entity.ProgramProblemEntity;
+import com.dcoj.judge.ResultEnum;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
@@ -9,8 +11,9 @@ import java.util.Map;
 /**
  * 编程题 持久层
  *
- * @author WANGQING
+ * @author WANGQING, Leon
  */
+@Repository
 public interface ProgramProblemMapper {
 
     /**
@@ -76,10 +79,9 @@ public interface ProgramProblemMapper {
      * 根据判卷状态更新Problem
      *
      * @param pid           题目业务id
-     * @param result        判卷结果
+     * @param result        判卷结果，AC\WA\RTE\TLE\CE等简写形式，使用ResultEnum.AC.toString()等方法
      */
-    //TODO: 2019.03.18 WANGQING 未在mapper.xml里写此方法
-    //void updateProblemTimes(int pid, ResultEnum result);
+    void updateProblemTimes(int pid, String result);
 
     /**
      * 通过 pid 查询该题所有tag
