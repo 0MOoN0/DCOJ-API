@@ -204,11 +204,12 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
      * @param list  标签列表
      * @param uid   用户id
      * @param query 查询关键字
+     * @param type 题目类型
      * @return 结果
      */
     @Override
-    public List<Map<String, Object>> listAll(List<Integer> list, Integer uid, String query) {
-        return objectProblemMapper.listAll(list, uid, query);
+    public List<Map<String, Object>> listAll(List<Integer> list, Integer uid, String query,Integer type) {
+        return objectProblemMapper.listAll(list, uid, query,type);
     }
 
     /**

@@ -132,7 +132,7 @@ public class ObjectProgramProblemMapperTest {
     public void listAll() {
         //objectProblemMapper.listAll().forEach(System.out::println);
         List<Integer> list = Arrays.asList(1);
-        objectProblemMapper.listAll(list, null, null).forEach(System.out::println);
+        objectProblemMapper.listAll(list, null, null,1).forEach(System.out::println);
     }
 
     @Test
