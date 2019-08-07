@@ -37,7 +37,7 @@ public class ObjectJudgeController {
         int uid = JWTUtil.getUid(token);
         int i = objectProblemService.judgeObjectProblem(userObjectJudgeFormat.getPid(), userObjectJudgeFormat.getAnswer());
         // TODO Leon 20190528：更新客观题状态
-        objectProblemUserService.insertOrUpdate(userObjectJudgeFormat.getPid(), uid, i);
+        objectProblemUserService.insertOrUpdate(userObjectJudgeFormat.getPid(), uid, (byte) i);
         // TODO Leon 20190528：Update User Log
         return null;
     }

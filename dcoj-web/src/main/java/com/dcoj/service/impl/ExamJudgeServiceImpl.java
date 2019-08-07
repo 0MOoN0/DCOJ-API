@@ -9,10 +9,12 @@ import com.dcoj.entity.exam.AnswerEntity;
 import com.dcoj.entity.exam.ExamProblemResultEntity;
 import com.dcoj.exam.ExamAutoTaskExtends;
 import com.dcoj.exam.ExamJudgeStatus;
+import com.dcoj.judge.JudgerDispatcher;
 import com.dcoj.judge.ResultEnum;
 import com.dcoj.judge.entity.RequestEntity;
 import com.dcoj.judge.entity.ResponseEntity;
 import com.dcoj.judge.judger.Judger;
+import com.dcoj.judge.judger.dcoj.DCOJJudger;
 import com.dcoj.service.*;
 import com.dcoj.util.FileUploadUtils;
 import com.dcoj.util.JudgerUtils;
@@ -20,12 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * @author Leon
@@ -66,9 +66,13 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
     @Autowired
     private ObjectProblemUserService objectProblemUserService;
 
+    @Autowired
+    private JudgerDispatcher judgerDispatcher;
+
+
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void examJudge(List<AnswerEntity> answerSheet, Judger judger, ExamAutoTaskExtends examAutoTaskExtends, JSONArray examProblem) {
+    public void examJudge(List<AnswerEntity> answerSheet, ExamAutoTaskExtends examAutoTaskExtends, JSONArray examProblem) {
         // 请求实体类
         RequestEntity requestEntity = new RequestEntity();
         List<ExamProblemResultEntity> resultSheet = new ArrayList<ExamProblemResultEntity>();
@@ -92,6 +96,7 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
                     requestEntity.setLang(answerEntity.getLang());
                     requestEntity.setSourceCode(answerEntity.getAnswer().toString());
                     // 进行判卷
+                    Judger judger = new Judger(judgerDispatcher.getJudgerUrl(),requestEntity,new DCOJJudger());
                     ResponseEntity responseEntity = judger.judge();
                     // 处理SE结果
                     if (responseEntity.getResult() == ResultEnum.SE) {
@@ -99,7 +104,6 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
                         // 上传源码
 //                            return;
                     }
-
                     // 获取题目详情
                     problemDetail = examProblem.getJSONObject(answerEntity.getExamProblemLocate());
                     // 获取题目分数
@@ -131,7 +135,7 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
                     examProblemResultEntity.setSubmissionDetail(ObjectsubmissionDetailID);
                     resultSheet.add(examProblemResultEntity);
                     // 更新用户客观题做题历史
-                    objectProblemUserService.insertOrUpdate(answerEntity.getProblemId(), examAutoTaskExtends.getUid(), i);
+                    objectProblemUserService.insertOrUpdate(answerEntity.getProblemId(), examAutoTaskExtends.getUid(), (byte) i);
             }
         }
         // 保存examSubmission

@@ -94,9 +94,13 @@ public interface ObjectProblemService {
     List<Map<String, Object>> listAll(List<Integer> list,
                                       Integer uid,
                                       String query);
-
-    //TODO: Leon 20190730 实现更新客观题状态
-//    int updateStatusByUidPid(Integer uid, Integer pid);
+    /**
+     * 更新题目次数内容
+     * @param objectProblemId       题目ID
+     * @param status                做题状态
+     * @return
+     */
+    int updateProblemTimesByUidPid(Integer objectProblemId, Byte status);
 
 
 }

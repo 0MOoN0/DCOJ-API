@@ -29,11 +29,11 @@ public class ObjectProblemUserServiceImpl implements ObjectProblemUserService {
      * @return
      */
     @Override
-    public int insertOrUpdate(Integer pid, Integer uid, Integer status) {
+    public int insertOrUpdate(Integer pid, Integer uid, Byte status) {
         ObjectProblemUserEntity objectProblemUserEntity = new ObjectProblemUserEntity();
         objectProblemUserEntity.setPid(pid);
         objectProblemUserEntity.setUid(uid);
-        objectProblemUserEntity.setStatus(status.byteValue());
+        objectProblemUserEntity.setStatus(status);
         ObjectProblemUserEntityExample example = new ObjectProblemUserEntityExample();
         example.createCriteria().andPidEqualTo(objectProblemUserEntity.getPid())
                 .andUidEqualTo(objectProblemUserEntity.getUid());
