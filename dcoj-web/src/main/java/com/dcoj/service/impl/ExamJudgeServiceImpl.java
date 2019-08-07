@@ -131,7 +131,7 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
                     examProblemResultEntity.setSubmissionDetail(ObjectsubmissionDetailID);
                     resultSheet.add(examProblemResultEntity);
                     // 更新用户客观题做题历史
-                    objectProblemUserService.insertOrUpdate(answerEntity.getProblemId(), examAutoTaskExtends.getUid(), i);
+                    objectProblemUserService.insertOrUpdate(answerEntity.getProblemId(), examAutoTaskExtends.getUid(), (byte) i);
             }
         }
         // 保存examSubmission

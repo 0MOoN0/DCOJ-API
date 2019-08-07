@@ -2,6 +2,7 @@ package com.dcoj.dao;
 
 import com.dcoj.entity.ObjectProblemEntity;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.Map;
  *
  * @author WANGQING
  */
+@Repository
 public interface ObjectProblemMapper {
     /**
      * 删除一道题目
@@ -95,5 +97,6 @@ public interface ObjectProblemMapper {
 
 
     // TODO: Leon 20190806 ：完成updateProblemTimes(更新题目次数)相关内容
+    int updateProblemTimes(Integer objectProblemId, Byte status);
 
 }

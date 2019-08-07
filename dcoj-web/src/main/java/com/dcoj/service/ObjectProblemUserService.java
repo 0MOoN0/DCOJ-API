@@ -1,7 +1,5 @@
 package com.dcoj.service;
 
-import com.dcoj.entity.ObjectProblemUserEntity;
-
 /**
  * 用户客观题提交状态(ObjectProblemUser)业务处理
  *
@@ -17,6 +15,6 @@ public interface ObjectProblemUserService {
      * @param status    做题状态
      * @return
      */
-    int insertOrUpdate(Integer pid, Integer uid, Integer status);
+    int insertOrUpdate(Integer pid, Integer uid, Byte status);
 
 }
