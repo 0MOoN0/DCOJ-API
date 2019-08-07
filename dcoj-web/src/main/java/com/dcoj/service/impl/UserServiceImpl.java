@@ -1,7 +1,10 @@
 package com.dcoj.service.impl;
 
 import com.dcoj.controller.format.index.IndexLoginFormat;
+import com.dcoj.dao.RoleMapper;
 import com.dcoj.dao.UserMapper;
+import com.dcoj.dao.UserRoleMapper;
+import com.dcoj.entity.RoleEntity;
 import com.dcoj.entity.UserEntity;
 import com.dcoj.service.UserService;
 import com.dcoj.util.JWTUtil;
@@ -25,6 +28,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private RoleMapper roleMapper;
+
+    @Autowired
+    private UserRoleMapper userRoleMapper;
 
     /**
      * 统计学生数量
@@ -97,10 +106,11 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     public void removeByPrimaryKey(Integer userId) {
         WebUtil.assertNotNull(userMapper.getByPrimaryKey(userId), "用户不存在，删除失败");
-        //TODO:WANGQING 2019.7.23
         // 判断是否跟角色关联
-
-
+        RoleEntity roleEntity = roleMapper.getRoleByUserId(userId);
+        if (roleEntity != null){
+            WebUtil.assertIsSuccess(userRoleMapper.removeByUserId(userId) == 1,"删除用户角色关联失败");
+        }
         // 删除role
         boolean flag = userMapper.removeByPrimaryKey(userId) == 1;
         WebUtil.assertIsSuccess(flag, "删除用户失败");
@@ -117,16 +127,32 @@ public class UserServiceImpl implements UserService {
     public void updateUserPassword(Integer userId, String oldPassword, String newPassword) {
         UserEntity userEntity = userMapper.getByPrimaryKey(userId);
         WebUtil.assertNotNull(userEntity, "不存在此用户");
-        // 重置用户密码
-        if (newPassword != null && oldPassword != null && oldPassword.equals(userEntity.getPassword())) {
-            userEntity.setPassword(newPassword);
-        } else {
-            // 密码默认000000
-            userEntity.setPassword("000000");
+        if (newPassword == null || oldPassword == null || newPassword.trim().length() <= 0 || oldPassword.trim().length() <= 0){
+            WebUtil.assertIsSuccess(false, "新老密码不得为空");
         }
+        String oldPwd =  DigestUtils.sha256Hex(oldPassword.getBytes());
+        String newPwd = DigestUtils.sha256Hex(newPassword.getBytes());
+        // 重置用户密码
+        WebUtil.assertIsSuccess(oldPwd.equals(userEntity.getPassword()), "原密码错误");
+        userEntity.setPassword(newPwd);
         boolean flag = userMapper.updateUser(userEntity) == 1;
         WebUtil.assertIsSuccess(flag, "密码更新或者重置失败");
-        // TODO: WANGQING 2019.7.23 该方法未完善未优化
+    }
+
+    /**
+     * 重置用户密码
+     *
+     * @param userId 用户id
+     */
+    @Override
+    public void resetUserPassword(Integer userId) {
+        UserEntity userEntity = userMapper.getByPrimaryKey(userId);
+        WebUtil.assertNotNull(userEntity, "不存在此用户");
+        String pwdMD5 = Md5Utils.formPassToDbPass("000000");
+        String pwdSHA = DigestUtils.sha256Hex(pwdMD5.getBytes());
+        userEntity.setPassword(pwdSHA);
+        boolean flag = userMapper.updateUser(userEntity) == 1;
+        WebUtil.assertIsSuccess(flag, "密码重置失败");
     }
 
     /**
@@ -138,6 +164,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity login(IndexLoginFormat format) {
         UserEntity userEntity = userMapper.getByUsername(format.getUsername());
+        if (userEntity == null)
+            return  null;
         // 前端发来的format.getPassword()密码已经是 加密后的密文
         // SHA-256加密
         String password = DigestUtils.sha256Hex(format.getPassword().getBytes());
@@ -158,6 +186,8 @@ public class UserServiceImpl implements UserService {
     public UserEntity getByToken(String token) {
         // 获取当前用户
         int userId = JWTUtil.getUid(token);
+        if (userId == 0)return  null;
+//        WebUtil.assertIsSuccess(userId != 0, "用户未登录");
         UserEntity user = userMapper.getByPrimaryKey(userId);
         if (Optional.ofNullable(user).isPresent())
             return user;

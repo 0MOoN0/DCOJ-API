@@ -33,8 +33,6 @@ public class ProgramProblemController {
     @Autowired
     private ProgramProblemService programProblemService;
 
-    //TODO: 4.13 WNAGQING 与测试用例相关的Controller未写
-
     @ApiOperation("获取该题的所有标签")
     @ApiImplicitParam(name = "program_problem_id", value = "编程题id")
     @GetMapping("/tags/{program_problem_id}")
