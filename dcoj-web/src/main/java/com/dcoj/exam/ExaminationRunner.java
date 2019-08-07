@@ -37,35 +37,10 @@ public class ExaminationRunner {
     private final static DelayQueue<ExamAutoTask> delayQueue = new DelayQueue<ExamAutoTask>();
 
     @Autowired
-    private ObjectProblemService objectProblemService;
-
-    @Autowired
-    private TestCasesService testCasesService;
-
-    @Autowired
-    private ProgramProblemService programProblemService;
+    private ExamJudgeService examJudgeService;
 
     @Autowired
     private JudgerDispatcher judgerDispatcher;
-
-    // 判卷相关保存类
-    @Autowired
-    private ProgramSubmissionService programSubmissionService;
-
-    @Autowired
-    private ProgramSubmissionDetailService programSubmissionDetailService;
-
-    @Autowired
-    private AttachmentService attachmentService;
-
-    @Autowired
-    private ExaminationSubmissionService examinationSubmissionService;
-
-    @Autowired
-    private ObjectSubmissionService objectSubmissionService;
-
-    @Autowired
-    private ExamJudgeService examJudgeService;
 
 
 
@@ -105,9 +80,10 @@ public class ExaminationRunner {
             // 用户答题卡
             List<AnswerEntity> answerSheet = userExamEntity.getAnswerSheet();
             examAutoTask.setExamJudgeStatus(ExamJudgeStatus.Saving);
+            String judgerUrl = judgerDispatcher.getJudgerUrl();
 
             // TODO: Leon 20190710 保存试卷提交
-//            examJudgeService.examJudge(answerSheet,new DCOJJudger(), examAutoTaskExtends, );
+//            examJudgeService.examJudge(answerSheet, examAutoTaskExtends,);
         }
     }
 }
