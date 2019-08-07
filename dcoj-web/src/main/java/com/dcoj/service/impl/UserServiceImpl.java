@@ -210,7 +210,6 @@ public class UserServiceImpl implements UserService {
 //        UserEntity userEntity = new UserEntity();
 //        userEntity.setUid(1);
 //        userEntity.setPassword(format.getPassword());
-///*      TODO 20190426 Leon完成Login方法
 //        if(Optional.ofNullable(format.getEmail()).isPresent() && !format.getEmail().trim().equals("")){
 //            userEntity = mongoTemplate.findOne(new Query(Criteria.where("email").is(format.getEmail()).
 //                            andOperator(Criteria.where("password").is(format.getPassword()))),

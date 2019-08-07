@@ -94,8 +94,6 @@ public interface ObjectProblemService {
     List<Map<String, Object>> listAll(List<Integer> list,
                                       Integer uid,
                                       String query);
-
-    //TODO: Leon 20190730 实现更新客观题状态
     /**
      * 更新题目次数内容
      * @param objectProblemId       题目ID
