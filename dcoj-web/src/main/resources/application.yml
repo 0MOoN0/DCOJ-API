@@ -30,8 +30,8 @@ mybatis:
   typeAliasesPackage: com.dcoj.entity
   type-handlers-package: com.dcoj.handler
   # 打印Mybatis日志
-#  configuration:
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 mapper:
   mappers: com.dcoj.dao

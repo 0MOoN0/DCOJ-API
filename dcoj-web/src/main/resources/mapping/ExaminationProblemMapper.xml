@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dcoj.dao.ExaminationProblemMapper">
+    <resultMap id="BaseResultMap" type="com.dcoj.entity.ExaminationProblemEntity">
+        <id column="exam_id" property="examId" jdbcType="INTEGER"/>
+        <id column="problem_type" property="problemType" jdbcType="INTEGER"/>
+        <id column="problem_id" property="problemId" jdbcType="INTEGER"/>
+        <result column="score" property="score" jdbcType="INTEGER"/>
+        <result column="lang" property="lang" jdbcType="VARCHAR"/>
+        <result column="exam_problem_locate" property="examProblemLocate" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        exam_id, problem_type, problem_id, score, lang
+    </sql>
+    <select id="listByExamId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM examination_problem
+        WHERE examination_problem.exam_id = #{examId}
+    </select>
+    <select id="selectAll">
+        SELECT * FROM examination_problem;
+    </select>
+    <insert id="saveAll">
+
+    </insert>
+    <update id="updateByLocate">
+
+    </update>
+</mapper>
