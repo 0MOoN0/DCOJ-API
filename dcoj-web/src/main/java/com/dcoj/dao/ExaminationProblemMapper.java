@@ -1,6 +1,7 @@
 package com.dcoj.dao;
 
 import com.dcoj.entity.ExaminationProblemEntity;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,10 +14,12 @@ import java.util.List;
 @Repository
 public interface ExaminationProblemMapper {
 
-    List<ExaminationProblemMapper> listByExamId(Integer examId);
+    List<ExaminationProblemEntity> listByExamId(Integer examId);
 
     int updateByLocate(ExaminationProblemEntity examinationProblemEntity);
 
     int saveAll(List<ExaminationProblemEntity> examinationProblemEntityList);
+
+    List<ExaminationProblemEntity> selectAll();
 
 }

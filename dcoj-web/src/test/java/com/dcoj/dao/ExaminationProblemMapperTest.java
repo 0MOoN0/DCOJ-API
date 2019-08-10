@@ -1,5 +1,6 @@
 package com.dcoj.dao;
 
+import com.dcoj.entity.ExaminationProblemEntity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,8 @@ public class ExaminationProblemMapperTest {
     @Test
     public void testListByExamId(){
         // TODO: Leon 20190808 FIXBUGS
-        List<ExaminationProblemMapper> list = examinationProblemMapper.listByExamId(1);
+        List<ExaminationProblemEntity> list = examinationProblemMapper.listByExamId(1);
+//        List<ExaminationProblemEntity> list = examinationProblemMapper.selectAll();
         Optional.ofNullable(list).ifPresent(examProblem->examProblem.forEach(System.out::println));
     }
 

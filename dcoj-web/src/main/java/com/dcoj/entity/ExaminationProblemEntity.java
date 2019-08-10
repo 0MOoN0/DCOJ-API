@@ -1,7 +1,7 @@
 package com.dcoj.entity;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
-import com.dcoj.judge.LanguageEnum;
 import lombok.Data;
 
 /**
@@ -24,8 +24,12 @@ public class ExaminationProblemEntity {
     @JSONField(name = "score")
     private Integer score;
 
+    /**
+     * 允许使用的语言
+     * 格式举例:{"lang":["JAVA8","PYTHON32"]}
+     */
     @JSONField(name = "lang")
-    private LanguageEnum lang;
+    private JSONObject lang;
 
     @JSONField(name = "exam_problem_locate")
     private Integer examProblemLocate;
