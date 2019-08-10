@@ -184,6 +184,9 @@
             <if test="query != null">
                 AND title LIKE '%${query}%'
             </if>
+            <if test="type != null">
+                AND type = #{type}
+            </if>
             AND is_deleted = 0
         </where>
 

@@ -89,7 +89,7 @@ public interface UserService {
      */
     UserEntity getByToken(String token);
 
-    // TODO：2019.7.6 WANGQING 注释
+
 //    void register(String studentId, String email, String nickname, String password);
 //
 //    int countUsers();

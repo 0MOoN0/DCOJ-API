@@ -2,12 +2,14 @@ package com.dcoj.service.impl;
 
 import com.dcoj.dao.RoleMapper;
 import com.dcoj.dao.UserMapper;
+import com.dcoj.dao.UserRoleMapper;
 import com.dcoj.entity.RoleEntity;
 import com.dcoj.service.RoleResourcesService;
 import com.dcoj.service.RoleService;
 import com.dcoj.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,6 +28,9 @@ public class RoleServiceImpl implements RoleService {
     private UserMapper userMapper;
 
     @Autowired
+    private UserRoleMapper userRoleMapper;
+
+    @Autowired
     private RoleResourcesService roleResourcesService;
 
     /**
@@ -34,16 +39,22 @@ public class RoleServiceImpl implements RoleService {
      * @param roleId 角色id
      */
     @Override
+    @Transactional
     public void removeByPrimaryKey(Integer roleId) {
         WebUtil.assertNotNull(roleMapper.getByPrimaryKey(roleId), "角色不存在，删除失败");
+
+        // 判断是否跟用户关联
+        int countUsers = userRoleMapper.countByRoleId(roleId);
+        if (countUsers > 0){
+            WebUtil.assertIsSuccess(false, "该角色已关联用户，删除失败");
+        }
+
         // 判断是否跟资源关联
         int countRescources = roleResourcesService.countResourcesByRoleId(roleId);
         if (countRescources > 0){
-            WebUtil.assertIsSuccess(false, "该角色已关联资源，删除失败");
+            roleResourcesService.removeResourcesByRoleId(roleId);
+//            WebUtil.assertIsSuccess(false, "该角色已关联资源，删除失败");
         }
-        //TODO:WANGQING 2019.7.23
-        // 判断是否跟用户关联
-
 
         // 删除role
         boolean flag = roleMapper.removeByPrimaryKey(roleId) == 1;

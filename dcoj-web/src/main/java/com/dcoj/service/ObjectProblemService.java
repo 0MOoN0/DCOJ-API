@@ -89,11 +89,13 @@ public interface ObjectProblemService {
      * @param list  标签列表
      * @param uid   用户id
      * @param query 查询关键字
+     * @param type 题目类型
      * @return 结果
      */
     List<Map<String, Object>> listAll(List<Integer> list,
                                       Integer uid,
-                                      String query);
+                                      String query,
+                                      Integer type);
     /**
      * 更新题目次数内容
      * @param objectProblemId       题目ID

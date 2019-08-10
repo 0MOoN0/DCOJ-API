@@ -93,7 +93,8 @@ public interface ObjectProblemMapper {
      */
     List<Map<String, Object>> listAll(@Param("tagList") List<Integer> list,
                                       @Param("uid") Integer uid,
-                                      @Param("query") String query);
+                                      @Param("query") String query,
+                                      @Param("type") Integer type);
 
     /**
      * 更新客观题统计次数
