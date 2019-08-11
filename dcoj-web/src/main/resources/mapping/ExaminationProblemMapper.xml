@@ -10,7 +10,7 @@
         <result column="exam_problem_locate" property="examProblemLocate" jdbcType="INTEGER"/>
     </resultMap>
     <sql id="Base_Column_List">
-        exam_id, problem_type, problem_id, score, lang
+        exam_id, problem_type, problem_id, score, lang, exam_problem_locate
     </sql>
     <select id="listByExamId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         SELECT

@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -22,10 +23,10 @@ public class ExaminationProblemMapperTest {
 
     @Test
     public void testListByExamId(){
-        // TODO: Leon 20190808 FIXBUGS
-        List<ExaminationProblemEntity> list = examinationProblemMapper.listByExamId(1);
+        Map<Integer, ExaminationProblemEntity> map = examinationProblemMapper.listByExamId(1);
 //        List<ExaminationProblemEntity> list = examinationProblemMapper.selectAll();
-        Optional.ofNullable(list).ifPresent(examProblem->examProblem.forEach(System.out::println));
+        Optional.ofNullable(map).ifPresent(examProblem->examProblem.forEach
+                ((integer, examinationProblemEntity) -> System.out.println("The key is +"+integer+" The value is "+examinationProblemEntity)));
     }
 
 }
