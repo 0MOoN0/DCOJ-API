@@ -18,13 +18,35 @@
         FROM examination_problem
         WHERE examination_problem.exam_id = #{examId}
     </select>
-    <select id="selectAll">
-        SELECT * FROM examination_problem;
-    </select>
-    <insert id="saveAll">
+    <update id="updateByLocateSelective" parameterType="com.dcoj.entity.ExaminationProblemEntity">
+        UPDATE examination_problem
+        <set>
+        <if test="problemType != null">
+            problem_type = #{problemType}
+        </if>
+        <if test="problemId != null">
+            problem_id = #{problemId}
+        </if>
+        <if test="score != null">
+            score = #{score}
+        </if>
+        <if test="lang != null">
+            lang = #{lang}
+        </if>
+        </set>
+        WHERE examination_problem.exam_problem_locate = #{examProblemLocate}
+    </update>
+
+    <insert id="saveAll" parameterType="java.util.List">
+        INSERT INTO examination_problem(
+        <include refid="Base_Column_List"/>
+        )
+        VALUES
+        <foreach collection="list" item="examProblem" index="index" separator=",">
+            (
+            #{examProblem.examId},#{examProblem.problemType},#{examProblem.problemId},#{examProblem.score},#{examProblem.lang},#{examProblem.examProblemLocate}
+            )
+        </foreach>
 
     </insert>
-    <update id="updateByLocate">
-
-    </update>
 </mapper>

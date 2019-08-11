@@ -15,13 +15,28 @@ import java.util.Map;
 @Repository
 public interface ExaminationProblemMapper {
 
+    /**
+     * 根据试卷ID获取相关试卷问题信息
+     *
+     * @param examId    试卷ID
+     * @return          返回Map类型，key是试卷问题的位置
+     */
     @MapKey("examProblemLocate")
     Map<Integer,ExaminationProblemEntity> listByExamId(Integer examId);
 
-    int updateByLocate(ExaminationProblemEntity examinationProblemEntity);
+    /**
+     * 根据问题位置更新问题内容，不可修改examId
+     *
+     * @param examinationProblemEntity  需要进行修改的内容，如果内容为null，则该null字段不会被更新
+     * @return      更新的条数
+     */
+    int updateByLocateSelective(ExaminationProblemEntity examinationProblemEntity);
 
+    /**
+     * 批量保存
+     * @param examinationProblemEntityList      要保存的内容
+     * @return      更新的条数
+     */
     int saveAll(List<ExaminationProblemEntity> examinationProblemEntityList);
-
-    List<ExaminationProblemEntity> selectAll();
 
 }
