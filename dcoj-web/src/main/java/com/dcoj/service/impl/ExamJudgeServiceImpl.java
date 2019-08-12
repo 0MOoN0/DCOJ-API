@@ -3,6 +3,7 @@ package com.dcoj.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dcoj.config.DcojConfig;
+import com.dcoj.entity.ExaminationProblemEntity;
 import com.dcoj.entity.ProgramProblemEntity;
 import com.dcoj.entity.TestCaseEntity;
 import com.dcoj.entity.exam.AnswerEntity;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Leon
@@ -67,12 +69,14 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
     private ObjectProblemUserService objectProblemUserService;
 
     @Autowired
-    private JudgerDispatcher judgerDispatcher;
+    private ExaminationProblemService examinationProblemService;
 
+    @Autowired
+    private JudgerDispatcher judgerDispatcher;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void examJudge(List<AnswerEntity> answerSheet, ExamAutoTaskExtends examAutoTaskExtends, JSONArray examProblem) {
+    public void examJudge(List<AnswerEntity> answerSheet, ExamAutoTaskExtends examAutoTaskExtends) {
         // 请求实体类
         RequestEntity requestEntity = new RequestEntity();
         List<ExamProblemResultEntity> resultSheet = new ArrayList<ExamProblemResultEntity>();
@@ -81,7 +85,8 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
         int resultScore = 0;
         int problemScore = 0;
         // 问题详情
-        JSONObject problemDetail = null;
+        Map<Integer, ExaminationProblemEntity> problemEntityMap = examinationProblemService.listByExamId(examAutoTaskExtends.getExamId());
+//        JSONObject problemDetail = null;
         // 判卷器
         for (AnswerEntity answerEntity : answerSheet){
             switch (answerEntity.getProblemType()){
@@ -104,10 +109,11 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
                         // 上传源码
 //                            return;
                     }
+                    // TODO: Leon 20190812 封装判断相关信息类，ansheet里面维护一个试卷信息和一个答题卡信息，通过试卷信息获取试卷题目分数等内容
                     // 获取题目详情
-                    problemDetail = examProblem.getJSONObject(answerEntity.getExamProblemLocate());
+                    ExaminationProblemEntity problemEntity = problemEntityMap.get(answerEntity.getExamProblemLocate());
                     // 获取题目分数
-                    problemScore = problemDetail.getInteger("problem_score");
+//                    problemScore =
                     // 计算分值，并保存编程题提交
                     Integer submissionDetailID = saveExamProgramSubmission(examAutoTaskExtends, answerEntity, 0, responseEntity, problemScore);
                     programProblemService.updateProblemTimes(answerEntity.getProblemId(), responseEntity.getResult());
@@ -122,9 +128,9 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
                     //选择题判卷
                     int i = objectProblemService.judgeObjectProblem(answerEntity.getProblemId(), answerEntity.getAnswer().toString());
                     // 获取题目详情
-                    problemDetail = examProblem.getJSONObject(answerEntity.getExamProblemLocate());
+//                    problemDetail = examProblem.getJSONObject(answerEntity.getExamProblemLocate());
                     // 根据题目详情获取分数
-                    problemScore = i==1 ?  problemDetail.getInteger("problem_score") : 0;
+//                    problemScore = i==1 ?  problemDetail.getInteger("problem_score") : 0;
                     // 计算判断题得分
                     resultScore += problemScore;
                     Integer ObjectsubmissionDetailID = objectSubmissionService.save(examAutoTaskExtends.getUid(), answerEntity.getProblemId(), i, answerEntity.getAnswer().toString());

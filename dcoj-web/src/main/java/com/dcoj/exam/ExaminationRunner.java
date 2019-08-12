@@ -62,9 +62,6 @@ public class ExaminationRunner {
             }
         }).start();
     }
-
-
-
     // 进行判卷的方法
     @Transactional(rollbackFor = Exception.class)
     public void judgeExam(ExamAutoTask examAutoTask){

@@ -12,6 +12,6 @@ import java.util.List;
  */
 public interface ExamJudgeService {
 
-    void examJudge(List<AnswerEntity> answerSheet, ExamAutoTaskExtends examAutoTaskExtends, JSONArray examProblem);
+    void examJudge(List<AnswerEntity> answerSheet, ExamAutoTaskExtends examAutoTaskExtends);
 
 }
