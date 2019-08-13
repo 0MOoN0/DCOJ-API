@@ -1,6 +1,8 @@
 package com.dcoj.service.impl;
 
+import com.aliyun.oss.OSS;
 import com.dcoj.controller.exception.WebErrorException;
+import com.dcoj.entity.FileUploadEntity;
 import com.dcoj.entity.ProgramProblemEntity;
 import com.dcoj.entity.TestCaseEntity;
 import com.dcoj.judge.JudgeQueue;
@@ -10,9 +12,12 @@ import com.dcoj.judge.task.TestJudgeTask;
 import com.dcoj.service.AsyncJudgeService;
 import com.dcoj.service.ProgramProblemService;
 import com.dcoj.service.TestCasesService;
+import com.dcoj.util.AliyunOssUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,6 +35,12 @@ public class AsyncJudgeServiceImpl implements AsyncJudgeService {
 
     @Autowired
     private TestCasesService testCasesService;
+
+    @Autowired
+    private OSS ossClient;
+    @Autowired
+    private AliyunOssUtils aliyunOssUtils;
+    private FileUploadEntity fileUploadEntity;
 
     @Override
     public String addTestJudge(String sourceCode, LanguageEnum lang, int time, int memory, List<TestCaseEntity> testCases) {
@@ -65,6 +76,13 @@ public class AsyncJudgeServiceImpl implements AsyncJudgeService {
         task.setProgramProblemEntity(programProblemEntity);
         task.setPriority(1);
         judgerQueue.addTask(task);
+        //上传源代码至阿里云
+        fileUploadEntity = AliyunOssUtils.uploadSouce(sourceCode,lang);
+        try {
+            ossClient.putObject(aliyunOssUtils.getBucketName(), fileUploadEntity.getFilePath(), fileUploadEntity.getInputStream());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return task.getId();
     }
 
