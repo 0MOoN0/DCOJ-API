@@ -37,12 +37,7 @@ public class ExaminationRunner {
     private final static DelayQueue<ExamAutoTask> delayQueue = new DelayQueue<ExamAutoTask>();
 
     @Autowired
-    private ExamJudgeService examJudgeService;
-
-    @Autowired
     private JudgerDispatcher judgerDispatcher;
-
-
 
     private boolean start;
 

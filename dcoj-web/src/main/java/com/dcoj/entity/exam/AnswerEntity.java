@@ -4,6 +4,7 @@ import com.dcoj.judge.LanguageEnum;
 import lombok.Data;
 
 /**
+ * 用户答题内容，一个Entity对应一道题目
  * @author Leon
  */
 // TODO: Leon 20190708 完善answer内容

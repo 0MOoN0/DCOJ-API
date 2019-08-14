@@ -4,8 +4,10 @@ import com.dcoj.judge.LanguageEnum;
 import lombok.Data;
 
 /**
+ *
  * @author Leon
  */
+@Deprecated
 @Data
 public class ExamProblemEntity {
 

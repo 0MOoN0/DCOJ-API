@@ -2,6 +2,7 @@ package com.dcoj.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.dcoj.entity.exam.AnswerEntity;
+import com.dcoj.entity.exam.AnswerExamEntity;
 import com.dcoj.exam.ExamAutoTaskExtends;
 import com.dcoj.judge.judger.Judger;
 
@@ -12,6 +13,6 @@ import java.util.List;
  */
 public interface ExamJudgeService {
 
-    void examJudge(List<AnswerEntity> answerSheet, ExamAutoTaskExtends examAutoTaskExtends);
+    void examJudge(AnswerExamEntity answerExamEntity, ExamAutoTaskExtends examAutoTaskExtends);
 
 }
