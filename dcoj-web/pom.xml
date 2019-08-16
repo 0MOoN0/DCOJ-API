@@ -8,6 +8,7 @@
         <oss.version>3.5.0</oss.version>
         <joda.version>2.9.9</joda.version>
         <thum.version>0.4.8</thum.version>
+        <goouitl.version>r05</goouitl.version>
     </properties>
 
     <parent>
@@ -132,11 +133,26 @@
             <version>${joda.version}</version>
         </dependency>
 
+        <!--图片处理-->
         <dependency>
             <groupId>net.coobird</groupId>
             <artifactId>thumbnailator</artifactId>
             <version>${thum.version}</version>
         </dependency>
+
+        <!--谷歌工具类-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${goouitl.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.2</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
