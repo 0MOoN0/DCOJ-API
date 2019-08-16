@@ -41,3 +41,11 @@ mapper:
 dcoj:
   # 文件路径
   profile: D:/profile/
+
+#阿里云oss相关
+aliyunoss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    accessKeyId: LTAIfhJIQVxrEFdD
+    accessKeySecret: 9dHSGLm5CAgML5SoiuutVALbcNz5Rt
+    bucketName: dcoj
+    urlPrefix: http://dcoj.oss-cn-beijing.aliyuncs.com/

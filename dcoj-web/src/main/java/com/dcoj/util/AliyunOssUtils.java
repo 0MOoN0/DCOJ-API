@@ -2,6 +2,8 @@ package com.dcoj.util;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClient;
+import com.dcoj.entity.FileUploadEntity;
+import com.dcoj.judge.LanguageEnum;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -11,6 +13,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -24,7 +27,6 @@ import java.io.InputStream;
  * @Desriiption: 阿里云oss操作工具类
  */
 @Configuration
-@PropertySource("aliyunoss.properties")
 @ConfigurationProperties(prefix = "aliyunoss")
 public class AliyunOssUtils {
 
@@ -54,6 +56,51 @@ public class AliyunOssUtils {
                 + dateTime.toString("dd") + "/" + System.currentTimeMillis() +
                 RandomUtils.nextInt(100, 9999) + "." +
                 StringUtils.substringAfterLast(sourceFileName, ".");
+    }
+
+    /**
+     *  根据文件路径上传代码
+     * @param sourceCode 源代码
+     * @param lang 语言
+     * @return 输入流
+     */
+    public static final FileUploadEntity uploadSouce(String sourceCode, LanguageEnum lang) {
+        DateTime dateTime = new DateTime();
+        String suffix = "";
+        File file = null;
+        InputStream inputStream = null;
+        FileUploadEntity fileUploadEntity = new FileUploadEntity();
+        String pre = "code/" + dateTime.toString("yyyy")
+                + "/" + dateTime.toString("MM") + "/"
+                + dateTime.toString("dd") + "/";
+        switch (lang) {
+            case JAVA8:
+                suffix += ".java";
+                break;
+            case C:
+                suffix += ".c";
+                break;
+            case CPP:
+                suffix += ".cpp";
+                break;
+            default:
+                suffix += ".py";
+                break;
+        }
+        try {
+            // 创建临时文件，使用6随机数作为文件名
+            file = File.createTempFile(RandomValidateCodeUtil.getRandomString(), suffix);
+            FileUtils.writeStringToFile(file, sourceCode, "utf-8");
+            inputStream = new FileInputStream(file);
+            pre = pre + file.getName();
+            fileUploadEntity.setFilePath(pre);
+            fileUploadEntity.setInputStream(inputStream);
+            // 在程序退出时删除临时文件
+            file.deleteOnExit();
+        } catch (Exception e) {
+            WebUtil.assertIsSuccess(false, "上传代码失败");
+        }
+        return fileUploadEntity;
     }
 
     /**
