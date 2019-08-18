@@ -177,7 +177,7 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
      * @return 返回值为1时，答案正确，为0则答案错误
      */
     @Override
-    public int judgeObjectProblem(Integer objectProblemId, String userAnswer) {
+    public Integer judgeObjectProblem(Integer objectProblemId, String userAnswer) {
         ObjectProblemEntity objectProblemEntity = objectProblemMapper.getByPrimaryKey(objectProblemId);
         WebUtil.assertNotNull(objectProblemEntity, "该题目不存在");
         // 判断答案，答案正确，则返回1，否则返回1

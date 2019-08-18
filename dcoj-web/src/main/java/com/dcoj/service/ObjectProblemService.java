@@ -74,7 +74,7 @@ public interface ObjectProblemService {
      * @param userAnswer      用户提交的答案
      * @return 返回值为1时，答案正确，为0则答案错误
      */
-    int judgeObjectProblem(Integer objectProblemId, String userAnswer);
+    Integer judgeObjectProblem(Integer objectProblemId, String userAnswer);
 
     /**
      * 根据题目状态统计题目数量
