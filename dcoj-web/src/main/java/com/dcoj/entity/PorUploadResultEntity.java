@@ -1,9 +1,12 @@
 package com.dcoj.entity;
 
+import lombok.Data;
+
 /**
  * @author zxw
  * @Desriiption: 头像上传结果实体
  */
+@Data
 public class PorUploadResultEntity {
     // 文件唯一标识
     private String uid;
@@ -13,36 +16,4 @@ public class PorUploadResultEntity {
     private String status;
     // 服务端响应内容，如：'{"status": "success"}'
     private String response;
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getResponse() {
-        return response;
-    }
-
-    public void setResponse(String response) {
-        this.response = response;
-    }
 }

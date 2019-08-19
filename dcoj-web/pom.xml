@@ -76,12 +76,12 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
-        <dependency>
+<!--        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>5.1.6.RELEASE</version>
-            <!--<scope>test</scope>-->
-        </dependency>
+            &lt;!&ndash;<scope>test</scope>&ndash;&gt;
+        </dependency>-->
 
         <dependency>
             <artifactId>dcoj-judge</artifactId>
@@ -140,12 +140,12 @@
             <version>${thum.version}</version>
         </dependency>
 
-        <!--谷歌工具类-->
-        <dependency>
+        <!--谷歌工具类 Swagger已经包含，再次添加会引起依赖冲突-->
+<!--        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${goouitl.version}</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>commons-collections</groupId>

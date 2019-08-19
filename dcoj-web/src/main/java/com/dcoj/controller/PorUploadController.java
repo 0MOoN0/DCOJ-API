@@ -1,6 +1,7 @@
 package com.dcoj.controller;
 
 import com.dcoj.entity.PorUploadResultEntity;
+import com.dcoj.entity.ResponseEntity;
 import com.dcoj.service.PorUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ public class PorUploadController {
 
     @ResponseBody
     @RequestMapping(value = "/uploadPor",method = RequestMethod.POST)
-    public PorUploadResultEntity uploadPor(@RequestParam("portrait") MultipartFile multipartFile){
-        return this.porUploadService.upload(multipartFile);
+    public ResponseEntity uploadPor(@RequestParam("portrait") MultipartFile multipartFile){
+        return new ResponseEntity(porUploadService.upload(multipartFile));
     }
 }

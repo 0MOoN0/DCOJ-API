@@ -48,4 +48,4 @@ aliyunoss:
     accessKeyId: LTAIfhJIQVxrEFdD
     accessKeySecret: 9dHSGLm5CAgML5SoiuutVALbcNz5Rt
     bucketName: dcoj
-    urlPrefix: http://dcoj.oss-cn-beijing.aliyuncs.com/
+    urlPrefix: https://dcoj.oss-cn-beijing.aliyuncs.com/
