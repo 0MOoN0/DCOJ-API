@@ -1,7 +1,7 @@
 package com.dcoj.controller;
 
 import com.dcoj.dto.CateLevelDto;
-import com.dcoj.handler.JsonData;
+import com.dcoj.entity.ResponseEntity;
 import com.dcoj.param.CateParam;
 import com.dcoj.service.SysCateService;
 import com.dcoj.service.SysTreeService;
@@ -47,16 +47,16 @@ public class SysCateController {
      */
     @RequestMapping("/save.json")
     @ResponseBody
-    public JsonData saveCate(CateParam param) {
+    public ResponseEntity saveCate(CateParam param) {
         sysCateService.save(param);
-        return JsonData.success();
+        return new ResponseEntity("新增类别成功~~");
     }
 
     @RequestMapping("/tree.json")
     @ResponseBody
-    public JsonData tree() {
+    public ResponseEntity tree() {
         List<CateLevelDto> dtoList = sysTreeService.cateTree();
-        return JsonData.success(dtoList);
+        return new ResponseEntity(dtoList);
     }
 
     /**
@@ -66,9 +66,9 @@ public class SysCateController {
      */
     @RequestMapping("/update.json")
     @ResponseBody
-    public JsonData updateCate(CateParam param) {
+    public ResponseEntity updateCate(CateParam param) {
         sysCateService.update(param);
-        return JsonData.success();
+        return new ResponseEntity("更新类别成功");
     }
 
     /**
@@ -78,8 +78,8 @@ public class SysCateController {
      */
     @RequestMapping("/delete.json")
     @ResponseBody
-    public JsonData delete(@RequestParam("id") int id) {
+    public ResponseEntity delete(@RequestParam("id") int id) {
         sysCateService.delete(id);
-        return JsonData.success();
+        return new ResponseEntity("删除类别成功");
     }
 }

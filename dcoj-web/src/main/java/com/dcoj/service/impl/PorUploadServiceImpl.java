@@ -37,7 +37,7 @@ public class PorUploadServiceImpl implements PorUploadService {
         // 返回结果集
         PorUploadResultEntity porUploadResultEntity = new PorUploadResultEntity();
         if(!isLegal){
-            porUploadResultEntity.setStatus("failer");
+            porUploadResultEntity.setStatus("error");
             return porUploadResultEntity;
         }
         //获取文件名
@@ -51,7 +51,7 @@ public class PorUploadServiceImpl implements PorUploadService {
             ossClient.putObject(aliyunOssUtils.getBucketName(), filePath, inputStream);
         } catch (Exception e) {
             e.printStackTrace();
-            porUploadResultEntity.setStatus("failer");
+            porUploadResultEntity.setStatus("error");
             return porUploadResultEntity;
         }
         porUploadResultEntity.setStatus("done");
