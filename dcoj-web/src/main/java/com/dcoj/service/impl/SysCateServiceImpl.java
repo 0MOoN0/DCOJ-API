@@ -51,9 +51,9 @@ public class SysCateServiceImpl implements SysCateService {
      * @param cateId
      */
     public void delete(int cateId) {
-        SysCate dept = sysCateMapper.selectByPrimaryKey(cateId);
-        Preconditions.checkNotNull(dept, "待删除的类别不存在，无法删除");
-        if (sysCateMapper.countByParentId(dept.getId()) > 0) {
+        SysCate cate = sysCateMapper.selectByPrimaryKey(cateId);
+        Preconditions.checkNotNull(cate, "待删除的类别不存在，无法删除");
+        if (sysCateMapper.countByParentId(cate.getId()) > 0) {
             throw new ParamException("当前类别下面有子类别，无法删除");
         }
         //TODO :判断类别下是否关联了题目
