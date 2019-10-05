@@ -113,6 +113,7 @@ public class UserController {
     public ResponseEntity information(@PathVariable("user_id") int userId) {
         UserEntity userEntity = userService.getByPrimaryKey(userId);
         RoleEntity roleEntity  = roleService.getRoleByUserId(userEntity.getUserId());
+        WebUtil.assertNotNull(roleEntity, "获取用户角色信息错误");
         Map<String, Object> dataMap = new HashMap<>(3);
         dataMap.put("user", userEntity);
         dataMap.put("role",roleEntity);

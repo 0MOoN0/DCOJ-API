@@ -51,7 +51,7 @@ public class AdminLoginController {
     @PostMapping("/login")
     public ResponseEntity login(HttpServletResponse response, @RequestBody @Valid IndexLoginFormat format) {
         UserEntity userEntity = userService.login(format);
-        WebUtil.assertNotNull(userEntity, "用户密码错误");
+        WebUtil.assertNotNull(userEntity, "用户账号或密码错误");
         RoleEntity roleEntity  = roleService.getRoleByUserId(userEntity.getUserId());
         WebUtil.assertNotNull(roleEntity, "用户角色不存在");
         String token = JWTUtil.sign(userEntity.getUserId(), userEntity.getPassword());
