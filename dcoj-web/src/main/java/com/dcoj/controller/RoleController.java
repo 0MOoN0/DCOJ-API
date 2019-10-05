@@ -33,7 +33,12 @@ public class RoleController {
     @ApiOperation("获取所有角色")
     @GetMapping("/listAll")
     public ResponseEntity listAll(){
-        return new ResponseEntity(roleService.listAll());
+        if(roleService.listAll().size()<=0){
+            return new ResponseEntity(400,"数据获取异常","");
+        }else{
+            return new ResponseEntity(roleService.listAll());
+        }
+
     }
 
 
