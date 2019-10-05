@@ -2,7 +2,9 @@ package com.dcoj.controller;
 
 import com.dcoj.entity.ProgramProblemEntity;
 import com.dcoj.entity.ResponseEntity;
+import com.dcoj.entity.RoleEntity;
 import com.dcoj.entity.UserEntity;
+import com.dcoj.service.RoleService;
 import com.dcoj.service.UserService;
 import com.dcoj.util.WebUtil;
 import com.github.pagehelper.Page;
@@ -24,6 +26,7 @@ import java.util.Map;
  * 用户管理 控制器
  *
  * @author WANGQING
+ * @Update Jack Lin 2019-10-02 新增用户信息查看，用户信息修改功能
  */
 @RestController
 @Validated
@@ -32,7 +35,8 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private RoleService roleService;
     /*
     @ApiOperation("跳转到用户管理界面")
     @RequiresPermissions("system:user:view")
@@ -103,5 +107,24 @@ public class UserController {
         return new ResponseEntity(dataMap);
     }
 
+    @ApiOperation("查看用户信息")
+    @ApiImplicitParam(name = "user_id", value = "用户id")
+    @GetMapping("information/{user_id}")
+    public ResponseEntity information(@PathVariable("user_id") int userId) {
+        UserEntity userEntity = userService.getByPrimaryKey(userId);
+        RoleEntity roleEntity  = roleService.getRoleByUserId(userEntity.getUserId());
+        Map<String, Object> dataMap = new HashMap<>(3);
+        dataMap.put("user", userEntity);
+        dataMap.put("role",roleEntity);
+        return new ResponseEntity(dataMap);
+    }
+    @ApiOperation("修改用户信息")
+    @ApiImplicitParam(name = "userEntity", value = "用户信息")
+    @PostMapping("update_information")
+    public ResponseEntity updateinformation(@RequestBody UserEntity userEntity)
+    {
+        userService.updateUser(userEntity.getUserId(),userEntity);
+        return new ResponseEntity("保存成功");
+    }
 
 }
