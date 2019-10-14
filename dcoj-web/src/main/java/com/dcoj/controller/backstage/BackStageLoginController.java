@@ -1,6 +1,6 @@
-package com.dcoj.controller;
+package com.dcoj.controller.backstage;
 
-import com.alibaba.fastjson.JSON;
+
 import com.dcoj.cache.GlobalCacheManager;
 import com.dcoj.config.DefaultConfig;
 import com.dcoj.controller.format.index.IndexLoginFormat;
@@ -25,18 +25,17 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 后台登录管理 控制器
  *
- * @author Jack Lin 2019-10-02 新增后台登入登出功能
+ * @author Jack Lin
  */
 @RestController
 @Validated
 @Api(tags = "后台登录管理")
-@RequestMapping(value = "/adminLogin", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class AdminLoginController {
+@RequestMapping(value = "/backStageLogin", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+public class BackStageLoginController {
     @Autowired
     private UserService userService;
 
@@ -57,12 +56,8 @@ public class AdminLoginController {
         String token = JWTUtil.sign(userEntity.getUserId(), userEntity.getPassword());
         System.out.println("Token:"+token);
         authCache.put(DefaultConfig.TOKEN+userEntity.getUsername(),token);
-        HashMap<String, Object> map = new HashMap<String,Object>();
-        map.put("token",token);
-        map.put("user",userEntity);
-        map.put("role",roleEntity);
 
-        return new ResponseEntity("登入成功", map);
+        return new ResponseEntity("登入成功", token);
     }
 
 
@@ -71,6 +66,4 @@ public class AdminLoginController {
         authCache.clear();
         return new ResponseEntity("登出成功");
     }
-
-
 }

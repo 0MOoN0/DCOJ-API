@@ -31,7 +31,7 @@ public class WebUtil {
     public static Map<String, Object> generatePageData(Page pager, Object data) {
         Map<String, Object> map = new HashMap<>(4);
         map.put("total", pager.getTotal());
-        map.put("data", data);
+        map.put("content", data);
         return map;
     }
 
