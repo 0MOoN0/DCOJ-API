@@ -32,18 +32,18 @@ public class BackStageClassController {
 
     @ApiOperation("分页获取所有班级")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page_num", value = "页码", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "page_size", value = "每页显示数量", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "page", value = "页码", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "limit", value = "每页显示数量", required = true, paramType = "query"),
     })
     @GetMapping("listAllByPage")
-    public ResponseEntity listAllByPage(@RequestParam(name = "page_num") int pageNum,
-                                  @RequestParam(name = "page_size") int pageSize ){
+    public ResponseEntity listAllByPage(@RequestParam(name = "page") int page,
+                                  @RequestParam(name = "limit") int limit ){
         if(classService.listAll().size()<=0){
             return new ResponseEntity(400,"数据获取异常","");
         }else
         {   // pageNum  页码
             // pageSize 每页显示数量
-            Page pager = PageHelper.startPage(pageNum, pageSize);
+            Page pager = PageHelper.startPage(page, limit);
             return new ResponseEntity(WebUtil.generatePageData(pager, classService.listAll()));
         }
     }

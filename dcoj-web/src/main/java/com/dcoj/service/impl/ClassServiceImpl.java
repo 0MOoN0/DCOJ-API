@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -55,6 +56,7 @@ public class ClassServiceImpl implements ClassService {
     @Override
     public void updateClass(Integer classId, ClassEntity classEntity) {
         WebUtil.assertNotNull(classEntityMapper.selectByPrimaryKey(classId), "该班级不存在，无法更新");
+        classEntity.setModifiedTime(new Timestamp(System.currentTimeMillis()));
         boolean flag = classEntityMapper.updateByPrimaryKey(classEntity)== 1;
         WebUtil.assertIsSuccess(flag, "用户更新失败");
     }
@@ -80,6 +82,10 @@ public class ClassServiceImpl implements ClassService {
     @Override
     public void insertClass(ClassEntity classEntity) {
         WebUtil.assertNull(classEntityMapper.selectByPrimaryKey(classEntity.getClassId()), "该班级已存在，新增失败");
+        classEntity.setModifiedTime(new Timestamp(System.currentTimeMillis()));
+        classEntity.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        classEntity.setDeleted(0);
+        classEntity.setIsOrder(0);
         boolean flag =  classEntityMapper.insert(classEntity) == 1;
         WebUtil.assertIsSuccess(flag, "添加用户失败");
     }

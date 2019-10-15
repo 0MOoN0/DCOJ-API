@@ -2,6 +2,7 @@ package com.dcoj.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class ClassEntity implements Serializable {
     private Integer classId;
@@ -22,7 +23,7 @@ public class ClassEntity implements Serializable {
 
     private Timestamp modifiedTime;
 
-    private Timestamp createTiem;
+    private Date createTime;
 
     private Integer isOrder;
 
@@ -102,12 +103,12 @@ public class ClassEntity implements Serializable {
         this.modifiedTime = modifiedTime;
     }
 
-    public Timestamp getCreateTiem() {
-        return createTiem;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreateTiem(Timestamp createTiem) {
-        this.createTiem = createTiem;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Integer getIsOrder() {
@@ -147,7 +148,7 @@ public class ClassEntity implements Serializable {
             && (this.getSchoolName() == null ? other.getSchoolName() == null : this.getSchoolName().equals(other.getSchoolName()))
             && (this.getDescribes() == null ? other.getDescribes() == null : this.getDescribes().equals(other.getDescribes()))
             && (this.getModifiedTime() == null ? other.getModifiedTime() == null : this.getModifiedTime().equals(other.getModifiedTime()))
-            && (this.getCreateTiem() == null ? other.getCreateTiem() == null : this.getCreateTiem().equals(other.getCreateTiem()))
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getIsOrder() == null ? other.getIsOrder() == null : this.getIsOrder().equals(other.getIsOrder()))
             && (this.getDeleted() == null ? other.getDeleted() == null : this.getDeleted().equals(other.getDeleted()));
     }
@@ -165,7 +166,7 @@ public class ClassEntity implements Serializable {
         result = prime * result + ((getSchoolName() == null) ? 0 : getSchoolName().hashCode());
         result = prime * result + ((getDescribes() == null) ? 0 : getDescribes().hashCode());
         result = prime * result + ((getModifiedTime() == null) ? 0 : getModifiedTime().hashCode());
-        result = prime * result + ((getCreateTiem() == null) ? 0 : getCreateTiem().hashCode());
+        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getIsOrder() == null) ? 0 : getIsOrder().hashCode());
         result = prime * result + ((getDeleted() == null) ? 0 : getDeleted().hashCode());
         return result;
@@ -186,7 +187,7 @@ public class ClassEntity implements Serializable {
         sb.append(", schoolName=").append(schoolName);
         sb.append(", describes=").append(describes);
         sb.append(", modifiedTime=").append(modifiedTime);
-        sb.append(", createTiem=").append(createTiem);
+        sb.append(", createTime=").append(createTime);
         sb.append(", isOrder=").append(isOrder);
         sb.append(", deleted=").append(deleted);
         sb.append(", serialVersionUID=").append(serialVersionUID);
