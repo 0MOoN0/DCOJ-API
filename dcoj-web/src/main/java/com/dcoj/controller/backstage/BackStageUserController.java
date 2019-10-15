@@ -96,7 +96,7 @@ public class BackStageUserController {
     }
     @ApiOperation("根据token获取用户信息")
     @ApiImplicitParam(name = "token", value = "账号token信息")
-    @GetMapping("getByToken")
+    @GetMapping("getByToken/{token}")
     public ResponseEntity getByToken(@PathVariable("token") String token)
     {
         UserEntity userEntity = userService.getByToken(token);
