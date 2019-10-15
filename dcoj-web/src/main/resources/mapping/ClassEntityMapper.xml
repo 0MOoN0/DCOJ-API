@@ -11,13 +11,13 @@
     <result column="school_name" jdbcType="VARCHAR" property="schoolName" />
     <result column="describes" jdbcType="VARCHAR" property="describes" />
     <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
-    <result column="create_tiem" jdbcType="TIMESTAMP" property="createTiem" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTiem" />
     <result column="is_order" jdbcType="INTEGER" property="isOrder" />
     <result column="is_deleted" jdbcType="INTEGER" property="deleted" />
   </resultMap>
   <sql id="Base_Column_List">
     class_id, class_name, major, class_number, school_year, secondary_college, school_name, 
-    describes, modified_time, create_tiem, is_order, is_deleted
+    describes, modified_time, create_time, is_order, is_deleted
   </sql>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from class
@@ -51,7 +51,7 @@
         modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
       </if>
       <if test="createTiem != null">
-        create_tiem = #{createTiem,jdbcType=TIMESTAMP},
+        create_time = #{createTiem,jdbcType=TIMESTAMP},
       </if>
       <if test="isOrder != null">
         is_order = #{isOrder,jdbcType=INTEGER},
@@ -78,7 +78,7 @@
     insert into class (class_id, class_name, major, 
       class_number, school_year, secondary_college, 
       school_name, describes, modified_time,
-      create_tiem, is_order, is_deleted
+      create_time, is_order, is_deleted
       )
     values (#{classId,jdbcType=INTEGER}, #{className,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
       #{classNumber,jdbcType=INTEGER}, #{schoolYear,jdbcType=VARCHAR}, #{secondaryCollege,jdbcType=VARCHAR}, 
@@ -117,7 +117,7 @@
         modified_time,
       </if>
       <if test="createTiem != null">
-        create_tiem,
+        create_time,
       </if>
       <if test="isOrder != null">
         is_order,
@@ -175,7 +175,7 @@
       school_name = #{schoolName,jdbcType=VARCHAR},
       describes = #{describes,jdbcType=VARCHAR},
       modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
-      create_tiem = #{createTiem,jdbcType=TIMESTAMP},
+      create_time = #{createTiem,jdbcType=TIMESTAMP},
       is_order = #{isOrder,jdbcType=INTEGER},
       is_deleted = #{deleted,jdbcType=INTEGER}
     where class_id = #{classId,jdbcType=INTEGER}
