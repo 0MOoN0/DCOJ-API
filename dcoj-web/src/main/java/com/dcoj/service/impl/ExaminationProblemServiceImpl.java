@@ -6,6 +6,7 @@ import com.dcoj.service.ExaminationProblemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,5 +27,19 @@ public class ExaminationProblemServiceImpl implements ExaminationProblemService 
     @Override
     public Map<Integer, ExaminationProblemEntity> listByExamId(Integer examId) {
         return examinationProblemMapper.listByExamId(examId);
+    }
+
+    @Override
+    public int saveAll(List<ExaminationProblemEntity> examinationProblemEntityList) {
+        return examinationProblemMapper.saveAll(examinationProblemEntityList);
+    }
+
+    public int updateByLocateSelective(ExaminationProblemEntity examinationProblemEntity){
+        return examinationProblemMapper.updateByLocateSelective(examinationProblemEntity);
+    }
+
+    @Override
+    public List<Map<String, Object>> listAll() {
+        return examinationProblemMapper.listAll();
     }
 }

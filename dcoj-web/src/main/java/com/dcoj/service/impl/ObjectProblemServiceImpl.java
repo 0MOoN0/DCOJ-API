@@ -180,7 +180,7 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
     public Integer judgeObjectProblem(Integer objectProblemId, String userAnswer) {
         ObjectProblemEntity objectProblemEntity = objectProblemMapper.getByPrimaryKey(objectProblemId);
         WebUtil.assertNotNull(objectProblemEntity, "该题目不存在");
-        // 判断答案，答案正确，则返回1，否则返回1
+        // 判断答案，答案正确，则返回1，否则返回0
         if (objectProblemEntity.getAnswer().equals(userAnswer)) {
             return 1;
         }
@@ -221,6 +221,11 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
     @Override
     public int updateProblemTimesByUidPid(Integer objectProblemId, Byte status) {
         return objectProblemMapper.updateProblemTimes(objectProblemId, status);
+    }
+
+    @Override
+    public List<Map<String, Object>> listByExamIdAndType(int examId) {
+        return objectProblemMapper.listByExamIdAndType(examId);
     }
 
 }

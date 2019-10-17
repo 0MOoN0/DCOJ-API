@@ -1,6 +1,7 @@
 package com.dcoj.dao;
 
 import com.dcoj.entity.ExaminationProblemEntity;
+import com.dcoj.entity.ProgramProblemEntity;
 import org.apache.ibatis.annotations.MapKey;
 import org.springframework.stereotype.Repository;
 
@@ -39,4 +40,9 @@ public interface ExaminationProblemMapper {
      */
     int saveAll(List<ExaminationProblemEntity> examinationProblemEntityList);
 
+    /**
+     *  展示
+     * @return
+     */
+    List<Map<String, Object>> listAll();
 }

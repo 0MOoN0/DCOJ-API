@@ -105,4 +105,17 @@ public interface ObjectProblemMapper {
      */
     int updateProblemTimes(Integer objectProblemId, Byte status);
 
+    /**
+     *  根据标签名查找题目
+     * @param tagName 标签名
+     * @return 题目列表
+     */
+    List<Map<String, Object>> listAllByTagName(@Param("tagName")String tagName);
+
+    /**
+     *  通过试卷id查询对应题目
+     * @param examId
+     * @return
+     */
+    List<Map<String,Object>> listByExamIdAndType(@Param("examId")int examId);
 }
