@@ -19,7 +19,7 @@ import java.util.Map;
  * @Desriiption:
  */
 @RestController
-@RequestMapping(value = "/exam", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/exam_problem", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ExaminationProblemController {
 
     @Autowired
@@ -61,8 +61,26 @@ public class ExaminationProblemController {
      * @return
      */
     @PostMapping
-    public int saveAll(@RequestBody List<ExaminationProblemEntity> examinationProblemEntityList){
-        return examinationProblemService.saveAll(examinationProblemEntityList);
+    public ResponseEntity saveAll(@RequestBody List<ExaminationProblemEntity> examinationProblemEntityList){
+        return new ResponseEntity("保存成功~",examinationProblemService.saveAll(examinationProblemEntityList));
     }
 
+    @PutMapping("/update")
+    public ResponseEntity updateByLocateSelective(@RequestBody ExaminationProblemEntity examinationProblemEntity){
+        ExaminationProblemEntity newExaminationProblemEntity = new ExaminationProblemEntity();
+        newExaminationProblemEntity.setScore(examinationProblemEntity.getScore());
+        newExaminationProblemEntity.setProblemId(examinationProblemEntity.getProblemId());
+        newExaminationProblemEntity.setProblemType(examinationProblemEntity.getProblemType());
+        newExaminationProblemEntity.setLang(examinationProblemEntity.getLang());
+        newExaminationProblemEntity.setExamProblemLocate(examinationProblemEntity.getExamProblemLocate());
+
+        return new ResponseEntity("更新成功~",examinationProblemService.updateByLocateSelective(newExaminationProblemEntity));
+    }
+
+    @RequestMapping("/delete")
+    @ResponseBody
+    public ResponseEntity deleteByLocate(@RequestParam("exam_problem_locate") int examProblemLocate){
+           examinationProblemService.removeByExamProblemLocate(examProblemLocate);
+           return new ResponseEntity("删除成功~");
+    }
 }

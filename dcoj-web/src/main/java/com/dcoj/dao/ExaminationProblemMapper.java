@@ -3,6 +3,7 @@ package com.dcoj.dao;
 import com.dcoj.entity.ExaminationProblemEntity;
 import com.dcoj.entity.ProgramProblemEntity;
 import org.apache.ibatis.annotations.MapKey;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -45,4 +46,18 @@ public interface ExaminationProblemMapper {
      * @return
      */
     List<Map<String, Object>> listAll();
+
+    /**
+     *   通过examProblemLocate获取试卷题目信息
+     * @param examProblemLocate
+     * @return
+     */
+    ExaminationProblemEntity listByExamProblemLocate(Integer examProblemLocate);
+
+    /**
+     *  通过examProblemLocate删除试卷题目信息
+     * @param examProblemLocate
+     * @return
+     */
+    int removeByExamProblemLocate(@Param("examProblemLocate") Integer examProblemLocate);
 }

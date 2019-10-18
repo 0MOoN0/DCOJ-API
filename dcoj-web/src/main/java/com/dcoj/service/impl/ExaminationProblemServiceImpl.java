@@ -2,7 +2,10 @@ package com.dcoj.service.impl;
 
 import com.dcoj.dao.ExaminationProblemMapper;
 import com.dcoj.entity.ExaminationProblemEntity;
+import com.dcoj.entity.ResponseEntity;
 import com.dcoj.service.ExaminationProblemService;
+import com.dcoj.util.WebUtil;
+import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,11 +38,25 @@ public class ExaminationProblemServiceImpl implements ExaminationProblemService 
     }
 
     public int updateByLocateSelective(ExaminationProblemEntity examinationProblemEntity){
+        ExaminationProblemEntity ex = examinationProblemMapper.listByExamProblemLocate(examinationProblemEntity.getExamProblemLocate());
+        Preconditions.checkNotNull(ex, "待更新的关系不存在，无法删除");
         return examinationProblemMapper.updateByLocateSelective(examinationProblemEntity);
     }
 
     @Override
     public List<Map<String, Object>> listAll() {
         return examinationProblemMapper.listAll();
+    }
+
+    @Override
+    public ExaminationProblemEntity listByExamProblemLocate(Integer examProblemLocate) {
+        return examinationProblemMapper.listByExamProblemLocate(examProblemLocate);
+    }
+
+    @Override
+    public void removeByExamProblemLocate(Integer examProblemLocate) {
+        ExaminationProblemEntity ex = examinationProblemMapper.listByExamProblemLocate(examProblemLocate);
+        Preconditions.checkNotNull(ex, "待删除的关系不存在，无法删除");
+        examinationProblemMapper.removeByExamProblemLocate(examProblemLocate);
     }
 }

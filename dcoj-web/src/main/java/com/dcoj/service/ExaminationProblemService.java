@@ -37,4 +37,18 @@ public interface ExaminationProblemService {
      * @return
      */
     List<Map<String, Object>> listAll();
+
+    /**
+     *  根据examProblemLocate查询试卷----问题信息
+     * @param examProblemLocate
+     * @return
+     */
+    ExaminationProblemEntity listByExamProblemLocate(Integer examProblemLocate);
+
+    /**
+     *  通过examProblemLocate删除试卷题目信息
+     * @param examProblemLocate
+     * @return
+     */
+    void removeByExamProblemLocate(Integer examProblemLocate);
 }
