@@ -29,7 +29,11 @@ public class ExaminationProblemServiceImpl implements ExaminationProblemService 
      */
     @Override
     public Map<Integer, ExaminationProblemEntity> listByExamId(Integer examId) {
-        return examinationProblemMapper.listByExamId(examId);
+        Map<Integer, ExaminationProblemEntity> map = examinationProblemMapper.listByExamId(examId);
+        if(map.isEmpty()){
+            throw new NullPointerException(String.valueOf("查询失败，此位置没有试卷和题目的关系"));
+        }
+        return map;
     }
 
     @Override
@@ -50,7 +54,9 @@ public class ExaminationProblemServiceImpl implements ExaminationProblemService 
 
     @Override
     public ExaminationProblemEntity listByExamProblemLocate(Integer examProblemLocate) {
-        return examinationProblemMapper.listByExamProblemLocate(examProblemLocate);
+        ExaminationProblemEntity epe = examinationProblemMapper.listByExamProblemLocate(examProblemLocate);
+        WebUtil.assertNotNull(epe,"查询失败，此位置没有试卷和题目的关系");
+        return epe;
     }
 
     @Override

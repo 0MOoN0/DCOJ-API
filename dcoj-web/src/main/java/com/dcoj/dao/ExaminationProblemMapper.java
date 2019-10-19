@@ -60,4 +60,11 @@ public interface ExaminationProblemMapper {
      * @return
      */
     int removeByExamProblemLocate(@Param("examProblemLocate") Integer examProblemLocate);
+
+    /**
+     *  通过examId删除试卷题目信息
+     * @param examId
+     * @return
+     */
+    int removeByExamId(@Param("examId") Integer examId);
 }
