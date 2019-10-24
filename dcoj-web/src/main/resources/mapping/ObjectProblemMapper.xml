@@ -194,5 +194,11 @@
 
     </select>
 
-
+    <select id="listByExamIdAndType" resultType="java.util.HashMap" >
+        select
+        <include refid="Base_Column_List"/>
+        from object_problem o
+        where o.object_problem_id in
+        (select e.problem_id from examination_problem e where e.exam_id = #{examId} and e.problem_type = 2)
+    </select>
 </mapper>

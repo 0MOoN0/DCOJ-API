@@ -220,6 +220,12 @@
 
     </select>
 
+    <select id="listByExamIdAndType"  resultType="java.util.HashMap">
+        select
+        <include refid="Base_Column_List"/>
+         from program_problem p  where p.program_problem_id
+        in (select e.problem_id from examination_problem e where exam_id = #{examId} and e.problem_type = 1)
+    </select>
 
 </mapper>
 

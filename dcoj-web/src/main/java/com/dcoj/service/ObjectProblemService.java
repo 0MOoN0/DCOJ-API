@@ -104,5 +104,10 @@ public interface ObjectProblemService {
      */
     int updateProblemTimesByUidPid(Integer objectProblemId, Byte status);
 
-
+    /**
+     *  通过试卷id查询对应题目
+     * @param examId
+     * @return
+     */
+    List<Map<String,Object>> listByExamIdAndType(int examId);
 }

@@ -113,5 +113,10 @@ public interface ProgramProblemMapper {
                                       @Param("difficult") Integer difficult,
                                       @Param("query") String query);
 
-
+    /**
+     *  通过试卷id查询对应题目
+     * @param examId
+     * @return
+     */
+    List<Map<String,Object>> listByExamIdAndType(@Param("examId")int examId);
 }

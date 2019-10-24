@@ -84,5 +84,10 @@ public interface ProgramProblemService {
                                       Integer difficult,
                                       String query);
 
-
+    /**
+     *  通过试卷id查询对应题目
+     * @param examId
+     * @return
+     */
+    List<Map<String, Object>> listByExamIdAndType(int examId);
 }

@@ -183,4 +183,9 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
         return programProblemMapper.listAll(list, uid, difficult, query);
     }
 
+    @Override
+    public List<Map<String, Object>> listByExamIdAndType(int examId) {
+        return programProblemMapper.listByExamIdAndType(examId);
+    }
+
 }
