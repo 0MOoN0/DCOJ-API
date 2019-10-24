@@ -22,13 +22,13 @@
         UPDATE examination_problem
         <set>
         <if test="problemType != null">
-            problem_type = #{problemType}
+            problem_type = #{problemType},
         </if>
         <if test="problemId != null">
-            problem_id = #{problemId}
+            problem_id = #{problemId},
         </if>
         <if test="score != null">
-            score = #{score}
+            score = #{score},
         </if>
         <if test="lang != null">
             lang = #{lang}
@@ -49,4 +49,27 @@
         </foreach>
 
     </insert>
+
+    <select id="listAll" resultType="java.util.HashMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM examination_problem
+    </select>
+
+    <select id="listByExamProblemLocate" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM examination_problem
+        WHERE examination_problem.exam_problem_locate = #{examProblemLocate}
+    </select>
+
+    <delete id="removeByExamProblemLocate" parameterType="java.lang.Integer">
+        DELETE FROM examination_problem
+        WHERE examination_problem.exam_problem_locate = #{examProblemLocate}
+    </delete>
+
+    <delete id="removeByExamId" parameterType="java.lang.Integer">
+        DELETE FROM examination_problem
+        WHERE examination_problem.exam_id = #{examId}
+    </delete>
 </mapper>
