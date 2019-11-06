@@ -20,6 +20,15 @@ public interface ProgramTagMapper {
      */
     int save(String tagName);
 
+
+    /**
+     * 根据tag实体新增
+     *
+     * @param programTagEntity 题目实体类对象
+     * @return 返回值为1时，保存成功，为0则保存失败
+     */
+    int saveByEntity(ProgramTagEntity programTagEntity);
+
     /**
      * 通过标签名得到标签实体类对象
      *

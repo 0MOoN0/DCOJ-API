@@ -175,6 +175,14 @@
         and program_problem_tag.is_deleted = 0;
     </select>
 
+    <select id="findAll" resultMap="problemResultMap">
+        SELECT * from program_problem where is_deleted = 0
+    </select>
+
+    <select id="findAllByTitle" resultMap="problemResultMap">
+        SELECT * from program_problem where  title LIKE '%${query}%' AND is_deleted = 0
+    </select>
+
     <select id="listAll" resultType="java.util.HashMap">
         SELECT
         program_problem.program_problem_id,

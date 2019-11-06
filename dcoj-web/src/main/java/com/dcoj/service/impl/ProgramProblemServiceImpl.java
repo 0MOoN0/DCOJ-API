@@ -1,17 +1,27 @@
 package com.dcoj.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.dcoj.controller.backstage.format.ProgramProblemWithTags;
 import com.dcoj.dao.ProgramProblemMapper;
 import com.dcoj.entity.ProgramProblemEntity;
+import com.dcoj.entity.ProgramTagEntity;
 import com.dcoj.judge.ResultEnum;
 import com.dcoj.service.ProgramProblemService;
 import com.dcoj.service.ProgramProblemTagService;
+import com.dcoj.service.TestCasesService;
 import com.dcoj.util.WebUtil;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 //TODO:04.26 WANGQING 编程题、客观题题目模块全部未加修改status方法
@@ -29,6 +39,14 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
 
     @Autowired
     private ProgramProblemTagService programProblemTagService;
+
+    @Autowired
+    private ProgramTagServiceImpl programTagService;
+
+    @Autowired
+    private TestCasesService testCasesService;
+
+
 
     /**
      * 统计题目数量
@@ -186,6 +204,121 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
     @Override
     public List<Map<String, Object>> listByExamIdAndType(int examId) {
         return programProblemMapper.listByExamIdAndType(examId);
+    }
+
+    public List<ProgramProblemWithTags> findAll(String query){
+        List<ProgramProblemWithTags> programProblemWithTags = new ArrayList<>();
+        List<ProgramProblemEntity> programProblemEntities = null;
+        if(query!=null&&!"".equals(query) ){
+            programProblemEntities = programProblemMapper.findAllByTitle(query);
+        }else {
+            programProblemEntities = programProblemMapper.findAll();
+        }
+        if(programProblemEntities!=null)
+        {
+            for(ProgramProblemEntity pg:programProblemEntities){
+                ProgramProblemWithTags pgt = new ProgramProblemWithTags();
+                pgt.setProgramProblemEntity(pg);
+                pgt.setListTags(this.listProgramProblemTagsByPid(pg.getProgramProblemId()));
+                programProblemWithTags.add(pgt);
+            }
+        }else{
+            WebUtil.assertIsSuccess(false, "查询失败");
+        }
+        return  programProblemWithTags;
+    }
+
+    /**
+     * 批量导入编程题目
+     *
+     * @param files 编程题模板文件
+     * @return 结果
+     */
+    @Override
+    public String importProgram(MultipartFile files) throws IOException {
+        XSSFWorkbook workbook  = new XSSFWorkbook(files.getInputStream());
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        //记录错误行数
+        HashMap<String,String> errorMessage= new HashMap<String,String>();
+        for(int i=2;i<sheet.getLastRowNum()+1;i++){
+            XSSFRow row = sheet.getRow(i);
+            int lastNum = row.getLastCellNum();
+            if(lastNum <= 0) {
+                break;
+            }
+            ProgramProblemEntity pg = new ProgramProblemEntity();
+            if(row.getCell(1).getStringCellValue()!=null){
+                System.out.println(row.getCell(1).getStringCellValue());
+                pg.setDescription(JSONObject.parseObject(row.getCell(1).getStringCellValue()));
+            }
+            if(row.getCell(2).getNumericCellValue()>=0){
+                pg.setDifficult((int)(row.getCell(2).getNumericCellValue()));
+            }
+            //根据输入题目的标题检查编程题是否存在，存在则跳过，不存在则插入
+            boolean insertFlag = false;
+            if(row.getCell(3).getStringCellValue()!=null){
+                List<ProgramProblemEntity> listAll = programProblemMapper.findAll();
+                for(ProgramProblemEntity pge : listAll){
+                    System.out.println(pge.getTitle()+":"+row.getCell(3).getStringCellValue());
+                    if(pge.getTitle()!=null){
+                        if(pge.getTitle().replace(" ","").equals(row.getCell(3).getStringCellValue().replace(" ",""))){
+                            errorMessage.put(row.getCell(0).getStringCellValue(),row.getCell(3).getStringCellValue());
+                            insertFlag = true;
+                        }
+                    }
+                }
+            }
+            if(insertFlag){
+                continue;
+            }else
+            {
+                pg.setTitle(row.getCell(3).getStringCellValue());
+            }
+            if(row.getCell(4).getStringCellValue()!=null){
+                pg.setInputFormat(JSONObject.parseObject(row.getCell(4).getStringCellValue()));
+            }
+            if(row.getCell(5).getStringCellValue()!=null){
+                pg.setOutputFormat(JSONObject.parseObject(row.getCell(5).getStringCellValue()));
+            }
+            if(row.getCell(6).getStringCellValue()!=null){
+                pg.setSamples(JSONArray.parseArray(row.getCell(6).getStringCellValue()));
+            }
+            if(row.getCell(9).getNumericCellValue()>=0){
+                pg.setRunTime((int)(row.getCell(9).getNumericCellValue()));
+            }
+            if(row.getCell(10).getNumericCellValue()>=0){
+                pg.setMemory((int)(row.getCell(10).getNumericCellValue()));
+            }
+            boolean flag = programProblemMapper.save(pg) == 1;
+            WebUtil.assertIsSuccess(flag, "题目添加失败");
+            //检查题目标签是否已经存在，存在直接关联，否则新增后再进行关联
+            if(row.getCell(7).getStringCellValue()!=null){
+                JSONArray jsonArray = JSONArray.parseArray(row.getCell(7).getStringCellValue());
+                for (int j=0;j<jsonArray.size();j++){
+                    JSONObject jo = jsonArray.getJSONObject(j);
+                    String tagName = jo.getString("name");
+                    ProgramTagEntity programTagEntity = programTagService.getByTagName(tagName);
+                    if(programTagEntity!=null){
+                        programProblemTagService.save(pg.getProgramProblemId(),programTagEntity.getProgramTagId());
+                    }else{
+                        ProgramTagEntity newTag = new ProgramTagEntity();
+                        newTag.setTagName(tagName);
+                        programTagService.saveByEntity(newTag);
+                        programProblemTagService.save(pg.getProgramProblemId(),newTag.getProgramTagId());
+                    }
+                }
+            }
+            //插入编程题目对应的测试用例
+            if(row.getCell(8).getStringCellValue()!=null){
+                JSONArray testCaseList = JSONArray.parseArray(row.getCell(8).getStringCellValue());
+                for(int t=0;t<testCaseList.size();t++){
+                    JSONObject tc = testCaseList.getJSONObject(t);
+                    testCasesService.save(pg.getProgramProblemId(),tc.getString("input"),tc.getString("output"));
+                }
+            }
+        }
+
+        return "批量新增成功";
     }
 
 }

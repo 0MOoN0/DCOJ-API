@@ -21,9 +21,19 @@ public class TestCasesServiceImpl implements TestCasesService {
     private TestCaseMapper testCaseMapper;
 
 
+    /**
+     *根据pid插入TestCase
+     *
+     * @param pid 题目的业务id
+     *
+     */
     @Override
-    public int save(int pid, String stdin, String stdout, int strength) {
-        return 0;
+    public int save(int pid, String stdin, String stdout) {
+        TestCaseEntity testCaseEntity = new TestCaseEntity();
+        testCaseEntity.setPid(pid);
+        testCaseEntity.setStdin(stdin);
+        testCaseEntity.setStdout(stdout);
+        return testCaseMapper.insert(testCaseEntity);
     }
 
     @Override

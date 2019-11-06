@@ -1,9 +1,12 @@
 package com.dcoj.service;
 
 import com.alibaba.fastjson.JSONArray;
+import com.dcoj.controller.backstage.format.ProgramProblemWithTags;
 import com.dcoj.entity.ProgramProblemEntity;
 import com.dcoj.judge.ResultEnum;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -83,6 +86,10 @@ public interface ProgramProblemService {
                                       Integer uid,
                                       Integer difficult,
                                       String query);
+    /**
+     * 返回所有编程题目
+     */
+    List<ProgramProblemWithTags> findAll(String query);
 
     /**
      *  通过试卷id查询对应题目
@@ -90,4 +97,6 @@ public interface ProgramProblemService {
      * @return
      */
     List<Map<String, Object>> listByExamIdAndType(int examId);
+
+    String importProgram(MultipartFile files) throws IOException;
 }

@@ -11,7 +11,7 @@ import java.util.List;
  * @author Leon
  **/
 public interface TestCasesService {
-    int save(int pid, String stdin, String stdout, int strength);
+    int save(int pid, String stdin, String stdout);
 
     int countProblemTestCases(int pid);
 

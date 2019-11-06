@@ -17,7 +17,15 @@ public interface ProgramTagService {
      * @param tagName 标签名
      * @return 返回标签的tid
      */
+
     int save(String tagName);
+    /**
+     * 根据标签实体新增加
+     *
+     * @param tagEntity 标签实体
+     * @return 返回标签的tidt
+     */
+    int saveByEntity(ProgramTagEntity tagEntity);
 
     /**
      * 通过标签名得到标签实体类对象
