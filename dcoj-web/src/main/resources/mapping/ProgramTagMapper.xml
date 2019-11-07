@@ -23,6 +23,11 @@
         values (#{tagName}, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'), DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'))
     </insert>
 
+    <insert id="saveByEntity" parameterType="ProgramTagEntity" useGeneratedKeys="true" keyProperty="programTagId">
+        insert into program_tag (tag_name, gmt_create, gmt_modified)
+        values (#{tagName}, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'), DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'))
+    </insert>
+
     <select id="getByTagName" resultMap="tagResultMap">
         select
         <include refid="Base_Column_List"/>

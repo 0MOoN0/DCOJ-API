@@ -30,9 +30,26 @@ public class ProgramTagServiceImpl implements ProgramTagService {
     public int save(String tagName) {
         ProgramTagEntity programTagEntity = getByTagName(tagName);
         WebUtil.assertNull(programTagEntity, "已经存在此标签");
-        boolean flag = programTagMapper.save(tagName) == 1;
+        ProgramTagEntity newProgramTagEntity = new ProgramTagEntity();
+        newProgramTagEntity.setTagName(tagName);
+        boolean flag = programTagMapper.saveByEntity(newProgramTagEntity) == 1;
         WebUtil.assertIsSuccess(flag, "保存标签失败");
         return getByTagName(tagName).getProgramTagId();
+    }
+
+    /**
+     * 新增标签根据实体
+     *
+     * @param tagEntity 标签名
+     * @return 返回标签的tid
+     */
+    @Override
+    public int saveByEntity(ProgramTagEntity tagEntity) {
+        ProgramTagEntity programTagEntity = getByTagName(tagEntity.getTagName());
+        WebUtil.assertNull(programTagEntity, "已经存在此标签");
+        boolean flag = programTagMapper.save(tagEntity.getTagName()) == 1;
+        WebUtil.assertIsSuccess(flag, "保存标签失败");
+        return getByTagName(tagEntity.getTagName()).getProgramTagId();
     }
 
     /**

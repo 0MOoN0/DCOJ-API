@@ -49,8 +49,14 @@ public interface ProgramProblemMapper {
      *
      * @return 包含所有题目的List集合
      */
-//    List<ProgramProblemEntity> listAll();
+    List<ProgramProblemEntity> findAll();
 
+    /**
+     * 查询所有编程题目
+     * @param query     查询关键字
+     * @return 结果
+     */
+    List<ProgramProblemEntity> findAllByTitle(@Param("query") String query);
     /**
      * 根据题目类型查询题目
      *
@@ -112,6 +118,7 @@ public interface ProgramProblemMapper {
                                       @Param("uid") Integer uid,
                                       @Param("difficult") Integer difficult,
                                       @Param("query") String query);
+
 
     /**
      *  通过试卷id查询对应题目
