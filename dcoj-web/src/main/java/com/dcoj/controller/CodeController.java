@@ -109,7 +109,7 @@ public class CodeController {
     @GetMapping("/{id}")
     public ResponseEntity getStatus(@PathVariable("id") String id) {
         JudgeResult result = judgeService.getJudgeResult(id);
-        Map<String, Object> map = new HashMap<>(3);
+        Map<String, Object> map = new HashMap<>(4,1);
         map.put("response", result.getResponse());
         map.put("id", result.getId());
         map.put("status", result.getStatus().getMessage());

@@ -81,7 +81,7 @@ public interface ProgramProblemMapper {
      * @param pid           题目业务id
      * @param result        判卷结果，AC\WA\RTE\TLE\CE等简写形式，使用ResultEnum.AC.toString()等方法
      */
-    void updateProblemTimes(int pid, String result);
+    void updateProblemTimes(@Param("pid") int pid, @Param("result") String result);
 
     /**
      * 通过 pid 查询该题所有tag
