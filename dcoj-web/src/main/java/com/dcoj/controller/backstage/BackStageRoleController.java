@@ -1,6 +1,7 @@
 package com.dcoj.controller.backstage;
 
 import com.dcoj.entity.ResponseEntity;
+import com.dcoj.entity.RoleEntity;
 import com.dcoj.service.RoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,6 +11,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 角色管理 控制器
@@ -28,10 +31,11 @@ public class BackStageRoleController {
     @ApiOperation("获取所有角色")
     @GetMapping("/listAll")
     public ResponseEntity listAll(){
-        if(roleService.listAll().size()<=0){
-            return new ResponseEntity(400,"数据获取异常","");
+        List<RoleEntity> list = roleService.listAll();
+        if(list == null || list.size() < 0){
+            return new ResponseEntity(400,"暂无数据","");
         }else{
-            return new ResponseEntity(roleService.listAll());
+            return new ResponseEntity(list);
         }
 
     }

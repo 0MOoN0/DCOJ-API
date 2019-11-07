@@ -16,6 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 班级管理 控制器
  *
@@ -38,13 +40,15 @@ public class BackStageClassController {
     @GetMapping("listAllByPage")
     public ResponseEntity listAllByPage(@RequestParam(name = "page") int page,
                                   @RequestParam(name = "limit") int limit ){
-        if(classService.listAll().size()<=0){
-            return new ResponseEntity(400,"数据获取异常","");
+        // pageNum  页码
+        // pageSize 每页显示数量
+        Page pager = PageHelper.startPage(page, limit);
+        List<ClassEntity> classList = classService.listAll();
+        if( classList == null || classList.size() < 0 ){
+            return new ResponseEntity(400,"暂无数据","");
         }else
-        {   // pageNum  页码
-            // pageSize 每页显示数量
-            Page pager = PageHelper.startPage(page, limit);
-            return new ResponseEntity(WebUtil.generatePageData(pager, classService.listAll()));
+        {
+            return new ResponseEntity(WebUtil.generatePageData(pager, classList));
         }
     }
 
