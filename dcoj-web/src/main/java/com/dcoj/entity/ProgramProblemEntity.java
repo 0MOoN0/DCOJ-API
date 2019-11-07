@@ -6,6 +6,8 @@ import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 题目实体类
@@ -107,5 +109,10 @@ public class ProgramProblemEntity {
      * 题目状态
      */
     private Integer status;
+
+    /**
+     * 题目标签
+     */
+    private List<Map<String, Object>> listTags ;
 
 }

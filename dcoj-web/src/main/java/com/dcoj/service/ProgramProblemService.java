@@ -89,7 +89,7 @@ public interface ProgramProblemService {
     /**
      * 返回所有编程题目
      */
-    List<ProgramProblemWithTags> findAll(String query);
+    List<ProgramProblemEntity> findAll(String query);
 
     /**
      *  通过试卷id查询对应题目

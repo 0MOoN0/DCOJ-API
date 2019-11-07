@@ -206,8 +206,7 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
         return programProblemMapper.listByExamIdAndType(examId);
     }
 
-    public List<ProgramProblemWithTags> findAll(String query){
-        List<ProgramProblemWithTags> programProblemWithTags = new ArrayList<>();
+    public List<ProgramProblemEntity> findAll(String query){
         List<ProgramProblemEntity> programProblemEntities = null;
         if(query!=null&&!"".equals(query) ){
             programProblemEntities = programProblemMapper.findAllByTitle(query);
@@ -217,15 +216,15 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
         if(programProblemEntities!=null)
         {
             for(ProgramProblemEntity pg:programProblemEntities){
-                ProgramProblemWithTags pgt = new ProgramProblemWithTags();
-                pgt.setProgramProblemEntity(pg);
-                pgt.setListTags(this.listProgramProblemTagsByPid(pg.getProgramProblemId()));
-                programProblemWithTags.add(pgt);
+                List<Map<String, Object>> tags = this.listProgramProblemTagsByPid(pg.getProgramProblemId());
+                if(tags != null && tags.size() > 0){
+                    pg.setListTags(tags);
+                }
             }
         }else{
             WebUtil.assertIsSuccess(false, "查询失败");
         }
-        return  programProblemWithTags;
+        return  programProblemEntities;
     }
 
     /**
