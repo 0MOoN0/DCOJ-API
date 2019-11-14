@@ -218,4 +218,17 @@
         stdout = #{stdout,jdbcType=VARCHAR}
         where tc_id = #{tcId,jdbcType=INTEGER}
     </update>
+
+    <insert id="saveAll" parameterType="java.util.List">
+        INSERT INTO test_case(
+        <include refid="Base_Column_List"/>
+        )
+        VALUES
+        <foreach collection="list" item="testCases" index="index" separator=",">
+            (
+            #{testCases.tcId},#{testCases.pid},#{testCases.stdin},#{testCases.stdout}
+            )
+        </foreach>
+
+    </insert>
 </mapper>

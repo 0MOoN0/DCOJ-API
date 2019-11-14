@@ -37,7 +37,7 @@ public interface TestCaseMapper {
      * @param tcId 要删除的TestCaseID
      * @return 删除的条数
      */
-    int deleteByPrimaryKey(Integer tcId);
+    int deleteByPrimaryKey(@Param("tcId") Integer tcId);
 
     /**
      * 插入一条数据
@@ -116,4 +116,11 @@ public interface TestCaseMapper {
      * @return 更新的条数
      */
     int updateByPrimaryKey(TestCaseEntity record);
+
+    /**
+     *  批量保存测试用例
+     * @param testCaseEntityList
+     * @return
+     */
+    int saveAll(List<TestCaseEntity> testCaseEntityList);
 }
