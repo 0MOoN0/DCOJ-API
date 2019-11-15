@@ -1,14 +1,19 @@
 package com.dcoj.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.dcoj.dao.ExaminationMapper;
 import com.dcoj.dao.ExaminationProblemMapper;
 import com.dcoj.entity.ExaminationEntity;
+import com.dcoj.entity.ExaminationProblemEntity;
 import com.dcoj.service.ExaminationService;
+import com.dcoj.service.ObjectProblemService;
+import com.dcoj.service.ProgramProblemService;
 import com.dcoj.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +29,12 @@ public class ExaminationServiceImpl implements ExaminationService {
 
     @Autowired
     private ExaminationProblemMapper examinationProblemMapper;
+
+    @Autowired
+    private ProgramProblemService programProblemService;
+
+    @Autowired
+    private ObjectProblemService objectProblemService;
 
     @Override
     public List<Map<String, Object>> listAll() {
@@ -54,8 +65,49 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Override
     @Transactional
     public int save(ExaminationEntity examinationEntity) {
+        //添加试卷的时候同时添加题目
+
+        List<ExaminationProblemEntity> examinationProblemEntityList = new ArrayList<>();
+
+        //如果试卷id已经存在则提示已存在
+        ExaminationEntity ex = examinationMapper.selectByPrimaryKey(examinationEntity.getExamId());
+        WebUtil.assertNull(ex,"新增失败，已存在此试卷");
+
+        //获取单选题和编程题数组
+        Integer examId = examinationEntity.getExamId();
+        JSONArray singleArray = examinationEntity.getSingle_id();
+        JSONArray programArray = examinationEntity.getProgram_id();
+
+        for(int i = 0 ; i < singleArray.size() ; i++){
+            ExaminationProblemEntity examinationProblemEntity = new ExaminationProblemEntity();
+            Integer pid = singleArray.getJSONObject(i).getInteger("pid");
+            Integer score = singleArray.getJSONObject(i).getInteger("score");
+            examinationProblemEntity.setExamId(examId);
+            examinationProblemEntity.setProblemId(pid);
+            examinationProblemEntity.setScore(score);
+            examinationProblemEntity.setExamProblemLocate(2);  //TODO:待修改
+            examinationProblemEntity.setProblemType(2);
+            examinationProblemEntityList.add(examinationProblemEntity);
+        }
+
+        //TODO:编程题还需要选择语言
+        for(int i = 0 ; i < programArray.size() ; i++){
+            ExaminationProblemEntity examinationProblemEntity = new ExaminationProblemEntity();
+            Integer pid = programArray.getJSONObject(i).getInteger("pid");
+            Integer score = programArray.getJSONObject(i).getInteger("score");
+            examinationProblemEntity.setExamId(examId);
+            examinationProblemEntity.setProblemId(pid);
+            examinationProblemEntity.setScore(score);
+            examinationProblemEntity.setExamProblemLocate(2);  //TODO:待修改
+            examinationProblemEntity.setProblemType(1);
+            examinationProblemEntityList.add(examinationProblemEntity);
+        }
+
         examinationMapper.insertSelective(examinationEntity);
-        int examId = examinationEntity.getExamId();
+
+        //批量插入数据到考试题目表
+        examinationProblemMapper.saveAll(examinationProblemEntityList);
+
         return examId;
     }
 

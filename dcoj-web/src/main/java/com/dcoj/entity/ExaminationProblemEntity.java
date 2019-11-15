@@ -12,6 +12,8 @@ import lombok.Data;
 @Data
 public class ExaminationProblemEntity {
 
+    private Integer examProblemId;
+
     @JSONField(name = "exam_id")
     private Integer examId;
 
