@@ -3,6 +3,8 @@ package com.dcoj.controller;
 import com.dcoj.entity.ExaminationEntity;
 import com.dcoj.entity.ResponseEntity;
 import com.dcoj.service.ExaminationService;
+import com.dcoj.service.ObjectProblemService;
+import com.dcoj.service.ProgramProblemService;
 import com.dcoj.util.WebUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -11,6 +13,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -23,6 +28,12 @@ public class ExaminationController {
 
     @Autowired
     private ExaminationService examinationService;
+
+    @Autowired
+    private ProgramProblemService programProblemService;
+
+    @Autowired
+    private ObjectProblemService objectProblemService;
 
     @GetMapping
     public ResponseEntity listAll(){
@@ -38,8 +49,15 @@ public class ExaminationController {
 
     @GetMapping("/{exam_id}")
     public ResponseEntity listByExamId(@PathVariable("exam_id")Integer examId){
+        List<Map<String, Object>> programProblemEntityList = programProblemService.listByExamIdAndType(examId);
+        List<Map<String, Object>> objectProblemEntityList = objectProblemService.listByExamIdAndType(examId);
         ExaminationEntity ex = examinationService.listByExamId(examId);
+
         Preconditions.checkNotNull(ex, "查询失败，不存在此试卷。");
+
+       ex.setProgram_problem(programProblemEntityList);
+       ex.setSingle_problem(objectProblemEntityList);
+
         return new ResponseEntity(ex);
     }
 

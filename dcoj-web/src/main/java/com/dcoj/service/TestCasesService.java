@@ -2,6 +2,7 @@ package com.dcoj.service;
 
 
 import com.dcoj.entity.TestCaseEntity;
+import io.swagger.models.auth.In;
 
 import java.util.List;
 
@@ -15,6 +16,11 @@ public interface TestCasesService {
 
     int countProblemTestCases(int pid);
 
+    /**
+     *  获取指定题目的测试用例
+     * @param pid
+     * @return
+     */
     List<TestCaseEntity> listAll(int pid);
 
     /**
@@ -27,8 +33,23 @@ public interface TestCasesService {
 
     void updateTestCaseByTidPid(int tid, int pid, String stdin, String stdout, int strength);
 
-    void deleteTestCase(int tid, int pid);
+    /**
+     *  删除一条测试用例
+     * @param tid
+     */
+    int deleteTestCase(Integer tid);
 
-    void deleteProblemTestCases(int pid);
+    /**
+     *  清空题目的测试用例
+     * @param pid
+     */
+    int deleteProblemTestCases(int pid);
+
+    /**
+     *  批量保存测试用例
+     * @param testCaseEntityList
+     * @return
+     */
+    int saveAll(List<TestCaseEntity> testCaseEntityList);
 
 }
