@@ -51,6 +51,13 @@ public interface UserService {
     void updateUser(Integer userId, UserEntity userEntity);
 
     /**
+     * 新增用户信息
+     *
+     * @param userEntity 用户信息
+     */
+    void addUserSelective(UserEntity userEntity);
+
+    /**
      * 删除一个用户
      *
      * @param userId 用户id

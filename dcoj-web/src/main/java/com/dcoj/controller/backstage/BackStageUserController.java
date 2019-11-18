@@ -42,14 +42,10 @@ public class BackStageUserController {
     @ApiImplicitParam(name = "query", value = "查询关键字(用户名)", paramType = "query")
     @GetMapping("listAll")
     public ResponseEntity listAll(@RequestParam(name = "query", required = false) String query) {
-
-        if(userService.listAll(query).size()<=0){
+        if(userService.listAll(query).size() <= 0 ){
             return new ResponseEntity(400,"数据获取异常","");
-        }else
-        {
-            return new ResponseEntity(userService.listAll(query));
         }
-
+        return new ResponseEntity(userService.listAll(query));
     }
 
     @ApiOperation("分页获取所有用户")
@@ -67,6 +63,15 @@ public class BackStageUserController {
         Page pager = PageHelper.startPage(pageNum, pageSize);
         return new ResponseEntity(WebUtil.generatePageData(pager, userService.listAll(query)));
     }
+
+    @ApiOperation("新增用户")
+    @ApiImplicitParam(name = "userEntity", value = "用户信息")
+    @PostMapping
+    public ResponseEntity addUser(@RequestBody UserEntity userEntity) {
+        userService.addUserSelective(userEntity);
+        return new ResponseEntity("用户新增成功");
+    }
+
     @ApiOperation("删除用户")
     @ApiImplicitParam(name = "user_id", value = "用户id")
     @DeleteMapping("/{user_id}")
@@ -74,9 +79,10 @@ public class BackStageUserController {
         userService.removeByPrimaryKey(userId);
         return new ResponseEntity("用户删除成功");
     }
+
     @ApiOperation("查看用户信息")
     @ApiImplicitParam(name = "user_id", value = "用户id")
-    @GetMapping("information/{user_id}")
+    @GetMapping("/{user_id}")
     public ResponseEntity information(@PathVariable("user_id") int userId) {
         UserEntity userEntity = userService.getByPrimaryKey(userId);
         RoleEntity roleEntity  = roleService.getRoleByUserId(userEntity.getUserId());
@@ -86,17 +92,18 @@ public class BackStageUserController {
         dataMap.put("role",roleEntity);
         return new ResponseEntity(dataMap);
     }
+
     @ApiOperation("修改用户信息")
     @ApiImplicitParam(name = "userEntity", value = "用户信息")
-    @PostMapping("update_information")
-    public ResponseEntity updateInformation(@RequestBody UserEntity userEntity)
-    {
+    @PutMapping
+    public ResponseEntity updateInformation(@RequestBody UserEntity userEntity) {
         userService.updateUser(userEntity.getUserId(),userEntity);
         return new ResponseEntity("保存成功");
     }
+
     @ApiOperation("根据token获取用户信息")
     @ApiImplicitParam(name = "token", value = "账号token信息")
-    @GetMapping("getByToken/{token}")
+    @GetMapping("/getByToken/{token}")
     public ResponseEntity getByToken(@PathVariable("token") String token)
     {
         UserEntity userEntity = userService.getByToken(token);

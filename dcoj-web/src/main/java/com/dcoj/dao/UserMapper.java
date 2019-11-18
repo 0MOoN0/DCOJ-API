@@ -68,5 +68,13 @@ public interface UserMapper {
      */
     int removeByPrimaryKey(Integer userId);
 
+    /**
+     * 新增用户信息
+     *
+     * @param userEntity 用户信息
+     * @return 是否成功
+     */
+    int addUserSelective(UserEntity userEntity);
+
 
 }

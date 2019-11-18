@@ -1,5 +1,6 @@
 package com.dcoj.dao;
 
+import com.dcoj.entity.UserEntity;
 import com.dcoj.entity.UserRoleEntity;
 import org.apache.ibatis.annotations.Param;
 
@@ -51,5 +52,6 @@ public interface UserRoleMapper {
      * @return 结果
      */
     int countByRoleId(Integer roleId);
+    
 
 }

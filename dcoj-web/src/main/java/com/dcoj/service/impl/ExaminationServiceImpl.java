@@ -54,10 +54,10 @@ public class ExaminationServiceImpl implements ExaminationService {
 
     @Override
     @Transactional
-    public int update(Integer examId,ExaminationEntity examinationEntity) {
+    public int update(ExaminationEntity examinationEntity) {
         //先查询是否存在此试卷  若存在则更新，不存在则报异常
-        examinationEntity.setExamId(examId);
-        ExaminationEntity ex = examinationMapper.selectByPrimaryKey(examId);
+        examinationEntity.setExamId(examinationEntity.getExamId());
+        ExaminationEntity ex = examinationMapper.selectByPrimaryKey(examinationEntity.getExamId());
         WebUtil.assertNotNull(ex,"更新失败，不存在此试卷");
         return examinationMapper.updateByPrimaryKeySelective(examinationEntity);
     }

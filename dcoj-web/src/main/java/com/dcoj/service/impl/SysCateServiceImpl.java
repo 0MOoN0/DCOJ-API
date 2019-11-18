@@ -61,6 +61,43 @@ public class SysCateServiceImpl implements SysCateService {
     }
 
     /**
+     *  分页查询所有类别
+     * @param query 查询条件
+     * @return List<SysCate>
+     */
+    @Override
+    public List<SysCate> listAllByPage(String query) {
+        return sysCateMapper.getAllCate();
+    }
+
+    /**
+     *  更新类别
+     * @param sysCate
+     */
+    @Override
+    public int updateSelective(SysCate sysCate) {
+        return sysCateMapper.updateByPrimaryKeySelective(sysCate);
+    }
+
+    /**
+     *  新增类别
+     * @param sysCate
+     */
+    @Override
+    public int saveSelective(SysCate sysCate) {
+        return sysCateMapper.insertSelective(sysCate);
+    }
+
+    /**
+     *  根据类别Id查询类别信息
+     * @param sId
+     */
+    @Override
+    public SysCate getById(Integer sId) {
+        return sysCateMapper.selectByPrimaryKey(sId);
+    }
+
+    /**
      *  更新类别
      * @param param 类别参数
      */

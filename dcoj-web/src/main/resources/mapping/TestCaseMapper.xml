@@ -129,36 +129,36 @@
         #{stdout,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" parameterType="com.dcoj.entity.TestCaseEntity">
-        insert into test_case
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="tcId != null">
-                tc_id,
-            </if>
-            <if test="pid != null">
-                pid,
-            </if>
-            <if test="stdin != null">
-                stdin,
-            </if>
-            <if test="stdout != null">
-                stdout,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="tcId != null">
-                #{tcId,jdbcType=INTEGER},
-            </if>
-            <if test="pid != null">
-                #{pid,jdbcType=INTEGER},
-            </if>
-            <if test="stdin != null">
-                #{stdin,jdbcType=VARCHAR},
-            </if>
-            <if test="stdout != null">
-                #{stdout,jdbcType=VARCHAR},
-            </if>
-        </trim>
-    </insert>
+    insert into test_case
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="tcId != null">
+            tc_id,
+        </if>
+        <if test="pid != null">
+            pid,
+        </if>
+        <if test="stdin != null">
+            stdin,
+        </if>
+        <if test="stdout != null">
+            stdout,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="tcId != null">
+            #{tcId,jdbcType=INTEGER},
+        </if>
+        <if test="pid != null">
+            #{pid,jdbcType=INTEGER},
+        </if>
+        <if test="stdin != null">
+            #{stdin,jdbcType=VARCHAR},
+        </if>
+        <if test="stdout != null">
+            #{stdout,jdbcType=VARCHAR},
+        </if>
+    </trim>
+</insert>
     <select id="countByExample" parameterType="com.dcoj.entity.example.TestCaseEntityExample"
             resultType="java.lang.Long">
         select count(*) from test_case

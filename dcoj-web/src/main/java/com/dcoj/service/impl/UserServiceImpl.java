@@ -97,6 +97,17 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 新增用户信息
+     *
+     * @param userEntity 用户信息
+     */
+    @Override
+    public void addUserSelective(UserEntity userEntity) {
+        boolean flag = userMapper.addUserSelective(userEntity) == 1;
+        WebUtil.assertIsSuccess(flag, "用户新增失败");
+    }
+
+    /**
      * 删除一个用户
      *
      * @param userId 用户id

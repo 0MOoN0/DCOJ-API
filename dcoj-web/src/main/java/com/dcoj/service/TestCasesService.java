@@ -24,14 +24,33 @@ public interface TestCasesService {
     List<TestCaseEntity> listAll(int pid);
 
     /**
-     * 根据题目ID获取一个测试用例
+     * 获取所有TestCases
      *
-     * @param pid 题目ID
+     * @return 所有测试用例
+     */
+    List<TestCaseEntity> listAllByPage(Integer pid);
+
+    /**
+     * 根据ID获取一个测试用例
+     *
+     * @param tId 测试用例ID
      * @return 测试用例对象
      */
-    TestCaseEntity getOneByPid(int pid);
+    TestCaseEntity getById(int tId);
 
-    void updateTestCaseByTidPid(int tid, int pid, String stdin, String stdout, int strength);
+    /**
+     * 根据PID题目ID获取一个测试用例
+     *
+     * @param pId 题目ID
+     * @return 测试用例对象
+     */
+    TestCaseEntity getOneByPid(int pId);
+
+    /**
+     * 修改测试用例
+     * @param testCaseEntity 测试用例信息
+     */
+    void updateTestCaseSelective(TestCaseEntity testCaseEntity);
 
     /**
      *  删除一条测试用例
@@ -51,5 +70,11 @@ public interface TestCasesService {
      * @return
      */
     int saveAll(List<TestCaseEntity> testCaseEntityList);
+
+    /**
+     *  新增测试用例
+     * @param testCaseEntity 测试用例信息
+     */
+    int save(TestCaseEntity testCaseEntity);
 
 }
