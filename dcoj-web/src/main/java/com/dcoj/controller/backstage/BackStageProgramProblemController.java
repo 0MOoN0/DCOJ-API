@@ -46,13 +46,23 @@ public class BackStageProgramProblemController {
         return new ResponseEntity(programProblemService.importProgram(files));
     }
 
+    @ApiOperation("获取所有编程题")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "query", value = "查询关键字(标题)", paramType = "query")
+    })
+    @GetMapping("/listAll")
+    public ResponseEntity listAllByPage(@RequestParam(name = "query", required = false) String query) {
+        return new ResponseEntity(programProblemService.findAll(query));
+    }
+
+
     @ApiOperation("分页获取所有编程题")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page_num", value = "页码", required = true, paramType = "query"),
             @ApiImplicitParam(name = "page_size", value = "每页显示数量", required = true, paramType = "query"),
             @ApiImplicitParam(name = "query", value = "查询关键字(标题)", paramType = "query")
     })
-    @GetMapping("listAllByPage")
+    @GetMapping("/listAllByPage")
     public ResponseEntity listAllByPage(@RequestParam(name = "page_num") int pageNum,
                                         @RequestParam(name = "page_size") int pageSize,
                                         @RequestParam(name = "query", required = false) String query) {

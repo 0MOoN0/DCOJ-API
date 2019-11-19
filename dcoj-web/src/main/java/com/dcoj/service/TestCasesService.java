@@ -5,6 +5,7 @@ import com.dcoj.entity.TestCaseEntity;
 import io.swagger.models.auth.In;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 测试用例服务
@@ -28,7 +29,7 @@ public interface TestCasesService {
      *
      * @return 所有测试用例
      */
-    List<TestCaseEntity> listAllByPage(Integer pid);
+    List<TestCaseEntity> listAllByPage(Map<String, Object> paramMap);
 
     /**
      * 根据ID获取一个测试用例

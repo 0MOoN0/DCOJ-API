@@ -1,9 +1,11 @@
 package com.dcoj.service;
 
 import com.dcoj.controller.format.index.IndexLoginFormat;
+import com.dcoj.entity.RoleEntity;
 import com.dcoj.entity.UserEntity;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户 业务层
@@ -40,7 +42,7 @@ public interface UserService {
      * @param username 用户名
      * @return 结果
      */
-    List<UserEntity> listAll(String username);
+    List<UserEntity> listAll(Map<String, Object> paraMap);
 
     /**
      * 更新用户信息
@@ -51,11 +53,19 @@ public interface UserService {
     void updateUser(Integer userId, UserEntity userEntity);
 
     /**
+     * 更新用户信息
+     *
+     * @param roleEntity  用户角色
+     * @param userEntity 用户信息
+     */
+    void updateUserSelective(UserEntity userEntity, RoleEntity roleEntity) throws Exception;
+
+    /**
      * 新增用户信息
      *
      * @param userEntity 用户信息
      */
-    void addUserSelective(UserEntity userEntity);
+    void addUserSelective(UserEntity userEntity,Integer roleId) throws Exception;
 
     /**
      * 删除一个用户

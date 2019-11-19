@@ -34,6 +34,11 @@ public class TestCaseEntity {
      */
     private String stdout;
 
+    /**
+     * 对应的编程题
+     */
+    private ProgramProblemEntity programProblemEntity;
+
     public TestCaseEntity(Integer tcId, Integer pid, String stdin, String stdout) {
         this.tcId = tcId;
         this.pid = pid;
@@ -44,4 +49,6 @@ public class TestCaseEntity {
 
     public TestCaseEntity() {
     }
+
+
 }

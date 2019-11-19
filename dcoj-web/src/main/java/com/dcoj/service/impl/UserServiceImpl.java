@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -24,6 +25,7 @@ import java.util.Optional;
  * @author WANGQING
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -74,12 +76,12 @@ public class UserServiceImpl implements UserService {
     /**
      * 通过用户名模糊查询用户信息
      *
-     * @param username 用户名
+     * @param paraMap 查询结果集
      * @return 结果
      */
     @Override
-    public List<UserEntity> listAll(String username) {
-        return userMapper.listAll(username);
+    public List<UserEntity> listAll(Map<String, Object> paraMap) {
+        return userMapper.listAll(paraMap);
     }
 
     /**
@@ -102,9 +104,28 @@ public class UserServiceImpl implements UserService {
      * @param userEntity 用户信息
      */
     @Override
-    public void addUserSelective(UserEntity userEntity) {
+    public void addUserSelective(UserEntity userEntity,Integer roleId) throws Exception {
         boolean flag = userMapper.addUserSelective(userEntity) == 1;
-        WebUtil.assertIsSuccess(flag, "用户新增失败");
+        boolean roleFlag = userRoleMapper.save(userEntity.getUserId(),roleId) == 1;
+        if(!flag || !roleFlag){
+            throw new Exception("用户新增失败，回滚！");
+        }
+    }
+
+    /**
+     * 更新用户信息
+     *
+     * @param roleEntity  用户角色
+     * @param userEntity 用户信息
+     */
+    @Override
+    public void updateUserSelective(UserEntity userEntity,RoleEntity roleEntity) throws Exception {
+        WebUtil.assertNotNull(userMapper.getByPrimaryKey(userEntity.getUserId()), "该用户不存在，无法更新");
+        boolean flag = userMapper.updateUser(userEntity) == 1;
+        boolean roleFlag = roleMapper.updateRole(roleEntity) == 1;
+        if(!flag || !roleFlag){
+            throw new Exception("用户修改失败，回滚！");
+        }
     }
 
     /**

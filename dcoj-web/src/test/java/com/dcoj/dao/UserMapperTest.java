@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
 /**
@@ -37,7 +40,8 @@ public class UserMapperTest {
 
     @Test
     public void listAll() {
-        userMapper.listAll("adm").forEach(System.out::println);
+        Map<String,Object> paramMap = new HashMap<>();
+        userMapper.listAll(paramMap).forEach(System.out::println);
     }
 
     @Test

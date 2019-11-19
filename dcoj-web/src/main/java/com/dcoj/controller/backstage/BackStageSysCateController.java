@@ -31,6 +31,20 @@ public class BackStageSysCateController {
     @Autowired
     private SysCateService sysCateService;
 
+    @ApiOperation("获取所有类别")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "query", value = "查询关键字(标题)", paramType = "query")
+    })
+    @GetMapping("/listAll")
+    public ResponseEntity listAll(@RequestParam(name = "query", required = false) String query){
+        List<SysCate> SysCateList = sysCateService.listAllByPage(query);
+        if(SysCateList == null || SysCateList.size() == 0 ){
+            return new ResponseEntity(400,"暂无数据","");
+        }
+        return new ResponseEntity(SysCateList);
+    }
+
+
     @ApiOperation("分页获取所有类别")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page_num", value = "页码", required = true, paramType = "query"),

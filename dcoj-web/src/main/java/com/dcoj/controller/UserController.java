@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -56,11 +57,19 @@ public class UserController {
     @GetMapping
     public ResponseEntity listAll(@RequestParam(name = "page_num") int pageNum,
                                   @RequestParam(name = "page_size") int pageSize,
-                                  @RequestParam(name = "query", required = false) String query) {
+                                  @RequestParam(name = "query", required = false) String query,
+                                  @RequestParam(name = "userRole", required = false) String userRole) {
         // pageNum  页码
         // pageSize 每页显示数量
+        Map<String, Object> paramMap = new HashMap<>();
+        if(StringUtils.isNotBlank(query)){
+            paramMap.put("userName",query);
+        }
+        if(StringUtils.isNotBlank(userRole)){
+            paramMap.put("userRole",userRole);
+        }
         Page pager = PageHelper.startPage(pageNum, pageSize);
-        return new ResponseEntity(WebUtil.generatePageData(pager, userService.listAll(query)));
+        return new ResponseEntity(WebUtil.generatePageData(pager, userService.listAll(paramMap)));
     }
 
     @ApiOperation("删除用户")

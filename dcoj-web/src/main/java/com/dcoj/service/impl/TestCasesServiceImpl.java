@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 测试用例Service
@@ -67,12 +68,8 @@ public class TestCasesServiceImpl implements TestCasesService {
      * @return 此题目的所有测试用例
      */
     @Override
-    public List<TestCaseEntity> listAllByPage(Integer pid) {
-        TestCaseEntityExample testCaseEntityExample = new TestCaseEntityExample();
-        if(pid != null){
-            testCaseEntityExample.createCriteria().andPidEqualTo(pid);
-        }
-        List<TestCaseEntity> testCaseEntities = testCaseMapper.selectByExample(testCaseEntityExample);
+    public List<TestCaseEntity> listAllByPage(Map<String, Object> paramMap) {
+        List<TestCaseEntity> testCaseEntities = testCaseMapper.selectAll(paramMap);
         return testCaseEntities;
     }
 

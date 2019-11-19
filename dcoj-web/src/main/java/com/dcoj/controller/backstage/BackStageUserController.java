@@ -5,6 +5,7 @@ import com.dcoj.entity.ResponseEntity;
 import com.dcoj.entity.RoleEntity;
 import com.dcoj.entity.UserEntity;
 import com.dcoj.service.RoleService;
+import com.dcoj.service.UserRoleService;
 import com.dcoj.service.UserService;
 import com.dcoj.util.WebUtil;
 import com.github.pagehelper.Page;
@@ -13,6 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -20,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,36 +42,61 @@ public class BackStageUserController {
     private RoleService roleService;
 
     @ApiOperation("获取所有用户")
-    @ApiImplicitParam(name = "query", value = "查询关键字(用户名)", paramType = "query")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "query", value = "查询关键字(用户名)", paramType = "String"),
+        @ApiImplicitParam(name = "userRole", value = "用户角色", paramType = "String")
+    })
     @GetMapping("listAll")
-    public ResponseEntity listAll(@RequestParam(name = "query", required = false) String query) {
-        if(userService.listAll(query).size() <= 0 ){
-            return new ResponseEntity(400,"数据获取异常","");
+    public ResponseEntity listAll(@RequestParam(name = "query", required = false) String query,
+                                  @RequestParam(name = "userRole", required = false) Integer userRole) {
+        Map<String, Object> paramMap = new HashMap<>();
+        if(StringUtils.isNotBlank(query)){
+            paramMap.put("userName",query);
         }
-        return new ResponseEntity(userService.listAll(query));
+        if(userRole != null && StringUtils.isNotBlank(userRole.toString())){
+            paramMap.put("userRole",userRole);
+        }
+        List<UserEntity> userEntityList = userService.listAll(paramMap);
+        if(userEntityList == null || userEntityList.size() == 0){
+            return new ResponseEntity(400,"数据为空","");
+        }
+        return new ResponseEntity(userEntityList);
     }
 
     @ApiOperation("分页获取所有用户")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page_num", value = "页码", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "page_size", value = "每页显示数量", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "query", value = "查询关键字(用户名)", paramType = "query")
+            @ApiImplicitParam(name = "page_num", value = "页码", required = true, paramType = "Int"),
+            @ApiImplicitParam(name = "page_size", value = "每页显示数量", required = true, paramType = "Int"),
+            @ApiImplicitParam(name = "query", value = "查询关键字(用户名)", paramType = "String"),
+            @ApiImplicitParam(name = "userRole", value = "用户角色", paramType = "String")
     })
     @GetMapping("listAllByPage")
     public ResponseEntity listAllByPage(@RequestParam(name = "page_num") int pageNum,
                                   @RequestParam(name = "page_size") int pageSize,
-                                  @RequestParam(name = "query", required = false) String query) {
+                                  @RequestParam(name = "query", required = false) String query,
+                                  @RequestParam(name = "userRole", required = false) String userRole) {
         // pageNum  页码
         // pageSize 每页显示数量
+        Map<String, Object> paramMap = new HashMap<>();
+        if(StringUtils.isNotBlank(query)){
+            paramMap.put("userName",query);
+        }
+        if(StringUtils.isNotBlank(userRole)){
+            paramMap.put("userRole",userRole);
+        }
         Page pager = PageHelper.startPage(pageNum, pageSize);
-        return new ResponseEntity(WebUtil.generatePageData(pager, userService.listAll(query)));
+        return new ResponseEntity(WebUtil.generatePageData(pager, userService.listAll(paramMap)));
     }
 
     @ApiOperation("新增用户")
     @ApiImplicitParam(name = "userEntity", value = "用户信息")
-    @PostMapping
-    public ResponseEntity addUser(@RequestBody UserEntity userEntity) {
-        userService.addUserSelective(userEntity);
+    @PostMapping("/{roleId}")
+    public ResponseEntity addUser(@RequestBody UserEntity userEntity, @PathVariable("roleId") Integer roleId) throws Exception {
+        RoleEntity roleEntity = roleService.getByPrimaryKey(roleId);
+        if(roleEntity == null){
+            return new ResponseEntity("角色不存在");
+        }
+        userService.addUserSelective(userEntity,roleId);
         return new ResponseEntity("用户新增成功");
     }
 
@@ -85,19 +113,18 @@ public class BackStageUserController {
     @GetMapping("/{user_id}")
     public ResponseEntity information(@PathVariable("user_id") int userId) {
         UserEntity userEntity = userService.getByPrimaryKey(userId);
-        RoleEntity roleEntity  = roleService.getRoleByUserId(userEntity.getUserId());
-        WebUtil.assertNotNull(roleEntity, "获取用户角色信息错误");
-        Map<String, Object> dataMap = new HashMap<>(3);
-        dataMap.put("user", userEntity);
-        dataMap.put("role",roleEntity);
-        return new ResponseEntity(dataMap);
+        return new ResponseEntity(userEntity);
     }
 
     @ApiOperation("修改用户信息")
     @ApiImplicitParam(name = "userEntity", value = "用户信息")
-    @PutMapping
-    public ResponseEntity updateInformation(@RequestBody UserEntity userEntity) {
-        userService.updateUser(userEntity.getUserId(),userEntity);
+    @PutMapping("/{roleId}")
+    public ResponseEntity updateInformation(@RequestBody UserEntity userEntity, @PathVariable("roleId")  Integer roleId) throws Exception {
+        RoleEntity roleEntity = roleService.getByPrimaryKey(roleId);
+        if(roleEntity == null){
+            return new ResponseEntity("角色不存在");
+        }
+        userService.updateUserSelective(userEntity, roleEntity);
         return new ResponseEntity("保存成功");
     }
 

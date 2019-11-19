@@ -4,6 +4,7 @@ import com.dcoj.entity.TestCaseEntity;
 import com.dcoj.entity.example.TestCaseEntityExample;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -66,6 +67,14 @@ public interface TestCaseMapper {
      * @return 查询结果
      */
     List<TestCaseEntity> selectByExample(TestCaseEntityExample example);
+
+    /**
+     * 多表查询
+     *
+     * @param paramMap 查询条件
+     * @return 查询结果
+     */
+    List<TestCaseEntity> selectAll(Map<String, Object> paramMap);
 
     /**
      * 根据Example查询条件查询第一条数据，使用limit语法限制数据

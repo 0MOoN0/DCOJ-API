@@ -45,6 +45,15 @@
         <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" javaType="java.sql.Timestamp"/>
         <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" javaType="java.sql.Timestamp"/>
         <result column="is_deleted" property="deleted"/>
+        <association property="userRole" javaType="com.dcoj.entity.RoleEntity" >
+            <result column="role_id" property="roleId" jdbcType="INTEGER"/>
+            <result column="name" property="name" jdbcType="VARCHAR"/>
+            <result column="description" property="description" jdbcType="VARCHAR"/>
+            <result column="available" property="available" jdbcType="INTEGER"/>
+            <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+            <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+            <result column="is_deleted" property="deleted" jdbcType="INTEGER"/>
+        </association>
     </resultMap>
 
     <select id="countUsers" resultType="Integer">
@@ -55,8 +64,28 @@
 
     <select id="getByPrimaryKey" resultMap="userResultMap">
         select
-        <include refid="Base_Column_List"/>
-        from `user` where user_id = #{userId} and is_deleted = 0
+        u.user_id,
+        u.username,
+        u.student_name,
+        u.`password`,
+        u.motto,
+        u.gender,
+        u.ac_times,
+        u.email,
+        u.rte_times,
+        u.cet_times,
+        u.wa_times,
+        u.tle_times,
+        u.submit_times,
+        r.role_id,
+        r.`name`,
+        r.gmt_create,
+        r.description,
+        r.available
+        from user u
+        left join user_role ur on u.user_id = ur.user_id
+        left join role r on r.role_id = ur.role_id
+       where u.user_id = #{userId} and u.is_deleted = 0
     </select>
 
     <select id="getByUsername" resultMap="userResultMap">
@@ -65,12 +94,35 @@
         from `user` where username = #{username} and is_deleted = 0
     </select>
 
-    <select id="listAll" resultMap="userResultMap" parameterType="java.lang.String">
+    <select id="listAll" resultMap="userResultMap" parameterType="java.util.Map">
         select
-        <include refid="Base_Column_List"/>
-        from `user` where is_deleted = 0
+        u.user_id,
+        u.username,
+        u.student_name,
+        u.`password`,
+        u.motto,
+        u.gender,
+        u.ac_times,
+        u.email,
+        u.rte_times,
+        u.cet_times,
+        u.wa_times,
+        u.tle_times,
+        u.submit_times,
+        r.role_id,
+        r.`name`,
+        r.gmt_create,
+        r.description,
+        r.available
+        from user u
+        left join user_role ur on u.user_id = ur.user_id
+        left join role r on r.role_id = ur.role_id
+        where u.is_deleted = 0
         <if test="username != null">
-            and username LIKE '%${username}%'
+            and u.username LIKE '%${userName}%'
+        </if>
+        <if test="userRole != null">
+            and r.role_id = ${userRole}
         </if>
     </select>
 
@@ -79,7 +131,7 @@
         <set>
             <if test="username != null">username = #{username},</if>
             <if test="password != null">`password` = #{password},</if>
-            <if test="studentName != null">student_name = #{student_name},</if>
+            <if test="studentName != null">student_name = #{studentName},</if>
             <if test="email != null">email = #{email},</if>
             <if test="avatar != null">avatar = #{avatar},</if>
             <if test="gender != null">gender = #{gender},</if>
@@ -103,7 +155,7 @@
         where user_id = #{userId} and is_deleted = 0
     </update>
 
-    <insert id="addUserSelective" parameterType="com.dcoj.entity.UserEntity">
+    <insert id="addUserSelective" parameterType="com.dcoj.entity.UserEntity" useGeneratedKeys="true" keyProperty="userId">
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="username != null" >

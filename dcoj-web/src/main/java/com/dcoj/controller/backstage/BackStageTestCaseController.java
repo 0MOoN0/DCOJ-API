@@ -11,12 +11,15 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 测试用例管理 控制器
@@ -43,8 +46,12 @@ public class BackStageTestCaseController {
                                         @RequestParam(name = "pid", required = false) Integer pid){
         // pageNum  页码
         // pageSize 每页显示数量
+        Map<String, Object> paramMap = new HashMap<>();
+        if(pid != null && StringUtils.isNotBlank(pid.toString())){
+            paramMap.put("programId",pid);
+        }
         Page pager = PageHelper.startPage(pageNum, pageSize);
-        List<TestCaseEntity> testCaseEntityList = testCasesService.listAllByPage(pid);
+        List<TestCaseEntity> testCaseEntityList = testCasesService.listAllByPage(paramMap);
         if(testCaseEntityList == null || testCaseEntityList.size() == 0 ){
             return new ResponseEntity(400,"暂无数据","");
         }
