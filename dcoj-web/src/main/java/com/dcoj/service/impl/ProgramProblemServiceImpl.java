@@ -11,6 +11,7 @@ import com.dcoj.service.ProgramProblemService;
 import com.dcoj.service.ProgramProblemTagService;
 import com.dcoj.service.TestCasesService;
 import com.dcoj.util.WebUtil;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -246,22 +248,23 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
                 break;
             }
             ProgramProblemEntity pg = new ProgramProblemEntity();
-            if(row.getCell(1).getStringCellValue()!=null){
-                System.out.println(row.getCell(1).getStringCellValue());
-                pg.setDescription(JSONObject.parseObject(row.getCell(1).getStringCellValue()));
+            if(!"".equals(getCellValue(row.getCell(1)))){
+                pg.setDescription(JSONObject.parseObject(getCellValue(row.getCell(1))));
             }
-            if(row.getCell(2).getNumericCellValue()>=0){
-                pg.setDifficult((int)(row.getCell(2).getNumericCellValue()));
+            else{
+                continue;
+            }
+            if(!"".equals(getCellValue(row.getCell(2)))){
+                pg.setDifficult((int) Double.parseDouble(getCellValue(row.getCell(2))));
             }
             //根据输入题目的标题检查编程题是否存在，存在则跳过，不存在则插入
             boolean insertFlag = false;
-            if(row.getCell(3).getStringCellValue()!=null){
+            if(!"".equals(getCellValue(row.getCell(3)))){
                 List<ProgramProblemEntity> listAll = programProblemMapper.findAll();
                 for(ProgramProblemEntity pge : listAll){
-                    System.out.println(pge.getTitle()+":"+row.getCell(3).getStringCellValue());
                     if(pge.getTitle()!=null){
-                        if(pge.getTitle().replace(" ","").equals(row.getCell(3).getStringCellValue().replace(" ",""))){
-                            errorMessage.put(row.getCell(0).getStringCellValue(),row.getCell(3).getStringCellValue());
+                        if(pge.getTitle().replace(" ","").equals(getCellValue(row.getCell(3)).replace(" ",""))){
+                            errorMessage.put(String.valueOf(row.getCell(0).getNumericCellValue()),getCellValue(row.getCell(3)));
                             insertFlag = true;
                         }
                     }
@@ -271,28 +274,30 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
                 continue;
             }else
             {
-                pg.setTitle(row.getCell(3).getStringCellValue());
+                pg.setTitle(getCellValue(row.getCell(3)));
             }
-            if(row.getCell(4).getStringCellValue()!=null){
-                pg.setInputFormat(JSONObject.parseObject(row.getCell(4).getStringCellValue()));
+            if(!"".equals(getCellValue(row.getCell(4)))&&!"null".equals(getCellValue(row.getCell(4)))){
+                pg.setInputFormat(JSONObject.parseObject(getCellValue(row.getCell(4))));
             }
-            if(row.getCell(5).getStringCellValue()!=null){
-                pg.setOutputFormat(JSONObject.parseObject(row.getCell(5).getStringCellValue()));
+            if(!"".equals(getCellValue(row.getCell(5)))&&!"null".equals(getCellValue(row.getCell(5)))){
+                pg.setOutputFormat(JSONObject.parseObject(getCellValue(row.getCell(5))));
             }
-            if(row.getCell(6).getStringCellValue()!=null){
-                pg.setSamples(JSONArray.parseArray(row.getCell(6).getStringCellValue()));
+            if(!"".equals(getCellValue(row.getCell(6)))){
+                pg.setSamples(JSONArray.parseArray(getCellValue(row.getCell(5))));
             }
-            if(row.getCell(9).getNumericCellValue()>=0){
-                pg.setRunTime((int)(row.getCell(9).getNumericCellValue()));
+            if(!"".equals(getCellValue(row.getCell(9)))){
+                System.out.println(getCellValue(row.getCell(9)));
+                pg.setRunTime(Integer.parseInt(getCellValue(row.getCell(9))));
             }
-            if(row.getCell(10).getNumericCellValue()>=0){
-                pg.setMemory((int)(row.getCell(10).getNumericCellValue()));
+            if(!"".equals(getCellValue(row.getCell(10)))){
+                System.out.println(getCellValue(row.getCell(10)));
+                pg.setMemory(Integer.parseInt(getCellValue(row.getCell(10))));
             }
             boolean flag = programProblemMapper.save(pg) == 1;
             WebUtil.assertIsSuccess(flag, "题目添加失败");
             //检查题目标签是否已经存在，存在直接关联，否则新增后再进行关联
-            if(row.getCell(7).getStringCellValue()!=null){
-                JSONArray jsonArray = JSONArray.parseArray(row.getCell(7).getStringCellValue());
+            if(!"".equals(getCellValue(row.getCell(7)))){
+                JSONArray jsonArray = JSONArray.parseArray(getCellValue(row.getCell(7)));
                 for (int j=0;j<jsonArray.size();j++){
                     JSONObject jo = jsonArray.getJSONObject(j);
                     String tagName = jo.getString("name");
@@ -302,14 +307,16 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
                     }else{
                         ProgramTagEntity newTag = new ProgramTagEntity();
                         newTag.setTagName(tagName);
-                        programTagService.saveByEntity(newTag);
-                        programProblemTagService.save(pg.getProgramProblemId(),newTag.getProgramTagId());
+                        int newTagId = programTagService.saveByEntity(newTag);
+                        System.out.println(newTagId);
+
+                        programProblemTagService.save(pg.getProgramProblemId(),newTagId);
                     }
                 }
             }
             //插入编程题目对应的测试用例
-            if(row.getCell(8).getStringCellValue()!=null){
-                JSONArray testCaseList = JSONArray.parseArray(row.getCell(8).getStringCellValue());
+            if(!"".equals(getCellValue(row.getCell(8)))){
+                JSONArray testCaseList = JSONArray.parseArray(getCellValue(row.getCell(8)));
                 for(int t=0;t<testCaseList.size();t++){
                     JSONObject tc = testCaseList.getJSONObject(t);
                     testCasesService.save(pg.getProgramProblemId(),tc.getString("input"),tc.getString("output"));
@@ -319,5 +326,34 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
 
         return "批量新增成功";
     }
-
+    //判断数据类型
+    public String getCellValue(Cell cell) {
+        Object result = "";
+        if (cell != null) {
+            switch (cell.getCellType()) {
+                case STRING:
+                    result = cell.getStringCellValue();
+                    break;
+                case NUMERIC:
+                    double temp = cell.getNumericCellValue();
+                    DecimalFormat df = new DecimalFormat("0");
+                    result = df.format(temp);
+                    break;
+                case BOOLEAN:
+                    result = cell.getBooleanCellValue();
+                    break;
+                case FORMULA:
+                    result = cell.getCellFormula();
+                    break;
+                case ERROR:
+                    result = cell.getErrorCellValue();
+                    break;
+                case BLANK:
+                    break;
+                default:
+                    break;
+            }
+        }
+        return result.toString();
+    }
 }
