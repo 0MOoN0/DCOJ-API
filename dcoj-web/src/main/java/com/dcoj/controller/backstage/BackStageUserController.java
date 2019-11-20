@@ -135,12 +135,7 @@ public class BackStageUserController {
     {
         UserEntity userEntity = userService.getByToken(token);
         WebUtil.assertNotNull(userEntity, "获取用户信息错误");
-        RoleEntity roleEntity  = roleService.getRoleByUserId(userEntity.getUserId());
-        WebUtil.assertNotNull(roleEntity, "获取用户角色信息错误");
-        Map<String, Object> dataMap = new HashMap<>(3);
-        dataMap.put("user", userEntity);
-        dataMap.put("role",roleEntity);
-        return new ResponseEntity(dataMap);
+        return new ResponseEntity(userEntity);
     }
 
 
