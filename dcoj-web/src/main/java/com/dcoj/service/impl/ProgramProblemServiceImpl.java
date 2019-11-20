@@ -11,6 +11,7 @@ import com.dcoj.service.ProgramProblemService;
 import com.dcoj.service.ProgramProblemTagService;
 import com.dcoj.service.TestCasesService;
 import com.dcoj.util.WebUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -35,6 +36,7 @@ import java.util.Map;
  */
 @Service
 public class ProgramProblemServiceImpl implements ProgramProblemService {
+
 
     @Autowired
     private ProgramProblemMapper programProblemMapper;
@@ -71,6 +73,7 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
         WebUtil.assertNotNull(programProblemMapper.getByPrimaryKey(programProblemId), "题目不存在，删除失败");
 
         List<Integer> tagList = programProblemTagService.getTagsByProgramProblemId(programProblemId);
+
         // 判断题目是否带有标签
         if (tagList != null && tagList.size() != 0) {
             // 删除该题目的所有标签
@@ -79,6 +82,10 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
         // 删除problem
         boolean flag = programProblemMapper.removeByPrimaryKey(programProblemId) == 1;
         WebUtil.assertIsSuccess(flag, "删除题目失败");
+        if(flag){
+            boolean deleteTestFlag = testCasesService.deleteProblemTestCases(programProblemId)==1;
+            WebUtil.assertIsSuccess(deleteTestFlag, "测试用例删除失败");
+        }
     }
 
     /**
@@ -210,7 +217,7 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
 
     public List<ProgramProblemEntity> findAll(String query){
         List<ProgramProblemEntity> programProblemEntities = null;
-        if(query!=null&&!"".equals(query) ){
+        if(StringUtils.isNotBlank(query)){
             programProblemEntities = programProblemMapper.findAllByTitle(query);
         }else {
             programProblemEntities = programProblemMapper.findAll();
@@ -295,31 +302,33 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
             }
             boolean flag = programProblemMapper.save(pg) == 1;
             WebUtil.assertIsSuccess(flag, "题目添加失败");
-            //检查题目标签是否已经存在，存在直接关联，否则新增后再进行关联
-            if(!"".equals(getCellValue(row.getCell(7)))){
-                JSONArray jsonArray = JSONArray.parseArray(getCellValue(row.getCell(7)));
-                for (int j=0;j<jsonArray.size();j++){
-                    JSONObject jo = jsonArray.getJSONObject(j);
-                    String tagName = jo.getString("name");
-                    ProgramTagEntity programTagEntity = programTagService.getByTagName(tagName);
-                    if(programTagEntity!=null){
-                        programProblemTagService.save(pg.getProgramProblemId(),programTagEntity.getProgramTagId());
-                    }else{
-                        ProgramTagEntity newTag = new ProgramTagEntity();
-                        newTag.setTagName(tagName);
-                        int newTagId = programTagService.saveByEntity(newTag);
-                        System.out.println(newTagId);
+            if(flag){
+                //检查题目标签是否已经存在，存在直接关联，否则新增后再进行关联
+                if(!"".equals(getCellValue(row.getCell(7)))){
+                    JSONArray jsonArray = JSONArray.parseArray(getCellValue(row.getCell(7)));
+                    for (int j=0;j<jsonArray.size();j++){
+                        JSONObject jo = jsonArray.getJSONObject(j);
+                        String tagName = jo.getString("name");
+                        ProgramTagEntity programTagEntity = programTagService.getByTagName(tagName);
+                        if(programTagEntity!=null){
+                            programProblemTagService.save(pg.getProgramProblemId(),programTagEntity.getProgramTagId());
+                        }else{
+                            ProgramTagEntity newTag = new ProgramTagEntity();
+                            newTag.setTagName(tagName);
+                            int newTagId = programTagService.saveByEntity(newTag);
+                            System.out.println(newTagId);
 
-                        programProblemTagService.save(pg.getProgramProblemId(),newTagId);
+                            programProblemTagService.save(pg.getProgramProblemId(),newTagId);
+                        }
                     }
                 }
-            }
-            //插入编程题目对应的测试用例
-            if(!"".equals(getCellValue(row.getCell(8)))){
-                JSONArray testCaseList = JSONArray.parseArray(getCellValue(row.getCell(8)));
-                for(int t=0;t<testCaseList.size();t++){
-                    JSONObject tc = testCaseList.getJSONObject(t);
-                    testCasesService.save(pg.getProgramProblemId(),tc.getString("input"),tc.getString("output"));
+                //插入编程题目对应的测试用例
+                if(!"".equals(getCellValue(row.getCell(8)))) {
+                    JSONArray testCaseList = JSONArray.parseArray(getCellValue(row.getCell(8)));
+                    for (int t = 0; t < testCaseList.size(); t++) {
+                        JSONObject tc = testCaseList.getJSONObject(t);
+                        testCasesService.save(pg.getProgramProblemId(), tc.getString("input"), tc.getString("output"));
+                    }
                 }
             }
         }

@@ -39,7 +39,7 @@ public interface UserService {
     /**
      * 通过用户名模糊查询用户信息
      *
-     * @param username 用户名
+     * @param paraMap 查询条件集合
      * @return 结果
      */
     List<UserEntity> listAll(Map<String, Object> paraMap);
