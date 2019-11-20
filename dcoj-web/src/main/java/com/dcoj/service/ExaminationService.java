@@ -29,7 +29,7 @@ public interface ExaminationService {
      * @param examinationEntity
      * @return
      */
-    int update(Integer examId,ExaminationEntity examinationEntity);
+    int update(ExaminationEntity examinationEntity);
 
     /**
      *  添加一份试卷

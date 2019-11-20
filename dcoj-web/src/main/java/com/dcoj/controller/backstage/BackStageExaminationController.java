@@ -1,4 +1,4 @@
-package com.dcoj.controller;
+package com.dcoj.controller.backstage;
 
 import com.dcoj.entity.ExaminationEntity;
 import com.dcoj.entity.ResponseEntity;
@@ -9,22 +9,27 @@ import com.dcoj.util.WebUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.google.common.base.Preconditions;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
-
 /**
- * @author zxw
- * @Desriiption: 试卷控制层
- */
+ * 试卷管理 控制器
+ * @author bin
+ * */
 @RestController
-@RequestMapping(value = "/exam", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class ExaminationController {
+@Validated
+@Api(tags = "试卷管理")
+@RequestMapping(value = "/backStageExamination", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+public class BackStageExaminationController {
 
     @Autowired
     private ExaminationService examinationService;
@@ -35,18 +40,27 @@ public class ExaminationController {
     @Autowired
     private ObjectProblemService objectProblemService;
 
-    @GetMapping
-    public ResponseEntity listAll(){
-        return new ResponseEntity(examinationService.listAll());
-    }
-
-    @GetMapping("/page/{page_num}/{page_size}")
-    public ResponseEntity listAllByPage(@PathVariable(name = "page_num") int pageNum,
-                                        @PathVariable(name = "page_size") int pageSize){
+    @ApiOperation("分页获取所有类别")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page_num", value = "页码", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "page_size", value = "每页显示数量", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "query", value = "查询关键字(标题)", paramType = "query")
+    })
+    @GetMapping("/listAllByPage")
+    public ResponseEntity listAllByPage(@RequestParam(name = "page_num") int pageNum,
+                                        @RequestParam(name = "page_size") int pageSize,
+                                        @RequestParam(name = "query", required = false) String query){
+        // pageNum  页码
+        // pageSize 每页显示数量
         Page pager = PageHelper.startPage(pageNum, pageSize);
-        return new ResponseEntity(WebUtil.generatePageData(pager, examinationService.listAll()));
+        List<Map<String, Object>> examinationEntities = examinationService.listAll();
+        if(examinationEntities == null || examinationEntities.size() == 0 ){
+            return new ResponseEntity(400,"暂无数据","");
+        }
+        return new ResponseEntity(WebUtil.generatePageData(pager, examinationEntities));
     }
 
+    @ApiOperation("根据ID查询试卷信息")
     @GetMapping("/{exam_id}")
     public ResponseEntity listByExamId(@PathVariable("exam_id")Integer examId){
         List<Map<String, Object>> programProblemEntityList = programProblemService.listByExamIdAndType(examId);
@@ -55,12 +69,13 @@ public class ExaminationController {
 
         Preconditions.checkNotNull(ex, "查询失败，不存在此试卷。");
 
-       ex.setProgram_problem(programProblemEntityList);
-       ex.setSingle_problem(objectProblemEntityList);
+        ex.setProgram_problem(programProblemEntityList);
+        ex.setSingle_problem(objectProblemEntityList);
 
         return new ResponseEntity(ex);
     }
 
+    @ApiOperation("新增试卷信息")
     @PostMapping
     public ResponseEntity save(@RequestBody ExaminationEntity examinationEntity){
         int examId = examinationService.save(examinationEntity);
@@ -73,6 +88,7 @@ public class ExaminationController {
         return new ResponseEntity("删除成功",examinationService.removeByExamId(examId));
     }
 
+    @ApiOperation("更新试卷")
     @PutMapping
     public ResponseEntity update(@RequestBody ExaminationEntity examinationEntity){
         return new ResponseEntity("更新成功",examinationService.update(examinationEntity));

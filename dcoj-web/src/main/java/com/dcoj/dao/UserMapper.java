@@ -1,9 +1,11 @@
 package com.dcoj.dao;
 
 import com.dcoj.entity.UserEntity;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户 持久层
@@ -47,10 +49,10 @@ public interface UserMapper {
     /**
      * 显示用户列表
      *
-     * @param username 用户名
+     * @param paraMap 查询结果集
      * @return 结果
      */
-    List<UserEntity> listAll(@Param("username") String username);
+    List<UserEntity> listAll(Map<String, Object> paraMap);
 
     /**
      * 更新用户信息
@@ -67,6 +69,14 @@ public interface UserMapper {
      * @return 返回1则删除成功，返回0则删除失败
      */
     int removeByPrimaryKey(Integer userId);
+
+    /**
+     * 新增用户信息
+     *
+     * @param userEntity 用户信息
+     * @return 是否成功
+     */
+    int addUserSelective(UserEntity userEntity);
 
 
 }

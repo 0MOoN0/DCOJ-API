@@ -40,11 +40,20 @@
         <result column="wa_times" property="WATimes"/>
         <result column="rte_times" property="RTETimes"/>
         <result column="tle_times" property="TLETimes"/>
-        <result column="ce_times" property="CETimes"/>
+        <result column="cet_times" property="CETimes"/>
         <result column="finished_problems" property="finishedProblems"/>
         <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" javaType="java.sql.Timestamp"/>
         <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" javaType="java.sql.Timestamp"/>
         <result column="is_deleted" property="deleted"/>
+        <association property="userRole" javaType="com.dcoj.entity.RoleEntity" >
+            <result column="role_id" property="roleId" jdbcType="INTEGER"/>
+            <result column="name" property="name" jdbcType="VARCHAR"/>
+            <result column="description" property="description" jdbcType="VARCHAR"/>
+            <result column="available" property="available" jdbcType="INTEGER"/>
+            <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+            <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+            <result column="is_deleted" property="deleted" jdbcType="INTEGER"/>
+        </association>
     </resultMap>
 
     <select id="countUsers" resultType="Integer">
@@ -55,8 +64,28 @@
 
     <select id="getByPrimaryKey" resultMap="userResultMap">
         select
-        <include refid="Base_Column_List"/>
-        from `user` where user_id = #{userId} and is_deleted = 0
+        u.user_id,
+        u.username,
+        u.student_name,
+        u.`password`,
+        u.motto,
+        u.gender,
+        u.ac_times,
+        u.email,
+        u.rte_times,
+        u.cet_times,
+        u.wa_times,
+        u.tle_times,
+        u.submit_times,
+        r.role_id,
+        r.`name`,
+        r.gmt_create,
+        r.description,
+        r.available
+        from user u
+        left join user_role ur on u.user_id = ur.user_id
+        left join role r on r.role_id = ur.role_id
+       where u.user_id = #{userId} and u.is_deleted = 0
     </select>
 
     <select id="getByUsername" resultMap="userResultMap">
@@ -65,12 +94,35 @@
         from `user` where username = #{username} and is_deleted = 0
     </select>
 
-    <select id="listAll" resultMap="userResultMap" parameterType="java.lang.String">
+    <select id="listAll" resultMap="userResultMap" parameterType="java.util.Map">
         select
-        <include refid="Base_Column_List"/>
-        from `user` where is_deleted = 0
+        u.user_id,
+        u.username,
+        u.student_name,
+        u.`password`,
+        u.motto,
+        u.gender,
+        u.ac_times,
+        u.email,
+        u.rte_times,
+        u.cet_times,
+        u.wa_times,
+        u.tle_times,
+        u.submit_times,
+        r.role_id,
+        r.`name`,
+        r.gmt_create,
+        r.description,
+        r.available
+        from user u
+        left join user_role ur on u.user_id = ur.user_id
+        left join role r on r.role_id = ur.role_id
+        where u.is_deleted = 0
         <if test="username != null">
-            and username LIKE '%${username}%'
+            and u.username LIKE '%${userName}%'
+        </if>
+        <if test="userRole != null">
+            and r.role_id = ${userRole}
         </if>
     </select>
 
@@ -79,7 +131,7 @@
         <set>
             <if test="username != null">username = #{username},</if>
             <if test="password != null">`password` = #{password},</if>
-            <if test="studentName != null">student_name = #{student_name},</if>
+            <if test="studentName != null">student_name = #{studentName},</if>
             <if test="email != null">email = #{email},</if>
             <if test="avatar != null">avatar = #{avatar},</if>
             <if test="gender != null">gender = #{gender},</if>
@@ -103,68 +155,118 @@
         where user_id = #{userId} and is_deleted = 0
     </update>
 
-
-    <!--<insert id="save" parameterType="ProgramProblemEntity" useGeneratedKeys="true" keyProperty="programProblemId">-->
-    <!--insert into program_problem-->
-    <!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
-    <!--<if test="description != null">-->
-    <!--description,-->
-    <!--</if>-->
-    <!--<if test="difficult != null">-->
-    <!--difficult,-->
-    <!--</if>-->
-    <!--<if test="title != null">-->
-    <!--title,-->
-    <!--</if>-->
-    <!--<if test="inputFormat != null">-->
-    <!--input_format,-->
-    <!--</if>-->
-    <!--<if test="outputFormat != null">-->
-    <!--output_format,-->
-    <!--</if>-->
-    <!--<if test="samples != null">-->
-    <!--samples,-->
-    <!--</if>-->
-    <!--<if test="memory != null">-->
-    <!--`memory`,-->
-    <!--</if>-->
-    <!--<if test="runTime != null">-->
-    <!--run_time,-->
-    <!--</if>-->
-    <!--gmt_create,-->
-    <!--gmt_modified-->
-    <!--</trim>-->
-    <!--values-->
-    <!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
-    <!--<if test="description != null">-->
-    <!--#{description},-->
-    <!--</if>-->
-    <!--<if test="difficult != null">-->
-    <!--#{difficult},-->
-    <!--</if>-->
-    <!--<if test="title != null">-->
-    <!--#{title},-->
-    <!--</if>-->
-    <!--<if test="inputFormat != null">-->
-    <!--#{inputFormat},-->
-    <!--</if>-->
-    <!--<if test="outputFormat != null">-->
-    <!--#{outputFormat},-->
-    <!--</if>-->
-    <!--<if test="samples != null">-->
-    <!--#{samples},-->
-    <!--</if>-->
-    <!--<if test="memory != null">-->
-    <!--#{memory},-->
-    <!--</if>-->
-    <!--<if test="runTime != null">-->
-    <!--#{runTime},-->
-    <!--</if>-->
-    <!--DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'),-->
-    <!--DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s')-->
-    <!--</trim>-->
-    <!--</insert>-->
-
+    <insert id="addUserSelective" parameterType="com.dcoj.entity.UserEntity" useGeneratedKeys="true" keyProperty="userId">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="username != null" >
+                username,
+            </if>
+            <if test="password != null" >
+                password,
+            </if>
+            <if test="email != null" >
+                email,
+            </if>
+            <if test="studentName != null" >
+                student_name,
+            </if>
+            <if test="avatar != null" >
+                avatar,
+            </if>
+            <if test="motto != null" >
+                motto,
+            </if>
+            <if test="gender != null" >
+                gender,
+            </if>
+            <if test="submitTimes != null" >
+                submit_times,
+            </if>
+            <if test="ACTimes != null" >
+                ac_times,
+            </if>
+            <if test="WATimes != null" >
+                wa_times,
+            </if>
+            <if test="RTETimes != null" >
+                rte_times,
+            </if>
+            <if test="TLETimes != null" >
+                tle_times,
+            </if>
+            <if test="CETimes != null" >
+                cet_times,
+            </if>
+            <if test="finishedProblems != null" >
+                finished_problems,
+            </if>
+            <if test="gmtCreate != null" >
+                gmt_create,
+            </if>
+            <if test="gmtModified != null" >
+                gmt_modified,
+            </if>
+            <if test="deleted != null" >
+                is_deleted,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="username != null" >
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null" >
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null" >
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="studentName != null" >
+                #{studentName,jdbcType=VARCHAR},
+            </if>
+            <if test="avatar != null" >
+                #{avatar,jdbcType=INTEGER},
+            </if>
+            <if test="motto != null" >
+                #{motto,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null" >
+                #{gender,jdbcType=INTEGER},
+            </if>
+            <if test="submitTimes != null" >
+                #{submitTimes,jdbcType=INTEGER},
+            </if>
+            <if test="ACTimes != null" >
+                #{ACTimes,jdbcType=INTEGER},
+            </if>
+            <if test="WATimes != null" >
+                #{WATimes,jdbcType=INTEGER},
+            </if>
+            <if test="RTETimes != null" >
+                #{RTETimes,jdbcType=INTEGER},
+            </if>
+            <if test="TLETimes != null" >
+                #{TLETimes,jdbcType=INTEGER},
+            </if>
+            <if test="CETimes != null" >
+                #{CETimes,jdbcType=INTEGER},
+            </if>
+            <if test="finishedProblems != null" >
+                #{finishedProblems,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null" >
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null" >
+                #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null" >
+                #{deleted,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
 
 </mapper>
 

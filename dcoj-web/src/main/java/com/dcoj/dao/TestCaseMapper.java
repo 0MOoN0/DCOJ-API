@@ -4,6 +4,7 @@ import com.dcoj.entity.TestCaseEntity;
 import com.dcoj.entity.example.TestCaseEntityExample;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -37,7 +38,7 @@ public interface TestCaseMapper {
      * @param tcId 要删除的TestCaseID
      * @return 删除的条数
      */
-    int deleteByPrimaryKey(Integer tcId);
+    int deleteByPrimaryKey(@Param("tcId") Integer tcId);
 
     /**
      * 插入一条数据
@@ -66,6 +67,14 @@ public interface TestCaseMapper {
      * @return 查询结果
      */
     List<TestCaseEntity> selectByExample(TestCaseEntityExample example);
+
+    /**
+     * 多表查询
+     *
+     * @param paramMap 查询条件
+     * @return 查询结果
+     */
+    List<TestCaseEntity> selectAll(Map<String, Object> paramMap);
 
     /**
      * 根据Example查询条件查询第一条数据，使用limit语法限制数据
@@ -116,4 +125,11 @@ public interface TestCaseMapper {
      * @return 更新的条数
      */
     int updateByPrimaryKey(TestCaseEntity record);
+
+    /**
+     *  批量保存测试用例
+     * @param testCaseEntityList
+     * @return
+     */
+    int saveAll(List<TestCaseEntity> testCaseEntityList);
 }

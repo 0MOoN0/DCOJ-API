@@ -90,4 +90,9 @@ public class UserEntity {
      * 是否删除用户（用户是否存在）
      */
     private Integer deleted;
+
+    /**
+     * 用户角色
+     */
+    private RoleEntity userRole;
 }

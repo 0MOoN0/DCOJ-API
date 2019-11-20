@@ -1,8 +1,12 @@
 package com.dcoj.entity;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  *  试卷实体类
@@ -125,5 +129,13 @@ public class ExaminationEntity {
      * @mbg.generated
      */
     private String author;
+
+    private List<?> program_problem;
+
+    private List<?> single_problem;
+
+    private JSONArray single_id;
+
+    private JSONArray program_id;
 
 }
