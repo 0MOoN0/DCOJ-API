@@ -37,28 +37,19 @@ public interface ProgramProblemTagMapper {
     List<Integer> getTagsByProgramProblemId(int programProblemId);
 
     /**
-     * 通过pid 获取 TagProblemEntity对象
-     *
-     * @param pid 题目id
-     * @return 返回 ProgramProblemTagEntity 实体类对象
-     */
-//    ProgramProblemTagEntity getByPid(int pid);
-
-    /**
      * 通过 pid 删除TagProblemEntity对象
      *
      * @param programProblemId 题目id
      * @return 返回值不为0时，删除成功，为0则删除失败
      */
-    int removeProblemAllTags(int programProblemId);
+    int removeProblemAllTags(@Param("programProblemId") int programProblemId);
 
     /**
-     * 通过 pid 和 tid 删除一条记录
+     *  批量新增记录
      *
-     * @param pid 题目id
-     * @param tid 标签id
-     * @return 返回值为1时，删除成功，为0则删除失败
+     * @param programProblemId 题目id
+     * @param tagIdList 标签数组id
      */
-//    int removeProblemTag(@Param("pid") int pid, @Param("tid") int tid);
+    int batchInsert(@Param("programProblemId") int programProblemId,@Param("tagIdList")  Integer[] tagIdList);
 
 }

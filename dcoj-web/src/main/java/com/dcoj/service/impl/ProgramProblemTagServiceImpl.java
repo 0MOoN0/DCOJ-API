@@ -1,6 +1,7 @@
 package com.dcoj.service.impl;
 
 import com.dcoj.dao.ProgramProblemTagMapper;
+import com.dcoj.entity.ProgramProblemTagEntity;
 import com.dcoj.service.ProgramProblemTagService;
 import com.dcoj.service.ProgramTagService;
 import com.dcoj.util.WebUtil;
@@ -61,47 +62,32 @@ public class ProgramProblemTagServiceImpl implements ProgramProblemTagService {
     }
 
     /**
-     * 通过pid 获取 TagProblemEntity对象
-     *
-     * @param pid 题目id
-     * @return 返回 ProgramProblemTagEntity 实体类对象
-     */
-//    @Override
-//    public ProgramProblemTagEntity getByPid(int pid) {
-//        ProgramProblemTagEntity programProblemTagEntity = programProblemTagMapper.getByPid(pid);
-//        WebUtil.assertNotNull(programProblemTagEntity, "不存在此题目标签");
-//        return programProblemTagEntity;
-//    }
-
-    /**
      * 通过 programTagId 删除TagProblemEntity对象
      *
-     * @param programTagId 题目id
+     * @param programProblemId 题目id
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void removeProblemAllTags(int programTagId) {
-        List<Integer> tagList = programProblemTagMapper.getTagsByProgramProblemId(programTagId);
-//        WebUtil.assertIsSuccess(tagList.size()!=0,"该题目无标签，删除失败");
-        for (int tid : tagList) {
-            programTagService.updateTagUsedTimes(tid, false);
+    public void removeProblemAllTags(int programProblemId) {
+        //获取所有标签ID集合
+        List<Integer> isExist  = programProblemTagMapper.getTagsByProgramProblemId(programProblemId);
+        //判断是否存在记录,如果存在，则进行批量删除操作
+        if(isExist == null || isExist.size() == 0){
+            return ;
         }
-        // programProblemTagMapper.removeProblemAllTags(pid)返回值不为0时，删除成功，为0则删除失败
-        boolean flag = programProblemTagMapper.removeProblemAllTags(programTagId) != 0;
+        boolean flag = programProblemTagMapper.removeProblemAllTags(programProblemId) != 0;
         WebUtil.assertIsSuccess(flag, "删除该题目的所有标签失败");
     }
 
     /**
-     * 通过 pid 和 tid 删除一条记录
+     *  批量新增记录
      *
-     * @param pid 题目id
-     * @param tid 标签id
+     * @param programProblemId 题目id
+     * @param tagIdList 标签数组id
      */
-//    @Override
-//    @Transactional(rollbackFor=Exception.class)
-//    public void removeProblemTag(int pid, int tid) {
-//        boolean flag = programProblemTagMapper.removeProblemTag(pid, tid) == 1;
-//        WebUtil.assertIsSuccess(flag, "删除该题目的一个标签失败");
-//        programTagService.updateTagUsedTimes(tid, false);
-//    }
+    @Override
+    public int batchInsert(int programProblemId, Integer[] tagIdList) {
+        return programProblemTagMapper.batchInsert(programProblemId,tagIdList);
+    }
+
 }

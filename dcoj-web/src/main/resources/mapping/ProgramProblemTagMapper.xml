@@ -34,27 +34,25 @@
         from program_problem_tag where is_deleted = 0 and program_problem_id = #{programProblemId}
     </select>
 
-    <!--<select id="getByPid" resultMap="tagProblemResultMap">-->
-    <!--select-->
-    <!--<include refid="Base_Column_List"/>-->
-    <!--from tag_problem where is_deleted = 0 and pid = #{pid}-->
-    <!--</select>-->
 
-    <update id="removeProblemAllTags">
-        update program_problem_tag
-        <set>
-            is_deleted = 1
-        </set>
-        where program_problem_id = #{programProblemId} and is_deleted = 0
-    </update>
+    <delete id="removeProblemAllTags">
+        DELETE FROM program_problem_tag
+        WHERE program_problem_id = #{programProblemId}
+    </delete>
 
-    <!--<update id="removeProblemTag">-->
-    <!--update tag_problem-->
-    <!--<set>-->
-    <!--is_deleted = 1-->
-    <!--</set>-->
-    <!--where pid = #{pid} and tid = #{tid} and is_deleted = 0-->
-    <!--</update>-->
+    <insert id="batchInsert">
+        INSERT INTO program_problem_tag
+        VALUES
+        <foreach collection="tagIdList" item="tagId" separator =",">
+            (
+              #{programProblemId},
+              #{tagId},
+              NOW(),
+              NOW(),
+              0
+            )
+        </foreach>
+    </insert>
 
 </mapper>
 

@@ -23,9 +23,12 @@
         values (#{tagName}, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'), DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'))
     </insert>
 
-    <insert id="saveByEntity" parameterType="ProgramTagEntity" useGeneratedKeys="true" keyProperty="programTagId">
+    <insert id="saveByEntity">
         insert into program_tag (tag_name, gmt_create, gmt_modified)
         values (#{tagName}, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'), DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'))
+        <selectKey keyColumn="program_tag_id" resultType="int" keyProperty="programTagId" order="AFTER">
+          SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
 
     <select id="getByTagName" resultMap="tagResultMap">

@@ -2,32 +2,25 @@ package com.dcoj.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.dcoj.controller.backstage.format.ProgramProblemWithTags;
 import com.dcoj.dao.ProgramProblemMapper;
 import com.dcoj.entity.ProgramProblemEntity;
 import com.dcoj.entity.ProgramTagEntity;
+import com.dcoj.entity.TestCaseEntity;
 import com.dcoj.judge.ResultEnum;
 import com.dcoj.service.ProgramProblemService;
 import com.dcoj.service.ProgramProblemTagService;
 import com.dcoj.service.TestCasesService;
+import com.dcoj.util.POIUtil;
 import com.dcoj.util.WebUtil;
+import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-//TODO:04.26 WANGQING 编程题、客观题题目模块全部未加修改status方法
+import java.util.*;
 
 /**
  * 编程题 业务层实现
@@ -96,28 +89,21 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
      * @param programProblemEntity 题目实体类对象
      */
     @Override
-    //TODO:03.30 WANGQING 该方法能实现功能，但是方法不是很好，期待写出更好的方法优化
     @Transactional(rollbackFor = Exception.class)
     public void updateProblemAndTags(Integer programProblemId, JSONArray newTags, ProgramProblemEntity programProblemEntity) {
         WebUtil.assertNotNull(programProblemMapper.getByPrimaryKey(programProblemId), "该题目不存在，无法更新");
         // 删除题目原本的所有旧标签
         programProblemTagService.removeProblemAllTags(programProblemId);
         // 判断题目添加的时候是否带有标签,有则添加
-        if (newTags != null && newTags.size() != 0 && !newTags.getJSONObject(0).isEmpty()) {
+        if (!newTags.isEmpty()) {
             // 存放新修改的标签id集合
-            List<Integer> finalTags = new ArrayList<>(newTags.size());
-            //将JSONArray里的元素取出并存到List<Integer>
-            for (int i = 0; i < newTags.size(); i++) {
-                // 从JSONArray取出tid
-                int tid = newTags.getJSONObject(i).getInteger("programTagId");
-                finalTags.add(tid);
-            }
+            Integer[] tagIdList = new Integer[newTags.size()];
+            tagIdList = newTags.toArray(tagIdList);
             //判断新修改的标签id集合是否为空
-            WebUtil.assertIsSuccess(finalTags.size() != 0, "非法标签");
-            // 添加programProblem和objectTag之间的关联
-            for (Integer programTagId : finalTags) {
-                programProblemTagService.save(programProblemId, programTagId);
-            }
+            WebUtil.assertIsSuccess(tagIdList.length != 0, "标签个数为0，无法获取");
+            // 批量添加题目与标签关联信息
+            int isSuccess = programProblemTagService.batchInsert(programProblemId,tagIdList);
+            WebUtil.assertIsSuccess(isSuccess > 0, "标签批量新增失败");
         }
         programProblemEntity.setProgramProblemId(programProblemId);
         boolean flag = programProblemMapper.updateProgramProblem(programProblemEntity) == 1;
@@ -153,24 +139,18 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
         int programProblemId = programProblemEntity.getProgramProblemId();
 
         // 判断题目添加的时候是否带有标签
-        if (tags != null && tags.size() != 0 && !tags.getJSONObject(0).isEmpty()) {
-            // 保存tag标签并且添加tag标签使用次数
-            List<Integer> tagList = new ArrayList<>(tags.size());
-            for (int i = 0; i < tags.size(); i++) {
-                int tid = tags.getJSONObject(i).getInteger("programTagId");
-                tagList.add(tid);
-            }
-            // 判断新修改的标签id集合是否为空
-            WebUtil.assertIsSuccess(tagList.size() != 0, "标签非法");
-            // 添加pid和tag之间的关联
-            for (Integer programTagId : tagList) {
-                programProblemTagService.save(programProblemId, programTagId);
-            }
+        if (!tags.isEmpty()) {
+            // 存放新修改的标签id集合
+            Integer[] tagIdList = new Integer[tags.size()];
+            tagIdList = tags.toArray(tagIdList);
+            //判断新修改的标签id集合是否为空
+            WebUtil.assertIsSuccess(tagIdList.length != 0, "标签个数为0，无法获取");
+            // 批量添加题目与标签关联信息
+            int isSuccess = programProblemTagService.batchInsert(programProblemId,tagIdList);
+            WebUtil.assertIsSuccess(isSuccess > 0, "标签批量新增失败");
         }
         return programProblemId;
     }
-
-    //TODO：03.30 WANGQING 跟判卷有关系的方法，未写
 
     /**
      * 根据判卷状态更新Problem
@@ -244,125 +224,132 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
      */
     @Override
     public String importProgram(MultipartFile files) throws IOException {
-        XSSFWorkbook workbook  = new XSSFWorkbook(files.getInputStream());
-        XSSFSheet sheet = workbook.getSheetAt(0);
-        //记录错误行数
-        HashMap<String,String> errorMessage= new HashMap<String,String>();
-        for(int i=2;i<sheet.getLastRowNum()+1;i++){
-            XSSFRow row = sheet.getRow(i);
-            int lastNum = row.getLastCellNum();
-            if(lastNum <= 0) {
-                break;
-            }
-            ProgramProblemEntity pg = new ProgramProblemEntity();
-            if(!"".equals(getCellValue(row.getCell(1)))){
-                pg.setDescription(JSONObject.parseObject(getCellValue(row.getCell(1))));
-            }
-            else{
-                continue;
-            }
-            if(!"".equals(getCellValue(row.getCell(2)))){
-                pg.setDifficult((int) Double.parseDouble(getCellValue(row.getCell(2))));
-            }
-            //根据输入题目的标题检查编程题是否存在，存在则跳过，不存在则插入
-            boolean insertFlag = false;
-            if(!"".equals(getCellValue(row.getCell(3)))){
-                List<ProgramProblemEntity> listAll = programProblemMapper.findAll();
-                for(ProgramProblemEntity pge : listAll){
-                    if(pge.getTitle()!=null){
-                        if(pge.getTitle().replace(" ","").equals(getCellValue(row.getCell(3)).replace(" ",""))){
-                            errorMessage.put(String.valueOf(row.getCell(0).getNumericCellValue()),getCellValue(row.getCell(3)));
-                            insertFlag = true;
-                        }
-                    }
+        //json 转换工具
+        Gson gson = new Gson();
+        //解析表格数据
+        List<String[]> data = POIUtil.readExcel(files.getInputStream(), files.getOriginalFilename());
+        //取出重复的题目
+        List<ProgramProblemEntity> problemEntityList = programProblemMapper.findAll();
+        //需要导入的题目
+        List<String[]> insertData = new ArrayList<>();
+        for(int i = 1; i < data.size(); i++){
+            boolean isExist = false;
+            for (ProgramProblemEntity programProblemEntity: problemEntityList){
+                if(programProblemEntity.getTitle().equals(data.get(i)[3])){
+                    isExist = true;
+                    break;
                 }
             }
-            if(insertFlag){
-                continue;
-            }else
-            {
-                pg.setTitle(getCellValue(row.getCell(3)));
+            //将不重复的题目加入集合
+            if(!isExist){
+                insertData.add(data.get(i));
             }
-            if(!"".equals(getCellValue(row.getCell(4)))&&!"null".equals(getCellValue(row.getCell(4)))){
-                pg.setInputFormat(JSONObject.parseObject(getCellValue(row.getCell(4))));
-            }
-            if(!"".equals(getCellValue(row.getCell(5)))&&!"null".equals(getCellValue(row.getCell(5)))){
-                pg.setOutputFormat(JSONObject.parseObject(getCellValue(row.getCell(5))));
-            }
-            if(!"".equals(getCellValue(row.getCell(6)))){
-                pg.setSamples(JSONArray.parseArray(getCellValue(row.getCell(5))));
-            }
-            if(!"".equals(getCellValue(row.getCell(9)))){
-                System.out.println(getCellValue(row.getCell(9)));
-                pg.setRunTime(Integer.parseInt(getCellValue(row.getCell(9))));
-            }
-            if(!"".equals(getCellValue(row.getCell(10)))){
-                System.out.println(getCellValue(row.getCell(10)));
-                pg.setMemory(Integer.parseInt(getCellValue(row.getCell(10))));
-            }
-            boolean flag = programProblemMapper.save(pg) == 1;
-            WebUtil.assertIsSuccess(flag, "题目添加失败");
-            if(flag){
-                //检查题目标签是否已经存在，存在直接关联，否则新增后再进行关联
-                if(!"".equals(getCellValue(row.getCell(7)))){
-                    JSONArray jsonArray = JSONArray.parseArray(getCellValue(row.getCell(7)));
-                    for (int j=0;j<jsonArray.size();j++){
-                        JSONObject jo = jsonArray.getJSONObject(j);
-                        String tagName = jo.getString("name");
-                        ProgramTagEntity programTagEntity = programTagService.getByTagName(tagName);
-                        if(programTagEntity!=null){
-                            programProblemTagService.save(pg.getProgramProblemId(),programTagEntity.getProgramTagId());
-                        }else{
-                            ProgramTagEntity newTag = new ProgramTagEntity();
-                            newTag.setTagName(tagName);
-                            int newTagId = programTagService.saveByEntity(newTag);
-                            System.out.println(newTagId);
+        }
 
-                            programProblemTagService.save(pg.getProgramProblemId(),newTagId);
+        Map<Integer,String> tagDataList = new HashMap<>();
+        Map<Integer,String> testCaseDataList = new HashMap<>();
+        //正常内容从下标 1 开始
+        if(insertData.size() > 0){
+            for(int i = 0; i < insertData.size(); i++){
+                //定义题目实体
+                ProgramProblemEntity problemEntity = new ProgramProblemEntity();
+                //题目描述
+                problemEntity.setDescription(JSONObject.parseObject(insertData.get(i)[1]));
+                //题目难度
+                problemEntity.setDifficult(Double.valueOf(insertData.get(i)[2]).intValue());
+                //题目标题
+                problemEntity.setTitle(insertData.get(i)[3]);
+                //输入规范
+                problemEntity.setInputFormat(JSONObject.parseObject(insertData.get(i)[4]));
+                //输出规范
+                problemEntity.setOutputFormat(JSONObject.parseObject(insertData.get(i)[5]));
+                //样例
+                problemEntity.setSamples(JSONArray.parseArray(insertData.get(i)[6]));
+                //运行时间
+                problemEntity.setRunTime(Double.valueOf(insertData.get(i)[9]).intValue());
+                //运行内存
+                problemEntity.setMemory(Double.valueOf(insertData.get(i)[10]).intValue());
+                //插入题目
+                programProblemMapper.save(problemEntity);
+
+                if(problemEntity.getProgramProblemId() != null){
+                    //题目标签  将需要插入的题目ID与相应的标签存入集合
+                    tagDataList.put(problemEntity.getProgramProblemId(),insertData.get(i)[7]);
+                    //测试用例  将需要插入的题目ID与相应的测试用例存入集合
+                    testCaseDataList.put(problemEntity.getProgramProblemId(),insertData.get(i)[8]);
+                }
+
+            }
+        }
+
+        //插入题目标签
+        if(tagDataList.size() > 0) {
+            Iterator<Map.Entry<Integer,String>> tagEntry = tagDataList.entrySet().iterator();
+            while(tagEntry.hasNext()){
+                Map.Entry<Integer,String> tags = tagEntry.next();
+                //题目ID
+                Integer problemId = tags.getKey();
+                //题目所属标签ID集合
+                List<Integer> tagIdList = new ArrayList<>();
+
+                //处理JSON标签字符串
+                if(tags.getValue() != null){
+                    JSONArray tagArray = gson.fromJson(tags.getValue(),JSONArray.class);
+                    for(int i = 0; i < tagArray.size(); i++){
+                        JSONObject tagObject = gson.fromJson(tagArray.get(i).toString(),JSONObject.class);
+                        if(tagObject.get("name") != null){
+                            //判断该标签是否存在，存在则加入ID集合，否则新增该标签，获取新增后的ID，加入集合
+                            ProgramTagEntity programTagEntity = programTagService.getByTagName(tagObject.get("name").toString());
+                            if(programTagEntity == null){
+                                //标签不存在，新增标签，加入集合
+                                programTagEntity = new ProgramTagEntity();
+                                programTagEntity.setTagName(tagObject.get("name").toString());
+                                programTagService.saveByEntity(programTagEntity);
+                                System.out.println("********************* : " + programTagEntity.getProgramTagId());
+                            }
+                            if(programTagEntity.getProgramTagId() != null){
+                                tagIdList.add(programTagEntity.getProgramTagId());
+                            }
                         }
                     }
                 }
-                //插入编程题目对应的测试用例
-                if(!"".equals(getCellValue(row.getCell(8)))) {
-                    JSONArray testCaseList = JSONArray.parseArray(getCellValue(row.getCell(8)));
-                    for (int t = 0; t < testCaseList.size(); t++) {
-                        JSONObject tc = testCaseList.getJSONObject(t);
-                        testCasesService.save(pg.getProgramProblemId(), tc.getString("input"), tc.getString("output"));
+                //批量插入题目标签
+                if(tagIdList.size() > 0){
+                    Integer[] tagIdArray = tagIdList.toArray(new Integer[tagIdList.size()]);
+                    programProblemTagService.batchInsert(problemId,tagIdArray);
+                }
+            }
+        }
+
+
+        //插入题目测试用例
+        if (testCaseDataList.size() > 0) {
+            Iterator<Map.Entry<Integer,String>> testCaseEntry = testCaseDataList.entrySet().iterator();
+            while(testCaseEntry.hasNext()) {
+                Map.Entry<Integer, String> testCase = testCaseEntry.next();
+                //题目ID
+                Integer problemId = testCase.getKey();
+                //处理JSON标签字符串
+                if(testCase.getValue() != null){
+                    JSONArray testCaseArray = gson.fromJson(testCase.getValue(),JSONArray.class);
+                    for(int i = 0; i < testCaseArray.size(); i++){
+                        System.out.println(testCaseArray.get(i).toString());
+                        JSONObject testCaseObject = gson.fromJson(testCaseArray.get(i).toString(),JSONObject.class);
+                        //如果测试用例内容不完整，则不插入，继续循环
+                        if(testCaseObject.get("input") == null || testCaseObject.get("output") == null){
+                            continue;
+                        }
+                        //新增测试用例
+                        String inputString = testCaseObject.get("input").toString().replaceAll(".0","");
+                        String outputString = testCaseObject.get("output").toString().replaceAll(".0","");
+                        testCasesService.save(problemId,inputString,outputString);
                     }
                 }
+
             }
         }
 
         return "批量新增成功";
     }
-    //判断数据类型
-    public String getCellValue(Cell cell) {
-        Object result = "";
-        if (cell != null) {
-            switch (cell.getCellType()) {
-                case STRING:
-                    result = cell.getStringCellValue();
-                    break;
-                case NUMERIC:
-                    double temp = cell.getNumericCellValue();
-                    DecimalFormat df = new DecimalFormat("0");
-                    result = df.format(temp);
-                    break;
-                case BOOLEAN:
-                    result = cell.getBooleanCellValue();
-                    break;
-                case FORMULA:
-                    result = cell.getCellFormula();
-                    break;
-                case ERROR:
-                    result = cell.getErrorCellValue();
-                    break;
-                case BLANK:
-                    break;
-                default:
-                    break;
-            }
-        }
-        return result.toString();
-    }
+
 }

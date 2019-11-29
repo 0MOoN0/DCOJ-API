@@ -1,5 +1,7 @@
 package com.dcoj.service;
 
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -27,31 +29,23 @@ public interface ProgramProblemTagService {
     /**
      * 得到某道题的所有标签
      *
-     * @param programTagId 题目id
+     * @param programProblemId 题目id
      * @return 包含所有标签id的List集合
      */
-    List<Integer> getTagsByProgramProblemId(int programTagId);
-
-    /**
-     * 通过pid 获取 TagProblemEntity对象
-     *
-     * @param pid 题目id
-     * @return 返回 ProgramProblemTagEntity 实体类对象
-     */
-//    ProgramProblemTagEntity getByPid(int pid);
+    List<Integer> getTagsByProgramProblemId(int programProblemId);
 
     /**
      * 通过 pid 删除TagProblemEntity对象
      *
-     * @param pid 题目id
+     * @param programProblemId 题目id
      */
-    void removeProblemAllTags(int pid);
+    void removeProblemAllTags(int programProblemId);
 
     /**
-     * 通过 pid 和 tid 删除一条记录
+     *  批量新增记录
      *
-     * @param pid 题目id
-     * @param tid 标签id
+     * @param programProblemId 题目id
+     * @param tagIdList 标签数组id
      */
-//    void removeProblemTag(int pid, int tid);
+    int batchInsert(int programProblemId,Integer[] tagIdList);
 }
