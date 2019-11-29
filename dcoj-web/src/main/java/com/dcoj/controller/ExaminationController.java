@@ -56,7 +56,7 @@ public class ExaminationController {
         Preconditions.checkNotNull(ex, "查询失败，不存在此试卷。");
 
        ex.setProgram_problem(programProblemEntityList);
-       ex.setSingle_problem(objectProblemEntityList);
+       ex.setObject_problem(objectProblemEntityList);
 
         return new ResponseEntity(ex);
     }

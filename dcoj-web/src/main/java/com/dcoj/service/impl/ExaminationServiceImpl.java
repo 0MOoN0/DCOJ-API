@@ -75,7 +75,7 @@ public class ExaminationServiceImpl implements ExaminationService {
 
         //获取单选题和编程题数组
         Integer examId = examinationEntity.getExamId();
-        JSONArray singleArray = examinationEntity.getSingle_id();
+        JSONArray singleArray = examinationEntity.getObject_id();
         JSONArray programArray = examinationEntity.getProgram_id();
 
         for(int i = 0 ; i < singleArray.size() ; i++){
