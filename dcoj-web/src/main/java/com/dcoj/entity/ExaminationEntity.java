@@ -132,9 +132,9 @@ public class ExaminationEntity {
 
     private List<?> program_problem;
 
-    private List<?> single_problem;
+    private List<?> object_problem;
 
-    private JSONArray single_id;
+    private JSONArray object_id;
 
     private JSONArray program_id;
 
