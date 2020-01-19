@@ -51,4 +51,11 @@ public interface ExaminationProblemService {
      * @return
      */
     void removeByExamProblemLocate(Integer examProblemLocate);
+
+    /**
+     * 根据试卷ID 查询试卷关联的试题
+     *
+     * @param examId 试卷ID
+     * */
+    List<ExaminationProblemEntity> getExaminationProblemById(Integer examId);
 }

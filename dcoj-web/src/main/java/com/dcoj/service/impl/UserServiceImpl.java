@@ -87,13 +87,22 @@ public class UserServiceImpl implements UserService {
     /**
      * 更新用户信息
      *
-     * @param userId     用户id
      * @param userEntity 用户信息
      */
     @Override
-    public void updateUser(Integer userId, UserEntity userEntity) {
-        WebUtil.assertNotNull(userMapper.getByPrimaryKey(userId), "该用户不存在，无法更新");
-        userEntity.setUserId(userId);
+    public void updateUser(UserEntity userEntity, String newPassword) {
+        UserEntity exitUser = userMapper.getByPrimaryKey(userEntity.getUserId());
+        WebUtil.assertNotNull(exitUser, "不存在此用户");
+        if (newPassword == null || newPassword.trim().length() <= 0 ){
+            WebUtil.assertIsSuccess(false, "新密码不得为空");
+        }
+
+        //原密码
+        String oldPassword = DigestUtils.sha256Hex(userEntity.getPassword().getBytes());
+        String newPad = DigestUtils.sha256Hex(newPassword.getBytes());
+        WebUtil.assertIsSuccess(oldPassword.equals(exitUser.getPassword()), "原密码错误");
+        //设置新密码，更新
+        userEntity.setPassword(newPad);
         boolean flag = userMapper.updateUser(userEntity) == 1;
         WebUtil.assertIsSuccess(flag, "用户更新失败");
     }

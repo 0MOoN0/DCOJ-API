@@ -54,10 +54,6 @@ public class ExaminationController {
         ExaminationEntity ex = examinationService.listByExamId(examId);
 
         Preconditions.checkNotNull(ex, "查询失败，不存在此试卷。");
-
-       ex.setProgram_problem(programProblemEntityList);
-       ex.setObject_problem(objectProblemEntityList);
-
         return new ResponseEntity(ex);
     }
 

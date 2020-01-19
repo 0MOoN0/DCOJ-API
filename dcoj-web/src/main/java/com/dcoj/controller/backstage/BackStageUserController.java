@@ -138,5 +138,13 @@ public class BackStageUserController {
         return new ResponseEntity(userEntity);
     }
 
+    @ApiOperation("更新用户信息")
+    @ApiImplicitParam(name = "userEntity", value = "用户信息")
+    @PutMapping("/updateUserInfo/{newPassword}")
+    public ResponseEntity updateInformation(@RequestBody UserEntity userEntity,@PathVariable("newPassword") String newPassword) throws Exception {
+        userService.updateUser(userEntity,newPassword);
+        return new ResponseEntity("保存成功");
+    }
+
 
 }

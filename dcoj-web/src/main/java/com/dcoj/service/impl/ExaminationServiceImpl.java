@@ -56,54 +56,75 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Transactional
     public int update(ExaminationEntity examinationEntity) {
         //先查询是否存在此试卷  若存在则更新，不存在则报异常
-        examinationEntity.setExamId(examinationEntity.getExamId());
+        Integer examId = examinationEntity.getExamId();
+        examinationEntity.setExamId(examId);
         ExaminationEntity ex = examinationMapper.selectByPrimaryKey(examinationEntity.getExamId());
         WebUtil.assertNotNull(ex,"更新失败，不存在此试卷");
+
+        //更新试卷所关联的试题
+        //移除之前所关联的所有试题
+        examinationProblemMapper.removeByExamId(examId);
+        //关联客观题
+        //添加试卷的时候同时添加题目
+        List<ExaminationProblemEntity> examinationProblemEntityList = new ArrayList<>();
+        //获取单选题和编程题数组
+        List<Integer> singleArray = examinationEntity.getSingleProblemIdList();
+        List<Integer> programArray = examinationEntity.getProgramProblemIdList();
+        //单选题
+        for(int i = 0 ; i < singleArray.size() ; i++){
+            ExaminationProblemEntity examinationProblemEntity = new ExaminationProblemEntity();
+            Integer pid = singleArray.get(i);
+            examinationProblemEntity.setExamId(examId);
+            examinationProblemEntity.setProblemId(pid);
+            examinationProblemEntity.setProblemType(2);
+            examinationProblemEntityList.add(examinationProblemEntity);
+        }
+        //编程题
+        for(int i = 0 ; i < programArray.size() ; i++){
+            ExaminationProblemEntity examinationProblemEntity = new ExaminationProblemEntity();
+            Integer pid = programArray.get(i);
+            examinationProblemEntity.setExamId(examId);
+            examinationProblemEntity.setProblemId(pid);
+            examinationProblemEntity.setProblemType(1);
+            examinationProblemEntityList.add(examinationProblemEntity);
+        }
+        //批量插入数据到考试题目表
+        examinationProblemMapper.saveAll(examinationProblemEntityList);
+
         return examinationMapper.updateByPrimaryKeySelective(examinationEntity);
     }
 
     @Override
     @Transactional
     public int save(ExaminationEntity examinationEntity) {
-        //添加试卷的时候同时添加题目
-
-        List<ExaminationProblemEntity> examinationProblemEntityList = new ArrayList<>();
-
-        //如果试卷id已经存在则提示已存在
-        ExaminationEntity ex = examinationMapper.selectByPrimaryKey(examinationEntity.getExamId());
-        WebUtil.assertNull(ex,"新增失败，已存在此试卷");
-
-        //获取单选题和编程题数组
+        //插入试卷类
+        examinationMapper.insertSelective(examinationEntity);
+        //获取新增成功的试卷ID
         Integer examId = examinationEntity.getExamId();
-        JSONArray singleArray = examinationEntity.getObject_id();
-        JSONArray programArray = examinationEntity.getProgram_id();
-
+        //添加试卷的时候同时添加题目
+        List<ExaminationProblemEntity> examinationProblemEntityList = new ArrayList<>();
+        //获取单选题和编程题数组
+        List<Integer> singleArray = examinationEntity.getSingleProblemIdList();
+        List<Integer> programArray = examinationEntity.getProgramProblemIdList();
+        //单选题
         for(int i = 0 ; i < singleArray.size() ; i++){
             ExaminationProblemEntity examinationProblemEntity = new ExaminationProblemEntity();
-            Integer pid = singleArray.getJSONObject(i).getInteger("pid");
-            Integer score = singleArray.getJSONObject(i).getInteger("score");
+            Integer pid = singleArray.get(i);
             examinationProblemEntity.setExamId(examId);
             examinationProblemEntity.setProblemId(pid);
-            examinationProblemEntity.setScore(score);
-            examinationProblemEntity.setExamProblemLocate(2);  //TODO:待修改
             examinationProblemEntity.setProblemType(2);
             examinationProblemEntityList.add(examinationProblemEntity);
         }
-
-        //TODO:编程题还需要选择语言
+        //编程题
         for(int i = 0 ; i < programArray.size() ; i++){
             ExaminationProblemEntity examinationProblemEntity = new ExaminationProblemEntity();
-            Integer pid = programArray.getJSONObject(i).getInteger("pid");
-            Integer score = programArray.getJSONObject(i).getInteger("score");
+            Integer pid = programArray.get(i);
             examinationProblemEntity.setExamId(examId);
             examinationProblemEntity.setProblemId(pid);
-            examinationProblemEntity.setScore(score);
-            examinationProblemEntity.setExamProblemLocate(2);  //TODO:待修改
             examinationProblemEntity.setProblemType(1);
             examinationProblemEntityList.add(examinationProblemEntity);
         }
 
-        examinationMapper.insertSelective(examinationEntity);
 
         //批量插入数据到考试题目表
         examinationProblemMapper.saveAll(examinationProblemEntityList);

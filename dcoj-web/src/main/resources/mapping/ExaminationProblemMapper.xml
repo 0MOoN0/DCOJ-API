@@ -18,6 +18,15 @@
         FROM examination_problem
         WHERE examination_problem.exam_id = #{examId}
     </select>
+
+    <select id="getExaminationProblemById" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM examination_problem
+        WHERE examination_problem.exam_id = #{examId}
+    </select>
+
+
     <update id="updateByLocateSelective" parameterType="com.dcoj.entity.ExaminationProblemEntity">
         UPDATE examination_problem
         <set>

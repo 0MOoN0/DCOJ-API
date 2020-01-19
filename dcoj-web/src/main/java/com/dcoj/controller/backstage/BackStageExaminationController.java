@@ -1,7 +1,9 @@
 package com.dcoj.controller.backstage;
 
 import com.dcoj.entity.ExaminationEntity;
+import com.dcoj.entity.ExaminationProblemEntity;
 import com.dcoj.entity.ResponseEntity;
+import com.dcoj.service.ExaminationProblemService;
 import com.dcoj.service.ExaminationService;
 import com.dcoj.service.ObjectProblemService;
 import com.dcoj.service.ProgramProblemService;
@@ -18,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +36,9 @@ public class BackStageExaminationController {
 
     @Autowired
     private ExaminationService examinationService;
+
+    @Autowired
+    private ExaminationProblemService examinationProblemService;
 
     @Autowired
     private ProgramProblemService programProblemService;
@@ -63,14 +69,27 @@ public class BackStageExaminationController {
     @ApiOperation("根据ID查询试卷信息")
     @GetMapping("/{exam_id}")
     public ResponseEntity listByExamId(@PathVariable("exam_id")Integer examId){
-        List<Map<String, Object>> programProblemEntityList = programProblemService.listByExamIdAndType(examId);
-        List<Map<String, Object>> objectProblemEntityList = objectProblemService.listByExamIdAndType(examId);
+        //查询试卷关联的题目
+        List<ExaminationProblemEntity> examinationProblemEntityList = examinationProblemService.getExaminationProblemById(examId);
+        //查询试卷信息
         ExaminationEntity ex = examinationService.listByExamId(examId);
+        //分别获取客观题和编程题的题目ID集合，用于前端页面回显
+        List<Integer> objectProblemIds = new ArrayList<>();
+        List<Integer> programProblemIds = new ArrayList<>();
+        for(ExaminationProblemEntity examinationProblemEntity: examinationProblemEntityList){
+            //类型 1-编程题  2-客观题
+            if(examinationProblemEntity.getProblemType().equals(1)){
+                programProblemIds.add(examinationProblemEntity.getProblemId());
+            } else {
+                objectProblemIds.add(examinationProblemEntity.getProblemId());
+            }
+        }
+
+        //给试卷赋予编程题和客观题的ID集合信息
+        ex.setSingleProblemIdList(objectProblemIds);
+        ex.setProgramProblemIdList(programProblemIds);
 
         Preconditions.checkNotNull(ex, "查询失败，不存在此试卷。");
-
-        ex.setProgram_problem(programProblemEntityList);
-        ex.setObject_problem(objectProblemEntityList);
 
         return new ResponseEntity(ex);
     }

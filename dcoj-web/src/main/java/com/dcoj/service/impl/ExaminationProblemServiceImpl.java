@@ -65,4 +65,10 @@ public class ExaminationProblemServiceImpl implements ExaminationProblemService 
         Preconditions.checkNotNull(ex, "待删除的关系不存在，无法删除");
         examinationProblemMapper.removeByExamProblemLocate(examProblemLocate);
     }
+
+    @Override
+    public List<ExaminationProblemEntity> getExaminationProblemById(Integer examId) {
+        return examinationProblemMapper.getExaminationProblemById(examId);
+    }
+
 }

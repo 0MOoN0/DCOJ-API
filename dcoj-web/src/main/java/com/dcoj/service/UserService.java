@@ -47,10 +47,9 @@ public interface UserService {
     /**
      * 更新用户信息
      *
-     * @param userId     用户id
      * @param userEntity 用户信息
      */
-    void updateUser(Integer userId, UserEntity userEntity);
+    void updateUser(UserEntity userEntity, String newPassword);
 
     /**
      * 更新用户信息
