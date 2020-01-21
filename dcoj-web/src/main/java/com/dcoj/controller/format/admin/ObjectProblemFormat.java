@@ -37,6 +37,11 @@ public class ObjectProblemFormat {
      */
     @NotNull
     private String answer;
+
+    /**
+     * 题目类别
+     */
+    private Integer cate;
 }
 
 

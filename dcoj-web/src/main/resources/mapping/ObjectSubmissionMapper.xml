@@ -308,4 +308,8 @@
         score = #{score,jdbcType=TINYINT}
         where object_submit_id = #{objectSubmitId,jdbcType=INTEGER}
     </update>
+    <delete id="deleteByObjectProblemId" parameterType="java.lang.Integer">
+        delete from object_submission
+        where object_problem_id = #{objectProblemId,jdbcType=INTEGER}
+    </delete>
 </mapper>

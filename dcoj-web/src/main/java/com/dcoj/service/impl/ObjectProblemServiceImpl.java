@@ -1,8 +1,12 @@
 package com.dcoj.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
+import com.dcoj.dao.ObjectProblemCateMapper;
 import com.dcoj.dao.ObjectProblemMapper;
+import com.dcoj.dao.ObjectSubmissionMapper;
+import com.dcoj.entity.ObjectProblemCateEntity;
 import com.dcoj.entity.ObjectProblemEntity;
+import com.dcoj.handler.ParamException;
 import com.dcoj.service.ObjectProblemService;
 import com.dcoj.service.ObjectProblemTagService;
 import com.dcoj.util.WebUtil;
@@ -28,6 +32,12 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
     @Autowired
     private ObjectProblemTagService objectProblemTagService;
 
+    @Autowired
+    private ObjectProblemCateMapper objectProblemCateMapper;
+
+    @Autowired
+    private ObjectSubmissionMapper objectSubmissionMapper;
+
     /**
      * 删除一道题目
      *
@@ -39,17 +49,17 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
     public void removeByPrimaryKey(Integer objectProblemId) {
         WebUtil.assertNotNull(objectProblemMapper.getByPrimaryKey(objectProblemId), "题目不存在，删除失败");
 
-//        // 检查题目是否有提交记录
-//        int submissions = submissionService.countProblemSubmissions(pid);
-//        if (submissions > 0) {
-//            throw new WebErrorException("该题目已有人提交，无法删除");
-//        }
         List<Integer> tagList = objectProblemTagService.getTagsByObjectProblemId(objectProblemId);
         // 判断题目是否带有标签
         if (tagList != null && tagList.size() != 0) {
             // 删除该题目的所有标签
             objectProblemTagService.removeProblemAllTags(objectProblemId);
         }
+
+        //关联删除提交详情与类别信息
+        objectSubmissionMapper.deleteByObjectProblemId(objectProblemId);
+        objectProblemCateMapper.deleteByObjectProblemId(objectProblemId);
+
         // 删除problem
         boolean flag = objectProblemMapper.removeByPrimaryKey(objectProblemId) == 1;
         WebUtil.assertIsSuccess(flag, "删除题目失败");
@@ -65,6 +75,8 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int insertSelective(JSONArray tags, ObjectProblemEntity record) {
+
+        ObjectProblemCateEntity objectProblemCateEntity = new ObjectProblemCateEntity();
         boolean flag = objectProblemMapper.insertSelective(record) == 1;
         WebUtil.assertIsSuccess(flag, "题目添加失败");
         int objectProblemId = record.getObjectProblemId();
@@ -84,6 +96,13 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
             for (Integer objectTagId : tagList) {
                 objectProblemTagService.save(objectProblemId, objectTagId);
             }
+        }
+
+        //添加类别
+        if(record.getCateId() != null){
+            objectProblemCateEntity.setObjectProblemId(record.getObjectProblemId());
+            objectProblemCateEntity.setCateId(record.getCateId());
+            objectProblemCateMapper.insertSelective(objectProblemCateEntity);
         }
         return objectProblemId;
     }
@@ -111,6 +130,8 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
     //TODO:04.23 WANGQING 该方法能实现功能，但是方法不是很好，期待写出更好的方法优化
     @Transactional(rollbackFor = Exception.class)
     public void updateProblemAndTags(Integer objectProblemId, JSONArray newTags, ObjectProblemEntity record) {
+
+        ObjectProblemCateEntity objectProblemCateEntity = new ObjectProblemCateEntity();
         WebUtil.assertNotNull(objectProblemMapper.getByPrimaryKey(objectProblemId), "该题目不存在，无法更新");
         // 删除题目原本的所有旧标签
         objectProblemTagService.removeProblemAllTags(objectProblemId);
@@ -132,7 +153,18 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
             }
         }
         record.setObjectProblemId(objectProblemId);
+        //添加类别
+        if(record.getCateId() != null){
+            //删除前类别
+            objectProblemCateMapper.deleteByObjectProblemId(objectProblemId);
+            //更新类别
+            objectProblemCateEntity.setObjectProblemId(record.getObjectProblemId());
+            objectProblemCateEntity.setCateId(record.getCateId());
+            objectProblemCateMapper.insertSelective(objectProblemCateEntity);
+        }
         boolean flag = objectProblemMapper.updateByPrimaryKeySelective(record) == 1;
+
+
         WebUtil.assertIsSuccess(flag, "题目更新失败");
     }
 
@@ -209,7 +241,10 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
      */
     @Override
     public List<Map<String, Object>> listAll(List<Integer> list, Integer uid, String query,Integer type) {
-        return objectProblemMapper.listAll(list, uid, query,type);
+        if(0 == type || 1 == type || 2 == type)
+            return objectProblemMapper.listAll(list, uid, query,type);
+        else
+            throw new ParamException("该题目类型不存在");
     }
 
     /**

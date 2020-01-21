@@ -63,6 +63,7 @@ public class ObjectProblemController {
         objectProblemEntity.setType(format.getType());
         objectProblemEntity.setDescription(format.getDescription());
         objectProblemEntity.setAnswer(format.getAnswer());
+        objectProblemEntity.setCateId(format.getCate());
         int objectProblemId = objectProblemService.insertSelective(format.getObjectTags(), objectProblemEntity);
         return new ResponseEntity("题目添加成功", objectProblemId);
     }
@@ -75,6 +76,7 @@ public class ObjectProblemController {
         objectProblemEntity.setType(format.getType());
         objectProblemEntity.setDescription(format.getDescription());
         objectProblemEntity.setAnswer(format.getAnswer());
+        objectProblemEntity.setCateId(format.getCate());
         objectProblemService.updateProblemAndTags(objectProblemId, format.getObjectTags(), objectProblemEntity);
         return new ResponseEntity("题目更新成功");
     }
