@@ -102,8 +102,8 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
         boolean flag = programProblemMapper.removeByPrimaryKey(programProblemId) == 1;
         WebUtil.assertIsSuccess(flag, "删除题目失败");
         if(flag){
-            boolean deleteTestFlag = testCasesService.deleteProblemTestCases(programProblemId)==1;
-            WebUtil.assertIsSuccess(deleteTestFlag, "测试用例删除失败");
+            // 删除题目的测试用例
+           testCasesService.deleteProblemTestCases(programProblemId);
         }
     }
 
@@ -259,6 +259,9 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
         //需要导入的题目
         List<String[]> insertData = new ArrayList<>();
         for(int i = 1; i < data.size(); i++){
+            if(data.get(i).length < 3){
+                continue;
+            }
             boolean isExist = false;
             for (ProgramProblemEntity programProblemEntity: problemEntityList){
                 if(programProblemEntity.getTitle().equals(data.get(i)[3])){

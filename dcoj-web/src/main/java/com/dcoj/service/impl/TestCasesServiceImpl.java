@@ -31,7 +31,7 @@ public class TestCasesServiceImpl implements TestCasesService {
     /**
      *根据pid插入TestCase
      *
-     * @param pid 题目的业务id
+     * @param pid 题目的业务iddeleteProblemTestCases
      *
      */
     @Override
