@@ -1,7 +1,6 @@
 package com.dcoj.dao;
 
 import com.dcoj.entity.ProgramProblemEntity;
-import com.dcoj.judge.ResultEnum;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -126,4 +125,10 @@ public interface ProgramProblemMapper {
      * @return
      */
     List<Map<String,Object>> listByExamIdAndType(@Param("examId")int examId);
+
+    int countProgramProblemsToday();
+
+    int countProgramProblemsYesterday();
+
+    int countProgramProblemsMonth();
 }

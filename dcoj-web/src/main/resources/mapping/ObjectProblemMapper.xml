@@ -130,6 +130,27 @@
         where is_deleted = 0
     </select>
 
+    <select id="countObjectProblemsToday" resultType="java.lang.Integer">
+        select count(*)
+        from object_problem
+        where to_days(gmt_create) = to_days(now())
+        and is_deleted = 0
+    </select>
+
+    <select id="countObjectProblemsYesterday" resultType="java.lang.Integer">
+        select count(*)
+        from object_problem
+        where TO_DAYS(NOW())-TO_DAYS(gmt_create)=1
+        and is_deleted = 0
+    </select>
+
+    <select id="countObjectProblemsMonth" resultType="java.lang.Integer">
+        select count(*)
+        from object_problem
+        where DATE_FORMAT( gmt_create, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+        and is_deleted = 0
+    </select>
+
     <select id="countObjectProblemsByType" resultType="java.lang.Integer" parameterType="java.lang.Integer">
         select count(*)
         from object_problem

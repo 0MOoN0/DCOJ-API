@@ -66,6 +66,27 @@
         where is_deleted = 0
     </select>
 
+    <select id="countProgramProblemsToday" resultType="Integer">
+        select count(*)
+        from program_problem
+        where to_days(gmt_create) = to_days(now())
+        and is_deleted = 0
+    </select>
+
+    <select id="countProgramProblemsYesterday" resultType="Integer">
+        select count(*)
+        from program_problem
+        where TO_DAYS(NOW())-TO_DAYS(gmt_create)=1
+        and is_deleted = 0
+    </select>
+
+    <select id="countProgramProblemsMonth" resultType="Integer">
+        select count(*)
+        from program_problem
+        where DATE_FORMAT( gmt_create, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+        and is_deleted = 0
+    </select>
+
     <update id="removeByPrimaryKey">
         update program_problem
         <set>

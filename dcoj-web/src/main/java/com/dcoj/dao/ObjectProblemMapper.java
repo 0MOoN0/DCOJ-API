@@ -118,4 +118,10 @@ public interface ObjectProblemMapper {
      * @return
      */
     List<Map<String,Object>> listByExamIdAndType(@Param("examId")int examId);
+
+    int countObjectProblemsToday();
+
+    int countObjectProblemsYesterday();
+
+    int countObjectProblemsMonth();
 }
