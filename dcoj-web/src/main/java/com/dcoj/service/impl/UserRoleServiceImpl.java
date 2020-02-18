@@ -89,4 +89,35 @@ public class UserRoleServiceImpl implements UserRoleService {
         WebUtil.assertNotNull(roleMapper.getByPrimaryKey(roleId), "角色不存在，查询用户角色失败");
         return userRoleMapper.countByRoleId(roleId);
     }
+    /**
+     * 查询今天对应roleId新增的user个数
+     *
+     * @param roleId 角色id
+     * @return 结果
+     */
+    @Override
+    public int countByRoleIdToday(Integer roleId) {
+        return userRoleMapper.countByRoleIdToday(roleId);
+    }
+    /**
+     * 查询昨天对应roleId新增的user个数
+     *
+     * @param roleId 角色id
+     * @return 结果
+     */
+    @Override
+    public int countByRoleIdYesterday(Integer roleId) {
+        return userRoleMapper.countByRoleIdYesterday(roleId);
+    }
+
+    /**
+     * 查询本月对应roleId新增的user个数
+     *
+     * @param roleId 角色id
+     * @return 结果
+     */
+    @Override
+    public int countByRoleIdMonth(Integer roleId) {
+        return userRoleMapper.countByRoleIdMonth(roleId);
+    }
 }

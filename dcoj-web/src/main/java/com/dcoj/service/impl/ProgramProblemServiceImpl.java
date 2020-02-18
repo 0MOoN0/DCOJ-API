@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.dcoj.dao.ProgramProblemMapper;
 import com.dcoj.entity.ProgramProblemEntity;
 import com.dcoj.entity.ProgramTagEntity;
-import com.dcoj.entity.TestCaseEntity;
 import com.dcoj.judge.ResultEnum;
 import com.dcoj.service.ProgramProblemService;
 import com.dcoj.service.ProgramProblemTagService;
@@ -54,6 +53,33 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
     public int countProgramProblems() {
         return programProblemMapper.countProgramProblems();
     }
+    /**
+     * 统计今天新增题目数量
+     *
+     * @return 返回今天新增题目数量
+     */
+    @Override
+    public int countProgramProblemsToday() {
+        return programProblemMapper.countProgramProblemsToday();
+    }
+    /**
+     * 统计昨天新增题目数量
+     *
+     * @return 返回昨天新增题目数量
+     */
+    @Override
+    public int countProgramProblemsYesterday() {
+        return programProblemMapper.countProgramProblemsYesterday();
+    }
+    /**
+     * 统计当前月份新增题目数量
+     *
+     * @return 返回当前月份新增题目数量
+     */
+    @Override
+    public int countProgramProblemsMonth() {
+        return programProblemMapper.countProgramProblemsMonth();
+    }
 
     /**
      * 删除一道题目
@@ -76,8 +102,8 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
         boolean flag = programProblemMapper.removeByPrimaryKey(programProblemId) == 1;
         WebUtil.assertIsSuccess(flag, "删除题目失败");
         if(flag){
-            boolean deleteTestFlag = testCasesService.deleteProblemTestCases(programProblemId)==1;
-            WebUtil.assertIsSuccess(deleteTestFlag, "测试用例删除失败");
+            // 删除题目的测试用例
+           testCasesService.deleteProblemTestCases(programProblemId);
         }
     }
 
@@ -233,6 +259,9 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
         //需要导入的题目
         List<String[]> insertData = new ArrayList<>();
         for(int i = 1; i < data.size(); i++){
+            if(data.get(i).length < 3){
+                continue;
+            }
             boolean isExist = false;
             for (ProgramProblemEntity programProblemEntity: problemEntityList){
                 if(programProblemEntity.getTitle().equals(data.get(i)[3])){

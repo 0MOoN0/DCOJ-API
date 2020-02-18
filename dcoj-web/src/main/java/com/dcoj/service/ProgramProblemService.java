@@ -1,7 +1,6 @@
 package com.dcoj.service;
 
 import com.alibaba.fastjson.JSONArray;
-import com.dcoj.controller.backstage.format.ProgramProblemWithTags;
 import com.dcoj.entity.ProgramProblemEntity;
 import com.dcoj.judge.ResultEnum;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +22,30 @@ public interface ProgramProblemService {
      * @return 返回题目总数量
      */
     int countProgramProblems();
+
+    /**
+     * 统计今天新增题目数量
+     *
+     * @return 返回今天新增题目数量
+     */
+    int countProgramProblemsToday();
+
+
+    /**
+     * 统计昨天新增题目数量
+     *
+     * @return 返回昨天新增题目数量
+     */
+    int countProgramProblemsYesterday();
+
+
+    /**
+     * 统计当前月份新增题目数量
+     *
+     * @return 返回当前月份新增题目数量
+     */
+    int countProgramProblemsMonth();
+
 
     /**
      * 删除一道题目

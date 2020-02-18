@@ -67,14 +67,19 @@ public class ObjectProblemTagServiceImpl implements ObjectProblemTagService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void removeProblemAllTags(int objectProblemId) {
+
         List<Integer> tagList = objectProblemTagMapper.getTagsByObjectProblemId(objectProblemId);
-        // WebUtil.assertIsSuccess(tagList.size()!=0,"该题目无标签，删除失败");
-        for (int tid : tagList) {
-            objectTagService.updateTagUsedTimes(tid, false);
+
+        if(tagList != null || tagList.size() > 0){
+            for (int tid : tagList) {
+                objectTagService.updateTagUsedTimes(tid, false);
+            }
+            // tagProblemMapper.removeProblemAllTags(pid)返回值不为0时，删除成功，为0则删除失败
+            boolean flag = objectProblemTagMapper.removeProblemAllTags(objectProblemId) != 0;
+            WebUtil.assertIsSuccess(flag, "删除该题目的所有标签失败");
         }
-        // tagProblemMapper.removeProblemAllTags(pid)返回值不为0时，删除成功，为0则删除失败
-        boolean flag = objectProblemTagMapper.removeProblemAllTags(objectProblemId) != 0;
-        WebUtil.assertIsSuccess(flag, "删除该题目的所有标签失败");
+
+
     }
 
 }

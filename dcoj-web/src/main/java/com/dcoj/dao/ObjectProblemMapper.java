@@ -125,4 +125,10 @@ public interface ObjectProblemMapper {
      * @return 题目列表
      */
     List<Map<String, Object>> listAllByCateId(@Param("cateId")Integer cateId);
+
+    int countObjectProblemsToday();
+
+    int countObjectProblemsYesterday();
+
+    int countObjectProblemsMonth();
 }

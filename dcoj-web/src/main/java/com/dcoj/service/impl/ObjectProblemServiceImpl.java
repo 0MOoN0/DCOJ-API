@@ -184,6 +184,34 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
     }
 
     /**
+     * 统计今天新增题目数量
+     *
+     * @return 返回今天新增题目数量
+     */
+    @Override
+    public int countObjectProblemsToday() {
+        return  objectProblemMapper.countObjectProblemsToday();
+    }
+    /**
+     * 统计昨天新增题目数量
+     *
+     * @return 返回昨天新增题目数量
+     */
+    @Override
+    public int countObjectProblemsYesterday() {
+        return objectProblemMapper.countObjectProblemsYesterday();
+    }
+    /**
+     * 统计当前月份新增题目数量
+     *
+     * @return 返回当前月份新增题目数量
+     */
+    @Override
+    public int countObjectProblemsMonth() {
+        return objectProblemMapper.countObjectProblemsMonth();
+    }
+
+    /**
      * 根据题目类型统计题目数量
      *
      * @param type 题目类型

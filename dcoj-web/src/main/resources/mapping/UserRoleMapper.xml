@@ -69,4 +69,19 @@
     </select>
 
 
+    <select id="countByRoleIdToday" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(*) from user_role
+        where to_days(gmt_create) = to_days(now()) and role_id = #{roleId,jdbcType=INTEGER} and is_deleted = 0
+    </select>
+
+    <select id="countByRoleIdYesterday" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(*) from user_role
+        where TO_DAYS(NOW())-TO_DAYS(gmt_create)=1 and role_id = #{roleId,jdbcType=INTEGER} and is_deleted = 0
+    </select>
+
+    <select id="countByRoleIdMonth" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(*) from user_role
+        where DATE_FORMAT( gmt_create, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' ) and role_id = #{roleId,jdbcType=INTEGER} and is_deleted = 0
+    </select>
+
 </mapper>

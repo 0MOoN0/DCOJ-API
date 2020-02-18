@@ -52,6 +52,27 @@ public interface ObjectProblemService {
     int countObjectProblems();
 
     /**
+     * 统计今天题目新增数量
+     *
+     * @return 返回今天新增题目数量
+     */
+    int countObjectProblemsToday();
+
+    /**
+     * 统计昨天题目新增数量
+     *
+     * @return 返回昨天新增题目数量
+     */
+    int countObjectProblemsYesterday();
+
+    /**
+     * 统计当前月题目新增数量
+     *
+     * @return 返回当月新增题目数量
+     */
+    int countObjectProblemsMonth();
+
+    /**
      * 根据题目类型统计题目数量
      *
      * @param type 题目类型
