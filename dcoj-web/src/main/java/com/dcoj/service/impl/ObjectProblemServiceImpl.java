@@ -6,9 +6,11 @@ import com.dcoj.dao.ObjectProblemMapper;
 import com.dcoj.dao.ObjectSubmissionMapper;
 import com.dcoj.entity.ObjectProblemCateEntity;
 import com.dcoj.entity.ObjectProblemEntity;
+import com.dcoj.entity.SysCate;
 import com.dcoj.handler.ParamException;
 import com.dcoj.service.ObjectProblemService;
 import com.dcoj.service.ObjectProblemTagService;
+import com.dcoj.service.SysCateService;
 import com.dcoj.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,9 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
 
     @Autowired
     private ObjectSubmissionMapper objectSubmissionMapper;
+
+    @Autowired
+    private SysCateService sysCateService;
 
     /**
      * 删除一道题目
@@ -261,6 +266,14 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
     @Override
     public List<Map<String, Object>> listByExamIdAndType(int examId) {
         return objectProblemMapper.listByExamIdAndType(examId);
+    }
+
+    @Override
+    public List<Map<String, Object>> listAllByCateId(int cateId) {
+
+        SysCate sysCate = sysCateService.getById(cateId);
+        WebUtil.assertNotNull(sysCate, "该类别不存在");
+        return objectProblemMapper.listAllByCateId(cateId);
     }
 
 }

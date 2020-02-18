@@ -201,4 +201,16 @@
         where o.object_problem_id in
         (select e.problem_id from examination_problem e where e.exam_id = #{examId} and e.problem_type = 2)
     </select>
+
+    <select id="listAllByCateId" resultType="java.util.HashMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM object_problem op
+        WHERE
+        op.object_problem_id IN (
+          SELECT opc.object_problem_id FROM object_problem_cate opc
+        LEFT JOIN sys_cate sc ON opc.cate_id = sc.id WHERE sc.id = #{cateId})
+        AND
+        op.is_deleted = 0;
+    </select>
 </mapper>
