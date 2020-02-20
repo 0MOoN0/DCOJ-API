@@ -3,6 +3,8 @@ package com.dcoj.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dcoj.config.DcojConfig;
+import com.dcoj.dao.ExaminationProblemMapper;
+import com.dcoj.entity.ExamJudgeEntity;
 import com.dcoj.entity.ExaminationProblemEntity;
 import com.dcoj.entity.ProgramProblemEntity;
 import com.dcoj.entity.TestCaseEntity;
@@ -21,6 +23,7 @@ import com.dcoj.service.*;
 import com.dcoj.util.FileUploadUtils;
 import com.dcoj.util.JudgerUtils;
 import com.dcoj.util.WebUtil;
+import com.google.gson.JsonArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,8 +31,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.dcoj.judge.LanguageEnum.JAVA8;
 
 /**
  * @author Leon
@@ -73,10 +79,60 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
     @Autowired
     private JudgerDispatcher judgerDispatcher;
 
+    @Autowired
+    private ExaminationProblemMapper examinationProblemMapper;
+
+
+    /**
+     *  试卷判卷前的处理工作
+     * @param examJudgeEntity
+     */
+    @Override
+    public Integer handleExamJudge(ExamJudgeEntity examJudgeEntity) {
+        AnswerExamEntity answerExamEntity = new AnswerExamEntity();
+        List<AnswerEntity> answerSheet = new ArrayList<>();
+        Map<Integer, ExaminationProblemEntity> examProblemSheet = new HashMap<>();
+        ExamAutoTaskExtends examAutoTaskExtends = new ExamAutoTaskExtends();
+
+        // 获取提交详情
+        Integer examId = examJudgeEntity.getExamId();
+        Integer userId = examJudgeEntity.getUserId();
+        JSONArray problemArray = examJudgeEntity.getProblem_list();
+
+        for(int i = 0 ; i < problemArray.size() ; i++){
+            Integer id = problemArray.getJSONObject(i).getInteger("id");
+            Integer type = problemArray.getJSONObject(i).getInteger("type");
+            String answer = problemArray.getJSONObject(i).getString("answer");
+
+            //根据题目id和试卷id获取到ExaminationProblemEntity实体，从而获取到题目在试卷的位置
+            ExaminationProblemEntity examinationProblemEntity = examinationProblemMapper.listByExamIdAndProblemId(id,examId);
+
+            StringBuffer stringBuffer = new StringBuffer(answer);
+            AnswerEntity answerEntity = new AnswerEntity();
+            answerEntity.setProblemType(type);
+            answerEntity.setAnswer(stringBuffer);
+            answerEntity.setProblemId(id);
+            answerEntity.setLang(JAVA8);
+            answerEntity.setExamProblemId(examinationProblemEntity.getExamProblemId()); //需要试卷在题目的位置
+            answerSheet.add(answerEntity);
+
+            examProblemSheet.put(examinationProblemEntity.getExamProblemId(),examinationProblemEntity);
+        }
+
+        answerExamEntity.setAnswerSheet(answerSheet);
+        answerExamEntity.setExamProblemSheet(examProblemSheet);
+
+        examAutoTaskExtends.setExamId(examId);
+        examAutoTaskExtends.setUid(userId);
+
+        //判卷
+        return examJudge(answerExamEntity,examAutoTaskExtends);
+    }
+
     // TODO 20190814 Leon 设计异常处理方式
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void examJudge(AnswerExamEntity answerExamEntity, ExamAutoTaskExtends examAutoTaskExtends) {
+    public Integer examJudge(AnswerExamEntity answerExamEntity, ExamAutoTaskExtends examAutoTaskExtends) {
         List<AnswerEntity> answerSheet = answerExamEntity.getAnswerSheet();
         Map<Integer, ExaminationProblemEntity> problemSheet = answerExamEntity.getExamProblemSheet();
         // 请求实体类
@@ -93,7 +149,7 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
             switch (answerEntity.getProblemType()){
                 case 1:     // 编程题
                     // 获取题目详情
-                    ExaminationProblemEntity examProgramProblemEntity = problemSheet.get(answerEntity.getExamProblemLocate());
+                    ExaminationProblemEntity examProgramProblemEntity = problemSheet.get(answerEntity.getExamProblemId());
                     // 单题判卷，调用本类的private方法  注：可能会抛出“不允许使用此语言的异常”
                     ResponseEntity responseEntity = programJudge(answerEntity, examProgramProblemEntity);
                     // 处理SE结果
@@ -119,7 +175,7 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
                     //选择题判卷
                     Integer i = objectProblemService.judgeObjectProblem(answerEntity.getProblemId(), answerEntity.getAnswer().toString());
                     // 获取题目详情
-                    ExaminationProblemEntity objectProblemEntity = problemSheet.get(answerEntity.getExamProblemLocate());
+                    ExaminationProblemEntity objectProblemEntity = problemSheet.get(answerEntity.getExamProblemId());
                     // 获取题目分数
                     int objectProblemScore = objectProblemEntity.getScore();
                     // 根据题目详情获取分数
@@ -132,16 +188,16 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
                     // 更新用户客观题做题历史
                     objectProblemUserService.insertOrUpdate(answerEntity.getProblemId(), examAutoTaskExtends.getUid(), i.byteValue());
             }
-            resultScore = resultScore + problemScore;
         }
         // 保存examSubmission
-        int examSubmissionId = examinationSubmissionService.save(ExamJudgeStatus.Saving, examAutoTaskExtends.getExamId(), resultScore, new Timestamp(System.currentTimeMillis()), examAutoTaskExtends.getUid());
+        int examSubmissionId = examinationSubmissionService.save(ExamJudgeStatus.Finished, examAutoTaskExtends.getExamId(), resultScore, new Timestamp(System.currentTimeMillis()), examAutoTaskExtends.getUid());
         // 保存examSubmissionDetail
         JSONObject answerSheetJson = new JSONObject();
         answerSheetJson.put("answer_sheet", answerSheet);
         JSONObject resultSheetJson = new JSONObject();
         resultSheetJson.put("result_sheet", resultSheet);
         examinationSubmissionDetailService.save(examSubmissionId,answerSheetJson,resultSheetJson,new Timestamp(System.currentTimeMillis()));
+        return examSubmissionId;
     }
 
 
@@ -169,13 +225,14 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
         // 封装测试用例
         List<TestCaseEntity> testCaseEntities = testCasesService.listAll(answerEntity.getProblemId());
         JSONArray lang = examProgramProblemEntity.getLang().getJSONArray("lang");
-        WebUtil.assertIsSuccess(lang.contains(answerEntity.getLang())==true, "不允许使用此语言");
+        WebUtil.assertIsSuccess(lang.contains(answerEntity.getLang().getName())==true, "不允许使用此语言");
         // 封装请求用例
         RequestEntity requestEntity = new RequestEntity();
         requestEntity.setTestCases(JudgerUtils.converToTestRequestList(testCaseEntities));  // 将TestCase转成TestCaseRequest
         requestEntity.setMemoryLimit(programProblemEntity.getMemory());
         requestEntity.setLang(answerEntity.getLang());
         requestEntity.setSourceCode(answerEntity.getAnswer().toString());
+        requestEntity.setTimeLimit(programProblemEntity.getRunTime());
         // 编程题判卷
         Judger judger = new Judger(judgerDispatcher.getJudgerUrl(),requestEntity,new DCOJJudger());
         ResponseEntity responseEntity = judger.judge();
@@ -183,7 +240,7 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
     }
 
     private List<ExamProblemResultEntity> handleExamProblemResult(AnswerEntity answerEntity, Integer score, Integer submissionDetailId,List<ExamProblemResultEntity> resultSheet){
-        ExamProblemResultEntity problemResultEntity = new ExamProblemResultEntity(answerEntity.getExamProblemLocate(), submissionDetailId, score);
+        ExamProblemResultEntity problemResultEntity = new ExamProblemResultEntity(answerEntity.getExamProblemId(), submissionDetailId, score);
         resultSheet.add(problemResultEntity);
         return resultSheet;
     }

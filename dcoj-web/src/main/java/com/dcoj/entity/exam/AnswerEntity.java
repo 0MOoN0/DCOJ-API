@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class AnswerEntity {
 
-    private Integer examProblemLocate;
+    private Integer examProblemId;
 
     private Integer problemType;
 

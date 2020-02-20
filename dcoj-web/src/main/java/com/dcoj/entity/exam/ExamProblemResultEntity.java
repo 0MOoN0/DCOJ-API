@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ExamProblemResultEntity {
 
-    private Integer examProblemLocate;
+    private Integer examProblemId;
 
     private Integer submissionDetail;
 

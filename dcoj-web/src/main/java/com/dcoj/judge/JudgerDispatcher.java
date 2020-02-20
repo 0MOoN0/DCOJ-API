@@ -11,7 +11,7 @@ public class JudgerDispatcher {
 
     // 获取判卷URL
     public String getJudgerUrl() {
-        return "http://192.168.107.146:5000";
+        return "http://47.115.54.133:5000";
     }
 
 

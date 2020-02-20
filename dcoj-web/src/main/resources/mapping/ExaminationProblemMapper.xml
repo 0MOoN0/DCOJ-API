@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dcoj.dao.ExaminationProblemMapper">
     <resultMap id="BaseResultMap" type="com.dcoj.entity.ExaminationProblemEntity">
+        <id column="exam_problem_id" property="examProblemId" jdbcType="INTEGER"/>
         <id column="exam_id" property="examId" jdbcType="INTEGER"/>
         <id column="problem_type" property="problemType" jdbcType="INTEGER"/>
         <id column="problem_id" property="problemId" jdbcType="INTEGER"/>
@@ -81,4 +82,9 @@
         DELETE FROM examination_problem
         WHERE examination_problem.exam_id = #{examId}
     </delete>
+
+    <select id="listByExamIdAndProblemId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT * FROM examination_problem
+        where problem_id = #{ProblemId,jdbcType=INTEGER} and exam_id = #{examId,jdbcType=INTEGER};
+    </select>
 </mapper>

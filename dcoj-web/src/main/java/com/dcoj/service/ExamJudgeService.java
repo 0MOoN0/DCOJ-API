@@ -1,6 +1,7 @@
 package com.dcoj.service;
 
 import com.alibaba.fastjson.JSONArray;
+import com.dcoj.entity.ExamJudgeEntity;
 import com.dcoj.entity.exam.AnswerEntity;
 import com.dcoj.entity.exam.AnswerExamEntity;
 import com.dcoj.exam.ExamAutoTaskExtends;
@@ -13,6 +14,8 @@ import java.util.List;
  */
 public interface ExamJudgeService {
 
-    void examJudge(AnswerExamEntity answerExamEntity, ExamAutoTaskExtends examAutoTaskExtends);
+    Integer handleExamJudge(ExamJudgeEntity examJudgeEntity);
+
+    Integer examJudge(AnswerExamEntity answerExamEntity, ExamAutoTaskExtends examAutoTaskExtends);
 
 }
