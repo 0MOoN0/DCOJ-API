@@ -274,10 +274,10 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
      */
     @Override
     public List<Map<String, Object>> listAll(List<Integer> list, Integer uid, String query,Integer type) {
-        if(0 == type || 1 == type || 2 == type)
-            return objectProblemMapper.listAll(list, uid, query,type);
+        if(null == type || 0 == type || 1 == type || 2 == type)
+            return objectProblemMapper.listAll(list,uid,query,type);
         else
-            throw new ParamException("该题目类型不存在");
+            throw new ParamException("题目类型不存在！");
     }
 
     /**
