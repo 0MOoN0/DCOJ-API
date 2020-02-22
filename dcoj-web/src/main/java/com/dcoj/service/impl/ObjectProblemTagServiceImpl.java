@@ -75,8 +75,9 @@ public class ObjectProblemTagServiceImpl implements ObjectProblemTagService {
                 objectTagService.updateTagUsedTimes(tid, false);
             }
             // tagProblemMapper.removeProblemAllTags(pid)返回值不为0时，删除成功，为0则删除失败
-            boolean flag = objectProblemTagMapper.removeProblemAllTags(objectProblemId) != 0;
-            WebUtil.assertIsSuccess(flag, "删除该题目的所有标签失败");
+            objectProblemTagMapper.removeProblemAllTags(objectProblemId);
+            //boolean flag = objectProblemTagMapper.removeProblemAllTags(objectProblemId) != 0;
+            //WebUtil.assertIsSuccess(flag, "删除该题目的所有标签失败");
         }
 
 
