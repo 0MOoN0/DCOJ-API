@@ -176,7 +176,8 @@
         object_problem.object_problem_id,
         description,
         submit_times,
-        ac_times
+        ac_times,
+        answer
         <if test="uid != null">
             , object_problem_user.status
         </if>
