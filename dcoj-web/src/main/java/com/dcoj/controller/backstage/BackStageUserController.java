@@ -5,7 +5,6 @@ import com.dcoj.entity.ResponseEntity;
 import com.dcoj.entity.RoleEntity;
 import com.dcoj.entity.UserEntity;
 import com.dcoj.service.RoleService;
-import com.dcoj.service.UserRoleService;
 import com.dcoj.service.UserService;
 import com.dcoj.util.WebUtil;
 import com.github.pagehelper.Page;
@@ -15,7 +14,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -85,7 +83,11 @@ public class BackStageUserController {
             paramMap.put("userRole",userRole);
         }
         Page pager = PageHelper.startPage(pageNum, pageSize);
-        return new ResponseEntity(WebUtil.generatePageData(pager, userService.listAll(paramMap)));
+        List<UserEntity> userEntitylist = userService.listAll(paramMap);
+        if(userEntitylist == null || userEntitylist.size() == 0 ){
+            return new ResponseEntity(400,"暂无数据","");
+        }
+        return new ResponseEntity(WebUtil.generatePageData(pager,userEntitylist ));
     }
 
     @ApiOperation("新增用户")

@@ -1,13 +1,9 @@
 package com.dcoj.entity;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.annotation.JSONField;
-import com.google.gson.JsonObject;
 import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  *  试卷实体类

@@ -96,7 +96,7 @@ public class ObjectTagServiceImpl implements ObjectTagService {
     @Override
     public void updateByPrimaryKey(Integer objectTagId, String newName) {
         ObjectTagEntity objectTagEntity = getByTagName(newName);
-        WebUtil.assertNull(objectTagEntity, "已经存在此标签,修改失败");
+        WebUtil.assertNull(objectTagEntity, "不存在此标签,修改失败");
         boolean flag = objectTagMapper.updateByPrimaryKey(objectTagId, newName) == 1;
         WebUtil.assertIsSuccess(flag, "更新标签名称失败");
     }

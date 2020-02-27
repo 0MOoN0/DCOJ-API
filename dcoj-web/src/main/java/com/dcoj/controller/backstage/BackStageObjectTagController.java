@@ -82,7 +82,7 @@ public class BackStageObjectTagController {
     @ApiImplicitParam(name = "object_tag_id", value = "标签id", required = true)
     @GetMapping("/{object_tag_id}")
     public ResponseEntity getByPrimaryKey(@PathVariable("object_tag_id") int objectTagId) {
-        objectTagService.getByPrimaryKey(objectTagId);
-        return new ResponseEntity("标签查询成功");
+        ObjectTagEntity objectTagEntity = objectTagService.getByPrimaryKey(objectTagId);
+        return new ResponseEntity(objectTagEntity);
     }
 }

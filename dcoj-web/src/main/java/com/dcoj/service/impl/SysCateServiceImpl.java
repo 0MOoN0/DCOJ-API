@@ -7,9 +7,9 @@ import com.dcoj.param.CateParam;
 import com.dcoj.service.SysCateService;
 import com.dcoj.util.BeanValidator;
 import com.dcoj.util.LevelUtil;
+import com.dcoj.util.WebUtil;
 import com.google.common.base.Preconditions;
 import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -85,7 +85,10 @@ public class SysCateServiceImpl implements SysCateService {
      */
     @Override
     public int saveSelective(SysCate sysCate) {
-        return sysCateMapper.insertSelective(sysCate);
+        WebUtil.assertNull(sysCateMapper.selectByPrimaryKey(sysCate.getId()), "该类别已存在，新增失败");
+        boolean flag =  sysCateMapper.insertSelective(sysCate) == 1;
+        WebUtil.assertIsSuccess(flag, "添加类别失败");
+        return 1;
     }
 
     /**
@@ -94,7 +97,10 @@ public class SysCateServiceImpl implements SysCateService {
      */
     @Override
     public SysCate getById(Integer sId) {
-        return sysCateMapper.selectByPrimaryKey(sId);
+        SysCate sysCate = sysCateMapper.selectByPrimaryKey(sId);
+        WebUtil.assertNotNull(sysCate, "该类别不存在");
+        return sysCate;
+
     }
 
     /**

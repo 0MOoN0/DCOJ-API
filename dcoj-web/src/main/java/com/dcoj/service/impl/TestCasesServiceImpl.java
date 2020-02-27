@@ -7,7 +7,6 @@ import com.dcoj.entity.TestCaseEntity;
 import com.dcoj.entity.example.TestCaseEntityExample;
 import com.dcoj.service.TestCasesService;
 import com.dcoj.util.WebUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -81,7 +80,9 @@ public class TestCasesServiceImpl implements TestCasesService {
      */
     @Override
     public TestCaseEntity getById(int tId) {
-        return testCaseMapper.selectByPrimaryKey(tId);
+        TestCaseEntity testCaseEntity = testCaseMapper.selectByPrimaryKey(tId);
+        WebUtil.assertNotNull(testCaseEntity, "测试用例不存在");
+        return testCaseEntity;
     }
 
     /**
