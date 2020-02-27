@@ -41,13 +41,11 @@ public class ExaminationSubmissionDetailMapperTest {
         examinationSubmissionDetailEntity.setExamSubmissionDetailId(1);
         AnswerEntity answer1 = new AnswerEntity();
         answer1.setAnswer(new StringBuffer("print(a)"));
-        answer1.setExamProblemLocate(1);
         answer1.setLang(LanguageEnum.PYTHON27);
         answer1.setProblemId(9);
         answer1.setProblemType(1);
         AnswerEntity answer2 = new AnswerEntity();
         answer2.setAnswer(new StringBuffer("A"));
-        answer2.setExamProblemLocate(2);
         answer2.setProblemId(9);
         answer2.setProblemType(2);
         answer2.setLang(null);

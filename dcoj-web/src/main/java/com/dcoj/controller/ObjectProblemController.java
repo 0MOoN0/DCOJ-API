@@ -3,7 +3,11 @@ package com.dcoj.controller;
 import com.dcoj.controller.format.admin.ObjectProblemFormat;
 import com.dcoj.entity.ObjectProblemEntity;
 import com.dcoj.entity.ResponseEntity;
+import com.dcoj.entity.SysCate;
 import com.dcoj.service.ObjectProblemService;
+import com.dcoj.util.WebUtil;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -55,6 +60,18 @@ public class ObjectProblemController {
         return new ResponseEntity(dataMap);
     }
 
+    /**
+     *  根据类别id查询关联题目列表
+     * @return
+     */
+    @GetMapping("/cateId/{cate_id}")
+    public ResponseEntity listAllByCateId(@PathVariable("cate_id")Integer cateId,
+                                          @RequestParam(name = "page_num") int pageNum,
+                                          @RequestParam(name = "page_size") int pageSize){
+        Page pager = PageHelper.startPage(pageNum, pageSize);
+        return new ResponseEntity(WebUtil.generatePageData(pager, objectProblemService.listAllByCateId(cateId)));
+    }
+
     @ApiOperation("创建题目")
     @PostMapping
     public ResponseEntity save(@RequestBody @Valid ObjectProblemFormat format) {
@@ -63,6 +80,7 @@ public class ObjectProblemController {
         objectProblemEntity.setType(format.getType());
         objectProblemEntity.setDescription(format.getDescription());
         objectProblemEntity.setAnswer(format.getAnswer());
+        objectProblemEntity.setCateId(format.getCate());
         int objectProblemId = objectProblemService.insertSelective(format.getObjectTags(), objectProblemEntity);
         return new ResponseEntity("题目添加成功", objectProblemId);
     }
@@ -75,6 +93,7 @@ public class ObjectProblemController {
         objectProblemEntity.setType(format.getType());
         objectProblemEntity.setDescription(format.getDescription());
         objectProblemEntity.setAnswer(format.getAnswer());
+        objectProblemEntity.setCateId(format.getCate());
         objectProblemService.updateProblemAndTags(objectProblemId, format.getObjectTags(), objectProblemEntity);
         return new ResponseEntity("题目更新成功");
     }

@@ -36,4 +36,6 @@ public interface ObjectSubmissionMapper {
     int updateByPrimaryKeySelective(ObjectSubmissionEntity record);
 
     int updateByPrimaryKey(ObjectSubmissionEntity record);
+
+    int deleteByObjectProblemId(@Param("objectProblemId") Integer objectProblemId);
 }

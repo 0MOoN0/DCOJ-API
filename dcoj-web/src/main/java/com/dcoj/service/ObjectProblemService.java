@@ -131,4 +131,11 @@ public interface ObjectProblemService {
      * @return
      */
     List<Map<String,Object>> listByExamIdAndType(int examId);
+
+    /**
+     *  通过类别id查询关联题目信息
+     * @param cateId
+     * @return
+     */
+    List<Map<String,Object>> listAllByCateId(int cateId);
 }

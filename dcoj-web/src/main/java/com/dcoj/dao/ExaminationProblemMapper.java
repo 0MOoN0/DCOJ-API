@@ -74,4 +74,6 @@ public interface ExaminationProblemMapper {
      * @param examId 试卷ID
      * */
     List<ExaminationProblemEntity> getExaminationProblemById(Integer examId);
+
+    ExaminationProblemEntity listByExamIdAndProblemId(@Param("ProblemId")Integer ProblemId,@Param("examId")Integer examId);
 }

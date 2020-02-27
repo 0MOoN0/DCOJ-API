@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dcoj.dao.ObjectProblemCateMapper">
+    <resultMap id="BaseResultMap" type="com.dcoj.entity.ObjectProblemCateEntity">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="object_problem_id" property="objectProblemId" jdbcType="INTEGER"/>
+        <result column="cate_id" property="cateId" jdbcType="INTEGER"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, object_problem_id, cate_id, gmt_modified
+    </sql>
+
+    <insert id="insertSelective">
+        insert into object_problem_cate (
+        id,
+        object_problem_id,
+        cate_id,
+        gmt_modified
+        ) values
+        (#{id},
+         #{objectProblemId},
+         #{cateId},
+         DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'))
+    </insert>
+
+    <delete id="deleteByObjectProblemId" parameterType="java.lang.Integer">
+        delete from object_problem_cate
+        where object_problem_id = #{objectProblemId,jdbcType=INTEGER}
+    </delete>
+</mapper>

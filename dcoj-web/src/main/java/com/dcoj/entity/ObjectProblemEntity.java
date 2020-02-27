@@ -58,4 +58,9 @@ public class ObjectProblemEntity {
      * 是否删除题目（题目是否存在）
      */
     private Integer deleted;
+
+    /**
+     *  类别id
+     */
+    private Integer cateId;
 }

@@ -119,6 +119,13 @@ public interface ObjectProblemMapper {
      */
     List<Map<String,Object>> listByExamIdAndType(@Param("examId")int examId);
 
+    /**
+     *  根据类别id查找题目
+     * @param cateId 别id
+     * @return 题目列表
+     */
+    List<Map<String, Object>> listAllByCateId(@Param("cateId")Integer cateId);
+
     int countObjectProblemsToday();
 
     int countObjectProblemsYesterday();
