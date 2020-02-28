@@ -75,5 +75,5 @@ public interface ExaminationProblemMapper {
      * */
     List<ExaminationProblemEntity> getExaminationProblemById(Integer examId);
 
-    ExaminationProblemEntity listByExamIdAndProblemId(@Param("ProblemId")Integer ProblemId,@Param("examId")Integer examId);
+    ExaminationProblemEntity listByExamIdAndProblemIdAndType(@Param("ProblemId")Integer ProblemId,@Param("examId")Integer examId,@Param("type")Integer type);
 }

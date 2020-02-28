@@ -1,6 +1,7 @@
 package com.dcoj.dao;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dcoj.entity.ObjectProblemCateEntity;
 import com.dcoj.entity.ObjectProblemEntity;
 import com.dcoj.entity.ObjectProblemTagEntity;
 import org.junit.Test;
@@ -24,6 +25,9 @@ public class ObjectProgramProblemMapperTest {
 
     @Autowired
     private ObjectProblemMapper objectProblemMapper;
+
+    @Autowired
+    private ObjectProblemCateMapper objectProblemCateMapper;
 
     @Test
     public void removeByPrimaryKey() {
@@ -132,7 +136,7 @@ public class ObjectProgramProblemMapperTest {
     public void listAll() {
         //objectProblemMapper.listAll().forEach(System.out::println);
         List<Integer> list = Arrays.asList(1);
-        objectProblemMapper.listAll(list, null, null,1).forEach(System.out::println);
+        objectProblemMapper.listAll(null, null, null,null);
     }
 
     @Test
@@ -156,5 +160,42 @@ public class ObjectProgramProblemMapperTest {
     public void listByTypeStatus() {
         //objectProblemMapper.listByTypeStatus(0,0).forEach(System.out::println);
         //objectProblemMapper.listByTypeStatus(0,1).forEach(System.out::println);
+    }
+
+    @Test
+    public void insertSelectiveAndCate() {
+        ObjectProblemEntity objectProblemEntity1 = new ObjectProblemEntity();
+        ObjectProblemCateEntity objectProblemCateEntity = new ObjectProblemCateEntity();
+
+        JSONObject jsonObject1 = new JSONObject();
+        jsonObject1.put("des", " zxingw下列选项中，用于在定义子类时声明父类名的关键字是：( ) ");
+        jsonObject1.put("opt1", "interface");
+        jsonObject1.put("opt2", "package");
+        jsonObject1.put("opt3", "extends");
+        jsonObject1.put("opt4", "class");
+        objectProblemEntity1.setType(0);
+        objectProblemEntity1.setDescription(jsonObject1);
+        objectProblemEntity1.setAnswer("C");
+        objectProblemEntity1.setCateId(1);
+
+        objectProblemMapper.insertSelective(objectProblemEntity1);
+
+        //插入类别
+
+        objectProblemCateEntity.setObjectProblemId(objectProblemEntity1.getObjectProblemId());
+        objectProblemCateEntity.setCateId(objectProblemEntity1.getCateId());
+
+        objectProblemCateMapper.insertSelective(objectProblemCateEntity);
+
+    }
+
+    @Test
+    public void listAllByCateId(){
+        List<Map<String, Object>> list = objectProblemMapper.listAllByCateId(1);
+        for (Map<String, Object> map : list) {
+            for (String s : map.keySet()) {
+                System.out.println(s+"------"+map.get(s) + "  ");
+            }
+        }
     }
 }

@@ -105,7 +105,7 @@ public class ExamJudgeServiceImpl implements ExamJudgeService {
             String answer = problemArray.getJSONObject(i).getString("answer");
 
             //根据题目id和试卷id获取到ExaminationProblemEntity实体，从而获取到题目在试卷的位置
-            ExaminationProblemEntity examinationProblemEntity = examinationProblemMapper.listByExamIdAndProblemId(id,examId);
+            ExaminationProblemEntity examinationProblemEntity = examinationProblemMapper.listByExamIdAndProblemIdAndType(id,examId,type);
 
             StringBuffer stringBuffer = new StringBuffer(answer);
             AnswerEntity answerEntity = new AnswerEntity();

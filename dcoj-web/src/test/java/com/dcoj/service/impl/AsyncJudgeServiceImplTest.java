@@ -43,5 +43,33 @@ public class AsyncJudgeServiceImplTest {
         Optional.ofNullable(judgeResult).ifPresent(result -> System.out.println(result.getResponse().getResult()));
     }
 
+    @Test
+    public void addTestJudgeTest2() throws InterruptedException {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("import java.util.Scanner;\n" +
+                "\n" +
+                "public class Main {\n" +
+                "\tpublic static void main(String args[]) {\n" +
+                "\t\tScanner in = new Scanner(System.in);\n" +
+                "\t\tint n = in.nextInt();\n" +
+                "\t\tint F[] = new int[n + 2];\n" +
+                "\t\tF[1] = 1;\n" +
+                "\t\tF[2] = 1;\n" +
+                "\t\tif (n > 2) {\n" +
+                "\t\t\tfor (int i = 3; i <= n; i++) {\n" +
+                "\t\t\t\tF[i] = (F[i - 1] + F[i - 2]) % 10007;\n" +
+                "\t\t\t}\n" +
+                "\t\t}\n" +
+                "\t\tSystem.out.println(F[n]);\n" +
+                "\t}\n" +
+                "\n" +
+                "}");
+        String sourceCode = stringBuffer.toString();
+        String resultId = asyncJudgeService.addProblemJudge(sourceCode,LanguageEnum.JAVA8,1,21);
+        Thread.sleep(4000);
+        JudgeResult judgeResult = judgeService.getJudgeResult(resultId);//根据判卷结果id获取判卷结果
+        System.out.println("zxw");
+    }
+
 
 }

@@ -83,8 +83,8 @@
         WHERE examination_problem.exam_id = #{examId}
     </delete>
 
-    <select id="listByExamIdAndProblemId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <select id="listByExamIdAndProblemIdAndType" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT * FROM examination_problem
-        where problem_id = #{ProblemId,jdbcType=INTEGER} and exam_id = #{examId,jdbcType=INTEGER};
+        where problem_id = #{ProblemId,jdbcType=INTEGER} and exam_id = #{examId,jdbcType=INTEGER} and problem_type = #{type,jdbcType=INTEGER};
     </select>
 </mapper>
