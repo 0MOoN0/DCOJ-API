@@ -2,6 +2,7 @@ package com.dcoj.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dcoj.controller.backstage.format.ProgramProblemInsertEntity;
 import com.dcoj.dao.ProgramProblemMapper;
 import com.dcoj.entity.ProgramProblemEntity;
 import com.dcoj.entity.ProgramTagEntity;
@@ -12,6 +13,8 @@ import com.dcoj.service.TestCasesService;
 import com.dcoj.util.POIUtil;
 import com.dcoj.util.WebUtil;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -275,25 +278,56 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
             }
         }
 
-        Map<Integer,String> tagDataList = new HashMap<>();
-        Map<Integer,String> testCaseDataList = new HashMap<>();
+        List<ProgramProblemInsertEntity> tagDataList = new ArrayList<>();
+        List<ProgramProblemInsertEntity> testCaseDataList = new ArrayList<>();
+/*        Map<Integer,String> tagDataList = new HashMap<>();
+        Map<Integer,String> testCaseDataList = new HashMap<>();*/
         //正常内容从下标 1 开始
         if(insertData.size() > 0){
             for(int i = 0; i < insertData.size(); i++){
+                int orderNumber =  Double.valueOf(insertData.get(i)[0]).intValue();
                 //定义题目实体
                 ProgramProblemEntity problemEntity = new ProgramProblemEntity();
                 //题目描述
-                problemEntity.setDescription(JSONObject.parseObject(insertData.get(i)[1]));
+                JSONObject description = new JSONObject();
+                try{
+                    description = JSONObject.parseObject(insertData.get(i)[1]);
+                }catch (Exception e){
+                    boolean flag = false;
+                    WebUtil.assertIsSuccess(flag, "第"+orderNumber+"行描述json格式有误！");
+                }
+                problemEntity.setDescription(description);
                 //题目难度
                 problemEntity.setDifficult(Double.valueOf(insertData.get(i)[2]).intValue());
                 //题目标题
                 problemEntity.setTitle(insertData.get(i)[3]);
                 //输入规范
-                problemEntity.setInputFormat(JSONObject.parseObject(insertData.get(i)[4]));
+                JSONObject inputFormat = new JSONObject();
+                try{
+                    inputFormat = JSONObject.parseObject(insertData.get(i)[4]);
+                }catch (Exception e){
+                    boolean flag = false;
+                    WebUtil.assertIsSuccess(flag, "第"+orderNumber+"行输入规范json格式有误！");
+                }
+                problemEntity.setInputFormat(inputFormat);
                 //输出规范
-                problemEntity.setOutputFormat(JSONObject.parseObject(insertData.get(i)[5]));
+                JSONObject outputFormat = new JSONObject();
+                try{
+                    outputFormat = JSONObject.parseObject(insertData.get(i)[5]);
+                }catch (Exception e){
+                    boolean flag = false;
+                    WebUtil.assertIsSuccess(flag, "第"+orderNumber+"行输出规范json格式有误！");
+                }
+                problemEntity.setOutputFormat(outputFormat);
                 //样例
-                problemEntity.setSamples(JSONArray.parseArray(insertData.get(i)[6]));
+                JSONArray samples = new JSONArray();
+                try{
+                    samples = JSONArray.parseArray(insertData.get(i)[6]);
+                }catch (Exception e){
+                    boolean flag = false;
+                    WebUtil.assertIsSuccess(flag, "第"+orderNumber+"行样例json格式有误！");
+                }
+                problemEntity.setSamples(samples);
                 //运行时间
                 problemEntity.setRunTime(Double.valueOf(insertData.get(i)[9]).intValue());
                 //运行内存
@@ -303,9 +337,17 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
 
                 if(problemEntity.getProgramProblemId() != null){
                     //题目标签  将需要插入的题目ID与相应的标签存入集合
-                    tagDataList.put(problemEntity.getProgramProblemId(),insertData.get(i)[7]);
+                    ProgramProblemInsertEntity tagEntity = new ProgramProblemInsertEntity();
+                    tagEntity.setPid(problemEntity.getProgramProblemId());
+                    tagEntity.setOrderId(orderNumber);
+                    tagEntity.setContent(insertData.get(i)[7]);
+                    tagDataList.add(tagEntity);
                     //测试用例  将需要插入的题目ID与相应的测试用例存入集合
-                    testCaseDataList.put(problemEntity.getProgramProblemId(),insertData.get(i)[8]);
+                    ProgramProblemInsertEntity testCaseEntity = new ProgramProblemInsertEntity();
+                    testCaseEntity.setPid(problemEntity.getProgramProblemId());
+                    testCaseEntity.setOrderId(orderNumber);
+                    testCaseEntity.setContent(insertData.get(i)[8]);
+                    testCaseDataList.add(testCaseEntity);
                 }
 
             }
@@ -313,19 +355,24 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
 
         //插入题目标签
         if(tagDataList.size() > 0) {
-            Iterator<Map.Entry<Integer,String>> tagEntry = tagDataList.entrySet().iterator();
-            while(tagEntry.hasNext()){
-                Map.Entry<Integer,String> tags = tagEntry.next();
+            //Iterator<Map.Entry<Integer,String>> tagEntry = tagDataList.entrySet().iterator();
+            for (ProgramProblemInsertEntity tags:tagDataList){
                 //题目ID
-                Integer problemId = tags.getKey();
+                Integer problemId = tags.getPid();
                 //题目所属标签ID集合
                 List<Integer> tagIdList = new ArrayList<>();
 
                 //处理JSON标签字符串
-                if(tags.getValue() != null){
-                    JSONArray tagArray = gson.fromJson(tags.getValue(),JSONArray.class);
+                if(tags.getContent() != null){
+                    JSONArray tagArray = gson.fromJson(tags.getContent(),JSONArray.class);
                     for(int i = 0; i < tagArray.size(); i++){
-                        JSONObject tagObject = gson.fromJson(tagArray.get(i).toString(),JSONObject.class);
+                        JSONObject tagObject = new JSONObject();
+                        try{
+                            tagObject = gson.fromJson(tagArray.get(i).toString(),JSONObject.class);
+                        }catch (Exception e){
+                            boolean flag = false;
+                            WebUtil.assertIsSuccess(flag, "第"+tags.getOrderId()+"行标签格式有误！");
+                        }
                         if(tagObject.get("name") != null){
                             //判断该标签是否存在，存在则加入ID集合，否则新增该标签，获取新增后的ID，加入集合
                             ProgramTagEntity programTagEntity = programTagService.getByTagName(tagObject.get("name").toString());
@@ -353,19 +400,30 @@ public class ProgramProblemServiceImpl implements ProgramProblemService {
 
         //插入题目测试用例
         if (testCaseDataList.size() > 0) {
-            Iterator<Map.Entry<Integer,String>> testCaseEntry = testCaseDataList.entrySet().iterator();
-            while(testCaseEntry.hasNext()) {
-                Map.Entry<Integer, String> testCase = testCaseEntry.next();
+            for(ProgramProblemInsertEntity testCase:testCaseDataList) {
                 //题目ID
-                Integer problemId = testCase.getKey();
+                Integer problemId = testCase.getPid();
                 //处理JSON标签字符串
-                if(testCase.getValue() != null){
-                    JSONArray testCaseArray = gson.fromJson(testCase.getValue(),JSONArray.class);
+                if(testCase.getContent() != null){
+                    JsonParser parser = new JsonParser();
+                    JsonArray testCaseArray = new JsonArray();
+                    try {
+                        testCaseArray = parser.parse(testCase.getContent()).getAsJsonArray();
+                    }catch (Exception e){
+                        boolean flag = false;
+                        WebUtil.assertIsSuccess(flag, "第"+testCase.getOrderId()+"行测试用例格式有误！");
+                    }
                     for(int i = 0; i < testCaseArray.size(); i++){
-                        System.out.println(testCaseArray.get(i).toString());
-                        JSONObject testCaseObject = gson.fromJson(testCaseArray.get(i).toString(),JSONObject.class);
+                        JSONObject testCaseObject = new JSONObject();// JSONObject.parseObject(testCaseArray.get(i).toString().replaceAll("=",":"));
+                        try {
+                            testCaseObject = gson.fromJson(testCaseArray.get(i),JSONObject.class);
+                        }catch (Exception e){
+                            boolean flag = false;
+                            WebUtil.assertIsSuccess(flag, "第"+testCase.getOrderId()+"行,第"+(i+1)+"个测试用例格式有误！");
+                        }
                         //如果测试用例内容不完整，则不插入，继续循环
                         if(testCaseObject.get("input") == null || testCaseObject.get("output") == null){
+                            System.out.println("1");
                             continue;
                         }
                         //新增测试用例
