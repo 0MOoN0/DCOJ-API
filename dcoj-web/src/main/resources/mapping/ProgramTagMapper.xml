@@ -88,26 +88,6 @@
         where program_tag_id = #{programTagId} and is_deleted = 0 and used_times >= 0
     </update>
 
-    <update id="batchUpdateTagUsedTimes">
-        update program_tag
-        <set>
-            <choose>
-            <when test="flag == true">
-              used_times = used_times + 1
-            </when>
-                <otherwise>
-                    used_times = used_times - 1
-                </otherwise>
-            </choose>
-        </set>
-        where program_tag_id
-        in
-        <foreach collection="tagIdList" index="tagIdList" item="tagIdList" open="(" separator="," close=")">
-           #{tagIdList}
-        </foreach>
-        and is_deleted = 0 and used_times >= 0
-    </update>
-
     <select id="countTags" resultType="Integer">
         select count(*)
         from program_tag

@@ -75,9 +75,6 @@ public class ProgramProblemTagServiceImpl implements ProgramProblemTagService {
         if(isExist == null || isExist.size() == 0){
             return ;
         }
-        //更新标签使用次数
-        Integer[] tagIdList = isExist.toArray(new Integer[isExist.size()]);
-        programTagService.batchUpdateTagUsedTimes(tagIdList,false);
         boolean flag = programProblemTagMapper.removeProblemAllTags(programProblemId) != 0;
         WebUtil.assertIsSuccess(flag, "删除该题目的所有标签失败");
     }
@@ -90,9 +87,7 @@ public class ProgramProblemTagServiceImpl implements ProgramProblemTagService {
      */
     @Override
     public int batchInsert(int programProblemId, Integer[] tagIdList) {
-        programProblemTagMapper.batchInsert(programProblemId,tagIdList);
-        //更新标签使用次数
-        return programTagService.batchUpdateTagUsedTimes(tagIdList,true);
+        return programProblemTagMapper.batchInsert(programProblemId,tagIdList);
     }
 
 }

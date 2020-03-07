@@ -1,7 +1,5 @@
 package com.dcoj.service.impl;
 
-import com.dcoj.service.ProgramProblemService;
-import com.dcoj.service.ProgramProblemTagService;
 import com.dcoj.service.ProgramTagService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,14 +18,6 @@ public class ProgramTagServiceImplTest {
 
     @Autowired
     private ProgramTagService programTagService;
-
-    @Autowired
-    private ProgramProblemTagService programProblemTagService;
-
-    @Test
-    public void remove() {
-        programProblemTagService.removeProblemAllTags(102);
-    }
 
     @Test
     public void save() {

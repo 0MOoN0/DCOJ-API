@@ -1,7 +1,6 @@
 package com.dcoj.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.dcoj.dao.ExaminationMapper;
 import com.dcoj.dao.ExaminationProblemMapper;
 import com.dcoj.entity.ExaminationEntity;
@@ -17,9 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static com.dcoj.judge.LanguageEnum.JAVA8;
-import static com.dcoj.judge.LanguageEnum.PYTHON35;
 
 /**
  * @author zxw
@@ -101,11 +97,6 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Override
     @Transactional
     public int save(ExaminationEntity examinationEntity) {
-        //计算客观题与编程题分数
-        int objectScore = examinationEntity.getObject_score();
-        int programScore = examinationEntity.getProgram_score();
-        //设置总分
-        examinationEntity.setScore(objectScore + programScore);
         //插入试卷类
         examinationMapper.insertSelective(examinationEntity);
         //获取新增成功的试卷ID
@@ -115,21 +106,13 @@ public class ExaminationServiceImpl implements ExaminationService {
         //获取单选题和编程题数组
         List<Integer> singleArray = examinationEntity.getSingleProblemIdList();
         List<Integer> programArray = examinationEntity.getProgramProblemIdList();
-        JSONObject lang = new JSONObject();
-        JSONArray langs = new JSONArray();
-        langs.add("Java8");
-        langs.add("Python3.5");
-        lang.put("lang", langs);
         //单选题
-        int flag = 1;
         for(int i = 0 ; i < singleArray.size() ; i++){
             ExaminationProblemEntity examinationProblemEntity = new ExaminationProblemEntity();
             Integer pid = singleArray.get(i);
             examinationProblemEntity.setExamId(examId);
             examinationProblemEntity.setProblemId(pid);
             examinationProblemEntity.setProblemType(2);
-            examinationProblemEntity.setScore(objectScore/singleArray.size());
-            examinationProblemEntity.setExamProblemLocate(flag++);
             examinationProblemEntityList.add(examinationProblemEntity);
         }
         //编程题
@@ -139,9 +122,6 @@ public class ExaminationServiceImpl implements ExaminationService {
             examinationProblemEntity.setExamId(examId);
             examinationProblemEntity.setProblemId(pid);
             examinationProblemEntity.setProblemType(1);
-            examinationProblemEntity.setScore(programScore/programArray.size());
-            examinationProblemEntity.setExamProblemLocate(flag++);
-            examinationProblemEntity.setLang(lang);
             examinationProblemEntityList.add(examinationProblemEntity);
         }
 

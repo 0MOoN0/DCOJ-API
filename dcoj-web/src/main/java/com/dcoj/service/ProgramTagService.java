@@ -86,10 +86,4 @@ public interface ProgramTagService {
      * @return 标签总个数
      */
     int countTags();
-
-    /**
-     * 批量更新标签使用次数
-     *
-     */
-    int batchUpdateTagUsedTimes(Integer[] tagIdList,boolean flag);
 }
