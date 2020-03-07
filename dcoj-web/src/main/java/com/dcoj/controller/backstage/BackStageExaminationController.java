@@ -59,7 +59,7 @@ public class BackStageExaminationController {
         // pageNum  页码
         // pageSize 每页显示数量
         Page pager = PageHelper.startPage(pageNum, pageSize);
-        List<Map<String, Object>> examinationEntities = examinationService.listAll();
+        List<Map<String, Object>> examinationEntities = examinationService.listAllWithQuery(query);
         if(examinationEntities == null || examinationEntities.size() == 0 ){
             return new ResponseEntity(400,"暂无数据","");
         }

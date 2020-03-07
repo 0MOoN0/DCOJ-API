@@ -50,4 +50,13 @@ public class ObjectProblemsController {
         return new ResponseEntity(WebUtil.generatePageData(pager, objectProblemService.listAll(list, uid, query,type)));
     }
 
+    @ApiOperation("获取所有编程题")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "query", value = "查询关键字(标题)", paramType = "query")
+    })
+    @GetMapping("/listAll")
+    public ResponseEntity listAllNotByPage(@RequestParam(name = "query", required = false) String query) {
+        return new ResponseEntity(objectProblemService.findAllNotByPage(query));
+    }
+
 }

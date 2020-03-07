@@ -304,5 +304,10 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
         return objectProblemMapper.listAllByCateId(cateId);
     }
 
+    @Override
+    public List<Map<String, Object>> findAllNotByPage(String query) {
+        return objectProblemMapper.listAllByQuery(query);
+    }
+
 }
 

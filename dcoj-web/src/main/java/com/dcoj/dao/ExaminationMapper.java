@@ -1,7 +1,6 @@
 package com.dcoj.dao;
 
 import com.dcoj.entity.ExaminationEntity;
-import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -66,5 +65,10 @@ public interface ExaminationMapper {
      * @return
      */
     List<Map<String, Object>> listAll();
+    /**
+     *  查询所有试卷
+     * @return
+     */
+    List<Map<String, Object>> listAllWithQuery(@Param("query") String query);
 
 }

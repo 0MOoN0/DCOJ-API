@@ -138,4 +138,10 @@ public interface ObjectProblemService {
      * @return
      */
     List<Map<String,Object>> listAllByCateId(int cateId);
+    /**
+     * 查询所有客观题题目
+     * @param query 查询关键字
+     * @return 结果
+     */
+    List<Map<String, Object>> findAllNotByPage(String query);
 }
