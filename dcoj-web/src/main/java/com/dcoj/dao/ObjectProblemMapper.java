@@ -131,4 +131,6 @@ public interface ObjectProblemMapper {
     int countObjectProblemsYesterday();
 
     int countObjectProblemsMonth();
+
+    List<Map<String, Object>> listAllByQuery(@Param("query") String query);
 }

@@ -11,6 +11,12 @@ import java.util.Map;
  */
 public interface ExaminationService {
     /**
+     *根据条件查询所有试卷
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> listAllWithQuery(String query);
+    /**
      *查询所有试卷
      * @return
      */

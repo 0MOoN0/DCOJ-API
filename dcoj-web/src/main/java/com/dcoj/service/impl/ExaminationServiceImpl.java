@@ -1,6 +1,5 @@
 package com.dcoj.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
 import com.dcoj.dao.ExaminationMapper;
 import com.dcoj.dao.ExaminationProblemMapper;
 import com.dcoj.entity.ExaminationEntity;
@@ -37,10 +36,13 @@ public class ExaminationServiceImpl implements ExaminationService {
     private ObjectProblemService objectProblemService;
 
     @Override
+    public List<Map<String, Object>> listAllWithQuery(String query) {
+        return examinationMapper.listAllWithQuery(query);
+    }
+    @Override
     public List<Map<String, Object>> listAll() {
         return examinationMapper.listAll();
     }
-
     @Override
     @Transactional
     public int removeByExamId(Integer examId) {

@@ -215,7 +215,19 @@
         ORDER BY object_problem_id ASC
 
     </select>
+    <select id="listAllByQuery" resultType="java.util.HashMap">
+        SELECT object_problem_id, type, description, answer, submit_times, ac_times, `status`, gmt_create, gmt_modified,
+        is_deleted from object_problem
+        <where>
+            <if test="query != null">
+                AND description LIKE '%${query}%'
+            </if>
+            AND is_deleted = 0
+        </where>
 
+        ORDER BY object_problem_id ASC
+
+    </select>
     <select id="listByExamIdAndType" resultType="java.util.HashMap" >
         select
         <include refid="Base_Column_List"/>

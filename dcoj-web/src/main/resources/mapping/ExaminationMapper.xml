@@ -225,4 +225,14 @@
     ORDER BY exam_id ASC
   </select>
 
+  <select id="listAllWithQuery" resultType="java.util.HashMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM examination
+    <if test="query != null">
+      WHERE title LIKE '%${query}%'
+    </if>
+    ORDER BY exam_id ASC
+  </select>
+
 </mapper>
