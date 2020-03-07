@@ -92,4 +92,6 @@ public interface ProgramTagMapper {
      * @return 返回标签的总数
      */
     int countTags();
+
+    int batchUpdateTagUsedTimes(@Param("tagIdList")Integer[] tagIdList,@Param("flag") boolean flag);
 }

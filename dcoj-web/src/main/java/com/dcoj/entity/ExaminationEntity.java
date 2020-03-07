@@ -85,4 +85,13 @@ public class ExaminationEntity {
      */
     private List<Integer> programProblemIdList;
 
+    /**
+     * 客观题总分
+     */
+    private Integer object_score;
+
+    /**
+     * 编程题总分
+     */
+    private Integer program_score;
 }

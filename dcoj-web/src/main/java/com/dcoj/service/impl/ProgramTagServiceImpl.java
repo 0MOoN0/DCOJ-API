@@ -156,4 +156,14 @@ public class ProgramTagServiceImpl implements ProgramTagService {
     public int countTags() {
         return programTagMapper.countTags();
     }
+
+    /**
+     * 批量更新标签使用次数
+     * @param tagIdList
+     * @return
+     */
+    @Override
+    public int batchUpdateTagUsedTimes(Integer[] tagIdList,boolean flag) {
+        return programTagMapper.batchUpdateTagUsedTimes(tagIdList,flag);
+    }
 }
