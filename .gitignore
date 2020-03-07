@@ -23,3 +23,13 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+*.class
+dcoj-web/target/classes/
+*.jpg
+classes/artifacts/
+dcoj-judge/target/
+*.jar
+*.lst
+dcoj-web/target/
+dcoj-web/src/test/java/com/dcoj/dao/ExaminationMapperTest.java
+dcoj-web/src/test/java/com/dcoj/service/impl/TestCasesImplTest.java
