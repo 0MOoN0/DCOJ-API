@@ -139,7 +139,7 @@
     select 
     <include refid="Base_Column_List" />
     from examination_submission_detail
-    where exam_submission_detail_id = #{examSubmissionDetailId,jdbcType=INTEGER}
+    where exam_submission_id = #{examSubmissionId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from examination_submission_detail

@@ -25,7 +25,7 @@ public interface ExaminationSubmissionDetailMapper {
 
     List<ExaminationSubmissionDetailEntity> selectByExample(ExaminationSubmissionDetailEntityExample example);
 
-    ExaminationSubmissionDetailEntity selectByPrimaryKey(Integer examSubmissionDetailId);
+    ExaminationSubmissionDetailEntity selectByPrimaryKey(Integer examSubmissionId);
 
     int updateByExampleSelective(@Param("record") ExaminationSubmissionDetailEntity record, @Param("example") ExaminationSubmissionDetailEntityExample example);
 

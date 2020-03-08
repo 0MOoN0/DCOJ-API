@@ -25,11 +25,12 @@ public class ExaminationSubmissionDetailServiceImpl implements ExaminationSubmis
     /**
      * 通过考试提交详情获取考试详情内容，如果可查询时间大于当前时间，则去除result_sheet的信息
      *
-     * @param examSubmissionDetailId
+     * @param examSubmissionId
      */
     @Override
-    public ExaminationSubmissionDetailEntity getExaminationSubmissionDetailByIdCheckWithTime(int examSubmissionDetailId) {
-        ExaminationSubmissionDetailEntity examinationSubmissionDetailEntity = examinationSubmissionDetailMapper.selectByPrimaryKey(examSubmissionDetailId);
+    public ExaminationSubmissionDetailEntity getExaminationSubmissionDetailByIdCheckWithTime(int examSubmissionId) {
+        ExaminationSubmissionDetailEntity examinationSubmissionDetailEntity = examinationSubmissionDetailMapper.selectByPrimaryKey(examSubmissionId);
+        WebUtil.assertNotNull(examinationSubmissionDetailEntity,"试卷提交详情不存在");
         if(!examinationSubmissionDetailEntity.getQueryableTime().
                 before(new Timestamp(System.currentTimeMillis()))   // 如果未超过可查询时间，则将结果卡设为null
                 ){
