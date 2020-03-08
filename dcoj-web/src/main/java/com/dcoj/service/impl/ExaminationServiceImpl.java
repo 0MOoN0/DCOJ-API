@@ -74,6 +74,10 @@ public class ExaminationServiceImpl implements ExaminationService {
         //获取单选题和编程题数组
         List<Integer> singleArray = examinationEntity.getSingleProblemIdList();
         List<Integer> programArray = examinationEntity.getProgramProblemIdList();
+
+        int program_score = examinationEntity.getProgram_score();
+        int object_score = examinationEntity.getObject_score();
+
         //单选题
         for(int i = 0 ; i < singleArray.size() ; i++){
             ExaminationProblemEntity examinationProblemEntity = new ExaminationProblemEntity();
@@ -81,6 +85,7 @@ public class ExaminationServiceImpl implements ExaminationService {
             examinationProblemEntity.setExamId(examId);
             examinationProblemEntity.setProblemId(pid);
             examinationProblemEntity.setProblemType(2);
+            examinationProblemEntity.setScore(object_score/singleArray.size());
             examinationProblemEntityList.add(examinationProblemEntity);
         }
         //编程题
@@ -90,10 +95,12 @@ public class ExaminationServiceImpl implements ExaminationService {
             examinationProblemEntity.setExamId(examId);
             examinationProblemEntity.setProblemId(pid);
             examinationProblemEntity.setProblemType(1);
+            examinationProblemEntity.setScore(program_score/programArray.size());
             examinationProblemEntityList.add(examinationProblemEntity);
         }
         //批量插入数据到考试题目表
         examinationProblemMapper.saveAll(examinationProblemEntityList);
+        examinationEntity.setScore(object_score+program_score);
 
         return examinationMapper.updateByPrimaryKeySelective(examinationEntity);
     }
