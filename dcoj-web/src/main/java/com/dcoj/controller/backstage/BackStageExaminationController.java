@@ -76,12 +76,16 @@ public class BackStageExaminationController {
         //分别获取客观题和编程题的题目ID集合，用于前端页面回显
         List<Integer> objectProblemIds = new ArrayList<>();
         List<Integer> programProblemIds = new ArrayList<>();
+        int object_score = 0;
+        int program_score = 0;
         for(ExaminationProblemEntity examinationProblemEntity: examinationProblemEntityList){
             //类型 1-编程题  2-客观题
             if(examinationProblemEntity.getProblemType().equals(1)){
                 programProblemIds.add(examinationProblemEntity.getProblemId());
+                program_score += examinationProblemEntity.getScore();
             } else {
                 objectProblemIds.add(examinationProblemEntity.getProblemId());
+                object_score += examinationProblemEntity.getScore();
             }
         }
 
@@ -89,6 +93,8 @@ public class BackStageExaminationController {
         ex.setSingleProblemIdList(objectProblemIds);
         ex.setProgramProblemIdList(programProblemIds);
 
+        ex.setObject_score(object_score);
+        ex.setProgram_score(program_score);
         Preconditions.checkNotNull(ex, "查询失败，不存在此试卷。");
 
         return new ResponseEntity(ex);
