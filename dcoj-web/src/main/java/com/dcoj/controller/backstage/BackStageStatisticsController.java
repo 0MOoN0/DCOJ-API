@@ -102,10 +102,11 @@ public class BackStageStatisticsController {
         int countStudentYesterday = 0;
         int countStudentMonth = 0;
         int countAllStudent = 0;
-        countStudentToday = userRoleService.countByRoleIdToday(3);
-        countStudentYesterday = userRoleService.countByRoleIdYesterday(3);
-        countStudentMonth = userRoleService.countByRoleIdMonth(3);
-        countAllStudent = userRoleService.countByRoleId(3);
+        int studentRoleId  = 1 ;
+        countStudentToday = userRoleService.countByRoleIdToday(studentRoleId);
+        countStudentYesterday = userRoleService.countByRoleIdYesterday(studentRoleId);
+        countStudentMonth = userRoleService.countByRoleIdMonth(studentRoleId);
+        countAllStudent = userRoleService.countByRoleId(studentRoleId);
         HashMap<String, Integer> count2  = new HashMap<String,Integer>();
         count2.put("today",countStudentToday);
         count2.put("yesterday",countStudentYesterday);
