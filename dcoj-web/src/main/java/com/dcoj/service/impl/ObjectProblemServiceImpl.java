@@ -1,22 +1,30 @@
 package com.dcoj.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.dcoj.dao.ObjectProblemCateMapper;
 import com.dcoj.dao.ObjectProblemMapper;
 import com.dcoj.dao.ObjectSubmissionMapper;
 import com.dcoj.entity.ObjectProblemCateEntity;
 import com.dcoj.entity.ObjectProblemEntity;
+import com.dcoj.entity.ObjectTagEntity;
 import com.dcoj.entity.SysCate;
 import com.dcoj.handler.ParamException;
 import com.dcoj.service.ObjectProblemService;
 import com.dcoj.service.ObjectProblemTagService;
+import com.dcoj.service.ObjectTagService;
 import com.dcoj.service.SysCateService;
+import com.dcoj.util.POIUtil;
 import com.dcoj.util.WebUtil;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +50,9 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
 
     @Autowired
     private SysCateService sysCateService;
+
+    @Autowired
+    private ObjectTagService objectTagService;
 
     /**
      * 删除一道题目
@@ -274,10 +285,29 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
      */
     @Override
     public List<Map<String, Object>> listAll(List<Integer> list, Integer uid, String query,Integer type) {
-        if(null == type || 0 == type || 1 == type || 2 == type)
-            return objectProblemMapper.listAll(list,uid,query,type);
-        else
+        List<Map<String, Object>> objectProlemlist = null;
+        if(null == type || 0 == type || 1 == type || 2 == type){
+            objectProlemlist = objectProblemMapper.listAll(list,uid,query,type);
+            if(objectProlemlist != null){
+                for(Map<String, Object> objectProblem : objectProlemlist){
+                    Map<String, Object> problemwithTags = objectProblem;
+                    int proId = Integer.valueOf(objectProblem.get("object_problem_id").toString());
+                    List<Integer> tagsId = objectProblemTagService.getTagsByObjectProblemId(proId);
+                    if(tagsId.size() > 0){
+                        List<ObjectTagEntity> objectTagEntities = new ArrayList<>();
+                        for(int tagId : tagsId){
+                            ObjectTagEntity objectTagEntity =objectTagService.getByPrimaryKey(tagId);
+                            objectTagEntities.add(objectTagEntity);
+                        }
+                        problemwithTags.put("listTags",objectTagEntities);
+                    }
+                }
+            }
+        }else{
             throw new ParamException("题目类型不存在！");
+        }
+        return objectProlemlist;
+
     }
 
     /**
@@ -307,6 +337,83 @@ public class ObjectProblemServiceImpl implements ObjectProblemService {
     @Override
     public List<Map<String, Object>> findAllNotByPage(String query) {
         return objectProblemMapper.listAllByQuery(query);
+    }
+
+    @Override
+    public String importObjectProblem(MultipartFile files) throws IOException {
+        //json 转换工具
+        Gson gson = new Gson();
+        //解析表格数据
+        List<String[]> data = POIUtil.readExcel(files.getInputStream(), files.getOriginalFilename());
+        //取出重复的题目
+        List<Map<String, Object>> lists = objectProblemMapper.listAll(null,null,null,null);
+        //需要导入的题目
+        List<String[]> insertData = new ArrayList<>();
+
+        Map<Integer,String[]> tagLists = new HashMap<>();
+        for(int i = 1; i < data.size(); i++) {
+            if (data.get(i).length < 3) {
+                continue;
+            }
+            boolean isExist = false;
+            for (Map<String, Object> objectMap : lists) {
+                if (objectMap.get("description").toString().replaceAll(" ","").equals(data.get(i)[1].replaceAll(" ",""))) {
+                    isExist = true;
+                    break;
+                }
+            }
+            //将不重复的题目加入集合
+            if (!isExist) {
+                insertData.add(data.get(i));
+            }
+        }
+        //正常内容从下标 1 开始
+        if(insertData.size() > 0){
+            for(int i = 0; i < insertData.size(); i++){
+                int orderNumber =  Double.valueOf(insertData.get(i)[0]).intValue();
+                ObjectProblemEntity objectProblemEntity = new ObjectProblemEntity();
+                //题目描述
+                JSONObject description = new JSONObject();
+                try{
+                    description = JSONObject.parseObject(insertData.get(i)[1]);
+                }catch (Exception e){
+                    boolean flag = false;
+                    WebUtil.assertIsSuccess(flag, "第"+orderNumber+"行描述json格式有误！");
+                }
+                objectProblemEntity.setDescription(description);
+                //题目答案
+                objectProblemEntity.setAnswer(insertData.get(i)[2]);
+                //题目类型
+                double proTypedouble = Double.parseDouble(insertData.get(i)[3]);
+                int proType = (int)proTypedouble;
+                objectProblemEntity.setType(proType);
+                objectProblemMapper.insertSelective(objectProblemEntity);
+                //题目标签
+                String objectTag = insertData.get(i)[4];
+                String[] tagList = objectTag.split(",");
+                if(objectProblemEntity.getObjectProblemId() != null ){
+                    tagLists.put(objectProblemEntity.getObjectProblemId(),tagList);
+                }
+            }
+        }
+        //为题目和标签建立关联
+        if(tagLists.size()>0){
+            for(Map.Entry<Integer, String[]> entry:tagLists.entrySet()){
+                Integer proId = entry.getKey();
+                String[] tags = entry.getValue();
+                for(int j = 0;j<tags.length;j++){
+                    System.out.println(tags[j]);
+                    ObjectTagEntity objectTagEntity = objectTagService.getByTagName(tags[j]);
+                    if(objectTagEntity!=null){
+                        objectProblemTagService.save(proId,objectTagEntity.getObjectTagId());
+                    }else{
+                        int objectTagId = objectTagService.save(tags[j]);
+                        objectProblemTagService.save(proId,objectTagId);
+                    }
+                }
+            }
+        }
+        return "批量新增成功";
     }
 
 }

@@ -52,7 +52,7 @@ public class BackStageStatisticsController {
         countProgram = programProblemService.countProgramProblems();
         HashMap<String, Integer> programCount  = new HashMap<String,Integer>();
         programCount.put("single", countSingle);
-        programCount.put("multiple",countmultiple);
+        programCount.put("multiple",0);
         programCount.put("judge", countJudge);
         programCount.put("program",countProgram);
 

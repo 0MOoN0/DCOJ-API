@@ -118,7 +118,7 @@
         left join user_role ur on u.user_id = ur.user_id
         left join role r on r.role_id = ur.role_id
         where u.is_deleted = 0
-        <if test="username != null">
+        <if test="userName != null">
             and u.username LIKE '%${userName}%'
         </if>
         <if test="userRole != null">
@@ -200,15 +200,11 @@
             <if test="finishedProblems != null" >
                 finished_problems,
             </if>
-            <if test="gmtCreate != null" >
-                gmt_create,
-            </if>
-            <if test="gmtModified != null" >
-                gmt_modified,
-            </if>
             <if test="deleted != null" >
                 is_deleted,
             </if>
+            gmt_create,
+            gmt_modified
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
             <if test="userId != null" >
@@ -256,15 +252,11 @@
             <if test="finishedProblems != null" >
                 #{finishedProblems,jdbcType=INTEGER},
             </if>
-            <if test="gmtCreate != null" >
-                #{gmtCreate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="gmtModified != null" >
-                #{gmtModified,jdbcType=TIMESTAMP},
-            </if>
             <if test="deleted != null" >
                 #{deleted,jdbcType=INTEGER},
             </if>
+            DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'),
+            DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s')
         </trim>
     </insert>
 

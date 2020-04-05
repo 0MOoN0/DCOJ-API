@@ -29,7 +29,7 @@
         set is_deleted = 1
         where object_tag_id = #{objectTagId,jdbcType=INTEGER} and is_deleted = 0
     </update>
-    <insert id="save" parameterType="java.lang.String">
+    <insert id="save" parameterType="java.lang.String" useGeneratedKeys="true" keyProperty="objectTagId">
         insert into object_tag (tag_name, gmt_create, gmt_modified)
         values (#{tagName}, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'), DATE_FORMAT(NOW(), '%Y-%m-%d %H:%m:%s'))
     </insert>

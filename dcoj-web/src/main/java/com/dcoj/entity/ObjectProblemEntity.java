@@ -17,7 +17,7 @@ public class ObjectProblemEntity {
      * 题目id
      */
     @JSONField(name = "object_problem_id")
-    private int objectProblemId;
+    private Integer objectProblemId;
     /**
      * 题目描述
      */

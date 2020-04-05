@@ -114,6 +114,9 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void addUserSelective(UserEntity userEntity,Integer roleId) throws Exception {
+        String passwordBeforedyp = userEntity.getPassword();
+        String passwordAfterdyp =DigestUtils.sha256Hex(passwordBeforedyp.getBytes());
+        userEntity.setPassword(passwordAfterdyp);
         boolean flag = userMapper.addUserSelective(userEntity) == 1;
         boolean roleFlag = userRoleMapper.save(userEntity.getUserId(),roleId) == 1;
         if(!flag || !roleFlag){
@@ -131,8 +134,9 @@ public class UserServiceImpl implements UserService {
     public void updateUserSelective(UserEntity userEntity,RoleEntity roleEntity) throws Exception {
         WebUtil.assertNotNull(userMapper.getByPrimaryKey(userEntity.getUserId()), "该用户不存在，无法更新");
         boolean flag = userMapper.updateUser(userEntity) == 1;
-        boolean roleFlag = roleMapper.updateRole(roleEntity) == 1;
-        if(!flag || !roleFlag){
+        boolean userRoleFlag = userRoleMapper.updateUserRole(userEntity.getUserId(),roleEntity.getRoleId())==1;
+        //boolean roleFlag = roleMapper.updateRole(roleEntity) == 1;
+        if(!flag || !userRoleFlag){
             throw new Exception("用户修改失败，回滚！");
         }
     }
@@ -209,6 +213,7 @@ public class UserServiceImpl implements UserService {
             return  null;
         // 前端发来的format.getPassword()密码已经是 加密后的密文
         // SHA-256加密
+        System.out.println(format.getPassword().getBytes());
         String password = DigestUtils.sha256Hex(format.getPassword().getBytes());
         // 验证密码
         if (password.equals(userEntity.getPassword())) {

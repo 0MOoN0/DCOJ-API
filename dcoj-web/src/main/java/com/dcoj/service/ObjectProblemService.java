@@ -2,7 +2,9 @@ package com.dcoj.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.dcoj.entity.ObjectProblemEntity;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -144,4 +146,11 @@ public interface ObjectProblemService {
      * @return 结果
      */
     List<Map<String, Object>> findAllNotByPage(String query);
+
+    /**
+     * 批量导入客观题
+     * @param files 选择题Excel文件
+     * @return 结果
+     */
+    String importObjectProblem(MultipartFile files) throws IOException;
 }

@@ -65,19 +65,19 @@ public class BackStageUserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page_num", value = "页码", required = true, paramType = "Int"),
             @ApiImplicitParam(name = "page_size", value = "每页显示数量", required = true, paramType = "Int"),
-            @ApiImplicitParam(name = "query", value = "查询关键字(用户名)", paramType = "String"),
+            @ApiImplicitParam(name = "username", value = "查询关键字(用户名)", paramType = "String"),
             @ApiImplicitParam(name = "userRole", value = "用户角色", paramType = "String")
     })
     @GetMapping("listAllByPage")
     public ResponseEntity listAllByPage(@RequestParam(name = "page_num") int pageNum,
                                   @RequestParam(name = "page_size") int pageSize,
-                                  @RequestParam(name = "query", required = false) String query,
+                                  @RequestParam(name = "username", required = false) String username,
                                   @RequestParam(name = "userRole", required = false) String userRole) {
         // pageNum  页码
         // pageSize 每页显示数量
         Map<String, Object> paramMap = new HashMap<>();
-        if(StringUtils.isNotBlank(query)){
-            paramMap.put("userName",query);
+        if(StringUtils.isNotBlank(username)){
+            paramMap.put("userName",username);
         }
         if(StringUtils.isNotBlank(userRole)){
             paramMap.put("userRole",userRole);
@@ -126,6 +126,7 @@ public class BackStageUserController {
         if(roleEntity == null){
             return new ResponseEntity("角色不存在");
         }
+        userEntity.setUserRole(roleEntity);
         userService.updateUserSelective(userEntity, roleEntity);
         return new ResponseEntity("保存成功");
     }
